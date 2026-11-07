@@ -496,7 +496,7 @@ html.claro .interruptor input::after, html.claro .interruptor input:checked::aft
 /* Pestanas */
 .pestanas {
   flex: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); position: relative; z-index: 600;
-  padding: 6px 4px max(6px, env(safe-area-inset-bottom)); background: var(--fondo); border-top: 1px solid var(--linea);
+  padding: 6px 4px max(6px, var(--zona-abajo)); background: var(--fondo); border-top: 1px solid var(--linea);
 }
 .pestanas button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 54px; font-size: 0.72rem; font-weight: 600; line-height: 1.15; color: var(--tenue); text-align: center; border-radius: 12px; }
 .pestanas button[aria-current="page"] { color: var(--ambar); font-weight: 700; }
@@ -779,7 +779,8 @@ html.facil .buscador .dictar { display: none !important; }
 body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; height: env(safe-area-inset-top, 0px); background: var(--fondo); z-index: 1000; pointer-events: none; }
 html.claro body::before { background: #0b0a09; }
 /* App instalada en iPhone: 100vh mide la pantalla completa pero lo visible termina una barra de estado antes */
-@media (display-mode: standalone) { body { bottom: auto; height: calc(100vh - env(safe-area-inset-top, 0px)); } }
+@media (display-mode: standalone) { :root { --zona-abajo: 0px; } body { bottom: auto; height: calc(100vh - env(safe-area-inset-top, 0px)); } }
+/* Ahi la pagina ya termina antes de la barra de inicio del telefono: sobra el margen de abajo */
 
 /* Mini ficha: la ficha de boleto en chico, con su pictograma, para filas, listas, pasos y opciones */
 .mini-ficha { flex: none; width: 44px; height: 44px; display: grid; place-items: center; color: #fff; background: var(--tono, #3c4647);
@@ -1329,3 +1330,18 @@ body:not(.camara-en-uso) :is(#camaraSueloEstado, #camaraHoyosEstado) { display: 
 .practica-estado:not(:empty) { padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); font-weight: 700; }
 .boton.salir { background: var(--cuidado); border-color: var(--cuidado); color: #fff; }
 #practica .boton { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-top: 10px; }
+.precio.precio-camion { color: var(--verde); }
+.guia-avisos { display: flex; gap: 8px; margin: 14px 0 0; }
+.guia-avisos button { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 6px 14px; border-radius: 999px; border: 2px solid var(--g-t); color: var(--g-t); background: transparent; font-size: .85rem; font-weight: 800; }
+.guia-avisos button[aria-pressed="true"] { background: var(--g-t); color: var(--g-c); }
+.guia-avisos button[aria-pressed="false"] { opacity: .75; text-decoration: line-through; }
+.guia-avisos .icono { width: 18px; height: 18px; }
+.parada-ruta { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px 10px 10px 3px; border: 2px solid var(--fondo); color: #fff; box-shadow: 0 2px 6px rgb(0 0 0 / .45); }
+.parada-ruta .picto { width: 20px; height: 20px; }
+.parada-ruta.sube { background: #2f8a5c; }
+.parada-ruta.baja { background: #c2413a; }
+.leaflet-tooltip.etiqueta-mapa.sube { border-color: #2f8a5c; }
+.leaflet-tooltip.etiqueta-mapa.baja { border-color: #c2413a; }
+.camara-en-uso .camara-pie { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.camara-en-uso .camara-pie .boton { margin: 0; }
+.camara-en-uso .camara-panel:not(:has(.boton:not([hidden]):not(:disabled))) { padding: 0; }

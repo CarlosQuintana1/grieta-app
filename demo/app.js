@@ -109,7 +109,7 @@ let turnoVoz = 0;
 let colaVoz = Promise.resolve();
 
 // Ajustes guardados en este telefono.
-const acc = { toques: true, modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: false, vozElegida: false, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", lengua: "es", ...leer("grieta-acc", {}) };
+const acc = { toques: true, vibracion: true, modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: false, vozElegida: false, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", lengua: "es", ...leer("grieta-acc", {}) };
 let camaraConVoz = true;
 acc.idioma ??= acc.lengua === "oto" ? "oto" : "es";
 if (!["es", "oto", "nah"].includes(acc.idioma)) acc.idioma = "es";
@@ -138,6 +138,8 @@ function aplicarAcc() {
   recolorear();
   document.querySelector('meta[name="theme-color"]').content = tono("--fondo");
   pintarResumenPerfil();
+  $("guiaVoz").setAttribute("aria-pressed", String(acc.voz));
+  $("guiaVibrar").setAttribute("aria-pressed", String(acc.vibracion));
   $('optToques').checked = acc.toques;
   // Tocar para escuchar y su práctica solo existen en modo Voz, sin lector de pantalla del teléfono.
   $('opcionesToques').hidden = !acc.modoVoz || acc.lector === 'si';
@@ -172,6 +174,8 @@ $("salirVoz").addEventListener("click", () => {
   aplicarAcc();
   $("tituloInicio").focus();
 });
+$("guiaVoz").addEventListener("click", () => { acc.voz = !acc.voz; acc.vozElegida = true; guardarAcc(); aplicarAcc(); });
+$("guiaVibrar").addEventListener("click", () => { acc.vibracion = !acc.vibracion; guardarAcc(); aplicarAcc(); if (acc.vibracion) vibrar([120]); });
 $('optToques').addEventListener('change', () => { acc.toques = $('optToques').checked; guardarAcc(); aplicarAcc(); });
 for (const [k, id] of Object.entries(OPCIONES)) {
   $(id).addEventListener("change", (e) => {
@@ -446,8 +450,29 @@ async function prepararLenguas(config) {
   }
   actualizarFilasPerfil();
 }
+// Safari en iPhone no tiene navigator.vibrate; tocar un interruptor nativo (iOS 18) da un golpe haptico.
+let interruptorHaptico;
+function golpeHaptico(patron) {
+  if (!interruptorHaptico) {
+    interruptorHaptico = document.createElement("label");
+    interruptorHaptico.className = "oculto";
+    interruptorHaptico.setAttribute("aria-hidden", "true");
+    interruptorHaptico.innerHTML = '<input type="checkbox" switch tabindex="-1">';
+    interruptorHaptico.addEventListener("change", (e) => e.stopPropagation());
+    document.body.append(interruptorHaptico);
+  }
+  let t = 0;
+  patron.forEach((ms, i) => {
+    if (i % 2 === 0) for (let k = 0; k < Math.max(1, Math.round(ms / 150)); k++) setTimeout(() => interruptorHaptico.click(), t + k * 150);
+    t += ms;
+  });
+}
 function vibrar(patron) {
-  navigator.vibrate?.(patron);
+  if (acc.vibracion) {
+    if (typeof navigator.vibrate === "function") navigator.vibrate(patron);
+    else golpeHaptico(patron);
+  }
+  if (!acc.voz && acc.lector !== "si") return;
   try {
     audio ??= new (window.AudioContext || window.webkitAudioContext)();
     let t = audio.currentTime;
@@ -1166,7 +1191,7 @@ function pintarOpciones(r) {
       aria-label="${escapar(`${etiquetas.join(" y ")}. ${tituloOpcion(o)}. ${pie.join(". ")}. ${precioOpcionVoz(o)}. ${co2 ? `${co2}. ` : ""}${ahorroTexto}`)}">
       <span class="tarjeta-cabeza">${fichaOpcion(o)}
         <span class="fila-texto">${etiquetas.length ? `<span class="etiqueta">${etiquetas.join(" · ")}</span>` : ""}<strong>${escapar(tituloOpcion(o))}</strong></span>
-        <span class="precio${rango ? " precio-rango" : ""}">${rango ? `<small class="precio-nota">Aprox.</small>${partesRango(rango)}` : pesos(o.costo)}</span>${ico("chevron", "chevron")}</span>
+        <span class="precio${rango ? " precio-rango" : " precio-camion"}">${rango ? `<small class="precio-nota">Aprox.</small>${partesRango(rango)}` : pesos(o.costo)}</span>${ico("chevron", "chevron")}</span>
       <span class="datos-viaje" aria-hidden="true">${datos.map(([nombre, valor, clase]) => `<span class="dato${clase}"><small>${nombre}</small><b>${valor}</b></span>`).join("")}</span>
       <span class="duracion" aria-hidden="true">${duracion}</span>
       ${co2 ? `<span class="co2" aria-hidden="true">${ico("planta")}<span>${co2}</span></span>` : ""}
@@ -1444,7 +1469,6 @@ $("empezar").addEventListener("click", () => iniciarGuia(estado.elegida));
 // Cada paso dicho como dos oraciones, con su punto, para que la voz haga la pausa.
 const conPunto = (t) => (/[.!?]$/.test(t) ? t : `${t}.`);
 const pasosEnVoz = (o) => pasosDe(o).map((p) => `${conPunto(p.titulo)} ${conPunto(p.nota)}`).join(" ");
-$("escuchar").addEventListener("click", () => hablar(pasosEnVoz(estado.elegida)));
 
 // Botones de una sola eleccion: la app que te dio precio y que tanta prisa tienes.
 function segmentado(id, alElegir) {
@@ -1570,8 +1594,11 @@ function dibujar(o) {
     ...(k > 0 ? [L.polyline([camiones[k - 1].at(-1), c[0]], estilo("caminando"))] : []),
     // Un punto chico por cada parada del camino, para ver cuantas faltan.
     ...c.slice(1, -1).map((x) => L.circleMarker(x, { radius: 2.5, color: ambar, weight: 1, fillColor: tono("--fondo"), fillOpacity: 1, tono: "linea" })),
-    ...[c[0], c.at(-1)].map((x, j) => L.circleMarker(x, { radius: 6, color: tono("--fondo"), weight: 2, fillColor: ambar, fillOpacity: 1, tono: "punto" })
-      .bindTooltip(j ? `Bajas aquí` : `Subes a la ${lineas[k] ?? ""}`, { permanent: true, direction: j ? "bottom" : "top", offset: [0, j ? 8 : -8], className: "etiqueta-mapa" })),
+    // Donde subes y donde bajas: ficha con camion (verde) o bandera (roja), distintas de las paradas de paso.
+    // En un transbordo la bajada del primer camion coincide con la subida al siguiente: solo se marca la subida.
+    ...[c[0], c.at(-1)].filter((_, j) => !j || k === camiones.length - 1).map((x, j) => L.marker(x, { interactive: false, keyboard: false, zIndexOffset: 500,
+      icon: L.divIcon({ className: "", iconSize: [34, 34], iconAnchor: [17, 17], html: `<span class="parada-ruta ${j ? "baja" : "sube"}"><svg class="picto"><use href="#p-${j ? "flag" : "qrobus"}"/></svg></span>` }) })
+      .bindTooltip(j ? `Bajas aquí` : `Subes a la ${lineas[k] ?? ""}`, { permanent: true, direction: j ? "right" : "top", offset: j ? [18, 0] : [0, -18], className: `etiqueta-mapa ${j ? "baja" : "sube"}` })),
   ]);
   const acceso = L.polyline(o.trazo.acceso.puntos, estilo(o.trazo.acceso.modo));
   const salida = L.polyline(o.trazo.salida.puntos, estilo(o.trazo.salida.modo));

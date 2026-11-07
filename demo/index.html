@@ -410,7 +410,6 @@
         </div>
         <div class="acciones-fijas">
           <button id="empezar" type="button" class="boton"><svg class="icono"><use href="#i-play"/></svg>Empezar viaje con avisos</button>
-          <button id="escuchar" type="button" class="enlace"><svg class="icono"><use href="#i-altavoz"/></svg>Leer los pasos en voz alta</button>
         </div>
       </div>
 
@@ -449,6 +448,10 @@
       <div class="guia-arriba">
         <p id="guiaEtapa" class="guia-paso"></p>
         <span id="guiaLinea" class="guia-linea" hidden><svg class="picto" aria-hidden="true"><use href="#p-qrobus"/></svg><span></span></span>
+      </div>
+      <div class="guia-avisos">
+        <button id="guiaVoz" type="button" aria-pressed="true" aria-label="Avisos con voz"><svg class="icono" aria-hidden="true"><use href="#i-altavoz"/></svg><span>Voz</span></button>
+        <button id="guiaVibrar" type="button" aria-pressed="true" aria-label="Avisos con vibración"><svg class="icono" aria-hidden="true"><use href="#i-vibrar"/></svg><span>Vibración</span></button>
       </div>
       <span id="guiaFicha" class="guia-ficha" aria-hidden="true"><svg class="picto"><use id="guiaPicto" href="#p-caminar"/></svg></span>
       <h1 id="guiaTitulo" class="guia-titulo" tabindex="-1" aria-live="assertive"></h1>
@@ -749,7 +752,6 @@
         <p id="camaraCalidad" class="nota" role="status"></p>
         <p id="camaraLectura" lang="es-MX" translate="no" class="oculto" aria-live="polite" aria-atomic="true"></p>
         <button id="camaraBuscarCamion" type="button" class="boton oscuro" disabled>Leer número del camión</button>
-        <button id="camaraLeer" type="button" class="boton oscuro" disabled>Leer letrero ahora</button>
         <button id="camaraRepetir" type="button" class="boton oscuro" disabled>Repetir descripción</button>
         <button id="camaraVolverGuia" type="button" class="boton oscuro" hidden>Volver a mi viaje</button>
         <fieldset class="camara-modelo camara-enfoque"><legend>¿Qué quieres escuchar?</legend>
@@ -776,6 +778,7 @@
         <button id="camaraProbar" type="button" class="boton oscuro" hidden><svg class="icono" aria-hidden="true"><use href="#i-vibrar"/></svg>Probar vibración</button>
       </details>
       <div class="camara-pie">
+        <button id="camaraLeer" type="button" class="boton oscuro" disabled>Leer letrero ahora</button>
         <button id="camaraDetener" type="button" class="boton" hidden>Detener cámara</button>
       </div>
     </section>
