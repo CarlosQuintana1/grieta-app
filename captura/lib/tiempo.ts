@@ -23,7 +23,7 @@ export function esFinDeSemana(d: Date): boolean {
 export const LIMITE_SEGUNDOS = 180;
 
 /** La misma ruta no se puede volver a capturar hasta que pase este tiempo desde la anterior. */
-export const ESPERA_MISMA_RUTA = 120;
+export const ESPERA_MISMA_RUTA = 300;
 
 export function finDeCaptura(m: { timestamp: string; segundos_captura: number }): number {
   return new Date(m.timestamp).getTime() + (m.segundos_captura ?? 0) * 1000;

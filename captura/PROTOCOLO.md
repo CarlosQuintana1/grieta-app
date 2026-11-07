@@ -38,7 +38,7 @@ corte, cuando ya no hay cómo recapturar.
    básico, no se guarda: se descarta y se elige otra ruta. Sin los tres precios no hay
    comparación completa.
 
-   La misma ruta no se puede volver a capturar antes de 2 minutos. En dos minutos el precio casi
+   La misma ruta no se puede volver a capturar antes de 5 minutos. En ese tiempo el precio casi
    no cambia: rinde más pasar a otra ruta y regresar después.
 
 6. **Nada de texto libre.** Todo sale de la app: rutas del catálogo, precio numérico, banderas.
