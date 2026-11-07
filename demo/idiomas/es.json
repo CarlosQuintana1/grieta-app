@@ -12117,6 +12117,20 @@
       "contextos": [
         "demo/index.html · #guia"
       ]
+    },
+    {
+      "clave": "texto_2897914018",
+      "es": "Vas a tiempo",
+      "contextos": [
+        "demo/app.js · pintarVueltaPie"
+      ]
+    },
+    {
+      "clave": "texto_0c4575bc28",
+      "es": "Apúrate",
+      "contextos": [
+        "demo/app.js · pintarVueltaPie"
+      ]
     }
   ]
 }

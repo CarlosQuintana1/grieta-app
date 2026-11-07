@@ -271,6 +271,8 @@ function mostrar(nombre) {
     if (b.dataset.tab === conf.tab) b.setAttribute("aria-current", "page");
     else b.removeAttribute("aria-current");
   }
+  if (nombre !== "guia") document.body.classList.remove("guia-mapa");
+  else entrarMapaPie();
   if (nombre === "camara") CamaraGrieta.abrir();
   if (nombre === "practica") PracticaGrieta.entrar();
   if (nombre === "tutorial") TutorialGrieta.entrar();
@@ -2244,7 +2246,8 @@ function seguir(alMoverse) {
   guia.reloj = navigator.geolocation.watchPosition(
     ({ coords }) => {
       const aqui = [coords.latitude, coords.longitude];
-      if (capas.aqui) capas.aqui.setLatLng(aqui);
+      if (document.body.classList.contains("guia-mapa")) { capas.aqui?.remove(); capas.aqui = null; }
+      else if (capas.aqui) capas.aqui.setLatLng(aqui);
       else capas.aqui = L.marker(aqui, { icon: icono("origen"), keyboard: false }).addTo(mapa);
       // Si el telefono no da la velocidad, se saca de dos posiciones separadas al menos 3 segundos.
       const ahora = Date.now();
@@ -2253,6 +2256,15 @@ function seguir(alMoverse) {
         v = Grieta.metros(guia.previo.lat, guia.previo.lon, coords.latitude, coords.longitude) / ((ahora - guia.previo.t) / 1000);
       }
       guia.precision = coords.accuracy;
+      // Rumbo del telefono o, si no lo da, el de tu ultimo tramo caminado.
+      let rumbo = Number.isFinite(coords.heading) ? coords.heading : null;
+      if (rumbo === null && guia.ultimo && Grieta.metros(guia.ultimo.lat, guia.ultimo.lon, coords.latitude, coords.longitude) >= 4) {
+        const r = Math.PI / 180, [a1, o1, a2, o2] = [guia.ultimo.lat, guia.ultimo.lon, coords.latitude, coords.longitude].map((x) => x * r);
+        rumbo = (Math.atan2(Math.sin(o2 - o1) * Math.cos(a2), Math.cos(a1) * Math.sin(a2) - Math.sin(a1) * Math.cos(a2) * Math.cos(o2 - o1)) / r + 360) % 360;
+      }
+      if (rumbo !== null || !guia.ultimo) guia.ultimo = { lat: coords.latitude, lon: coords.longitude };
+      if (rumbo !== null) guia.rumbo = rumbo;
+      moverMapaPie(coords.latitude, coords.longitude, guia.rumbo);
       if (!guia.previo || ahora - guia.previo.t >= 3000) guia.previo = { lat: coords.latitude, lon: coords.longitude, t: ahora };
       if (v !== null) guia.velocidad = v;
       alMoverse(coords.latitude, coords.longitude, guia.velocidad ?? 0);
@@ -2280,7 +2292,7 @@ function textoPasoPie(s, parada) {
 async function indicacionesPie(desde, parada) {
   if (!desde) return;
   try {
-    const url = `https://routing.openstreetmap.de/routed-foot/route/v1/driving/${desde.lon},${desde.lat};${parada.lon},${parada.lat}?steps=true&overview=false`;
+    const url = `https://routing.openstreetmap.de/routed-foot/route/v1/driving/${desde.lon},${desde.lat};${parada.lon},${parada.lat}?steps=true&overview=full&geometries=geojson`;
     const r = await fetch(url, { signal: AbortSignal.timeout(6000) }).then((x) => x.json());
     // Se juntan los tramos muy cortos con el anterior para no dar instrucciones de 5 metros.
     const pasos = [];
@@ -2295,7 +2307,9 @@ async function indicacionesPie(desde, parada) {
     guia.pasosPie = pasos.slice(0, 10).map((p) => ({ ...p, ...textoPasoPie(p.s, parada.nombre) }));
     if (refs.length) guia.pasosPie.at(-1).referencia = refs[0].descripcion;
     guia.pasoPie = 0;
+    guia.trazoPie = r.routes[0].geometry.coordinates.map(([lo, la]) => [la, lo]);
     pintarPasosPie();
+    entrarMapaPie();
   } catch {}
 }
 function pintarPasosPie() {
@@ -2308,10 +2322,80 @@ function avanzarPie(lat, lon) {
   const pasos = guia.pasosPie;
   if (!pasos) return;
   const sig = pasos[guia.pasoPie + 1];
-  if (!sig || Grieta.metros(lat, lon, sig.lat, sig.lon) > 20) return;
+  const falta = sig ? Grieta.metros(lat, lon, sig.lat, sig.lon) : Infinity;
+  pintarVueltaPie(lat, lon, falta);
+  if (!sig) return;
+  // Unos 35 m antes de la vuelta: izquierda dos pulsos, derecha tres; derecho o llegada, uno largo.
+  if (falta <= 35) unaVez(`vuelta-${guia.k}-${guia.pasoPie + 1}`, () => {
+    const giro = sig.s.maneuver.modifier ?? "";
+    vibrar(/left/.test(giro) ? [150, 100, 150] : /right/.test(giro) ? [150, 100, 150, 100, 150] : [400]);
+    hablar([sig.texto, sig.referencia ? `. ${sig.referencia}` : ""].join(""));
+  });
+  if (falta > 20) return;
   guia.pasoPie++;
   pintarPasosPie();
-  hablar([sig.texto, sig.tramo ? `, ${sig.tramo}` : "", sig.referencia ? `. ${sig.referencia}` : ""].join(""));
+}
+// Navegacion a pie sobre el mapa: tarjeta de la siguiente vuelta y tu flecha siguiendote.
+const ANGULO_GIRO = { straight: 0, "slight right": 45, right: 90, "sharp right": 135, uturn: 180, "sharp left": -135, left: -90, "slight left": -45 };
+function entrarMapaPie() {
+  if (!guia.activa || guia.fase !== "parada" || !guia.pasosPie || document.body.dataset.pantalla !== "guia" || acc.modoVoz) return;
+  document.body.classList.add("con-mapa", "guia-mapa");
+  capas.aqui?.remove(); capas.aqui = null;
+  $("pasosPie").hidden = true;
+  capas.pie?.remove();
+  capas.pie = L.featureGroup([
+    L.polyline(guia.trazoPie ?? [], { color: "#1b2a6b", weight: 10, opacity: 0.55, interactive: false }),
+    L.polyline(guia.trazoPie ?? [], { color: "#ffffff", weight: 6, interactive: false }),
+    L.marker([guia.camion?.recorrido[0].lat ?? guia.pasosPie.at(-1).lat, guia.camion?.recorrido[0].lon ?? guia.pasosPie.at(-1).lon], { interactive: false, keyboard: false, zIndexOffset: 500,
+      icon: L.divIcon({ className: "", iconSize: [36, 36], iconAnchor: [18, 18], html: `<span class="parada-ruta sube"><svg class="picto"><use href="#p-qrobus"/></svg></span>` }) }),
+  ]).addTo(mapa);
+  setTimeout(() => {
+    mapa.invalidateSize();
+    const yo = guia.previo ? [guia.previo.lat, guia.previo.lon] : guia.trazoPie?.[0];
+    if (yo) mapa.setView(yo, 17, { animate: false });
+  }, 60);
+  pintarVueltaPie();
+}
+function salirMapaPie() {
+  document.body.classList.remove("guia-mapa");
+  if (document.body.dataset.pantalla === "guia") document.body.classList.remove("con-mapa");
+  capas.pie?.remove(); capas.pie = null;
+  $("vueltaPie").hidden = true;
+  setTimeout(() => mapa.invalidateSize(), 60);
+}
+function pintarVueltaPie(lat, lon, falta) {
+  const tarjeta = $("vueltaPie");
+  if (!document.body.classList.contains("guia-mapa") || !guia.pasosPie) { tarjeta.hidden = true; return; }
+  const sig = guia.pasosPie[guia.pasoPie + 1] ?? guia.pasosPie.at(-1);
+  const tipo = sig.s.maneuver.type, giro = sig.s.maneuver.modifier;
+  const llegada = tipo === "arrive";
+  const flecha = $("vueltaFlecha");
+  flecha.classList.toggle("llegada", llegada);
+  flecha.style.transform = llegada || tipo === "continue" || tipo === "new name" ? "" : `rotate(${ANGULO_GIRO[giro] ?? 0}deg)`;
+  $("vueltaTexto").textContent = sig.texto;
+  $("vueltaDistancia").textContent = Number.isFinite(falta) ? distanciaTexto(Math.max(5, Math.round(falta / 5) * 5)) : sig.tramo ?? "";
+  // Con el horario: si a tu paso llegas antes de que pase el camion o vas justo.
+  const c = guia.camion;
+  const chip = $("vueltaCamion");
+  chip.hidden = !c || guia.enApp;
+  if (c && lat !== undefined) {
+    const resta = Grieta.metros(lat, lon, c.recorrido[0].lat, c.recorrido[0].lon) * 1.3;
+    const ahora = new Date(), minuto = ahora.getHours() * 60 + ahora.getMinutes() + ahora.getSeconds() / 60;
+    const holgura = c.sale - minuto - resta / 75;
+    chip.querySelector("b").textContent = `${c.linea} · ${hora(c.sale)}`;
+    chip.querySelector("span").textContent = holgura >= 2 ? "Vas a tiempo" : "Apúrate";
+    chip.classList.toggle("justo", holgura < 2);
+  } else if (c) { chip.querySelector("b").textContent = `${c.linea} · ${hora(c.sale)}`; chip.querySelector("span").textContent = ""; }
+  tarjeta.hidden = false;
+}
+function moverMapaPie(lat, lon, rumbo) {
+  if (!document.body.classList.contains("guia-mapa")) return;
+  if (!capas.flecha) capas.flecha = L.marker([lat, lon], { interactive: false, keyboard: false, zIndexOffset: 900,
+    icon: L.divIcon({ className: "", iconSize: [40, 40], iconAnchor: [20, 20], html: `<span class="yo-flecha"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 20 21 12 16.5 4 21Z"/></svg></span>` }) }).addTo(mapa);
+  else capas.flecha.setLatLng([lat, lon]);
+  const el = capas.flecha.getElement()?.querySelector(".yo-flecha");
+  if (el && Number.isFinite(rumbo)) el.style.transform = `rotate(${rumbo}deg)`;
+  mapa.panTo([lat, lon], { animate: suave(), duration: 0.5 });
 }
 function iniciarGuia(o) {
   terminarGuia();
@@ -2538,6 +2622,7 @@ function avanzarCamion(lat, lon, velocidad = 0) {
       }
       $("pasosPie").hidden = true;
       guia.fase = "esperando";
+      salirMapaPie();
       vibrar([300, 120, 300]);
       decir(frase("llegaste_parada"), [`${r[0].nombre}. `, frase("espera_linea", { linea: c.linea, hacia: c.hacia }), "; ", frase("horario_pasa", { hora: hora(c.sale) }), ". ", frase("aviso_pasar")], "En la parada");
       leerReferencias(r[0]);
@@ -2677,6 +2762,9 @@ $("comoTeFue").addEventListener("click", (e) => {
 function terminarGuia() {
   clearTimeout(guia.confirmar);
   guia.pasosPie = null;
+  salirMapaPie();
+  capas.flecha?.remove(); capas.flecha = null;
+  guia.ultimo = null; guia.rumbo = null; guia.trazoPie = null;
   $("pasosPie").hidden = true;
   cancelarAvisos();
   restaurarTerminar();
@@ -4187,7 +4275,7 @@ pintarInstalar();
 const ICONOS_RENGLON = [[/baj/i, "pin"], [/cambi|transbord/i, "repetir"], [/aviso|avis/i, "altavoz"], [/camina|cuadra|metros|\bm\b/i, "caminar"], [/l[ií]nea|cami[oó]n|toma/i, "camion"], [/hora|\d:\d\d/i, "reloj"]];
 function pintarRenglonesGuia() {
   const lista = $("guiaDetalleVisual"), texto = $("guiaDetalle").textContent.trim();
-  lista.replaceChildren(...texto.split(/(?<=[.;])\s+/).filter(Boolean).map((frase) => {
+  lista.replaceChildren(...texto.split(/(?<!\b(?:Blvd|Av|Col|Fracc|Prol|Cto|Lic|Dr|Ing|Gral|Mtro|Pte|Ote|Nte|Sta?|Sr|Sra|No)\.)(?<=\.)\s+/).filter(Boolean).map((frase) => {
     const li = document.createElement("li"), icono = ICONOS_RENGLON.find(([r]) => r.test(frase))?.[1] ?? "ruta";
     li.innerHTML = `<svg class="icono" aria-hidden="true"><use href="#i-${icono}"/></svg><span></span>`;
     const cuerpo = li.lastElementChild;
