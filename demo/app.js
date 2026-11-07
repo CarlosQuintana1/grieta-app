@@ -870,7 +870,8 @@ async function caminoAPie(a, b) {
       { signal: AbortSignal.timeout(6000) })
       .then((r) => r.json())
       .then(({ routes: [r] }) => ({ puntos: r.geometry.coordinates.map(([lon, lat]) => [lat, lon]), metros: r.distance, minutos: r.duration / 60 }))
-      .then(async (c) => ({ ...c, ...await relieve(c.puntos) }))
+      // El trazo sale de inmediato; la pendiente llega despues y se suma al mismo objeto (c.listo).
+      .then((c) => Object.assign(c, { factor: 1, subida: 0, bajada: 0, listo: relieve(c.puntos).then((r) => Object.assign(c, r)) }))
       .catch(() => { caminos.delete(clave); return null; }));
   }
   return caminos.get(clave);
@@ -897,7 +898,7 @@ async function relieve(puntos) {
   }
   muestras.push(puntos.at(-1));
   try {
-    const { elevation: z } = await fetch(`https://api.open-meteo.com/v1/elevation?latitude=${muestras.map((p) => p[0].toFixed(5)).join(",")}&longitude=${muestras.map((p) => p[1].toFixed(5)).join(",")}`, { signal: AbortSignal.timeout(5000) }).then((r) => r.json());
+    const { elevation: z } = await fetch(`https://api.open-meteo.com/v1/elevation?latitude=${muestras.map((p) => p[0].toFixed(5)).join(",")}&longitude=${muestras.map((p) => p[1].toFixed(5)).join(",")}`, { signal: AbortSignal.timeout(3000) }).then((r) => r.json());
     if (!Array.isArray(z) || z.length !== muestras.length) return plano;
     // Se suaviza: con celdas de 90 m, dos muestras vecinas pueden brincar sin que la calle lo haga.
     const alto = z.map((_, i) => (z[Math.max(0, i - 1)] + z[i] + z[Math.min(z.length - 1, i + 1)]) / 3);
@@ -911,6 +912,7 @@ async function relieve(puntos) {
     return { factor: tPlano ? t / tPlano : 1, subida: Math.round(subida), bajada: Math.round(bajada) };
   } catch { return plano; }
 }
+const enVoz = (t) => t.replace(/(\d) m\b/g, "$1 metros");
 // Como lo diria una persona; solo cuando se nota.
 function pendienteTexto(r) {
   if (!r) return "";
@@ -975,7 +977,24 @@ function rutearCamion(paradas) {
   for (let i = 0; i < paradas.length - 1; i += 24) tramos.push(paradas.slice(i, i + 25));
   return Promise.all(tramos.map((t) => fetch(`https://routing.openstreetmap.de/routed-car/route/v1/driving/${t.map(([la, lo]) => `${lo},${la}`).join(";")}?overview=full&geometries=geojson&continue_straight=true`, { signal: AbortSignal.timeout(8000) })
     .then((r) => r.json()).then(({ routes: [r] }) => r.geometry.coordinates.map(([lo, la]) => [la, lo]))))
-    .then((partes) => partes.flat());
+    .then((partes) => quitarVueltas(partes.flat(), paradas));
+}
+// OSRM toca cada parada aunque quede del otro lado del camellon o en una calle lateral: entra, da vuelta y regresa.
+// Se quita ese pico de ida y vuelta solo si empieza o termina junto a una parada; un retorno real del camion se queda.
+function quitarVueltas(pts, paradas) {
+  const m = (a, b) => Grieta.metros(a[0], a[1], b[0], b[1]);
+  const salida = [];
+  for (let i = 0; i < pts.length; i++) {
+    salida.push(pts[i]);
+    let largo = 0, lejos = 0, punta = null;
+    for (let j = i + 1; j < pts.length && largo < 5000; j++) {
+      largo += m(pts[j - 1], pts[j]);
+      const d = m(pts[i], pts[j]);
+      if (d > lejos) { lejos = d; punta = pts[j]; }
+      if (d < 30 && lejos >= 60 && largo <= 2.4 * lejos + 30 && paradas.some((p) => m(p, punta) < 40 || m(p, pts[i]) < 80)) { i = j - 1; break; }
+    }
+  }
+  return salida;
 }
 function callesCamion(paradas) {
   const clave = paradas.map(claveParada).join(";");
@@ -993,6 +1012,11 @@ function callesCamion(paradas) {
     }).catch(() => { trazosCamion.delete(clave); return null; }));
   }
   return trazosCamion.get(clave);
+}
+async function porCallesAuto(linea) {
+  const pts = linea.getLatLngs().map((p) => [p.lat, p.lng]);
+  const puntos = await rutearCamion(pts).catch(() => null);
+  if (puntos?.length && linea._map) linea.setLatLngs(puntos);
 }
 async function porCallesCamion(linea) {
   const puntos = await callesCamion(linea.getLatLngs().map((p) => [p.lat, p.lng]));
@@ -1057,11 +1081,12 @@ function mostrarAPie() {
   estado.lineaAPie = null;
   $("aPie").hidden = true;
   if (Grieta.metros(o.lat, o.lon, d.lat, d.lon) > 2000) return;
-  caminoAPie([o.lat, o.lon], [d.lat, d.lon]).then((c) => {
-    if (!c || estado.aPie !== clave || minutosCaminando(c.metros * c.factor) > 25) return;
+  caminoAPie([o.lat, o.lon], [d.lat, d.lon]).then(async (c) => {
+    await c?.listo;
+    if (!c || estado.aPie !== clave || minutosCaminando(c.metros * (c.factor ?? 1)) > 25) return;
     // A quien le cuesta caminar no se le promete un tiempo: solo la distancia
     const camina = (acc.movilidad ?? "normal") === "normal";
-    $("aPieTexto").textContent = camina ? `Caminando llegas en ${minutosCaminando(c.metros * c.factor)} min` : `Queda a ${distanciaTexto(c.metros)} por calles`;
+    $("aPieTexto").textContent = camina ? `Caminando llegas en ${minutosCaminando(c.metros * (c.factor ?? 1))} min` : `Queda a ${distanciaTexto(c.metros)} por calles`;
     $("aPieDetalle").textContent = camina ? `${distanciaTexto(c.metros, true)} por calles, sin costo` : "Si te sientes bien para ir a pie, no cuesta nada";
     $("aPie").hidden = false;
     // La ruta a pie de verdad, punteada como los demas tramos a pie; la amarilla es la del auto.
@@ -1072,7 +1097,7 @@ function mostrarAPie() {
     }
     // Con el tiempo a pie ya medido, se quitan los camiones que no llegan antes que caminando.
     if (camina) {
-      estado.minAPie = minutosCaminando(c.metros * c.factor);
+      estado.minAPie = minutosCaminando(c.metros * (c.factor ?? 1));
       if (estado.r && estado.tarjetas?.some(({ o }) => o.minutos >= estado.minAPie)) pintarOpciones(estado.r);
     }
   });
@@ -1098,7 +1123,7 @@ async function refinarCaminatas() {
   const hechas = await Promise.all(faltan.map(([lado, i, punto]) => {
     const parada = Grieta.qrobus.paradas[i].slice(0, 2);
     // Al motor le llega la distancia que se siente: una subida cuenta como caminar mas.
-    return caminoAPie(...(lado === "sube" ? [punto, parada] : [parada, punto])).then((c) => c && cam[lado].set(i, c.metros * c.factor) && cam.relieve.set(`${lado}:${i}`, c));
+    return caminoAPie(...(lado === "sube" ? [punto, parada] : [parada, punto])).then(async (c) => c && (await c.listo, cam[lado].set(i, c.metros * (c.factor ?? 1)), cam.relieve.set(`${lado}:${i}`, c)));
   }));
   if (cam === estado.caminatas && hechas.some(Boolean)) calcular();
 }
@@ -1172,6 +1197,7 @@ const limitesPrecio = (x) => {
   return { bajo: Math.floor(rango.bajo ?? x.precio), alto: Math.ceil(rango.alto ?? x.precio) };
 };
 const rangoTexto = (x) => `${pesos(x.bajo)}–${Math.round(x.alto)}`;
+const rangoFrase = (x) => `de ${pesos(x.bajo)} a ${pesos(x.alto)}`;
 const rangoVoz = (x) => `entre ${Math.round(x.bajo)} y ${Math.round(x.alto)} pesos`;
 const partesRango = (x) => `<span>${pesos(x.bajo)}</span><wbr><span>–${Math.round(x.alto)}</span>`;
 function rangoTramo(o, p) {
@@ -1194,7 +1220,6 @@ function criteriosViaje(r) {
     rapida: [...r.opciones].sort((a, b) => a.minutos - b.minutos || a.costo - b.costo)[0],
   };
 }
-const precioOpcionTexto = (o) => { const rango = rangoOpcion(o); return rango ? `aprox. ${rangoTexto(rango)}` : pesos(o.costo); };
 const precioOpcionVoz = (o) => { const rango = rangoOpcion(o); return rango ? `precio estimado ${rangoVoz(rango)}` : `${Math.round(o.costo)} pesos`; };
 
 // CO₂ que emitiría un auto en el mismo viaje. 135.7 g/km es la meta para autos nuevos de pasajeros (año 2016)
@@ -1352,16 +1377,16 @@ function pintarOpciones(r) {
     if (caminata(o)) pie.push(`caminas ${caminata(o)} min`);
     const ahorro = appBarata.precio - o.costo;
     const mas = enApp ? Math.round(o.minutos - enApp.minutos) : 0;
-    const ahorroTexto = ahorro >= 5 ? `Ahorras aprox. ${pesos(ahorro)}${mas > 0 ? ` · ${mas} min más que en app` : ""}` : "";
+    const ahorroTexto = ahorro >= 5 ? `Ahorras unos ${pesos(ahorro)}${mas > 0 ? `, tardas ${mas} min más que en app` : ""}` : "";
     const co2 = sinAuto(o) ? `En auto emitiría ${kgTexto(co2Auto(r.directo.km))} de CO₂` : "";
     // Tres datos grandes con su nombre arriba: se leen de un vistazo sin armar una oración.
     const datos = [["Llegas", hora(llegada(o)), ""], ahorro >= 5 && ["Ahorras", pesos(ahorro), " dato-ahorro"], caminata(o) && ["Caminas", `${caminata(o)} min`, ""]].filter(Boolean);
-    const duracion = [`${Math.round(o.minutos)} min de viaje`, mas > 0 && `${mas} min más que en app`].filter(Boolean).join(" · ");
+    const duracion = [`${Math.round(o.minutos)} min de viaje`, mas > 0 && `${mas} min más que en app`].filter(Boolean).join(", ");
     const rango = rangoOpcion(o);
     return `<button type="button" class="tarjeta tarjeta-camion${etiquetas.includes("Recomendado") ? " principal" : ""}" data-i="${i}"
       aria-label="${escapar(`${etiquetas.join(" y ")}. ${tituloOpcion(o)}. ${pie.join(". ")}. ${precioOpcionVoz(o)}. ${co2 ? `${co2}. ` : ""}${ahorroTexto}`)}">
       <span class="tarjeta-cabeza">${fichaOpcion(o)}
-        <span class="fila-texto">${etiquetas.length ? `<span class="etiqueta">${etiquetas.join(" · ")}</span>` : ""}<strong>${escapar(tituloOpcion(o))}</strong></span>
+        <span class="fila-texto">${etiquetas.length ? `<span class="etiqueta">${etiquetas.join(", ")}</span>` : ""}<strong>${escapar(tituloOpcion(o))}</strong></span>
         <span class="precio${rango ? " precio-rango" : " precio-camion"}">${rango ? `<small class="precio-nota">Aprox.</small>${partesRango(rango)}` : pesos(o.costo)}</span>${ico("chevron", "chevron")}</span>
       <span class="datos-viaje" aria-hidden="true">${datos.map(([nombre, valor, clase]) => `<span class="dato${clase}"><small>${nombre}</small><b>${valor}</b></span>`).join("")}</span>
       <span class="duracion" aria-hidden="true">${duracion}</span>
@@ -1398,7 +1423,7 @@ $("tarjetas").addEventListener("click", (e) => {
 function abrirOpcion(i) {
   const { o, etiquetas } = estado.tarjetas[i];
   estado.elegida = o;
-  estado.etiquetaElegida = etiquetas.join(" · ");
+  estado.etiquetaElegida = etiquetas.join(", ");
   titulos.detalle = tituloOpcion(o);
   ir("detalle");
   pintarDetalle();
@@ -1507,7 +1532,7 @@ function calcularSalida() {
     ${x.o.tipo === "app" ? "" : `<button type="button" class="boton oscuro" data-avisar="${x.t}" data-que="${escapar(tituloOpcion(x.o))}">Avísame cuándo salir</button>`}
     <button type="button" class="boton oscuro" data-salir="${x.t}">Ver esta ruta</button></div>`;
   $("salida").innerHTML =
-    (camion ? bloque("En Qrobus", camion, `${escapar(tituloOpcion(camion.o))}, ${camion.conApp ? "aprox. " : ""}${pesos(camion.o.costo)}. Llegas a las ${hora(camion.t + camion.o.minutos)}.`) : "") +
+    (camion ? bloque("En Qrobus", camion, `${escapar(tituloOpcion(camion.o))}, ${camion.conApp ? "unos " : ""}${pesos(camion.o.costo)}. Llegas a las ${hora(camion.t + camion.o.minutos)}.`) : "") +
     (app ? bloque("En app", app, `Pide ${escapar(tituloOpcion(app.o))}, unos ${pesos(app.o.costo)}. Llegas a las ${hora(app.t + app.o.minutos)}.`) : "");
   hablar([camion && `En camión, sal a las ${hora(camion.t)} y toma ${tituloOpcion(camion.o)}.`, app && `En app, pídela a las ${hora(app.t)}.`].filter(Boolean).join(" "), false, true);
 }
@@ -1558,7 +1583,7 @@ function pasosDe(o) {
   if (o.tipo === "app") {
     const app = tituloOpcion(o);
     return [
-      { ficha: ["tono-anil", "app"], titulo: `Pide ${app}`, nota: `Precio estimado ${rangoVoz(rangoOpcion(o))}.`, hora: estado.r.ctx.minuto },
+      { ficha: ["tono-anil", "app"], titulo: `Pide ${app}`, nota: `Precio estimado ${rangoFrase(rangoOpcion(o))}.`, hora: estado.r.ctx.minuto },
       { ficha: ["tono-casa", "lugar"], titulo: `Llegas a ${estado.destino.nombre}`, nota: `Unos ${Math.round(o.minutos)} minutos, contando la espera.`, hora: llegada(o) },
     ];
   }
@@ -1577,8 +1602,8 @@ function pasosDe(o) {
         : { ficha: camina, titulo: `Camina ${min} min a tu destino`, nota: `${estado.destino.nombre}. ${cuesta ? `Camino ${cuesta}. ` : ""}Llegas a las ${hora(llegada(o))}.`, hora: inicio };
     }
     if (p.tipo === "app") return p.hacia
-      ? { ficha: enApp, titulo: `Pide ${Grieta.nombreApp(p.app)} hasta la parada`, nota: `${p.parada}. Precio estimado ${rangoVoz(limitesPrecio(rangoTramo(o, p)))}.`, hora: inicio }
-      : { ficha: enApp, titulo: `Pide ${Grieta.nombreApp(p.app)} a tu destino`, nota: `Precio estimado ${rangoVoz(limitesPrecio(rangoTramo(o, p)))}. Llegas a las ${hora(llegada(o))}.`, hora: inicio };
+      ? { ficha: enApp, titulo: `Pide ${Grieta.nombreApp(p.app)} hasta la parada`, nota: `${p.parada}. Precio estimado ${rangoFrase(limitesPrecio(rangoTramo(o, p)))}.`, hora: inicio }
+      : { ficha: enApp, titulo: `Pide ${Grieta.nombreApp(p.app)} a tu destino`, nota: `Precio estimado ${rangoFrase(limitesPrecio(rangoTramo(o, p)))}. Llegas a las ${hora(llegada(o))}.`, hora: inicio };
     return { ficha: ["tono-hospital", "qrobus"], camion: true, titulo: `Toma la línea ${p.linea} a las ${hora(p.sale)}`, nota: `Hacia ${p.hacia}. Bájate en ${p.baja}, ${p.paradas} paradas después, a las ${hora(p.llega)}. Te aviso antes.`, hora: inicio };
   });
 }
@@ -1596,8 +1621,12 @@ function pintarDetalle(sinMapa) {
   }
   const etiqueta = estado.etiquetaElegida ?? "Recomendado";
   $("detalleEtiqueta").textContent = etiqueta === "Recomendado" ? "Ruta recomendada" : etiqueta;
-  $("detalleCifra").textContent = `${Math.round(o.minutos)} min · ${precioOpcionTexto(o)}`;
-  $("detalleLlegada").innerHTML = `Llegas <strong>${hora(llegada(o))}</strong>`;
+  // Tres datos con su color: tiempo en ambar, dinero en verde y la hora de llegada en blanco.
+  const rango = rangoOpcion(o);
+  $("detalleMin").textContent = `${Math.round(o.minutos)} min`;
+  $("detallePrecio").textContent = rango ? rangoTexto(rango) : pesos(o.costo);
+  $("detallePrecioNota").textContent = rango ? "Estimado" : "Cuesta";
+  $("detalleHora").textContent = hora(llegada(o));
   $("detalleCo2").hidden = !sinAuto(o);
   if (sinAuto(o)) {
     const g = co2Auto(estado.r.directo.km);
@@ -1767,7 +1796,8 @@ function dibujar(o) {
   quitarTrazo();
   const tinta = tono("--tinta");
   const ambar = tono("--ambar");
-  const estilo = (modo) => (modo === "caminando" ? { color: tinta, weight: 3, dashArray: "1 7", lineCap: "round" } : { color: tinta, weight: 2, opacity: 0.7 });
+  // En app el tramo va en verde (el color de las apps) y por calles, como el auto lo haria.
+  const estilo = (modo) => (modo === "caminando" ? { color: tinta, weight: 3, dashArray: "1 7", lineCap: "round" } : { color: tono("--verde"), weight: 4, opacity: 0.9, app: true });
   capas.linea?.setStyle?.({ opacity: 0.15 });
   const camiones = o.trazo.camiones;
   const lineas = o.pasos.filter((p) => p.tipo === "camion").map((p) => p.linea);
@@ -1786,7 +1816,7 @@ function dibujar(o) {
   const salida = L.polyline(o.trazo.salida.puntos, estilo(o.trazo.salida.modo));
   capas.camion = L.featureGroup([acceso, ...capasCamion, salida]).addTo(mapa);
   // Todo tramo a pie (punteado), incluido el de un transbordo, sigue las calles.
-  capas.camion.eachLayer((l) => { if (l.options.dashArray) seguirCalles(l); else if (l.options.camion) porCallesCamion(l); });
+  capas.camion.eachLayer((l) => { if (l.options.dashArray) seguirCalles(l); else if (l.options.camion) porCallesCamion(l); else if (l.options.app) porCallesAuto(l); });
   animarTrazo(capas.camion);
   setTimeout(() => encuadrar(capas.camion.getBounds()), 120);
 }
@@ -1870,8 +1900,12 @@ function pintarParadas(punto, lista, seleccionada = false) {
     setTimeout(() => encuadrar(L.latLngBounds([[punto.lat, punto.lon], [lista[0].lat, lista[0].lon]])), 120);
   }
   const revision = revisionCamiones;
-  seguirCalles(aPie).then(c => {
-    if (revision === revisionCamiones && document.body.dataset.pantalla === 'camiones' && estado.listaCamiones?.[0] === lista[0]) ponerCaminata(lista[0], c?.metros, seleccionada, c);
+  seguirCalles(aPie).then(async (c) => {
+    const vigente = () => revision === revisionCamiones && document.body.dataset.pantalla === 'camiones' && estado.listaCamiones?.[0] === lista[0];
+    await Promise.race([c?.listo, new Promise((r) => setTimeout(r, 1500))]);
+    if (vigente()) ponerCaminata(lista[0], c?.metros, seleccionada, c);
+    // Si la pendiente llego tarde, solo se corrige el texto: la voz ya lo dijo.
+    c?.listo?.then(() => { if (vigente()) ponerCaminata(lista[0], c.metros, seleccionada, c); });
   });
 }
 // La distancia real a pie llega despues que la pantalla: se pone y se dice una sola vez
@@ -1889,7 +1923,7 @@ function ponerCaminata(p, metros, seleccionada = false, rel = p.relieve) {
   $("caminaParada").textContent = texto;
   $("caminaDetalle").textContent = detalle;
   actualizarComparacionParadas(estado.listaCamiones ?? []);
-  if (!p.dicho) hablar(`Caminando son ${distanciaTexto(metros)}, unos ${minutosCaminando(metros * (rel?.factor ?? 1))} minutos${pendienteTexto(rel) ? `, ${pendienteTexto(rel).replace(" m", " metros")}` : ""}.`, true);
+  if (!p.dicho) hablar(`Caminando son ${distanciaTexto(metros)}, unos ${minutosCaminando(metros * (rel?.factor ?? 1))} minutos${pendienteTexto(rel) ? `, ${enVoz(pendienteTexto(rel))}` : ""}.`, true);
   p.dicho = true;
 }
 // A quien le cuesta caminar no se le promete un tiempo, igual que en las opciones de viaje
@@ -2025,7 +2059,7 @@ function abrirLinea(linea, hacia, paradaActual) {
   estado.linea = { linea, sentidos, parada: paradaActual };
   ir("linea");
   $("tituloPantalla").textContent = linea;
-  $("lineaSentidos").innerHTML = sentidos.map((x, i) => `<button type="button" aria-pressed="false" data-v="${escapar(x.hacia)}">${ico("ruta")}<span class="sentido-texto"><strong>${["Ida", "Regreso"][i] ?? "Otro recorrido"}${pasaAqui(x) ? ` <em>Pasa por tu parada</em>` : ""}</strong><small translate="no">${rumboDeSentido(x)} · termina en ${escapar(x.hacia)}</small></span></button>`).join("");
+  $("lineaSentidos").innerHTML = sentidos.map((x, i) => `<button type="button" aria-pressed="false" data-v="${escapar(x.hacia)}">${ico("ruta")}<span class="sentido-texto"><strong>${["Ida", "Regreso"][i] ?? "Otro recorrido"}${pasaAqui(x) ? ` <em>Pasa por tu parada</em>` : ""}</strong><small translate="no">${rumboDeSentido(x)} y termina en ${escapar(x.hacia)}</small></span></button>`).join("");
   pintarSentido(sentidos.some((x) => x.hacia === hacia) ? hacia : sentidos[0].hacia);
 }
 // Hacia donde avanza el recorrido, de su primera a su ultima parada, en palabras.
@@ -2033,7 +2067,7 @@ function rumboDeSentido(x) {
   const [a, b] = [x.paradas[0], x.paradas.at(-1)].map((i) => Grieta.qrobus.paradas[i]);
   const r = Math.PI / 180;
   const grados = (Math.atan2(Math.sin((b[1] - a[1]) * r) * Math.cos(b[0] * r), Math.cos(a[0] * r) * Math.sin(b[0] * r) - Math.sin(a[0] * r) * Math.cos(b[0] * r) * Math.cos((b[1] - a[1]) * r)) / r + 360) % 360;
-  return `Rumbo al ${["norte", "noreste", "este", "sureste", "sur", "suroeste", "oeste", "noroeste"][Math.round(grados / 45) % 8]}`;
+  return `Va al ${["norte", "noreste", "este", "sureste", "sur", "suroeste", "oeste", "noroeste"][Math.round(grados / 45) % 8]}`;
 }
 // La hoja tapa la parte de abajo del mapa: se encuadra solo en la franja que se ve.
 function encuadrarLinea() {
@@ -2073,9 +2107,11 @@ async function ordenarPorCaminata(punto, lista) {
   if (lista.length < 2) return;
   const revision = revisionCamiones;
   const reales = await Promise.all(lista.map((x) => caminoAPie([punto.lat, punto.lon], [x.lat, x.lon])));
+  await Promise.race([Promise.all(reales.map((c) => c?.listo)), new Promise((r) => setTimeout(r, 1500))]);
   if (revision !== revisionCamiones || document.body.dataset.pantalla !== "camiones") return;
-  lista.forEach((x, i) => { if (reales[i]) x.caminado = reales[i].metros; });
-  const distancia = (x) => x.caminado ?? x.m * 1.3;
+  lista.forEach((x, i) => { if (reales[i]) { x.caminado = reales[i].metros; x.relieve = reales[i]; } });
+  // Gana la que menos cansa: una subida cuenta como caminar mas.
+  const distancia = (x) => x.caminado ? x.caminado * (x.relieve?.factor ?? 1) : x.m * 1.3;
   const orden = [...lista].sort((a, b) => distancia(a) - distancia(b));
   if (orden[0] === lista[0]) {
     ponerCaminata(lista[0], lista[0].caminado, false, lista[0].relieve);
@@ -2156,7 +2192,7 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
       x.sigue += a.sigue ?? 0;
       porTipo.set(a.tipo, x);
     }
-    avisos = [...porTipo.values()].map((x) => ({ tipo: x.tipo, id: x.id, sigue: x.sigue, descripcion: x.textos.slice(0, 2).join(" · ") }));
+    avisos = [...porTipo.values()].map((x) => ({ tipo: x.tipo, id: x.id, sigue: x.sigue, descripcion: x.textos.slice(0, 2).join(". ") }));
     caja.innerHTML = avisos.length
       ? avisos.slice(0, 4).map((a) => `<div class="aviso${a.tipo === "referencia" ? "" : " cuidado"}">
           ${ico(a.tipo === "referencia" ? "localizar" : "alerta")}
@@ -2385,7 +2421,7 @@ function decir(titulo, detalle, etapa, alerta = false) {
   const [clave, paso, picto] = ETAPAS_GUIA[etapa] ?? ETAPAS_GUIA[guia.fase === "camion" ? "En el camión" : "Llegaste"];
   document.body.dataset.etapa = clave;
   $("guiaPicto").setAttribute("href", `#p-${guia.enApp && etapa === "Hacia la parada" ? "app" : picto}`);
-  if (etapa) $("guiaEtapa").textContent = `Paso ${paso} de 4 · ${etapa}`;
+  if (etapa) $("guiaEtapa").textContent = `Paso ${paso} de 4: ${etapa}`;
   $("guiaLinea").hidden = !guia.camion || clave === "llegaste";
   if (guia.camion) $("guiaLinea").lastElementChild.textContent = guia.camion.linea;
   // En la parada el boton principal es "¿Es mi parada?"; arriba del camion, "Avisar al chofer".
@@ -2579,10 +2615,10 @@ function pintarVueltaPie(lat, lon, falta) {
     const resta = Grieta.metros(lat, lon, c.recorrido[0].lat, c.recorrido[0].lon) * 1.3;
     const ahora = new Date(), minuto = ahora.getHours() * 60 + ahora.getMinutes() + ahora.getSeconds() / 60;
     const holgura = c.sale - minuto - resta / 75;
-    chip.querySelector("b").textContent = `${c.linea} · ${hora(c.sale)}`;
+    chip.querySelector("b").textContent = `${c.linea} a las ${hora(c.sale)}`;
     chip.querySelector("span").textContent = holgura >= 2 ? "Vas a tiempo" : "Apúrate";
     chip.classList.toggle("justo", holgura < 2);
-  } else if (c) { chip.querySelector("b").textContent = `${c.linea} · ${hora(c.sale)}`; chip.querySelector("span").textContent = ""; }
+  } else if (c) { chip.querySelector("b").textContent = `${c.linea} a las ${hora(c.sale)}`; chip.querySelector("span").textContent = ""; }
   tarjeta.hidden = false;
   if (conCamara) document.body.style.setProperty("--alto-vuelta", `${tarjeta.offsetHeight}px`);
 }
@@ -2690,7 +2726,7 @@ function pintarSalida() {
   if (!s || s.dia !== new Date().toDateString() || ahoraMin() > s.t + 15) { caja.hidden = true; return; }
   const falta = s.t - ahoraMin();
   caja.hidden = false;
-  caja.innerHTML = `${miniFicha("tono-hospital", picto("qrobus"))}<span class="fila-texto"><strong>${falta > 0 ? `Sal en ${falta} ${falta === 1 ? "minuto" : "minutos"}` : "Ya es hora de salir"}</strong><span>A ${escapar(s.destino)} · ${escapar(s.que)} · ${hora(s.t)}</span></span>
+  caja.innerHTML = `${miniFicha("tono-hospital", picto("qrobus"))}<span class="fila-texto"><strong>${falta > 0 ? `Sal en ${falta} ${falta === 1 ? "minuto" : "minutos"}` : "Ya es hora de salir"}</strong><span>A ${escapar(s.destino)}. ${escapar(s.que)}, a las ${hora(s.t)}</span></span>
     <button type="button" class="quitar" data-quitar-salida>Quitar</button>`;
   if (falta <= 0 && !s.dicho) { escribir("grieta-salida", { ...s, dicho: true }); vibrar([400, 150, 400]); hablar(`Ya es hora de salir a ${s.destino}.`); }
   relojSalida = setInterval(pintarSalida, 30000);
@@ -2747,7 +2783,7 @@ function pintarResumenFamiliar() {
     return;
   }
   const telefono = familiar.telefono.replace(/^52/, "").replace(/^(\d{3})(\d{3})(\d{4})$/, "$1 $2 $3");
-  resumen.textContent = `${familiar.nombre} · ${telefono}`;
+  resumen.textContent = `${familiar.nombre}, ${telefono}`;
 }
 function pintarFamiliar() {
   const b = $("avisarFamiliar");
@@ -2792,10 +2828,11 @@ function medirCaminata(desde, parada) {
   guia.pie = null;
   if (!desde) return;
   const recta = Math.max(1, Grieta.metros(desde.lat, desde.lon, parada.lat, parada.lon));
-  caminoAPie([desde.lat, desde.lon], [parada.lat, parada.lon]).then((c) => {
+  caminoAPie([desde.lat, desde.lon], [parada.lat, parada.lon]).then(async (c) => {
+    await Promise.race([c?.listo, new Promise((r) => setTimeout(r, 1500))]);
     if (!c || !guia.activa || guia.fase !== "parada") return;
     guia.pie = { metros: c.metros, recta };
-    const texto = `Son ${distanciaTexto(c.metros)} caminando, unos ${minutosCaminando(c.metros * c.factor)} minutos${pendienteTexto(c) ? `, ${pendienteTexto(c).replace(" m", " metros")}` : ""}.`;
+    const texto = `Son ${distanciaTexto(c.metros)} caminando, unos ${minutosCaminando(c.metros * (c.factor ?? 1))} minutos${pendienteTexto(c) ? `, ${enVoz(pendienteTexto(c))}` : ""}.`;
     $("guiaDetalle").textContent = `${texto} ${Interfaz.original($("guiaDetalle"))}`;
     hablar(texto, true);
   });
@@ -3205,7 +3242,7 @@ function pintarCo2() {
   $("co2Alcance").hidden = !todos;
   marcarAlcance(deTodos ? "todos" : "tu");
   const g = deTodos ? todos.g : propio;
-  $("co2Quien").textContent = deTodos ? `${plural(todos.viajes, "viaje", "viajes")} en camión · ${Math.round(todos.km)} km` : propio ? `Tus ${plural(viajesPropios, "viaje", "viajes")} en camión` : "Aún sin viajes en camión";
+  $("co2Quien").textContent = deTodos ? `${plural(todos.viajes, "viaje", "viajes")} en camión, ${Math.round(todos.km)} km` : propio ? `Tus ${plural(viajesPropios, "viaje", "viajes")} en camión` : "Aún sin viajes en camión";
   $("co2Total").textContent = g ? kgTexto(g) : "0 kg";
   $("tituloEquivale").hidden = $("co2Equivale").hidden = g < 50;
   $("bosque").toggleAttribute("hidden", !deTodos);
@@ -3228,7 +3265,7 @@ function pintarViajes() {
   $("bloqueViajes").hidden = !viajes.length;
   $("listaViajes").innerHTML = viajes.slice(0, 3).map((v, i) => `<li><button type="button" data-i="${i}" aria-label="Ir otra vez a ${escapar(v.destino.nombre)}">
       ${miniFicha(tonoLugar(v.destino.nombre, i, v.destino.tipo), picto(iconoLugar(v.destino.nombre, v.destino.tipo)))}
-      <span class="fila-texto"><strong translate="no">${escapar(v.destino.nombre)}</strong><small>${escapar(v.camino)} · ${fechaViaje(v.fecha)}</small></span>
+      <span class="fila-texto"><strong translate="no">${escapar(v.destino.nombre)}</strong><small>${escapar(v.camino)}, ${fechaViaje(v.fecha)}</small></span>
       ${ico("chevron", "chevron")}</button></li>`).join("");
 }
 $("listaViajes").addEventListener("click", (e) => {

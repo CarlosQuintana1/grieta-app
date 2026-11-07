@@ -396,11 +396,12 @@
       <div id="bloqueCamion">
         <div id="avisoAcceso" class="aviso cuidado" role="status" hidden></div>
         <div class="cabeza-detalle">
-          <div>
-            <p id="detalleEtiqueta" class="etiqueta"></p>
-            <p id="detalleCifra" class="cifra"></p>
-          </div>
-          <p id="detalleLlegada" class="llegas"></p>
+          <p id="detalleEtiqueta" class="etiqueta"></p>
+          <dl class="datos-detalle">
+            <div class="dato tiempo"><dt>Tarda</dt><dd id="detalleMin"></dd></div>
+            <div class="dato precio"><dt id="detallePrecioNota">Cuesta</dt><dd id="detallePrecio"></dd></div>
+            <div class="dato llegada"><dt>Llegas</dt><dd id="detalleHora"></dd></div>
+          </dl>
         </div>
         <ol id="pasos" class="pasos"></ol>
         <div id="detalleCo2" class="co2-comparar" role="group" aria-labelledby="tituloCo2" hidden>
@@ -500,7 +501,7 @@
           <p id="ahorroQuien" class="co2-quien"></p>
           <p class="co2-cifra"><strong id="ahorroTotal"></strong><span>ahorrados contra la app más barata</span></p>
         </div>
-        <svg id="alcancia" class="alcancia" viewBox="0 0 24 24" role="img"></svg>
+        <svg id="alcancia" class="alcancia" viewBox="0 0 24 24" role="img" aria-label="Alcancía de tu ahorro del mes"></svg>
         <div class="co2-pie">
           <p id="ahorroPie" class="co2-unidad"></p>
         </div>
@@ -509,7 +510,7 @@
       <ul id="ahorroEquivale" class="co2-equivale"></ul>
       <div id="ahorroMesesCaja" class="co2-semanas-caja">
         <div class="co2-semanas-cabeza"><h2>Tus meses</h2><span id="ahorroHistorico"></span></div>
-        <svg id="ahorroMeses" class="co2-semanas" viewBox="0 0 320 120" role="img"></svg>
+        <svg id="ahorroMeses" class="co2-semanas" viewBox="0 0 320 120" role="img" aria-label="Ahorro de los últimos meses"></svg>
       </div>
       <h2 class="titulo-medio tono-hospital bono-titulo"><span class="mini-ficha" aria-hidden="true"><svg class="picto"><use href="#p-tarjeta"/></svg></span>¿Qué bono te conviene?</h2>
       <p class="etiqueta-campo" id="tituloViajesSemana">¿Cuántos viajes en camión haces a la semana?</p>
@@ -537,7 +538,7 @@
           <p id="co2Quien" class="co2-quien"></p>
           <p class="co2-cifra"><strong id="co2Total"></strong><span>de CO₂ que no salió de un auto</span></p>
         </div>
-        <div id="mundoTlCaja" class="mundo-tl"><svg id="mundoTl" class="escena" viewBox="0 0 360 220" role="img"></svg></div>
+        <div id="mundoTlCaja" class="mundo-tl"><svg id="mundoTl" class="escena" viewBox="0 0 360 220" role="img" aria-label="Ilustración de lo que evitas al moverte en camión"></svg></div>
         <svg id="bosque" class="bosque" viewBox="0 0 360 150" role="img" hidden></svg>
         <div class="co2-pie">
           <p id="co2Unidad" class="co2-unidad"></p>
@@ -548,7 +549,7 @@
       <ul id="co2Equivale" class="co2-equivale"></ul>
       <div class="co2-semanas-caja">
         <div class="co2-semanas-cabeza"><h2>Tus semanas</h2><span id="co2Tuyo"></span></div>
-        <svg id="co2Semanas" class="co2-semanas" viewBox="0 0 320 120" role="img"></svg>
+        <svg id="co2Semanas" class="co2-semanas" viewBox="0 0 320 120" role="img" aria-label="CO₂ evitado por semana"></svg>
         <p id="co2Vacio" class="co2-vacio" hidden>Cuando sigas un viaje en camión con la guía, aquí aparece cada semana.</p>
       </div>
       <button id="co2Planear" type="button" class="boton">Buscar a dónde voy en camión</button>

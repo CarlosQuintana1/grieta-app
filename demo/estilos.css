@@ -896,7 +896,7 @@ html.modo-voz #bienvenida .opcion-vista strong { font-size: 1.4rem; }
 
 #inicioNormal .titulo-grande { font-size: 1.9rem; }
 #buscar .desde { margin: 0 0 12px; padding: 4px 4px 4px 14px; align-items: center; font-size: .82rem; border-radius: 999px; background: var(--superficie); border: 1px solid var(--linea); }
-.cambiar-desde { flex: none; min-height: 40px; padding: 0 14px; border-radius: 999px; color: var(--ambar); font-weight: 700; font-size: .9rem; }
+.cambiar-desde { flex: none; min-height: 44px; padding: 0 14px; border-radius: 999px; color: var(--ambar); font-weight: 700; font-size: .9rem; }
 #inicioNormal .lugares { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 12px; }
 #inicioNormal .lugar-icono { max-width: 72px; }
 #inicioNormal .lugar-icono .picto { width: 48%; height: 48%; }
@@ -1332,11 +1332,11 @@ body:not(.camara-en-uso) :is(#camaraSueloEstado, #camaraHoyosEstado) { display: 
 .camara-en-uso .camara-panel .boton { margin: 0 0 8px; }
 .practica-ayuda { margin-bottom: 14px; text-align: justify; hyphens: auto; }
 .practica-estado:not(:empty) { padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); font-weight: 700; }
-.boton.salir { background: var(--cuidado); border-color: var(--cuidado); color: #fff; }
+.boton.salir { background: #a8361a; border-color: #a8361a; color: #fff; }
 #practica .boton { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-top: 10px; }
 .precio.precio-camion { color: var(--verde); }
 .guia-avisos { display: flex; gap: 8px; margin: 14px 0 0; }
-.guia-avisos button { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 6px 14px; border-radius: 999px; border: 2px solid var(--g-t); color: var(--g-t); background: transparent; font-size: .85rem; font-weight: 800; }
+.guia-avisos button { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 6px 14px; border-radius: 999px; border: 2px solid var(--g-t); color: var(--g-t); background: transparent; font-size: .85rem; font-weight: 800; }
 .guia-avisos button[aria-pressed="true"] { background: var(--g-t); color: var(--g-c); }
 .guia-avisos button[aria-pressed="false"] { opacity: .75; text-decoration: line-through; }
 .guia-avisos .icono { width: 18px; height: 18px; }
@@ -1426,7 +1426,7 @@ body.guia-mapa :is(#pasosPie, #enParada) { display: none !important; }
 /* Guia a pie: el mapa manda; abajo solo lo indispensable y mas compacto */
 body.guia-mapa #mapa { flex: 0 0 64%; }
 body.guia-mapa #guia .guia-avisos { margin: 0 0 8px; }
-body.guia-mapa #guia .guia-avisos button { min-height: 34px; padding: 4px 12px; font-size: .8rem; }
+body.guia-mapa #guia .guia-avisos button { min-height: 44px; padding: 4px 14px; font-size: .85rem; }
 body.guia-mapa #guia .guia-titulo { margin-bottom: 10px; font-size: 1.1rem; }
 body.guia-mapa #guia .boton { min-height: 48px; margin-top: 8px; padding: 8px 12px; font-size: .95rem; }
 body.guia-mapa #guia .guia-acciones { margin-top: 0; }
@@ -1452,7 +1452,7 @@ body[data-pantalla="detalle"] .hoja { max-height: 58%; }
 /* Sentidos de una linea: Ida y Regreso, con el rumbo y la ultima parada en chico */
 .sentidos-linea .sentido-texto { display: grid; gap: 2px; min-width: 0; }
 .sentidos-linea .sentido-texto strong { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 1.05rem; }
-.sentidos-linea .sentido-texto em { padding: 1px 8px; border-radius: 999px; background: #2f8a5c; color: #fff; font-size: .72rem; font-style: normal; font-weight: 700; }
+.sentidos-linea .sentido-texto em { padding: 1px 8px; border-radius: 999px; background: #1f6b44; color: #fff; font-size: .72rem; font-style: normal; font-weight: 700; }
 .sentidos-linea .sentido-texto small { color: var(--tenue); font-size: .8rem; font-weight: 500; line-height: 1.3; }
 /* La regla general de .filas le quitaba el relleno a la ficha de linea y la pegaba al borde */
 .fichas-linea > li > .ficha-linea { display: grid; padding: 12px 10px 12px 12px; }
@@ -1463,3 +1463,15 @@ body.camara-guia .camara { padding-top: calc(var(--alto-vuelta, 140px) + 16px); 
 .parada-ruta.chica { width: 26px; height: 26px; border-radius: 8px 8px 8px 3px; }
 .parada-ruta.chica .picto { width: 15px; height: 15px; }
 .parada-ruta.sin-horario { background: var(--superficie); color: var(--tenue); border: 2px dashed var(--tenue); }
+/* Detalle: tres datos con color propio; tiempo en ambar, dinero en verde, llegada en blanco */
+.cabeza-detalle { display: block; }
+.datos-detalle { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 6px 0 0; }
+.datos-detalle .dato { display: grid; gap: 2px; padding: 10px; min-width: 0; container-type: inline-size; border-radius: 14px; background: color-mix(in srgb, var(--c) 14%, var(--superficie)); }
+.datos-detalle dt { color: var(--tenue); font-size: .75rem; font-weight: 600; }
+.datos-detalle dd { margin: 0; color: var(--c); font-size: clamp(.9rem, 22cqi, 1.3rem); font-weight: 800; line-height: 1.15; white-space: nowrap; }
+.datos-detalle .tiempo { --c: var(--ambar); }
+.datos-detalle .precio { --c: var(--verde); }
+.datos-detalle .llegada { --c: var(--tinta); }
+html.grande .datos-detalle { grid-template-columns: 1fr; }
+html.grande .datos-detalle .dato { grid-template-columns: 1fr auto; align-items: baseline; container-type: normal; }
+html.grande .datos-detalle dd { font-size: 1.6rem; }
