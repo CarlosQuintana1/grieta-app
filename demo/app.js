@@ -277,6 +277,7 @@ function mostrar(nombre) {
   if (nombre !== "guia") document.body.classList.remove("guia-mapa");
   else entrarMapaPie();
   if (nombre === "camara") CamaraGrieta.abrir();
+  if (nombre === "camara" || antes === "camara") guia.previo && guia.pasosPie ? avanzarPie(guia.previo.lat, guia.previo.lon) : pintarVueltaPie();
   if (nombre === "practica") PracticaGrieta.entrar();
   if (nombre === "tutorial") TutorialGrieta.entrar();
   $("hoja").scrollTop = 0;
@@ -1452,7 +1453,13 @@ function pintarDetalle(sinMapa) {
   $("detalleCifra").textContent = `${Math.round(o.minutos)} min · ${precioOpcionTexto(o)}`;
   $("detalleLlegada").innerHTML = `Llegas <strong>${hora(llegada(o))}</strong>`;
   $("detalleCo2").hidden = !sinAuto(o);
-  if (sinAuto(o)) $("co2Auto").textContent = kgTexto(co2Auto(estado.r.directo.km));
+  if (sinAuto(o)) {
+    const g = co2Auto(estado.r.directo.km), aPie = o.tipo === "caminar";
+    $("co2Gracias").textContent = aPie ? "Caminando no se emiten" : "Gracias al camión no se emiten";
+    $("co2Auto").textContent = $("co2BarraAuto").textContent = kgTexto(g);
+    $("co2Arbol").textContent = `Lo que limpia un árbol joven en ${tiempoArbol(g)}.`;
+    $("co2Nosotros").textContent = aPie ? "Caminando" : "En camión";
+  }
   $("pasos").innerHTML = pasosDe(o).map((p, i) => `<li class="${p.camion ? "camion" : ""}">
     ${miniFicha(p.ficha[0], picto(p.ficha[1]))}
     <span class="fila-texto"><strong>${escapar(p.titulo)}</strong><small>${escapar(cruce(p.nota))}</small></span>
@@ -1862,11 +1869,21 @@ function sentidosDeLinea(linea) {
 function abrirLinea(linea, hacia, paradaActual) {
   const sentidos = sentidosDeLinea(linea);
   if (!sentidos.length) return;
+  // Sin conocer la ciudad, "Ida" es el sentido que pasa por tu parada (o el que elegiste) y "Regreso" el otro.
+  const pasaAqui = (x) => x.paradas.includes(paradaActual);
+  sentidos.sort((a, b) => (pasaAqui(b) - pasaAqui(a)) || ((b.hacia === hacia) - (a.hacia === hacia)));
   estado.linea = { linea, sentidos, parada: paradaActual };
   ir("linea");
   $("tituloPantalla").textContent = linea;
-  $("lineaSentidos").innerHTML = sentidos.map((x) => `<button type="button" aria-pressed="false" data-v="${escapar(x.hacia)}">${ico("ruta")}<span>Hacia ${escapar(x.hacia)}</span></button>`).join("");
+  $("lineaSentidos").innerHTML = sentidos.map((x, i) => `<button type="button" aria-pressed="false" data-v="${escapar(x.hacia)}">${ico("ruta")}<span class="sentido-texto"><strong>${["Ida", "Regreso"][i] ?? "Otro recorrido"}${pasaAqui(x) ? ` <em>Pasa por tu parada</em>` : ""}</strong><small translate="no">${rumboDeSentido(x)} · termina en ${escapar(x.hacia)}</small></span></button>`).join("");
   pintarSentido(sentidos.some((x) => x.hacia === hacia) ? hacia : sentidos[0].hacia);
+}
+// Hacia donde avanza el recorrido, de su primera a su ultima parada, en palabras.
+function rumboDeSentido(x) {
+  const [a, b] = [x.paradas[0], x.paradas.at(-1)].map((i) => Grieta.qrobus.paradas[i]);
+  const r = Math.PI / 180;
+  const grados = (Math.atan2(Math.sin((b[1] - a[1]) * r) * Math.cos(b[0] * r), Math.cos(a[0] * r) * Math.sin(b[0] * r) - Math.sin(a[0] * r) * Math.cos(b[0] * r) * Math.cos((b[1] - a[1]) * r)) / r + 360) % 360;
+  return `Rumbo al ${["norte", "noreste", "este", "sureste", "sur", "suroeste", "oeste", "noroeste"][Math.round(grados / 45) % 8]}`;
 }
 // La hoja tapa la parte de abajo del mapa: se encuadra solo en la franja que se ve.
 function encuadrarLinea() {
@@ -2392,7 +2409,9 @@ function salirMapaPie() {
 }
 function pintarVueltaPie(lat, lon, falta) {
   const tarjeta = $("vueltaPie");
-  if (!document.body.classList.contains("guia-mapa") || !guia.pasosPie) { tarjeta.hidden = true; return; }
+  const conCamara = document.body.dataset.pantalla === "camara" && guia.activa && guia.fase === "parada";
+  document.body.classList.toggle("camara-guia", conCamara && Boolean(guia.pasosPie));
+  if (!(document.body.classList.contains("guia-mapa") || conCamara) || !guia.pasosPie) { tarjeta.hidden = true; return; }
   const sig = guia.pasosPie[guia.pasoPie + 1] ?? guia.pasosPie.at(-1);
   const tipo = sig.s.maneuver.type, giro = sig.s.maneuver.modifier;
   const llegada = tipo === "arrive";
@@ -2414,6 +2433,7 @@ function pintarVueltaPie(lat, lon, falta) {
     chip.classList.toggle("justo", holgura < 2);
   } else if (c) { chip.querySelector("b").textContent = `${c.linea} · ${hora(c.sale)}`; chip.querySelector("span").textContent = ""; }
   tarjeta.hidden = false;
+  if (conCamara) document.body.style.setProperty("--alto-vuelta", `${tarjeta.offsetHeight}px`);
 }
 function moverMapaPie(lat, lon, rumbo) {
   if (!document.body.classList.contains("guia-mapa")) return;
@@ -3190,6 +3210,13 @@ $("vozCamara").addEventListener("click", abrirCamara);
 $("abrirCamara").addEventListener("click", abrirCamara);
 $("guiaCamara").addEventListener("click", abrirCamara);
 $("camaraVolverGuia").addEventListener("click", () => ir(guia.activa ? "guia" : "inicio"));
+// Asistencia a pie: la camara avisa escalones y hoyos mientras la tarjeta de la vuelta sigue arriba.
+$("guiaAsistencia").addEventListener("click", () => {
+  cancelarDictado();
+  ir("camara");
+  $("camaraEntorno").checked = true;
+  $("camaraIniciar").click();
+});
 
 ToquesGrieta.iniciar({
   activo: () => (document.body.dataset.pantalla === 'practica' || (acc.modoVoz && acc.toques)) && acc.lector !== 'si' && !(document.body.dataset.pantalla === 'bienvenida' && pasoActual === 'lector'),
