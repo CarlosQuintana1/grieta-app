@@ -369,7 +369,7 @@ $("pestanas").addEventListener("click", (e) => {
   ir(tab);
 });
 
-for (const [id, clave] of Object.entries({ tituloInicio: "a_donde_vas", empezar: "empezar", repetir: "repetir", vozRepetir: "repetir", terminar: "terminar", yaPaso: "ya_paso", vieneLleno: "viene_lleno" })) {
+for (const [id, clave] of Object.entries({ tituloInicio: "a_donde_vas", empezar: "empezar", vozRepetir: "repetir", terminar: "terminar", yaPaso: "ya_paso", vieneLleno: "viene_lleno" })) {
   const boton = $(id);
   boton.lastChild.textContent = textoFrase(frase(clave));
 }
@@ -2020,7 +2020,7 @@ function actualizarComparacionParadas(lista) {
   const empate = opciones.length > 1 && opciones[0].total === opciones[1].total;
   caja.innerHTML = `<h2 id="tituloComparacionParadas">¿Qué parada me conviene?</h2>
     <ul class="comparacion-lista">${opciones.map((opcion, i) => `<li><button type="button" class="comparacion-parada${i === 0 ? " recomendada" : ""}" data-comparar-parada="${opcion.indice}" aria-label="${i === 0 ? "Menor tiempo estimado. " : ""}${escapar(cruce(opcion.parada.nombre))}: caminar ${opcion.caminata} minutos, esperar ${opcion.espera} minutos, total ${opcion.total} minutos. Elegir esta parada.">
-      <span class="comparar-cabeza"><strong translate="no">${escapar(cruce(opcion.parada.nombre))}</strong>${i === 0 ? `<em class="etiqueta">· Conviene más</em>` : ""}</span>
+      <span class="comparar-cabeza"><strong translate="no">${escapar(cruce(opcion.parada.nombre))}</strong>${i === 0 ? `<em class="etiqueta">Conviene más</em>` : ""}</span>
       <span class="comparar-datos" aria-hidden="true"><span class="chip-dato">${ico("caminar")}${opcion.caminata} min</span><span class="chip-dato">${ico("reloj")}${opcion.espera} min</span>${lineasDeParada(opcion.parada)}</span>
       <b class="comparar-total">${opcion.total} min para abordar</b></button></li>`).join("")}</ul>
     ${faltantes.length ? `<p class="nota">Sin comparar: ${faltantes.map(escapar).join("; ")}.</p>` : ""}`;
@@ -2428,7 +2428,6 @@ function decir(titulo, detalle, etapa, alerta = false) {
   $("avisarChofer").hidden = !["camion", "bajate"].includes(clave);
   $("avisarChofer").classList.remove("oscuro");
   // Con un familiar guardado, avisarle ya comparte el viaje: no se muestran los dos.
-  $("compartir").hidden = clave !== "camina" || Boolean(familiar);
   ponerTitulo(titulo);
   $("guiaDetalle").textContent = cruce(textoFrase(detalle));
   // El color ya lo da la etapa; el aviso urgente se nota por el rojo de "Bájate".
@@ -2440,7 +2439,6 @@ function decir(titulo, detalle, etapa, alerta = false) {
 function pintarGuia() {
   const c = guia.camion;
   $("enParada").hidden = !c || guia.enApp || !["parada", "esperando"].includes(guia.fase);
-  pintarFamiliar();
   $("yaMeSubi").textContent = textoFrase(c ? frase("subi_linea", { linea: c.linea }) : frase("ya_me_subi"));
   // "Bajas en" y la barra de paradas solo cuando ya vas arriba del camion.
   const arriba = ["camion", "bajate"].includes(document.body.dataset.etapa);
@@ -2785,20 +2783,6 @@ function pintarResumenFamiliar() {
   const telefono = familiar.telefono.replace(/^52/, "").replace(/^(\d{3})(\d{3})(\d{4})$/, "$1 $2 $3");
   resumen.textContent = `${familiar.nombre}, ${telefono}`;
 }
-function pintarFamiliar() {
-  const b = $("avisarFamiliar");
-  b.hidden = !familiar || !guia.activa;
-  if (b.hidden) return;
-  b.querySelector("span").textContent = `Avisar a ${familiar.nombre} que ${guia.dichos.has("destino") ? "llegué" : "ya salí"}`;
-}
-$("avisarFamiliar").addEventListener("click", () => {
-  const destino = guia.destino?.nombre ?? estado.destino?.nombre ?? "mi destino";
-  const c = guia.camion;
-  const texto = guia.dichos.has("destino")
-    ? `Ya llegué a ${destino}.`
-    : `Ya voy en camino a ${destino}${c ? ` en la ${c.linea}` : ""}${c ? `. Llego como a las ${hora(guia.tramos?.at(-1)?.llega ?? c.llega)}` : ""}. Te aviso cuando llegue.`;
-  window.open(`https://wa.me/${familiar.telefono}?text=${encodeURIComponent(texto)}`, "_blank", "noopener");
-});
 function pintarFormaFamiliar() {
   $("familiarNombre").value = familiar?.nombre ?? "";
   $("familiarTel").value = familiar ? familiar.telefono.slice(2) : "";
@@ -2929,13 +2913,6 @@ function subir(desde = 0) {
 }
 $("yaMeSubi").addEventListener("click", () => subir(guia.actual));
 
-$("repetir").addEventListener("click", () => {
-  if (acc.voz) return hablar(ultimoMensaje || Interfaz.original($("guiaTitulo")));
-  // Sin la voz de Grieta, el aviso se vuelve a escribir para que el lector de pantalla lo lea otra vez.
-  const aviso = $("guiaTitulo").innerHTML;
-  $("guiaTitulo").innerHTML = "";
-  setTimeout(() => { $("guiaTitulo").innerHTML = aviso; }, 100);
-});
 // Terminar a medio camino apaga los avisos de bajar: se confirma con un segundo toque. Al llegar, no.
 function restaurarTerminar() {
   delete $("terminar").dataset.confirmar;
@@ -2955,25 +2932,20 @@ $("terminar").addEventListener("click", () => {
   terminarGuia();
   history.back();
 });
-// Desde inicio, sin viaje en curso, comparte solo dónde está la persona ahorita.
-function compartirViaje() {
-  const enviar = async (lat, lon) => {
-    const linea = guia.camion ? ` en la línea ${guia.camion.linea} hacia ${guia.camion.hacia}` : "";
-    const texto = guia.activa ? `Voy a ${estado.destino?.nombre ?? "mi destino"}${linea}. Mi ubicación ahorita:` : "Voy saliendo. Mi ubicación ahorita:";
-    const url = `https://www.google.com/maps?q=${lat},${lon}`;
-    try {
-      if (navigator.share) await navigator.share({ title: "Mi viaje", text: texto, url });
-      else { await navigator.clipboard.writeText(`${texto} ${url}`); hablar("Copié tu viaje para que lo pegues en un mensaje."); }
-    } catch {}
-  };
-  if (capas.aqui) {
-    const p = capas.aqui.getLatLng();
-    enviar(p.lat, p.lng);
-  } else {
-    navigator.geolocation?.getCurrentPosition(({ coords }) => enviar(coords.latitude, coords.longitude), () => hablar(frase("sin_ubicacion")));
-  }
+// Compartir en la guia: manda a donde vas, en que camion, a que hora llegas y donde estas. Con un familiar guardado
+// se abre WhatsApp con esa persona; si no, el menu de compartir del telefono.
+function compartirGuia() {
+  const destino = guia.destino?.nombre ?? estado.destino?.nombre ?? "mi destino";
+  const c = guia.camion, aqui = guia.previo ?? estado.gps;
+  const texto = guia.dichos?.has("destino")
+    ? `Ya llegué a ${destino}.`
+    : `Voy a ${destino}${c ? ` en la ${c.linea} hacia ${c.hacia}. Llego como a las ${hora(guia.tramos?.at(-1)?.llega ?? c.llega)}` : ""}.`;
+  const mensaje = aqui ? `${texto} Estoy aquí: https://www.google.com/maps?q=${aqui.lat.toFixed(5)},${aqui.lon.toFixed(5)}` : texto;
+  if (familiar) return void window.open(`https://wa.me/${familiar.telefono}?text=${encodeURIComponent(mensaje)}`, "_blank", "noopener");
+  if (navigator.share) return void navigator.share({ title: "Mi viaje", text: mensaje }).catch(() => {});
+  navigator.clipboard?.writeText(mensaje).then(() => hablar("Copié tu viaje para que lo pegues en un mensaje."), () => {});
 }
-$("compartir").addEventListener("click", compartirViaje);
+$("compartirGuia").addEventListener("click", compartirGuia);
 $("reportarInicio").addEventListener("click", () => abrirReporte());
 
 // "¿Cómo te fue?" al bajar: una respuesta por linea del viaje, sin ubicacion. Arma el mapa de estres del Observatorio.

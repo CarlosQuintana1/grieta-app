@@ -405,11 +405,11 @@ body.alerta :focus-visible { outline-color: #0b0a09; }
 .hora-camion strong { display: block; font-size: 1.1rem; font-weight: 700; }
 .hora-camion small { color: var(--tenue); font-size: 0.75rem; }
 .avisos { display: grid; gap: 10px; }
-.otras { margin-top: 22px; border-top: 1px solid var(--linea); }
+.otras { margin-top: 22px; }
 .parada-alternativa { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 10px 0; color: var(--tinta); text-align: left; border-bottom: 1px solid var(--linea); }
 .parada-alternativa strong { color: var(--ambar); font-weight: 650; }
 .parada-alternativa .tenue { flex: none; color: var(--tenue); font-size: 0.85rem; }
-.comparacion-paradas { margin-top: 24px; padding-top: 4px; border-top: 1px solid var(--linea); }
+.comparacion-paradas { margin-top: 24px; }
 .comparacion-lista { list-style: none; margin: 8px 0 0; padding: 0; }
 .comparacion-parada { display: grid; gap: 5px; width: 100%; min-height: 72px; padding: 12px 0; text-align: left; border-bottom: 1px solid var(--linea); }
 .comparacion-parada strong { font-weight: 650; }
@@ -1486,3 +1486,7 @@ html.grande .datos-detalle dd { font-size: 1.6rem; }
 .camara-ia-texto:empty { display: none; }
 .camara-en-uso .camara-pie .boton:not(.camara-enfrente) { min-height: 52px; padding: 6px 8px; font-size: .9rem; line-height: 1.15; }
 .camara-pie #camaraConversar .icono { width: 18px; height: 18px; flex: none; }
+/* Guia a pie: el panel mide lo que trae y el mapa se queda con el resto */
+body.guia-mapa #mapa { flex: 1 1 auto; min-height: 50%; }
+body.guia-mapa .hoja { flex: 0 0 auto; max-height: 50%; }
+body.guia-mapa #guia { min-height: 0; }
