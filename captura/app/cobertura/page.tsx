@@ -9,7 +9,7 @@ import { descargarTabla } from "@/lib/csv";
 import { esFinDeSemana, franjaDe, FRANJAS } from "@/lib/tiempo";
 import { sincronizar } from "@/lib/sync";
 import { MESES, PorDia } from "./por-dia";
-import { META_REGISTROS, NOMBRE_PLATAFORMA, PLATAFORMAS, type Momento } from "@/lib/tipos";
+import { NOMBRE_PLATAFORMA, PLATAFORMAS, type Momento } from "@/lib/tipos";
 
 export default function Cobertura() {
   const [momentos, setMomentos] = useState<Momento[] | null>(null);
@@ -80,17 +80,12 @@ export default function Cobertura() {
       <header className="mb-10">
         <div className="flex items-center justify-between text-[0.8rem] font-medium text-tenue">
           <span>Cobertura</span>
-          {momentos.length < META_REGISTROS ? (
-            <Link href="/" className="border border-ambar px-3.5 py-2 text-ambar transition-opacity active:opacity-70">
-              Capturar
-            </Link>
-          ) : (
-            <span className="border border-linea px-3.5 py-2">Meta cumplida</span>
-          )}
+          <Link href="/" className="border border-ambar px-3.5 py-2 text-ambar transition-opacity active:opacity-70">
+            Capturar
+          </Link>
         </div>
         <p className="mt-4 text-4xl font-light tabular-nums tracking-tight">
           {momentos.length}
-          <span className="text-2xl text-tenue"> / {META_REGISTROS}</span>
         </p>
         <p className="text-[0.78rem] text-tenue">
           registros del equipo

@@ -228,7 +228,7 @@ export default function Captura() {
       <header className="mb-10 flex items-center justify-between text-[0.8rem] font-medium text-tenue">
         <span>{capturador}</span>
         <Link href="/cobertura" className="border border-ambar px-3.5 py-2 text-ambar transition-opacity active:opacity-70">
-          {momentos.length} de {META_REGISTROS}
+          {momentos.length} registros
         </Link>
       </header>
 
