@@ -227,6 +227,9 @@ function actualizarVozEncabezado() {
 let ayudaToquesDicha = false;
 function mostrar(nombre) {
   if (dictadoActual) cancelarDictado();
+  // Lo que se estaba leyendo de otra pantalla se calla al salir de ella; la guia y su camara siguen hablando.
+  const antes = document.body.dataset.pantalla;
+  if (antes && antes !== nombre && !(guia.activa && ["guia", "camara"].includes(nombre))) detenerVoz();
   ToquesGrieta.reiniciar();
   const conf = PANTALLAS[nombre];
   if (nombre !== "camara") CamaraGrieta.cerrar();
@@ -304,7 +307,7 @@ function ir(nombre, reemplazar) {
 addEventListener("popstate", (e) => {
   const pantalla = e.state?.p ?? "inicio";
   mostrar(pantalla);
-  if (pantalla === "camiones" && (estado.gps ?? estado.origen)) cargarCamiones(estado.gps ?? estado.origen);
+  if (pantalla === "camiones" && (estado.gps ?? estado.origen)) cargarCamiones(estado.gps ?? estado.origen, false);
   if (pantalla === "ubicacion" && estado.gps) ponerYo();
 });
 $("atras").addEventListener("click", () => (history.state && history.length > 1 ? history.back() : ir("inicio", true)));
@@ -1754,7 +1757,7 @@ function abrirCamiones() {
 document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "visible" && document.body.dataset.pantalla === "camiones") abrirCamiones();
 });
-function cargarCamiones(punto) {
+function cargarCamiones(punto, anunciar = true) {
   const caja = $("camionesContenido");
   // Se sugieren solo paradas con camiones registrados; las oficiales sin horario se ven en el mapa.
   const lista = Grieta.paradasCercanas(punto.lat, punto.lon, 1000, 12).filter((p) => Grieta.tieneRecorridos(p.i)).slice(0, 3).map(p => ({ ...p, lineas: Grieta.horariosParadaPorIndice(p.i, hoyDia(), ahoraMin()) }));
@@ -1762,7 +1765,7 @@ function cargarCamiones(punto) {
     caja.innerHTML = `<p class="texto">No encontré paradas en el catálogo a menos de un kilómetro. Puede haber otras paradas que todavía no aparecen aquí.</p>`;
     return hablar("No encontré paradas en el catálogo a menos de un kilómetro. Puede haber otras paradas que todavía no aparecen aquí.");
   }
-  pintarCamiones(punto, lista, true);
+  pintarCamiones(punto, lista, anunciar);
   ordenarPorCaminata(punto, lista);
 }
 
@@ -1897,7 +1900,7 @@ async function ordenarPorCaminata(punto, lista) {
   }
   orden[0].dicho = true;
   pintarCamiones(punto, orden, false);
-  hablar(`Entre las paradas consultadas, hay menos caminata a ${orden[0].nombre}, a ${distanciaTexto(distancia(orden[0]))}.`);
+  if (document.body.dataset.pantalla === "camiones") hablar(`Entre las paradas consultadas, hay menos caminata a ${orden[0].nombre}, a ${distanciaTexto(distancia(orden[0]))}.`);
 }
 
 function pintarCamiones(punto, lista, primera, seleccionada = false) {
@@ -1933,7 +1936,7 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
   estado.listaCamiones = lista;
   pintarParadasEnVista();
   actualizarComparacionParadas(lista);
-  if (primera) hablar(`La parada más cercana es ${p.nombre}. ` +
+  if (primera && document.body.dataset.pantalla === "camiones") hablar(`La parada más cercana es ${p.nombre}. ` +
     p.lineas.slice(0, 4).map((l) => `Línea ${l.linea} hacia ${l.hacia}, a las ${hora(l.horas[0])} según el horario.`).join(" "));
   // Lo que avisó la gente en esta parada en la última media hora, junto a su línea
   avisosDeLaGente(p.lat, p.lon).then((avisos) => {
@@ -2352,8 +2355,10 @@ function entrarMapaPie() {
   ]).addTo(mapa);
   setTimeout(() => {
     mapa.invalidateSize();
-    const yo = guia.previo ? [guia.previo.lat, guia.previo.lon] : guia.trazoPie?.[0];
+    const gps = guia.previo ?? estado.gps;
+    const yo = gps ? [gps.lat, gps.lon] : guia.trazoPie?.[0];
     if (yo) mapa.setView(yo, 17, { animate: false });
+    if (gps) { moverMapaPie(gps.lat, gps.lon, guia.rumbo); avanzarPie(gps.lat, gps.lon); }
   }, 60);
   pintarVueltaPie();
 }
