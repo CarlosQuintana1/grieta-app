@@ -406,9 +406,8 @@
           <p id="tituloCo2" class="etiqueta">CO₂ de este viaje</p>
           <div class="co2-lados">
             <div class="co2-lado auto"><span class="mini-ficha tono-salud" aria-hidden="true"><svg class="picto"><use href="#p-app"/></svg></span><span>En auto</span><strong id="co2Auto"></strong></div>
-            <div class="co2-lado camion"><span class="mini-ficha tono-hospital" aria-hidden="true"><svg class="picto"><use href="#p-qrobus"/></svg></span><span>En camión</span><strong translate="no">0 kg</strong></div>
+            <div class="co2-lado camion"><span class="mini-ficha tono-hospital" aria-hidden="true"><svg class="picto"><use href="#p-qrobus"/></svg></span><span>En camión</span><strong>Ya pasa por ahí</strong></div>
           </div>
-          <p class="nota">El camión hace este recorrido aunque no te subas.</p>
         </div>
         <div class="acciones-fijas">
           <button id="empezar" type="button" class="boton"><svg class="icono"><use href="#i-play"/></svg>Empezar viaje con avisos</button>
@@ -496,7 +495,7 @@
       <div class="co2-hero ahorro-hero">
         <div class="co2-hero-texto">
           <p id="ahorroQuien" class="co2-quien"></p>
-          <p class="co2-cifra"><strong id="ahorroTotal"></strong><span>ahorrados este mes contra la app más barata</span></p>
+          <p class="co2-cifra"><strong id="ahorroTotal"></strong><span>ahorrados contra la app más barata</span></p>
         </div>
         <svg id="alcancia" class="alcancia" viewBox="0 0 24 24" role="img"></svg>
         <div class="co2-pie">
@@ -563,6 +562,11 @@
     <section id="camiones" class="pantalla" aria-labelledby="tituloPantalla" hidden>
       <p id="camionesUbicacion" class="nota" role="status"></p>
       <div id="camionesContenido"></div>
+    </section>
+
+    <section id="linea" class="pantalla" aria-labelledby="tituloPantalla" hidden>
+      <div id="lineaSentidos" class="sentidos-linea" role="group" aria-label="Sentido de la ruta"></div>
+      <ol id="lineaParadas" class="linea-paradas"></ol>
     </section>
 
     <section id="reporte" class="pantalla" aria-labelledby="tituloReporte" hidden>

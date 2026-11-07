@@ -200,6 +200,7 @@ const PANTALLAS = {
   opciones: { tab: "inicio", mapa: true, encabezado: true },
   detalle: { tab: "inicio", mapa: true, encabezado: true },
   camiones: { tab: "camiones", mapa: true, encabezado: true },
+  linea: { tab: "camiones", mapa: true, encabezado: true },
   ubicacion: { tab: "inicio", mapa: true, encabezado: true },
   camara: { tab: "inicio", encabezado: true },
   practica: { tab: "inicio", encabezado: true },
@@ -251,6 +252,7 @@ function mostrar(nombre) {
   } else estado.lineaAPie?.remove();
   if (nombre !== "elegirMapa") capas.punto?.remove();
   if (nombre !== "camiones") { capas.paradas?.remove(); capas.paradas = null; }
+  if (nombre !== "linea") { capas.rutaLinea?.remove(); capas.rutaLinea = null; }
   if (nombre !== "ubicacion") { capas.yo?.remove(); capas.yo = null; }
   if (nombre !== "camiones" && nombre !== "ubicacion") { capas.vista?.remove(); capas.vista = null; }
   if ($("dialogoLugar").open) $("dialogoLugar").close();
@@ -263,7 +265,7 @@ function mostrar(nombre) {
   document.body.classList.toggle("con-mapa", Boolean(conf.mapa));
   document.body.classList.remove("alerta");
   $("encabezado").hidden = !conf.encabezado;
-  if (conf.encabezado) $("tituloPantalla").textContent = titulos[nombre] ?? "";
+  if (conf.encabezado) $("tituloPantalla").textContent = nombre === "linea" ? estado.linea?.linea ?? "" : titulos[nombre] ?? "";
   $("pestanas").hidden = !conf.tab;
   for (const b of $("pestanas").children) {
     if (b.dataset.tab === conf.tab) b.setAttribute("aria-current", "page");
@@ -282,6 +284,7 @@ function mostrar(nombre) {
 function reencuadrar(nombre) {
   // Con el mapa oculto (modo para personas ciegas) no hay a donde moverlo: Leaflet calcularia posiciones invalidas.
   if (!$("mapa").offsetHeight) return;
+  if (nombre === "linea" && capas.rutaLinea) return encuadrarLinea();
   if (nombre === "camiones" && estado.listaCamiones?.[0] && estado.puntoCamiones) {
     const [p, a] = [estado.puntoCamiones, estado.listaCamiones[0]];
     return encuadrar(L.latLngBounds([[p.lat, p.lon], [a.lat, a.lon]]));
@@ -1614,7 +1617,7 @@ function recolorear() {
   if (typeof mapa === "undefined") return;
   const ambar = tono("--ambar");
   capas.linea?.setStyle?.({ color: ambar });
-  capas.camion?.eachLayer((c) => c.setStyle(c.options.tono === "linea" ? { color: ambar } : c.options.tono === "punto" ? { fillColor: ambar } : { color: tono("--tinta") }));
+  capas.camion?.eachLayer((c) => c.setStyle?.(c.options.tono === "linea" ? { color: ambar } : c.options.tono === "punto" ? { fillColor: ambar } : { color: tono("--tinta") }));
 }
 
 // Paradas en lo que se ve del mapa: se piden al mover o acercar, solo de cerca y con tope, para no cargar la ciudad entera.
@@ -1800,11 +1803,12 @@ function actualizarComparacionParadas(lista) {
     return;
   }
   const empate = opciones.length > 1 && opciones[0].total === opciones[1].total;
-  caja.innerHTML = `<p class="nota">${empate ? "Empate en tiempo estimado; se muestra primero la de menos caminata." : `Conviene más ${escapar(cruce(opciones[0].parada.nombre))}: menos tiempo estimado hasta abordar.`}</p>
+  caja.innerHTML = `<h2 id="tituloComparacionParadas">¿Qué parada me conviene?</h2>
     <ul class="comparacion-lista">${opciones.map((opcion, i) => `<li><button type="button" class="comparacion-parada${i === 0 ? " recomendada" : ""}" data-comparar-parada="${opcion.indice}" aria-label="${i === 0 ? "Menor tiempo estimado. " : ""}${escapar(cruce(opcion.parada.nombre))}: caminar ${opcion.caminata} minutos, esperar ${opcion.espera} minutos, total ${opcion.total} minutos. Elegir esta parada.">
-      <strong>${escapar(cruce(opcion.parada.nombre))}${i === 0 ? " · Conviene más" : ""}</strong><span>Caminar ${opcion.caminata} min · esperar ${opcion.espera} min</span><b>${opcion.total} min para abordar</b></button></li>`).join("")}</ul>
-    ${faltantes.length ? `<p class="nota">Sin comparar: ${faltantes.map(escapar).join("; ")}.</p>` : ""}
-    <p class="nota">Estimación con el horario oficial; no conocemos la ubicación en tiempo real de los camiones.</p>`;
+      <span class="comparar-cabeza"><strong translate="no">${escapar(cruce(opcion.parada.nombre))}</strong>${i === 0 ? `<em class="etiqueta">· Conviene más</em>` : ""}</span>
+      <span class="comparar-datos" aria-hidden="true"><span class="chip-dato">${ico("caminar")}${opcion.caminata} min</span><span class="chip-dato">${ico("reloj")}${opcion.espera} min</span>${lineasDeParada(opcion.parada)}</span>
+      <b class="comparar-total">${opcion.total} min para abordar</b></button></li>`).join("")}</ul>
+    ${faltantes.length ? `<p class="nota">Sin comparar: ${faltantes.map(escapar).join("; ")}.</p>` : ""}`;
   caja.querySelectorAll("[data-comparar-parada]").forEach((b) => b.addEventListener("click", () => {
     const opcion = opciones.find((x) => x.indice === Number(b.dataset.compararParada));
     if (opcion) elegirParada(estado.puntoCamiones, lista, opcion.indice);
@@ -1814,6 +1818,61 @@ function actualizarComparacionParadas(lista) {
     hablar(`La parada con menos tiempo estimado es ${opciones[0].parada.nombre}: caminar ${opciones[0].caminata} minutos y esperar ${opciones[0].espera}, ${opciones[0].total} minutos en total.`, true);
   }
 }
+
+// Las lineas de una parada con su sentido, para distinguir dos paradas del mismo nombre en lados opuestos.
+function lineasDeParada(parada) {
+  const lineas = Number.isSafeInteger(parada.i) ? Grieta.horariosParadaPorIndice(parada.i, hoyDia(), ahoraMin()) : [];
+  return lineas.slice(0, 2).map((l) => `<span class="chip-dato chip-linea"><b>${escapar(l.linea)}</b><span>Hacia ${escapar(l.hacia)}</span></span>`).join("");
+}
+
+// Mapa de una linea con sus paradas en cada sentido, como en la app de Qrobus.
+const COLOR_LINEA = "#2f8a5c";
+function sentidosDeLinea(linea) {
+  const porDestino = new Map();
+  for (const pat of Grieta.qrobus.patrones.filter((x) => x.linea === linea)) {
+    const previo = porDestino.get(pat.hacia);
+    if (!previo || pat.paradas.length > previo.paradas.length) porDestino.set(pat.hacia, pat);
+  }
+  return [...porDestino.values()];
+}
+function abrirLinea(linea, hacia, paradaActual) {
+  const sentidos = sentidosDeLinea(linea);
+  if (!sentidos.length) return;
+  estado.linea = { linea, sentidos, parada: paradaActual };
+  ir("linea");
+  $("tituloPantalla").textContent = linea;
+  $("lineaSentidos").innerHTML = sentidos.map((x) => `<button type="button" aria-pressed="false" data-v="${escapar(x.hacia)}">${ico("ruta")}<span>Hacia ${escapar(x.hacia)}</span></button>`).join("");
+  pintarSentido(sentidos.some((x) => x.hacia === hacia) ? hacia : sentidos[0].hacia);
+}
+// La hoja tapa la parte de abajo del mapa: se encuadra solo en la franja que se ve.
+function encuadrarLinea() {
+  if (!capas.rutaLinea || !$("mapa").offsetHeight) return;
+  const tapado = Math.max(0, $("mapa").getBoundingClientRect().bottom - $("hoja").getBoundingClientRect().top);
+  mapa.fitBounds(capas.rutaLinea.getBounds(), { paddingTopLeft: [24, 24], paddingBottomRight: [24, tapado + 24] });
+}
+function pintarSentido(hacia) {
+  const { linea, sentidos, parada } = estado.linea;
+  const pat = sentidos.find((x) => x.hacia === hacia);
+  for (const b of $("lineaSentidos").children) b.setAttribute("aria-pressed", String(b.dataset.v === hacia));
+  const puntos = pat.paradas.map((i) => Grieta.qrobus.paradas[i]);
+  capas.rutaLinea?.remove();
+  capas.rutaLinea = L.featureGroup([
+    L.polyline(puntos.map(([la, lo]) => [la, lo]), { color: COLOR_LINEA, weight: 5, opacity: 0.9 }),
+    ...puntos.map(([la, lo], k) => {
+      const aqui = pat.paradas[k] === parada, extremo = k === 0 || k === puntos.length - 1;
+      if (!aqui && !extremo) return L.circleMarker([la, lo], { radius: 4, color: COLOR_LINEA, weight: 2, fillColor: "#fff", fillOpacity: 1, interactive: false });
+      return L.marker([la, lo], { interactive: false, keyboard: false, zIndexOffset: aqui ? 600 : 300,
+        icon: L.divIcon({ className: "", iconSize: aqui ? [34, 34] : [26, 26], html: `<span class="parada-linea${aqui ? " aqui" : " extremo"}">${ico("camion")}</span>` }) });
+    }),
+  ]).addTo(mapa);
+  setTimeout(encuadrarLinea, 80);
+  $("lineaParadas").innerHTML = puntos.map(([, , nombre], k) => `<li class="${pat.paradas[k] === parada ? "aqui" : ""}"><span class="punto-linea" aria-hidden="true"></span><span translate="no">${escapar(cruce(nombre))}</span>${pat.paradas[k] === parada ? `<em class="etiqueta">Tu parada</em>` : ""}</li>`).join("");
+}
+$("lineaSentidos").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) pintarSentido(b.dataset.v); });
+$("camionesContenido").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-ver-linea]");
+  if (b) abrirLinea(b.dataset.verLinea, b.dataset.hacia, Number(b.dataset.indice));
+});
 
 // La mas cercana en linea recta puede estar del otro lado de una avenida: se comparan caminando y se reordena.
 async function ordenarPorCaminata(punto, lista) {
@@ -1842,11 +1901,11 @@ async function ordenarPorCaminata(punto, lista) {
 function pintarCamiones(punto, lista, primera, seleccionada = false) {
   const revision = revisionCamiones;
   const caja = $("camionesContenido");
-  const filas = (p) => !p.lineas.length ? `<p class="nota">${Grieta.tieneRecorridos(p.i) ? "No hay próximos horarios guardados para esta parada." : "Parada oficial de Qrobus sin horarios publicados. No sabemos qué camiones pasan aquí."}</p>` : `<ul class="filas">${p.lineas.slice(0, 6).map((l) => `<li data-linea="${escapar(l.linea)}"><div class="fila">
+  const filas = (p) => !p.lineas.length ? `<p class="nota">${Grieta.tieneRecorridos(p.i) ? "No hay próximos horarios guardados para esta parada." : "Parada oficial de Qrobus sin horarios publicados. No sabemos qué camiones pasan aquí."}</p>` : `<ul class="filas fichas-linea">${p.lineas.slice(0, 6).map((l) => `<li data-linea="${escapar(l.linea)}"><button type="button" class="ficha-linea" data-ver-linea="${escapar(l.linea)}" data-hacia="${escapar(l.hacia)}" data-indice="${p.i}">
       <span class="linea-caja">${escapar(l.linea)}</span>
-      <span class="fila-texto"><strong>Hacia ${escapar(l.hacia)}</strong>${l.horas[1] !== undefined ? `<small>También a las ${hora(l.horas[1])}</small>` : ""}</span>
-      <span class="hora-camion"><strong>${hora(l.horas[0])}</strong><small>${enCuanto(l.horas[0])}</small></span>
-    </div></li>`).join("")}</ul>`;
+      <span class="fila-texto"><strong>${ico("ruta")}<span>Hacia ${escapar(l.hacia)}</span></strong>${l.horas[1] !== undefined ? `<small>También a las ${hora(l.horas[1])}</small>` : ""}</span>
+      <span class="hora-camion"><strong>${hora(l.horas[0])}</strong><small>${enCuanto(l.horas[0])}</small></span>${ico("chevron", "chevron")}
+    </button></li>`).join("")}</ul>`;
   const p = lista[0];
   pintarParadas(punto, lista, seleccionada);
   caja.innerHTML = `
@@ -1858,9 +1917,8 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
     <button id="irParada" type="button" class="boton oscuro">${ico("ruta")}Ver cómo llegar a la parada</button>
     <h2>Próximos camiones</h2>
     ${filas(p)}
-    <h2>Avisos de la parada</h2>
-    <div id="avisosParada" class="avisos"><p class="nota">Buscando avisos...</p></div>
-    <p class="nota">Los reportes son de la comunidad y pueden haber cambiado.</p>
+    <h2 class="cabeza-avisos"><span>Avisos de la parada</span><span id="contadorAvisos" class="contador-avisos">${ico("alerta")}<b>…</b></span></h2>
+    <div id="avisosParada" class="avisos"></div>
     <button id="reportarParada" type="button" class="boton oscuro">Reportar algo en esta parada</button>
     <section class="comparacion-paradas" id="comparacionParadas" aria-labelledby="tituloComparacionParadas"><h2 id="tituloComparacionParadas">¿Qué parada me conviene?</h2><p class="nota">Calculando caminos a pie y horarios...</p></section>
     ${lista.length > 1 ? `<section class="otras" aria-labelledby="tituloOtrasParadas"><h2 id="tituloOtrasParadas">Otras paradas cerca</h2>
@@ -1911,7 +1969,14 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
           <span class="fila-texto"><strong>${NOMBRES_REPORTE[a.tipo] ?? "Aviso"}</strong>${a.descripcion ? `<small translate="no">${escapar(a.descripcion)}</small>` : ""}
           ${a.tipo === "referencia" ? "" : `${a.sigue ? `<small>${a.sigue === 1 ? "Lo confirmó 1 persona" : `Lo confirmaron ${a.sigue} personas`}</small>` : ""}
           <span class="verificar" data-reporte="${a.id}"><button type="button" class="boton-chico" data-sigue="1">Sigue así</button><button type="button" class="boton-chico" data-sigue="0">Ya lo arreglaron</button></span>`}</span></div>`).join("")
-      : `<p class="nota">Todavía no hay avisos de esta parada.</p>`;
+      : "";
+    if (avisos.length) caja.insertAdjacentHTML("beforeend", `<p class="nota">Los reportes son de la comunidad y pueden haber cambiado.</p>`);
+    const contador = $("contadorAvisos");
+    if (contador) {
+      contador.lastElementChild.textContent = String(Math.min(avisos.length, 4));
+      contador.classList.toggle("con-avisos", avisos.length > 0);
+      contador.setAttribute("aria-label", plural(Math.min(avisos.length, 4), "aviso", "avisos"));
+    }
     if (avisos.length) leerReferencias(p);
   });
 }

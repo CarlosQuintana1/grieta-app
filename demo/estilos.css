@@ -210,7 +210,7 @@ html.contraste .lugar-icono, html.contraste .mini-ficha { background-image: none
 .co2-lado.auto { background: color-mix(in srgb, var(--cuidado) 14%, transparent); }
 .co2-lado.auto strong { color: var(--cuidado); }
 .co2-lado.camion { background: color-mix(in srgb, var(--verde) 14%, transparent); }
-.co2-lado.camion strong { color: var(--verde); }
+.co2-lado.camion strong { color: var(--verde); font-size: 1.15rem; line-height: 1.15; }
 .co2-comparar .nota { margin: 10px 0 0; }
 .circulo { flex: none; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--superficie); border: 1px solid var(--linea); color: var(--ambar); }
 .circulo .icono { width: 20px; height: 20px; }
@@ -1349,3 +1349,43 @@ body:not(.camara-en-uso) :is(#camaraSueloEstado, #camaraHoyosEstado) { display: 
 .camara-en-uso .camara-pie { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .camara-en-uso .camara-pie .boton { margin: 0; }
 .camara-en-uso .camara-panel:not(:has(.boton:not([hidden]):not(:disabled))) { padding: 0; }
+/* Camiones cerca: cada linea es una ficha que abre su mapa; avisos con contador; paradas comparadas en fichas */
+.fichas-linea { display: grid; gap: 8px; }
+.fichas-linea li { border: 0; padding: 0; }
+.ficha-linea { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px; text-align: left; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
+.ficha-linea .fila-texto strong { display: flex; align-items: center; gap: 6px; }
+.ficha-linea .fila-texto strong .icono { width: 16px; height: 16px; flex: none; color: var(--tenue); }
+.ficha-linea .chevron { flex: none; color: var(--tenue); }
+.cabeza-avisos { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.contador-avisos { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: var(--superficie); border: 1px solid var(--linea); color: var(--tenue); font-size: .9rem; letter-spacing: 0; }
+.contador-avisos .icono { width: 16px; height: 16px; }
+.contador-avisos.con-avisos { background: color-mix(in srgb, var(--cuidado) 16%, transparent); border-color: var(--cuidado); color: var(--cuidado); }
+.comparacion-lista { display: grid; gap: 10px; padding: 0; list-style: none; }
+.comparacion-parada { display: grid; gap: 8px; width: 100%; padding: 14px; text-align: left; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
+.comparacion-parada.recomendada { border: 2px solid var(--ambar); }
+.comparar-cabeza { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
+.comparar-cabeza em { font-style: normal; }
+.comparar-datos { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip-dato { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; background: var(--superficie-2); font-size: .85rem; font-weight: 600; }
+.chip-dato .icono { width: 15px; height: 15px; color: var(--ambar); }
+.chip-linea b { padding: 0 6px; border-radius: 6px; background: #424d88; color: #fff; }
+.comparar-total { color: var(--ambar); font-size: 1.05rem; }
+.sentidos-linea { display: grid; gap: 8px; margin-bottom: 14px; }
+.sentidos-linea button { display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 10px 14px; border-radius: var(--radio); border: 2px solid var(--linea); background: var(--superficie); font-weight: 700; text-align: left; }
+.sentidos-linea button[aria-pressed="true"] { border-color: #2f8a5c; background: color-mix(in srgb, #2f8a5c 18%, var(--superficie)); }
+.sentidos-linea .icono { width: 18px; height: 18px; flex: none; }
+.parada-linea { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 6px; background: #fff; color: #424d88; border: 2px solid #424d88; box-shadow: 0 1px 3px rgb(0 0 0 / .4); }
+.parada-linea .icono { width: 13px; height: 13px; }
+.parada-linea.extremo { background: #2f8a5c; color: #fff; border-color: #fff; }
+.parada-linea.aqui { width: 34px; height: 34px; background: var(--ambar); color: var(--sobre-ambar); border-color: #fff; }
+.parada-linea.aqui .icono { width: 20px; height: 20px; }
+.linea-paradas { margin: 0; padding: 0; list-style: none; }
+.linea-paradas li { position: relative; display: flex; align-items: center; gap: 12px; min-height: 44px; padding-left: 4px; }
+.linea-paradas li::before { content: ""; position: absolute; left: 10px; top: 0; bottom: 0; width: 3px; background: #2f8a5c; }
+.linea-paradas li:first-child::before { top: 50%; } .linea-paradas li:last-child::before { bottom: 50%; }
+.punto-linea { position: relative; z-index: 1; width: 16px; height: 16px; flex: none; border-radius: 50%; background: var(--fondo); border: 3px solid #2f8a5c; }
+.linea-paradas li.aqui { font-weight: 800; }
+.linea-paradas li.aqui .punto-linea { width: 20px; height: 20px; margin-left: -2px; background: var(--ambar); border-color: var(--ambar); }
+/* En el mapa de una linea el recorrido es lo principal: el mapa toma mas de la mitad. */
+body[data-pantalla="linea"] #mapa { min-height: 55%; }
+body[data-pantalla="linea"] .hoja { max-height: 45%; }
