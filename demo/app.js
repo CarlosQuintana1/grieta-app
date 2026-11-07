@@ -837,6 +837,24 @@ async function caminoAPie(a, b) {
   }
   return caminos.get(clave);
 }
+// El GTFS de Qrobus no trae trazos (shapes.txt vacio): el camion se dibuja por calles de parada en parada.
+const trazosCamion = new Map();
+function callesCamion(paradas) {
+  const clave = paradas.map(([la, lo]) => `${la.toFixed(5)},${lo.toFixed(5)}`).join(";");
+  if (!trazosCamion.has(clave)) {
+    const tramos = [];
+    for (let i = 0; i < paradas.length - 1; i += 24) tramos.push(paradas.slice(i, i + 25));
+    trazosCamion.set(clave, Promise.all(tramos.map((t) => fetch(`https://routing.openstreetmap.de/routed-car/route/v1/driving/${t.map(([la, lo]) => `${lo},${la}`).join(";")}?overview=full&geometries=geojson&continue_straight=true`, { signal: AbortSignal.timeout(8000) })
+      .then((r) => r.json()).then(({ routes: [r] }) => r.geometry.coordinates.map(([lo, la]) => [la, lo]))))
+      .then((partes) => partes.flat())
+      .catch(() => { trazosCamion.delete(clave); return null; }));
+  }
+  return trazosCamion.get(clave);
+}
+async function porCallesCamion(linea) {
+  const puntos = await callesCamion(linea.getLatLngs().map((p) => [p.lat, p.lng]));
+  if (puntos && linea._map) linea.setLatLngs(puntos);
+}
 async function seguirCalles(linea) {
   const pts = linea.getLatLngs().map((p) => [p.lat, p.lng]);
   const c = await caminoAPie(pts[0], pts.at(-1));
@@ -1599,7 +1617,7 @@ function dibujar(o) {
   const camiones = o.trazo.camiones;
   const lineas = o.pasos.filter((p) => p.tipo === "camion").map((p) => p.linea);
   const capasCamion = camiones.flatMap((c, k) => [
-    L.polyline(c, { color: ambar, weight: 5, tono: "linea" }),
+    L.polyline(c, { color: ambar, weight: 5, tono: "linea", camion: true }),
     ...(k > 0 ? [L.polyline([camiones[k - 1].at(-1), c[0]], estilo("caminando"))] : []),
     // Un punto chico por cada parada del camino, para ver cuantas faltan.
     ...c.slice(1, -1).map((x) => L.circleMarker(x, { radius: 2.5, color: ambar, weight: 1, fillColor: tono("--fondo"), fillOpacity: 1, tono: "linea" })),
@@ -1613,7 +1631,7 @@ function dibujar(o) {
   const salida = L.polyline(o.trazo.salida.puntos, estilo(o.trazo.salida.modo));
   capas.camion = L.featureGroup([acceso, ...capasCamion, salida]).addTo(mapa);
   // Todo tramo a pie (punteado), incluido el de un transbordo, sigue las calles.
-  capas.camion.eachLayer((l) => { if (l.options.dashArray) seguirCalles(l); });
+  capas.camion.eachLayer((l) => { if (l.options.dashArray) seguirCalles(l); else if (l.options.camion) porCallesCamion(l); });
   animarTrazo(capas.camion);
   setTimeout(() => encuadrar(capas.camion.getBounds()), 120);
 }
@@ -1862,8 +1880,9 @@ function pintarSentido(hacia) {
   for (const b of $("lineaSentidos").children) b.setAttribute("aria-pressed", String(b.dataset.v === hacia));
   const puntos = pat.paradas.map((i) => Grieta.qrobus.paradas[i]);
   capas.rutaLinea?.remove();
+  const trazoLinea = L.polyline(puntos.map(([la, lo]) => [la, lo]), { color: COLOR_LINEA, weight: 5, opacity: 0.9 });
   capas.rutaLinea = L.featureGroup([
-    L.polyline(puntos.map(([la, lo]) => [la, lo]), { color: COLOR_LINEA, weight: 5, opacity: 0.9 }),
+    trazoLinea,
     ...puntos.map(([la, lo], k) => {
       const aqui = pat.paradas[k] === parada, extremo = k === 0 || k === puntos.length - 1;
       if (!aqui && !extremo) return L.circleMarker([la, lo], { radius: 4, color: COLOR_LINEA, weight: 2, fillColor: "#fff", fillOpacity: 1, interactive: false });
@@ -1872,6 +1891,7 @@ function pintarSentido(hacia) {
     }),
   ]).addTo(mapa);
   setTimeout(encuadrarLinea, 80);
+  porCallesCamion(trazoLinea);
   $("lineaParadas").innerHTML = puntos.map(([, , nombre], k) => `<li class="${pat.paradas[k] === parada ? "aqui" : ""}"><span class="punto-linea" aria-hidden="true"></span><span translate="no">${escapar(cruce(nombre))}</span>${pat.paradas[k] === parada ? `<em class="etiqueta">Tu parada</em>` : ""}</li>`).join("");
 }
 $("lineaSentidos").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) pintarSentido(b.dataset.v); });
