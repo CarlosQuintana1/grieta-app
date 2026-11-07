@@ -838,17 +838,77 @@ async function caminoAPie(a, b) {
   }
   return caminos.get(clave);
 }
-// El GTFS de Qrobus no trae trazos (shapes.txt vacio): el camion se dibuja por calles de parada en parada.
+// El GTFS de Qrobus no trae trazos (shapes.txt vacio): se usan los de OpenStreetMap validados contra sus paradas
+// (scripts/trazos_osm.py) y, donde no hay, se rutea por calles de parada en parada.
 const trazosCamion = new Map();
+let trazosOficiales = null;
+const claveParada = ([la, lo]) => `${la.toFixed(5)},${lo.toFixed(5)}`;
+function cargarTrazos() {
+  trazosOficiales ??= fetch("datos/trazos.json").then((r) => r.json()).then(({ trazos }) => {
+    const enParada = new Map();
+    Grieta.qrobus.patrones.forEach((pat, i) => { if (trazos[i]) pat.paradas.forEach((s, pos) => {
+      const k = claveParada(Grieta.qrobus.paradas[s]);
+      enParada.set(k, [...(enParada.get(k) ?? []), [i, pos]]);
+    }); });
+    return { trazos, enParada, puntos: new Map() };
+  }).catch(() => { trazosOficiales = null; return null; });
+  return trazosOficiales;
+}
+function decodificar(texto) {
+  const pts = [];
+  let i = 0, la = 0, lo = 0;
+  while (i < texto.length) {
+    for (const eje of [0, 1]) {
+      let r = 0, des = 0, b;
+      do { b = texto.charCodeAt(i++) - 63; r |= (b & 31) << des; des += 5; } while (b >= 32);
+      const d = r & 1 ? ~(r >> 1) : r >> 1;
+      if (eje) lo += d; else la += d;
+    }
+    pts.push([la / 1e5, lo / 1e5]);
+  }
+  return pts;
+}
+// Para cada tramo entre dos paradas seguidas: el trazo de OSM si las dos estan sobre el, o null.
+async function tramosOficiales(paradas) {
+  const t = await cargarTrazos();
+  if (!t) return paradas.slice(1).map(() => null);
+  const claves = paradas.map(claveParada);
+  const patron = (t.enParada.get(claves[0]) ?? []).find(([i, pos]) => claves.every((k, n) => claveParada(Grieta.qrobus.paradas[Grieta.qrobus.patrones[i].paradas[pos + n]] ?? [0, 0]) === k));
+  if (!patron) return paradas.slice(1).map(() => null);
+  const [i, pos] = patron, tr = t.trazos[i];
+  if (!t.puntos.has(i)) t.puntos.set(i, decodificar(tr.p));
+  const pts = t.puntos.get(i);
+  return paradas.slice(1).map((b, n) => {
+    const [ca, cb] = [tr.c[pos + n], tr.c[pos + n + 1]];
+    if (ca == null || cb == null || cb < ca) return null;
+    const tramo = pts.slice(ca, cb + 1);
+    let largo = 0;
+    for (let k = 1; k < tramo.length; k++) largo += Grieta.metros(...tramo[k - 1], ...tramo[k]);
+    // Un rodeo de mas del triple es otra version de la ruta en OSM: mejor rutear ese tramo.
+    return largo > 3 * Grieta.metros(...paradas[n], ...b) + 500 ? null : tramo;
+  });
+}
+function rutearCamion(paradas) {
+  const tramos = [];
+  for (let i = 0; i < paradas.length - 1; i += 24) tramos.push(paradas.slice(i, i + 25));
+  return Promise.all(tramos.map((t) => fetch(`https://routing.openstreetmap.de/routed-car/route/v1/driving/${t.map(([la, lo]) => `${lo},${la}`).join(";")}?overview=full&geometries=geojson&continue_straight=true`, { signal: AbortSignal.timeout(8000) })
+    .then((r) => r.json()).then(({ routes: [r] }) => r.geometry.coordinates.map(([lo, la]) => [la, lo]))))
+    .then((partes) => partes.flat());
+}
 function callesCamion(paradas) {
-  const clave = paradas.map(([la, lo]) => `${la.toFixed(5)},${lo.toFixed(5)}`).join(";");
+  const clave = paradas.map(claveParada).join(";");
   if (!trazosCamion.has(clave)) {
-    const tramos = [];
-    for (let i = 0; i < paradas.length - 1; i += 24) tramos.push(paradas.slice(i, i + 25));
-    trazosCamion.set(clave, Promise.all(tramos.map((t) => fetch(`https://routing.openstreetmap.de/routed-car/route/v1/driving/${t.map(([la, lo]) => `${lo},${la}`).join(";")}?overview=full&geometries=geojson&continue_straight=true`, { signal: AbortSignal.timeout(8000) })
-      .then((r) => r.json()).then(({ routes: [r] }) => r.geometry.coordinates.map(([lo, la]) => [la, lo]))))
-      .then((partes) => partes.flat())
-      .catch(() => { trazosCamion.delete(clave); return null; }));
+    trazosCamion.set(clave, tramosOficiales(paradas).then(async (oficiales) => {
+      const salida = [];
+      for (let n = 0; n < oficiales.length;) {
+        if (oficiales[n]) { salida.push(...oficiales[n]); n++; continue; }
+        let fin = n;
+        while (fin < oficiales.length && !oficiales[fin]) fin++;
+        salida.push(...await rutearCamion(paradas.slice(n, fin + 1)));
+        n = fin;
+      }
+      return salida;
+    }).catch(() => { trazosCamion.delete(clave); return null; }));
   }
   return trazosCamion.get(clave);
 }
