@@ -778,8 +778,8 @@ html.facil .buscador .dictar { display: none !important; }
    oscura detras para que la hora y la bateria se lean */
 body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; height: env(safe-area-inset-top, 0px); background: var(--fondo); z-index: 1000; pointer-events: none; }
 html.claro body::before { background: #0b0a09; }
-/* App instalada en iPhone: con la barra translucida el alto de la vista no llega abajo; se usa el de la pantalla */
-@media (display-mode: standalone) { body { bottom: auto; height: calc(100vh + env(safe-area-inset-top, 0px)); } }
+/* App instalada en iPhone: 100vh mide la pantalla completa pero lo visible termina una barra de estado antes */
+@media (display-mode: standalone) { body { bottom: auto; height: calc(100vh - env(safe-area-inset-top, 0px)); } }
 
 /* Mini ficha: la ficha de boleto en chico, con su pictograma, para filas, listas, pasos y opciones */
 .mini-ficha { flex: none; width: 44px; height: 44px; display: grid; place-items: center; color: #fff; background: var(--tono, #3c4647);
