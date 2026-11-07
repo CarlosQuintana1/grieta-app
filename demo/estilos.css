@@ -579,7 +579,7 @@ html.modo-voz #compararPrecio { display: none; }
 .fila-tema .segmentado button { font-size: 0.8rem; }
 
 /* Guia: acciones por importancia */
-.guia-acciones .compartir { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; }
+.guia-acciones .compartir { display: flex; align-items: center; justify-content: center; gap: 10px; }
 
 /* Guardar con otro nombre */
 .otro-nombre .etiqueta-campo { margin-top: 12px; }
@@ -1414,3 +1414,5 @@ body.guia-mapa #guia .guia-titulo { font-size: 1.35rem; }
 .yo-flecha { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #fff; box-shadow: 0 2px 8px rgb(0 0 0 / .5); transition: transform .4s; }
 .yo-flecha svg { width: 24px; height: 24px; fill: #2457d6; }
 body.guia-mapa :is(#pasosPie, #enParada) { display: none !important; }
+.guia-avisos { margin-bottom: 12px; }
+#guia .guia-acciones .boton { display: flex; align-items: center; justify-content: center; gap: 10px; }

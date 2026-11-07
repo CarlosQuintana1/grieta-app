@@ -2199,7 +2199,8 @@ function decir(titulo, detalle, etapa, alerta = false) {
   // En la parada el boton principal es "¿Es mi parada?"; arriba del camion, "Avisar al chofer".
   $("avisarChofer").hidden = !["camion", "bajate"].includes(clave);
   $("avisarChofer").classList.remove("oscuro");
-  $("compartir").hidden = clave !== "camina";
+  // Con un familiar guardado, avisarle ya comparte el viaje: no se muestran los dos.
+  $("compartir").hidden = clave !== "camina" || Boolean(familiar);
   ponerTitulo(titulo);
   $("guiaDetalle").textContent = cruce(textoFrase(detalle));
   // El color ya lo da la etapa; el aviso urgente se nota por el rojo de "Bájate".
