@@ -480,7 +480,8 @@ function vibrar(patron) {
     if (typeof navigator.vibrate === "function") navigator.vibrate(patron);
     else golpeHaptico(patron);
   }
-  if (!acc.voz && acc.lector !== "si") return;
+  // El tono solo acompana avisos importantes (pulsos largos); los toques cortos no pitan.
+  if ((!acc.voz && acc.lector !== "si") || !patron.some((ms, i) => i % 2 === 0 && ms >= 300)) return;
   try {
     audio ??= new (window.AudioContext || window.webkitAudioContext)();
     let t = audio.currentTime;
@@ -1908,7 +1909,7 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
   const caja = $("camionesContenido");
   const filas = (p) => !p.lineas.length ? `<p class="nota">${Grieta.tieneRecorridos(p.i) ? "No hay próximos horarios guardados para esta parada." : "Parada oficial de Qrobus sin horarios publicados. No sabemos qué camiones pasan aquí."}</p>` : `<ul class="filas fichas-linea">${p.lineas.slice(0, 6).map((l) => `<li data-linea="${escapar(l.linea)}"><button type="button" class="ficha-linea" data-ver-linea="${escapar(l.linea)}" data-hacia="${escapar(l.hacia)}" data-indice="${p.i}">
       <span class="linea-caja">${escapar(l.linea)}</span>
-      <span class="fila-texto"><strong>${ico("ruta")}<span>Hacia ${escapar(l.hacia)}</span></strong>${l.horas[1] !== undefined ? `<small>También a las ${hora(l.horas[1])}</small>` : ""}</span>
+      <span class="fila-texto"><small class="hacia-rotulo">Hacia</small><strong translate="no">${escapar(l.hacia)}</strong>${l.horas[1] !== undefined ? `<small>También a las ${hora(l.horas[1])}</small>` : ""}</span>
       <span class="hora-camion"><strong>${hora(l.horas[0])}</strong><small>${enCuanto(l.horas[0])}</small></span>${ico("chevron", "chevron")}
     </button></li>`).join("")}</ul>`;
   const p = lista[0];

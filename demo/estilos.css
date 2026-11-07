@@ -1416,3 +1416,18 @@ body.guia-mapa #guia .guia-titulo { font-size: 1.35rem; }
 body.guia-mapa :is(#pasosPie, #enParada) { display: none !important; }
 .guia-avisos { margin-bottom: 12px; }
 #guia .guia-acciones .boton { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.ficha-linea { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 12px; padding: 12px 10px 12px 12px; }
+.ficha-linea .linea-caja { min-width: 52px; padding: 8px 6px; font-size: 1rem; text-align: center; }
+.ficha-linea .fila-texto strong { display: block; font-size: 1rem; line-height: 1.25; }
+.ficha-linea .hacia-rotulo { margin: 0 0 1px; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.ficha-linea .hora-camion { text-align: right; }
+.ficha-linea .hora-camion strong { display: block; font-size: 1.1rem; white-space: nowrap; }
+.ficha-linea .hora-camion small { color: var(--verde); font-weight: 700; }
+/* Guia a pie: el mapa manda; abajo solo lo indispensable y mas compacto */
+body.guia-mapa #mapa { flex: 0 0 64%; }
+body.guia-mapa #guia .guia-avisos { margin: 0 0 8px; }
+body.guia-mapa #guia .guia-avisos button { min-height: 34px; padding: 4px 12px; font-size: .8rem; }
+body.guia-mapa #guia .guia-titulo { margin-bottom: 10px; font-size: 1.1rem; }
+body.guia-mapa #guia .boton { min-height: 48px; margin-top: 8px; padding: 8px 12px; font-size: .95rem; }
+body.guia-mapa #guia .guia-acciones { margin-top: 0; }
+body.guia-mapa .hoja { padding-top: 16px; }
