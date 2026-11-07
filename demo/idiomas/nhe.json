@@ -6889,11 +6889,6 @@
       "nhe": "Nopa tlaxtlauili uelis ax mopatlas ipan nopa seyok hora"
     },
     {
-      "clave": "texto_a03923b7f0",
-      "es": "Más opciones",
-      "nhe": "Más tlamantli"
-    },
-    {
       "clave": "texto_8f47456b64",
       "es": "No, son estimados. Los calcula nuestro modelo predictivo a partir de nuestros registros de cotizaciones reales. Si la app te marca otro, compáralo en \"¿La app ya te dio precio?\".",
       "nhe": "Axtle, elij tlatamachiualistli. Injuantij kiixtomayayaj ika to modelo predictivo tlen mosentlalijtok ipan to registros tlen tlajtoli tlen melauak. Tlaj nopa app mitsmakas seyok tlaxtlauili, xikixnexti ika \"¿Ya mitsmakatok se tlaxtlauili nopa app?\""
@@ -6912,6 +6907,11 @@
       "clave": "texto_5f695597b7",
       "es": "Leer los pasos en voz alta",
       "nhe": "Xijpoua nopa tlamachtili ika chikaualistli"
+    },
+    {
+      "clave": "texto_86aa1ed6c2",
+      "es": "Más información",
+      "nhe": "Más tlajtoli"
     }
   ],
   "adaptaciones": [

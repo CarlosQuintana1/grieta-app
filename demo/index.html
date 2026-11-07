@@ -212,9 +212,9 @@
 
     <section id="inicio" class="pantalla" aria-labelledby="tituloInicio">
       <div id="inicioVoz" class="inicio-voz" hidden>
-        <h1 class="titulo-grande" tabindex="-1">¿Qué necesitas?</h1>
-        <p id="ayudaToques" class="nota" hidden>Toca una vez para escuchar. Toca dos veces seguidas el mismo control para activarlo.</p>
-        <button id="practicarInicio" type="button" class="enlace">Practicar los toques</button>
+        <div class="ajustes-cabecera"><h1 class="titulo-grande" tabindex="-1">¿Qué necesitas?</h1><img class="logo-ajustes" src="icono-192.png" alt="" width="64" height="64"></div>
+        <p id="ayudaToques" class="oculto" hidden>Toca una vez para escuchar. Toca dos veces seguidas el mismo control para activarlo.</p>
+        <button id="practicarInicio" type="button" class="boton-voz oscuro"><svg class="icono" aria-hidden="true"><use href="#i-boton"/></svg>Practicar los toques</button>
         <button id="vozDestino" type="button" class="boton-voz"><svg class="picto"><use href="#p-decir"/></svg>Decir a dónde voy</button>
         <button id="vozCamara" type="button" class="boton-voz oscuro"><svg class="icono" aria-hidden="true"><use href="#i-camara"/></svg>Describir con la cámara</button>
         <button id="vozRutina" type="button" class="boton-voz" hidden><svg class="icono"><use href="#i-reloj"/></svg><span></span></button>
@@ -224,7 +224,7 @@
         <button id="vozDonde" type="button" class="boton-voz"><svg class="picto"><use href="#p-donde"/></svg>¿Dónde estoy?</button>
         <button id="vozRepetir" type="button" class="boton-voz oscuro"><svg class="icono"><use href="#i-repetir"/></svg>Repetir</button>
         <button id="salirVoz" type="button" class="boton-voz borde">Usar la pantalla normal</button>
-        <div id="respuestaVoz" class="respuesta" aria-live="polite"></div>
+        <div id="respuestaVoz" class="oculto" aria-live="polite"></div>
       </div>
       <div id="inicioNormal">
       <div class="inicio-cabeza">
@@ -518,7 +518,6 @@
       </div>
       <div id="bonoVeredicto" class="bono-veredicto" role="status"></div>
       <ul id="bonoOpciones" class="bono-opciones"></ul>
-      <p class="nota">Bonos ilimitados en las rutas de Qrobus. Precios publicados en 2026: viaje $11, semanal $111, quincenal $231, mensual $451; con Tarifa Unidos, viaje $2 y mensual $86. Confírmalos en la app Qrobus antes de recargar. No cuenta transbordos.</p>
     </section>
 
     <section id="co2" class="pantalla" aria-labelledby="tituloPantalla" hidden>
@@ -719,13 +718,12 @@
     </section>
 
     <section id="practica" class="pantalla" aria-labelledby="tituloPantalla" hidden>
-      <p id="practicaAyuda" class="nota"></p>
-      <p id="practicaEstado" role="status" aria-live="polite" aria-atomic="true"></p>
+      <p id="practicaAyuda" class="nota practica-ayuda"></p>
+      <p id="practicaEstado" class="practica-estado" role="status" aria-live="polite" aria-atomic="true"></p>
       <button id="practicaBoton" type="button" class="boton">Botón de práctica</button>
-      <p class="nota">Puedes practicar las veces que quieras. Este botón no abre la cámara, no pide permisos y no envía nada.</p>
       <button id="practicaTerminar" type="button" class="boton oscuro" hidden>Terminar práctica</button>
       <button id="practicaRepetir" type="button" class="boton oscuro">Volver a practicar</button>
-      <button id="practicaSalir" type="button" class="enlace">Salir de la práctica</button>
+      <button id="practicaSalir" type="button" class="boton salir"><svg class="icono" aria-hidden="true"><use href="#i-equis"/></svg>Salir de la práctica</button>
     </section>
 
     <section id="camara" class="pantalla camara" aria-labelledby="tituloPantalla" hidden>
@@ -767,16 +765,15 @@
         </div>
         <label class="interruptor camara-avisos"><span class="mini-ficha tono-salud" aria-hidden="true"><svg class="picto"><use href="#p-app"/></svg></span><span><strong>Avisos experimentales de vehículos</strong><small>Puede fallar, no detecta cruces.</small></span><input id="camaraAvisos" type="checkbox" role="switch"></label>
       </div>
+      <div class="camara-modelo" hidden>
+        <input id="camaraDetalle" name="camaraModelo" type="radio" value="detalle" checked>
+        <input id="camaraLigero" name="camaraModelo" type="radio" value="ligero">
+      </div>
       <details class="camara-config camara-mas">
-        <summary>Más opciones</summary>
-        <fieldset class="camara-modelo"><legend>Detalle de imagen</legend>
-          <label><input id="camaraDetalle" name="camaraModelo" type="radio" value="detalle" checked>Más detalle</label>
-          <label><input id="camaraLigero" name="camaraModelo" type="radio" value="ligero">Más ligero</label>
-        </fieldset>
-
-        <p id="camaraVibracion" class="nota"></p>
-        <button id="camaraProbar" type="button" class="enlace" hidden>Probar vibración</button>
+        <summary class="boton oscuro"><svg class="icono" aria-hidden="true"><use href="#i-lista"/></svg>Más información</summary>
         <p class="nota camara-privacidad">Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app.</p>
+        <p id="camaraVibracion" class="nota"></p>
+        <button id="camaraProbar" type="button" class="boton oscuro" hidden><svg class="icono" aria-hidden="true"><use href="#i-vibrar"/></svg>Probar vibración</button>
       </details>
       <div class="camara-pie">
         <button id="camaraDetener" type="button" class="boton" hidden>Detener cámara</button>

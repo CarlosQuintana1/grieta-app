@@ -779,7 +779,7 @@ html.facil .buscador .dictar { display: none !important; }
 body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; height: env(safe-area-inset-top, 0px); background: var(--fondo); z-index: 1000; pointer-events: none; }
 html.claro body::before { background: #0b0a09; }
 /* App instalada en iPhone: con la barra translucida el alto de la vista no llega abajo; se usa el de la pantalla */
-@media (display-mode: standalone) { body { bottom: auto; height: 100vh; } }
+@media (display-mode: standalone) { body { bottom: auto; height: calc(100vh + env(safe-area-inset-top, 0px)); } }
 
 /* Mini ficha: la ficha de boleto en chico, con su pictograma, para filas, listas, pasos y opciones */
 .mini-ficha { flex: none; width: 44px; height: 44px; display: grid; place-items: center; color: #fff; background: var(--tono, #3c4647);
@@ -974,7 +974,7 @@ body.camara-en-uso:not(.con-mapa) #hoja { padding: 0; overflow: hidden; border-r
 .camara-en-uso .camara:has(video[hidden]) .camara-panel { max-height: none; }
 .camara-pie { display: none; }
 .camara-en-uso .camara-pie {
-  display: block; grid-row: 3; border-top: 1px solid var(--linea);
+  display: block; grid-row: 3;
   padding: 8px 16px max(8px, var(--zona-abajo));
 }
 body[data-pantalla="camara"] #vozEncabezado[aria-pressed="true"] { color: var(--ambar); }
@@ -1082,7 +1082,7 @@ button.impacto-todos { width: 100%; text-align: left; }
 .bosque .copa.oscura { fill: color-mix(in srgb, var(--verde) 72%, var(--fondo)); }
 .bosque .tronco { fill: #8a5a3c; }
 .bosque .brote-tierra { fill: color-mix(in srgb, #8a5a3c 55%, var(--superficie)); }
-.bosque .brote-tallo { fill: none; stroke: color-mix(in srgb, var(--verde) 80%, #1d3b2a); stroke-width: 1.8; stroke-linecap: round; }
+.bosque .brote-tallo { fill: none; stroke: color-mix(in srgb, var(--verde) 80%, #1d3b2a); stroke-width: 2; stroke-linecap: round; }
 .bosque .brote-hoja { fill: color-mix(in srgb, var(--verde) 78%, #1d3b2a); }
 .bosque .brote-hoja.clara { fill: var(--verde); }
 .bosque .sobra { fill: var(--verde); font-weight: 800; font-size: 20px; }
@@ -1298,8 +1298,10 @@ body:not(.camara-en-uso) :is(#camaraSueloEstado, #camaraHoyosEstado) { display: 
 .camara-avisos > span:nth-child(2) { flex: 1; }
 .camara-avisos .mini-ficha { width: 44px; height: 44px; flex: none; }
 .camara-avisos .mini-ficha .picto { width: 24px; height: 24px; }
-.camara-mas { margin: 18px 0 8px; }
-.camara-mas summary { display: flex; align-items: center; min-height: var(--toque); font-weight: 700; color: var(--tenue); cursor: pointer; }
+.camara-mas { margin: 14px 0 8px; }
+.camara-mas summary { display: flex; align-items: center; justify-content: center; gap: 10px; list-style: none; cursor: pointer; }
+.camara-mas summary::-webkit-details-marker { display: none; }
+.camara-mas .boton { width: 100%; }
 
 .camara-privacidad { text-align: justify; hyphens: auto; }
 .ajustes-cabecera { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
@@ -1323,3 +1325,7 @@ body:not(.camara-en-uso) :is(#camaraSueloEstado, #camaraHoyosEstado) { display: 
 .camara-en-uso :is(.camara-enfoque, #camaraRutaPanel, .camara-avisos, #camaraRepetir) { display: none !important; }
 .camara-en-uso .camara-panel { max-height: none; overflow: visible; padding: 8px 16px 0; }
 .camara-en-uso .camara-panel .boton { margin: 0 0 8px; }
+.practica-ayuda { margin-bottom: 14px; text-align: justify; hyphens: auto; }
+.practica-estado:not(:empty) { padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); font-weight: 700; }
+.boton.salir { background: var(--cuidado); border-color: var(--cuidado); color: #fff; }
+#practica .boton { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-top: 10px; }

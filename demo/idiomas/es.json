@@ -12077,13 +12077,6 @@
       ]
     },
     {
-      "clave": "texto_a03923b7f0",
-      "es": "Más opciones",
-      "contextos": [
-        "demo/index.html · #camara"
-      ]
-    },
-    {
       "clave": "texto_8f47456b64",
       "es": "No, son estimados. Los calcula nuestro modelo predictivo a partir de nuestros registros de cotizaciones reales. Si la app te marca otro, compáralo en \"¿La app ya te dio precio?\".",
       "contextos": [
@@ -12109,6 +12102,13 @@
       "es": "Leer los pasos en voz alta",
       "contextos": [
         "demo/index.html · #opciones"
+      ]
+    },
+    {
+      "clave": "texto_86aa1ed6c2",
+      "es": "Más información",
+      "contextos": [
+        "demo/index.html · #camara"
       ]
     }
   ]

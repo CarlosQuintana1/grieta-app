@@ -219,6 +219,7 @@ function actualizarVozEncabezado() {
   if (enCamara) boton.setAttribute("aria-pressed", String(camaraConVoz && !boton.disabled));
   else boton.removeAttribute("aria-pressed");
 }
+let ayudaToquesDicha = false;
 function mostrar(nombre) {
   if (dictadoActual) cancelarDictado();
   ToquesGrieta.reiniciar();
@@ -229,6 +230,8 @@ function mostrar(nombre) {
   // El aviso de "Guardaste..." vive solo mientras sigues en el inicio.
   if (nombre !== "inicio" && nuevoGuardado && document.body.dataset.pantalla === "inicio") { nuevoGuardado = null; pintarGuardados(); }
   if (nombre === "inicio") {
+    // En modo Voz la forma de usar los toques se dice en voz alta una vez, no se muestra.
+    if (acc.modoVoz && !$("ayudaToques").hidden && !ayudaToquesDicha) { ayudaToquesDicha = true; setTimeout(() => hablar($("ayudaToques").textContent, true), 600); }
     estado.guardando = null;
     limpiarRuta();
     pintarViajes();
@@ -2696,9 +2699,10 @@ function arbol(x, y, t, pino) {
   if (pino) return `${tronco}<path class="copa oscura" d="M${x} ${y - t * 1.1}L${x + t * 0.34} ${y - t * 0.32}H${x - t * 0.34}Z"/>`;
   return `${tronco}<circle class="copa" cx="${x}" cy="${y - t * 0.7}" r="${t * 0.3}"/><circle class="copa" cx="${x - t * 0.2}" cy="${y - t * 0.5}" r="${t * 0.22}"/><circle class="copa" cx="${x + t * 0.2}" cy="${y - t * 0.5}" r="${t * 0.22}"/>`;
 }
-const brote = (x, y) => `<g class="brote"><ellipse class="brote-tierra" cx="${x}" cy="${y + 0.5}" rx="7" ry="2"/><path class="brote-tallo" d="M${x} ${y}V${y - 10}"/>
-  <path class="brote-hoja" d="M${x} ${y - 6}C${x - 1} ${y - 11} ${x - 7} ${y - 12} ${x - 10} ${y - 9}C${x - 7} ${y - 5} ${x - 2} ${y - 5} ${x} ${y - 6}Z"/>
-  <path class="brote-hoja clara" d="M${x} ${y - 9}C${x + 1} ${y - 14} ${x + 7} ${y - 15} ${x + 10} ${y - 12}C${x + 7} ${y - 8} ${x + 2} ${y - 8} ${x} ${y - 9}Z"/></g>`;
+// Brote de dos hojas iguales que salen del mismo punto, como plantula recien nacida.
+const brote = (x, y) => `<g class="brote" transform="translate(${x} ${y}) scale(1.35)"><ellipse class="brote-tierra" cx="0" cy="0.6" rx="6.5" ry="2"/><path class="brote-tallo" d="M0 0V-8"/>
+  <path class="brote-hoja" d="M0 -8C-1.5 -14.5 -8.5 -15.5 -10.5 -11C-8 -7.5 -3 -6.5 0 -8Z"/>
+  <path class="brote-hoja clara" d="M0 -8C1.5 -14.5 8.5 -15.5 10.5 -11C8 -7.5 3 -6.5 0 -8Z"/></g>`;
 function pintarBosque(g) {
   const dias = g / ARBOL_G_DIA, porAnio = dias > 360, llenos = dias / (porAnio ? 365 : 30.4);
   const plantas = LUGARES_BOSQUE.map(([x, y, pino], i) => {
