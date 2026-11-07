@@ -199,15 +199,19 @@ html.contraste .lugar-icono, html.contraste .mini-ficha { background-image: none
 .fila-texto { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .fila-texto strong { display: block; font-weight: 600; }
 .fila-texto small { display: block; color: var(--tenue); font-size: 0.82rem; margin-top: 2px; }
-.co2-barras { margin-top: 16px; padding: 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
-.co2-barras .etiqueta { margin: 0 0 10px; }
-.co2-fila { display: grid; grid-template-columns: 5.5em 1fr auto; align-items: center; gap: 10px; min-height: 36px; }
-.co2-fila .barra { height: 12px; border-radius: 6px; background: var(--linea); overflow: hidden; }
-.co2-fila .barra i { display: block; height: 100%; width: 100%; background: var(--cuidado); border-radius: 6px; }
-.co2-fila.camion .barra i { width: 3%; background: var(--ambar); }
-.co2-fila strong { font-weight: 700; font-size: 0.95rem; }
-.co2-barras .nota { margin: 10px 0 0; }
-html.grande .co2-fila { grid-template-columns: 1fr; gap: 4px; }
+.co2-comparar { margin-top: 16px; padding: 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
+.co2-comparar .etiqueta { margin: 0 0 10px; }
+.co2-lados { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.co2-lado { display: grid; justify-items: start; gap: 6px; padding: 12px; border-radius: 14px; }
+.co2-lado .mini-ficha { width: 36px; height: 36px; }
+.co2-lado .mini-ficha .picto { width: 20px; height: 20px; }
+.co2-lado span:not(.mini-ficha) { color: var(--tenue); font-size: .9rem; font-weight: 600; }
+.co2-lado strong { font-size: 1.6rem; font-weight: 800; line-height: 1; }
+.co2-lado.auto { background: color-mix(in srgb, var(--cuidado) 14%, transparent); }
+.co2-lado.auto strong { color: var(--cuidado); }
+.co2-lado.camion { background: color-mix(in srgb, var(--verde) 14%, transparent); }
+.co2-lado.camion strong { color: var(--verde); }
+.co2-comparar .nota { margin: 10px 0 0; }
 .circulo { flex: none; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--superficie); border: 1px solid var(--linea); color: var(--ambar); }
 .circulo .icono { width: 20px; height: 20px; }
 .circulo.tenue { color: var(--tenue); }
