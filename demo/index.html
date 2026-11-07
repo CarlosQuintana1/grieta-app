@@ -410,7 +410,7 @@
         </div>
         <div class="acciones-fijas">
           <button id="empezar" type="button" class="boton"><svg class="icono"><use href="#i-play"/></svg>Empezar viaje con avisos</button>
-          <button id="escuchar" type="button" class="enlace"><svg class="icono"><use href="#i-altavoz"/></svg>Escuchar los pasos</button>
+          <button id="escuchar" type="button" class="enlace"><svg class="icono"><use href="#i-altavoz"/></svg>Leer los pasos en voz alta</button>
         </div>
       </div>
 
@@ -455,7 +455,8 @@
       <video id="guiaSenas" class="guia-senas" muted loop playsinline aria-label="La misma indicación en Lengua de Señas Mexicana" hidden></video>
       <p id="guiaBaja" class="guia-baja" hidden></p>
       <div id="barraParadas" class="barra-paradas" role="progressbar" aria-valuemin="0" hidden></div>
-      <p id="guiaDetalle" class="guia-detalle" aria-live="polite"></p>
+      <p id="guiaDetalle" class="guia-detalle oculto" aria-live="polite"></p>
+      <ul id="guiaDetalleVisual" class="guia-renglones" aria-hidden="true" translate="no"></ul>
       <div id="comoTeFue" class="como-fue" hidden>
         <p id="tituloComoFue" class="como-fue-pregunta">¿Cómo te fue en este viaje?</p>
         <div class="rutas-queja" role="group" aria-labelledby="tituloComoFue">
@@ -483,11 +484,6 @@
         <button id="avisarFamiliar" type="button" class="boton oscuro" hidden><svg class="picto"><use href="#p-familiar"/></svg><span></span></button>
         <button id="compartir" type="button" class="enlace compartir"><svg class="icono"><use href="#i-compartir"/></svg>Compartir mi viaje</button>
       </div>
-      <nav class="guia-fija" aria-label="Acciones del viaje">
-        <button id="repetir" type="button"><svg class="icono" aria-hidden="true"><use href="#i-repetir"/></svg><span>Repetir</span></button>
-        <button id="dondeGuia" type="button"><svg class="icono" aria-hidden="true"><use href="#i-localizar"/></svg><span>¿Dónde estoy?</span></button>
-        <button id="terminar" type="button" aria-live="polite"><svg class="icono" aria-hidden="true"><use href="#i-equis"/></svg><span>Terminar viaje</span></button>
-      </nav>
     </section>
 
 
@@ -899,6 +895,11 @@
   <p id="descripcionToque" class="oculto" aria-live="polite" aria-atomic="true"></p>
   <p id="anuncio" class="oculto" aria-live="assertive"></p>
 
+  <nav class="guia-fija" aria-label="Acciones del viaje">
+    <button id="repetir" type="button"><svg class="icono" aria-hidden="true"><use href="#i-repetir"/></svg><span>Repetir</span></button>
+    <button id="dondeGuia" type="button"><svg class="icono" aria-hidden="true"><use href="#i-localizar"/></svg><span>¿Dónde estoy?</span></button>
+    <button id="terminar" type="button" aria-live="polite"><svg class="icono" aria-hidden="true"><use href="#i-equis"/></svg><span>Terminar viaje</span></button>
+  </nav>
   <nav id="pestanas" class="pestanas" aria-label="Secciones">
     <button type="button" data-tab="inicio"><svg class="picto picto-lucide"><use href="#p-house"/></svg><span class="pestana-texto">Inicio</span></button>
     <button type="button" data-tab="camiones"><svg class="picto"><use href="#p-camiones"/></svg><span class="pestana-texto">Camiones cerca</span></button>

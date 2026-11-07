@@ -76,7 +76,7 @@ const FRASES = {
   siguiente_parada: "Bájate en la siguiente parada",
   bajate: "Bájate aquí",
   transbordo: "Bájate aquí y cambia de camión",
-  despues_transbordo: "Después cambias de camión; te aviso.",
+  despues_transbordo: "Después cambias de camión.",
   ya_casi_llegas: "Ya casi llegas",
   llegaste: "Llegaste",
   acceso: "Cuidado con la accesibilidad. {problemas}.",
@@ -3452,7 +3452,9 @@ function abrirReporte(paradaFijada = null) {
   $("reporteEstado").textContent = "";
   $("reporteEstado").className = "nota";
   $("reporteDonde").textContent = "Buscando dónde estás...";
-  ordenarReporte(false);
+  // En la calle o en una parada van primero sus problemas; las quejas del servicio, si vas arriba del camion.
+  let enCamion = guia.activa && guia.fase === "camion";
+  ordenarReporte(!enCamion);
   ir("reporte");
   const fijar = async (lat, lon) => {
     Object.assign(reporte, { lat, lon });
@@ -3462,7 +3464,7 @@ function abrirReporte(paradaFijada = null) {
     // Cerca de una parada, el reporte queda en la parada para que lo encuentre quien la consulte.
     if (p) {
       Object.assign(reporte, { lat: p.lat, lon: p.lon });
-      if (!reporte.tipo) ordenarReporte(true);
+      if (!reporte.tipo && !enCamion) ordenarReporte(true);
       $("reporteDonde").textContent = `En la parada ${cruce(p.nombre)}`;
       return;
     }
@@ -3481,7 +3483,10 @@ function abrirReporte(paradaFijada = null) {
     return;
   }
   navigator.geolocation?.getCurrentPosition(
-    ({ coords }) => fijar(coords.latitude, coords.longitude),
+    ({ coords }) => {
+      if (coords.speed > 4 && !reporte.tipo) { enCamion = true; ordenarReporte(false); }
+      fijar(coords.latitude, coords.longitude);
+    },
     () => (estado.origen ? fijar(estado.origen.lat, estado.origen.lon) : ($("reporteDonde").textContent = "Activa la ubicación para reportar")),
     { enableHighAccuracy: true, timeout: 10000 },
   );
@@ -4081,3 +4086,22 @@ $("instalarNo").addEventListener("click", () => {
   pintarInstalar();
 });
 pintarInstalar();
+
+// El detalle del viaje se lee completo por voz; en pantalla va en renglones con icono, la ruta en etiqueta y la hora resaltada.
+const ICONOS_RENGLON = [[/baj/i, "pin"], [/cambi|transbord/i, "repetir"], [/aviso|avis/i, "altavoz"], [/camina|cuadra|metros|\bm\b/i, "caminar"], [/l[ií]nea|cami[oó]n|toma/i, "camion"], [/hora|\d:\d\d/i, "reloj"]];
+function pintarRenglonesGuia() {
+  const lista = $("guiaDetalleVisual"), texto = $("guiaDetalle").textContent.trim();
+  lista.replaceChildren(...texto.split(/(?<=[.;])\s+/).filter(Boolean).map((frase) => {
+    const li = document.createElement("li"), icono = ICONOS_RENGLON.find(([r]) => r.test(frase))?.[1] ?? "ruta";
+    li.innerHTML = `<svg class="icono" aria-hidden="true"><use href="#i-${icono}"/></svg><span></span>`;
+    const cuerpo = li.lastElementChild;
+    for (const parte of frase.split(/(\b[A-Z]{1,2}\d{1,3}[A-Z]?\b|\d{1,2}:\d{2}\s?(?:a\.?\s?m\.?|p\.?\s?m\.?)?)/)) {
+      if (!parte) continue;
+      if (/^[A-Z]{1,2}\d/.test(parte)) cuerpo.append(Object.assign(document.createElement("b"), { className: "renglon-ruta", textContent: parte }));
+      else if (/^\d{1,2}:\d{2}/.test(parte)) cuerpo.append(Object.assign(document.createElement("b"), { className: "renglon-hora", textContent: parte }));
+      else cuerpo.append(parte);
+    }
+    return li;
+  }));
+}
+new MutationObserver(pintarRenglonesGuia).observe($("guiaDetalle"), { childList: true, characterData: true, subtree: true });

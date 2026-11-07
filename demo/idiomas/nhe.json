@@ -679,11 +679,6 @@
       "nhe": "Ximokuepa"
     },
     {
-      "clave": "texto_63607cf8ae",
-      "es": "Después cambias de camión; te aviso.",
-      "nhe": "Teipa tijpatlas camiones; Nimitzilhuis."
-    },
-    {
       "clave": "texto_22bbb31970",
       "es": "Después camina unos {v1} minutos a tu destino.",
       "nhe": "Teipa xinejnemi se {v1} minutos hasta kampa tias."
@@ -1052,11 +1047,6 @@
       "clave": "texto_84d6f3db6e",
       "es": "Escribes desde dónde sales",
       "nhe": "Ti ijkuilos kanke ti kisas"
-    },
-    {
-      "clave": "texto_60e4a53f8b",
-      "es": "Escuchar los pasos",
-      "nhe": "Xijtlakaki nopa tlajtoli"
     },
     {
       "clave": "texto_2406e0053c",
@@ -6912,6 +6902,16 @@
       "clave": "texto_896a2d4cdf",
       "es": "Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app.",
       "nhe": "Tlaixkopinkayomej tlen moixtoma ipan mocelular. Ax kinmakixtiaj yon ax kintitlanij. Nopa cámara tlami kemaj tijkaua o tijtlaati nopa aplicación."
+    },
+    {
+      "clave": "texto_c562c42986",
+      "es": "Después cambias de camión.",
+      "nhe": "Teipa tijpatlas camiones."
+    },
+    {
+      "clave": "texto_5f695597b7",
+      "es": "Leer los pasos en voz alta",
+      "nhe": "Xijpoua nopa tlamachtili ika chikaualistli"
     }
   ],
   "adaptaciones": [

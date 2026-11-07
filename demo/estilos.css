@@ -896,7 +896,9 @@ html.modo-voz #bienvenida .opcion-vista strong { font-size: 1.4rem; }
 #inicioNormal .lugar-icono { max-width: 72px; }
 #inicioNormal .lugar-icono .picto { width: 48%; height: 48%; }
 #inicioNormal .lugar-nombre { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: .82rem; font-weight: 700; line-height: 1.25; overflow-wrap: break-word; }
-#inicioNormal .lugar.nuevo .lugar-icono { box-sizing: border-box; background: none; color: var(--ambar); clip-path: none; border-radius: 18px; border: 2px dashed var(--tenue); }
+#inicioNormal .lugar.nuevo .lugar-icono { position: relative; box-sizing: border-box; background: none; color: var(--ambar); clip-path: none; border-radius: 18px; }
+/* Marco punteado dibujado: los guiones quedan parejos en las cuatro esquinas, a diferencia de border: dashed */
+#inicioNormal .lugar.nuevo .lugar-icono::before { content: ""; position: absolute; inset: 0; background: var(--tenue); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 72'%3E%3Crect x='1' y='1' width='70' height='70' rx='18' fill='none' stroke='%23000' stroke-width='2' pathLength='96' stroke-dasharray='4 2' stroke-dashoffset='1'/%3E%3C/svg%3E") center / 100% 100% no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 72'%3E%3Crect x='1' y='1' width='70' height='70' rx='18' fill='none' stroke='%23000' stroke-width='2' pathLength='96' stroke-dasharray='4 2' stroke-dashoffset='1'/%3E%3C/svg%3E") center / 100% 100% no-repeat; }
 #inicioNormal .lugar.nuevo .lugar-nombre { color: var(--tenue); }
 html.contraste #inicioNormal .lugar.nuevo .lugar-icono { box-shadow: none; }
 #guardados button[data-i], #vozLugares button, #vozCasa {
@@ -1223,7 +1225,7 @@ body[data-pantalla="guia"][data-etapa="bajate"] { --g-c: #a3312f; --g-t: #ffffff
 body[data-pantalla="guia"][data-etapa="llegaste"] { --g-c: #67375f; --g-t: #ffffff; }
 html:has(body[data-pantalla="guia"]), body[data-pantalla="guia"], body[data-pantalla="guia"] main { background: var(--g-c); transition: background-color .4s; }
 #guia { --tinta: var(--g-t); --tenue: var(--g-t); --linea: var(--g-t); --superficie: transparent; --ambar: var(--g-t); --sobre-ambar: var(--g-c);
-  color: var(--g-t); padding-bottom: 110px; }
+  color: var(--g-t); }
 #guia :focus-visible { outline-color: var(--g-t); }
 .guia-arriba { display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 34px; }
 .guia-paso { margin: 0; font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
@@ -1247,11 +1249,14 @@ html:has(body[data-pantalla="guia"]), body[data-pantalla="guia"], body[data-pant
 #guia .guia-avisa { margin-top: 18px; }
 #guia .dos-botones .boton { min-height: 48px; font-size: .95rem; }
 #guia .compartir { color: var(--g-t); }
-.guia-fija { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
-  padding: 10px 12px calc(12px + env(safe-area-inset-bottom)); background: var(--g-c); border-top: 2px solid color-mix(in srgb, var(--g-t) 25%, transparent); transition: background-color .4s; }
+.guia-fija { flex: none; display: none; grid-template-columns: repeat(3, 1fr); gap: 4px;
+  padding: 8px 12px max(8px, var(--zona-abajo)); background: var(--g-c); transition: background-color .4s; }
+body[data-pantalla="guia"] .guia-fija { display: grid; }
+body[data-pantalla="guia"] #pestanas { display: none; }
+@media (min-width: 760px) { .guia-fija { grid-column: 1; grid-row: 3; } }
 .guia-fija button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 56px; border-radius: 14px; color: var(--g-t); font-size: .8rem; font-weight: 800; text-align: center; }
 .guia-fija .icono { width: 26px; height: 26px; }
-#guia #terminar[data-confirmar] { background: var(--g-t); color: var(--g-c); }
+.guia-fija #terminar[data-confirmar] { background: var(--g-t); color: var(--g-c); }
 html.claro .comparar-precio { background: color-mix(in srgb, #35447c 10%, var(--superficie)); border-color: color-mix(in srgb, #35447c 45%, transparent); }
 html.claro .comparar-precio .chevron { color: #35447c; }
 
@@ -1309,3 +1314,12 @@ body:not(.camara-en-uso) :is(#camaraSueloEstado, #camaraHoyosEstado) { display: 
 .logo-encabezado { justify-self: center; width: 40px; height: 40px; border-radius: 10px; }
 /* Con la camara activa solo quedan botones: los mensajes se anuncian por voz y lector, sin ocupar pantalla. */
 .camara-panel > p { position: absolute; width: 1px; height: 1px; margin: 0; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.guia-renglones { display: grid; gap: 10px; margin: 16px 0 18px; padding: 0; list-style: none; }
+.guia-renglones li { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border-radius: 14px; background: color-mix(in srgb, var(--g-t) 12%, transparent); font-size: 1.02rem; line-height: 1.4; }
+.guia-renglones .icono { flex: none; width: 22px; height: 22px; margin-top: 1px; }
+.renglon-ruta { display: inline-block; padding: 0 8px; border-radius: 8px; background: var(--g-t); color: var(--g-c); font-weight: 800; }
+.renglon-hora { font-weight: 800; white-space: nowrap; }
+/* Camara encendida: video a toda la pantalla y solo los botones de accion; lo que se escucha ya se eligio antes. */
+.camara-en-uso :is(.camara-enfoque, #camaraRutaPanel, .camara-avisos, #camaraRepetir) { display: none !important; }
+.camara-en-uso .camara-panel { max-height: none; overflow: visible; padding: 8px 16px 0; }
+.camara-en-uso .camara-panel .boton { margin: 0 0 8px; }

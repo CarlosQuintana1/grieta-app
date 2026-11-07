@@ -678,11 +678,6 @@
       "otq": "Pengi"
     },
     {
-      "clave": "texto_63607cf8ae",
-      "es": "Después cambias de camión; te aviso.",
-      "otq": "Gem'bu̲ gí mpa̲ti bo̲jä ma 'me̲t'o; Ga ga deja."
-    },
-    {
       "clave": "texto_22bbb31970",
       "es": "Después camina unos {v1} minutos a tu destino.",
       "otq": "Tso̲kwa continuación, mpe̲ka̲ 'ra {v1} t'olo ora ár 'mu̲i."
@@ -1051,11 +1046,6 @@
       "clave": "texto_84d6f3db6e",
       "es": "Escribes desde dónde sales",
       "otq": "Gi 'yot'i ndezu̲ ho gi pogi"
-    },
-    {
-      "clave": "texto_60e4a53f8b",
-      "es": "Escuchar los pasos",
-      "otq": "'Mu̲ise̲ ya pasos"
     },
     {
       "clave": "texto_2406e0053c",
@@ -4281,6 +4271,11 @@
       "clave": "texto_b238d9ebeb",
       "es": "Probablemente el precio no cambie en la próxima hora",
       "otq": "Ar precio probablemente hingi cambiará ja ar ora Xtí"
+    },
+    {
+      "clave": "texto_c562c42986",
+      "es": "Después cambias de camión.",
+      "otq": "Gem'bu̲ gí mpa̲ti bo̲jä ma 'me̲t'o."
     }
   ],
   "adaptaciones": [

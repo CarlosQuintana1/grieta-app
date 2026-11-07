@@ -1173,13 +1173,6 @@
       ]
     },
     {
-      "clave": "texto_63607cf8ae",
-      "es": "Después cambias de camión; te aviso.",
-      "contextos": [
-        "demo/app.js:79 · inicio"
-      ]
-    },
-    {
       "clave": "texto_22bbb31970",
       "es": "Después camina unos {v1} minutos a tu destino.",
       "contextos": [
@@ -1828,13 +1821,6 @@
       "es": "Escribes desde dónde sales",
       "contextos": [
         "demo/index.html · pantallas · #sinUbicacion"
-      ]
-    },
-    {
-      "clave": "texto_60e4a53f8b",
-      "es": "Escuchar los pasos",
-      "contextos": [
-        "demo/index.html · pantallas · #escuchar"
       ]
     },
     {
@@ -12109,6 +12095,20 @@
       "es": "Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app.",
       "contextos": [
         "demo/index.html · #camara"
+      ]
+    },
+    {
+      "clave": "texto_c562c42986",
+      "es": "Después cambias de camión.",
+      "contextos": [
+        "demo/app.js:79 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_5f695597b7",
+      "es": "Leer los pasos en voz alta",
+      "contextos": [
+        "demo/index.html · #opciones"
       ]
     }
   ]
