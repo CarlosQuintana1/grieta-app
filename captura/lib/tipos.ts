@@ -46,6 +46,9 @@ export type Momento = {
   sincronizado: boolean;
 };
 
+/** La meta de la ficha tecnica y el poster: al llegar ya no se aceptan registros. */
+export const META_REGISTROS = 1500;
+
 /** Un registro necesita el precio de las tres apps para poder compararlas. */
 export const MINIMO_APPS = 3;
 

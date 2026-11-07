@@ -9,6 +9,7 @@ import { EVENTO_RECHAZO, guardarCodigo, leerCodigo, probarCodigo } from "@/lib/a
 import { ESPERA_MISMA_RUTA, finDeCaptura, franjaDe, LIMITE_SEGUNDOS, precioFueraDeRango } from "@/lib/tiempo";
 import {
   appsConPrecio,
+  META_REGISTROS,
   MINIMO_APPS,
   MOTIVOS,
   NOMBRE_PLATAFORMA,
@@ -136,8 +137,10 @@ export default function Captura() {
     Math.max(0, Math.ceil(ESPERA_MISMA_RUTA - (ahora - (ultimaPorRuta.get(ruta) ?? 0)) / 1000));
   const espera = esperaDe(rutaElegida);
 
+  const metaCumplida = momentos.length >= META_REGISTROS;
+
   function empezar() {
-    if (espera > 0) return;
+    if (espera > 0 || metaCumplida) return;
     const b: Borrador = {
       inicio: new Date().toISOString(),
       ruta_id: rutaElegida,
@@ -225,11 +228,18 @@ export default function Captura() {
       <header className="mb-10 flex items-center justify-between text-[0.8rem] font-medium text-tenue">
         <span>{capturador}</span>
         <Link href="/cobertura" className="border border-ambar px-3.5 py-2 text-ambar transition-opacity active:opacity-70">
-          {momentos.length} registros
+          {momentos.length} de {META_REGISTROS}
         </Link>
       </header>
 
-      {!borrador ? (
+      {!borrador && metaCumplida ? (
+        <section className="flex flex-col gap-3">
+          <p className="text-4xl font-light tracking-tight text-tinta">Meta cumplida</p>
+          <p className="text-sm leading-relaxed text-tenue">
+            El equipo llegó a los {META_REGISTROS} registros. La captura quedó cerrada.
+          </p>
+        </section>
+      ) : !borrador ? (
         <section className="flex flex-col gap-7">
           <div className="flex flex-col gap-3">
             <p className="text-[0.78rem] text-tinta">

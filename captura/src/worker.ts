@@ -1,4 +1,4 @@
-import { appsConPrecio, MINIMO_APPS, type Momento } from "../lib/tipos";
+import { appsConPrecio, META_REGISTROS, MINIMO_APPS, type Momento } from "../lib/tipos";
 import { ESPERA_MISMA_RUTA, finDeCaptura } from "../lib/tiempo";
 
 type Env = { DB: D1Database; ASSETS: Fetcher; CODIGO_EQUIPO: string; EQUIPO: string };
@@ -42,10 +42,12 @@ async function sincronizar(req: Request, env: Env): Promise<Response> {
   await env.DB.prepare(CREAR).run();
 
   // El id lo genera el dispositivo, asi que reenviar el mismo momento no lo duplica.
+  // El batch corre en orden dentro de una transaccion: cada insercion ve el conteo de la anterior.
   const insertar = env.DB.prepare(
     `INSERT INTO momentos (id, timestamp, ruta_id, precio_uber, precio_didi, precio_indrive,
        capturado_por, sospechosa, nota, lat_disp, lon_disp, segundos_captura)
-     VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12)
+     SELECT ?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12
+     WHERE (SELECT COUNT(*) FROM momentos) < ${META_REGISTROS}
      ON CONFLICT (id) DO NOTHING`,
   );
 
@@ -66,20 +68,30 @@ async function sincronizar(req: Request, env: Env): Promise<Response> {
     else validos.push(m);
   }
 
-  if (validos.length > 0) {
-    await env.DB.batch(
-      validos.map((m) =>
-        insertar.bind(
-          m.id, m.timestamp, m.ruta_id,
-          m.precios.uber, m.precios.didi, m.precios.indrive,
-          m.capturado_por, m.sospechosa ? 1 : 0, m.nota,
-          m.lat_disp, m.lon_disp, m.segundos_captura,
-        ),
-      ),
-    );
-  }
+  if (validos.length === 0) return Response.json({ guardados: [], descartados });
 
-  return Response.json({ guardados: validos.map((m) => m.id), descartados });
+  // Los reenviados ya estan en la base: cuentan como guardados aunque la meta este cumplida.
+  const ya = new Set(
+    (
+      await env.DB.prepare(`SELECT id FROM momentos WHERE id IN (SELECT value FROM json_each(?1))`)
+        .bind(JSON.stringify(validos.map((m) => m.id)))
+        .all<{ id: string }>()
+    ).results.map((r) => r.id),
+  );
+  const resultados = await env.DB.batch(
+    validos.map((m) =>
+      insertar.bind(
+        m.id, m.timestamp, m.ruta_id,
+        m.precios.uber, m.precios.didi, m.precios.indrive,
+        m.capturado_por, m.sospechosa ? 1 : 0, m.nota,
+        m.lat_disp, m.lon_disp, m.segundos_captura,
+      ),
+    ),
+  );
+  const guardados = validos.filter((m, i) => ya.has(m.id) || resultados[i].meta.changes > 0).map((m) => m.id);
+  const fuera = validos.filter((m) => !guardados.includes(m.id)).map((m) => m.id);
+
+  return Response.json({ guardados, descartados: [...descartados, ...fuera], metaCumplida: fuera.length > 0 });
 }
 
 // Registros de todo el equipo, sin la ubicacion del telefono.
