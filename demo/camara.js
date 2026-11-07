@@ -17,7 +17,7 @@ const CamaraGrieta = (() => {
   const muestra = document.createElement('canvas');
   muestra.width = 64; muestra.height = 48;
   const muestras = muestra.getContext('2d', { willReadFrequently: true });
-  let mascaras = [], capturando = false;
+  let mascaras = [], capturando = false, personas = [], personasEn = 0;
   let viaje = () => null, rutas = () => [], revisionRuta = '', cambioRuta = 0, referencia = 0, camionVisible = null, ultimoCamion = 0, ultimaComparacion = 0, ultimoCamionNarrado = '', caducaCamion, ultimoFotograma = -Infinity, ultimaFraseCamion = '', recortes = [];
   const confirmarCamion = new GrietaTransporte.Confirmador();
   const enViaje = () => $('camaraViaje').checked;
@@ -295,6 +295,7 @@ const CamaraGrieta = (() => {
     const detectados = GrietaVision.deteccionesValidas(data.detecciones, data.ancho, data.alto);
     revisarCamion(detectados);
     mascaras = detectados.map((o) => o.caja);
+    personas = detectados.filter((o) => o.clase === 'person').map((o) => o.caja); personasEn = performance.now();
     const aviso = seguimiento.actualizar(detectados, estado.capturada, { ...estado.camara, invalido: Boolean(problema) || data.ms > 800 || performance.now() - estado.capturada > 1200 });
     if (!aviso || !$('camaraAvisos').checked) return;
     ultimoRiesgo = Date.now();
@@ -428,7 +429,7 @@ const CamaraGrieta = (() => {
     const turno = sesion, revision = cambioRuta;
     if (!camionVisible || performance.now() - camionVisible.instante > 800 || calidadActual?.problema) {
       descartarCamion();
-      const texto = 'Todavía no identifico un solo camión para leer su número. Apunta a su letrero; también puedes usar Leer letrero ahora.';
+      const texto = 'Todavía no identifico un solo camión para leer su número. Apunta a su letrero; también puedes usar Leer letrero.';
       if (manual) { $('camaraCamionResultado').textContent = texto; narrar(texto); }
       return;
     }
@@ -522,5 +523,24 @@ const CamaraGrieta = (() => {
     addEventListener('pagehide', () => cerrar());
     botones();
   }
-  return { iniciarInterfaz, cerrar, abrir, repetir };
+  // Foto para describir con IA: 768 px y la parte alta de cada persona pixelada antes de salir del telefono.
+  // Sin detecciones recientes no se manda nada: no hay forma de saber si sale una cara.
+  function foto() {
+    if (!activa || performance.now() - personasEn > 2500) return null;
+    const salida = document.createElement('canvas'), pincel = salida.getContext('2d');
+    if (!capturar(768, salida, pincel)) return null;
+    const chica = document.createElement('canvas'), cp = chica.getContext('2d');
+    for (const c of personas) {
+      const x = c.x * salida.width, y = c.y * salida.height, w = c.w * salida.width, h = Math.max(c.h * 0.4, c.w * 0.8) * salida.height;
+      if (w < 2 || h < 2) continue;
+      chica.width = Math.max(1, Math.round(w / 14)); chica.height = Math.max(1, Math.round(h / 14));
+      cp.drawImage(salida, x, y, w, h, 0, 0, chica.width, chica.height);
+      pincel.imageSmoothingEnabled = false;
+      pincel.drawImage(chica, 0, 0, chica.width, chica.height, x, y, w, h);
+      pincel.imageSmoothingEnabled = true;
+    }
+    return { imagen: salida.toDataURL('image/jpeg', 0.72), personas: personas.length };
+  }
+  const encendida = () => activa;
+  return { iniciarInterfaz, cerrar, abrir, repetir, foto, encendida };
 })();

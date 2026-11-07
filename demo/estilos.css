@@ -1475,3 +1475,14 @@ body.camara-guia .camara { padding-top: calc(var(--alto-vuelta, 140px) + 16px); 
 html.grande .datos-detalle { grid-template-columns: 1fr; }
 html.grande .datos-detalle .dato { grid-template-columns: 1fr auto; align-items: baseline; container-type: normal; }
 html.grande .datos-detalle dd { font-size: 1.6rem; }
+/* Camara: la pregunta a la IA manda; abajo preguntar por voz, leer letrero y detener */
+.camara-en-uso .camara-pie { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.camara-pie .camara-enfrente { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; gap: 10px; }
+.camara-pie .camara-enfrente .picto { width: 24px; height: 24px; fill: currentColor; }
+.camara-pie #camaraConversar { display: flex; align-items: center; justify-content: center; gap: 6px; }
+.camara-pie #camaraConversar[aria-pressed="true"] { border-color: var(--ambar); color: var(--ambar); }
+.camara-pie [hidden] { display: none !important; }
+.camara-ia-texto { grid-column: 1 / -1; margin: 0; font-size: .95rem; font-weight: 600; line-height: 1.35; }
+.camara-ia-texto:empty { display: none; }
+.camara-en-uso .camara-pie .boton:not(.camara-enfrente) { min-height: 52px; padding: 6px 8px; font-size: .9rem; line-height: 1.15; }
+.camara-pie #camaraConversar .icono { width: 18px; height: 18px; flex: none; }

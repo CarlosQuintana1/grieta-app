@@ -3398,6 +3398,85 @@ $("vozCamara").addEventListener("click", abrirCamara);
 $("abrirCamara").addEventListener("click", abrirCamara);
 $("guiaCamara").addEventListener("click", abrirCamara);
 $("camaraVolverGuia").addEventListener("click", () => ir(guia.activa ? "guia" : "inicio"));
+
+// Describir con IA (Worker grieta-ia): una foto con las caras pixeladas; la respuesta se dice y queda escrita.
+let IA = "";
+const charla = { activa: false, ocupado: false, rec: null, silencios: 0, historial: [] };
+function decirIA(texto, urgente = true) {
+  $("camaraIA").textContent = texto;
+  hablarCamara(texto, urgente);
+}
+async function preguntarIA(pregunta = "") {
+  if (charla.ocupado || !IA) return;
+  const f = CamaraGrieta.foto();
+  if (!f) return decirIA("Todavía no veo bien. Espera a que la cámara arranque y vuelve a intentar.");
+  charla.ocupado = true;
+  $("camaraEnfrente").disabled = true;
+  decirIA("Un momento, estoy viendo.", false);
+  try {
+    const r = await fetch(`${IA}/describir`, { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ imagen: f.imagen, pregunta, historial: charla.historial }), signal: AbortSignal.timeout(12000) });
+    const d = await r.json().catch(() => ({}));
+    if (d.texto) charla.historial = [...charla.historial, { pregunta: pregunta || "¿Qué tengo enfrente?", respuesta: d.texto }].slice(-3);
+    decirIA(d.texto ?? d.error ?? "No pude describir la foto. Intenta otra vez.");
+  } catch {
+    decirIA("Sin conexión para describir. Los avisos de la cámara siguen funcionando.");
+  } finally {
+    charla.ocupado = false;
+    $("camaraEnfrente").disabled = false;
+  }
+}
+function terminarCharla(mensaje) {
+  charla.activa = false;
+  try { charla.rec?.abort(); } catch {}
+  charla.rec = null;
+  $("camaraConversar").setAttribute("aria-pressed", "false");
+  $("camaraConversar").querySelector("span").textContent = "Preguntar";
+  if (mensaje) decirIA(mensaje);
+}
+// Escucha solo cuando Grieta termino de hablar, para no oirse a si misma.
+function escucharPregunta() {
+  if (!charla.activa) return;
+  if (speechSynthesis.speaking || speechSynthesis.pending || charla.ocupado) return void setTimeout(escucharPregunta, 300);
+  const rec = new Reconocer();
+  let oido = false;
+  charla.rec = rec;
+  rec.lang = "es-MX"; rec.continuous = false; rec.interimResults = false; rec.maxAlternatives = 1;
+  rec.onresult = (e) => {
+    const texto = e.results[0]?.[0]?.transcript?.trim();
+    if (!texto) return;
+    oido = true;
+    atenderPregunta(texto);
+  };
+  rec.onerror = (e) => { if (["not-allowed", "service-not-allowed"].includes(e.error)) terminarCharla("Necesito permiso del micrófono para escucharte."); };
+  rec.onend = () => {
+    if (charla.rec === rec) charla.rec = null;
+    if (!charla.activa) return;
+    charla.silencios = oido ? 0 : charla.silencios + 1;
+    if (charla.silencios >= 3) return terminarCharla("Dejé de escuchar. Toca Preguntar para seguir.");
+    setTimeout(escucharPregunta, 400);
+  };
+  try { rec.start(); } catch { setTimeout(escucharPregunta, 800); }
+}
+function atenderPregunta(texto) {
+  const n = sinAcentos(texto.toLowerCase());
+  if (/^(ya|alto|para|basta|termina|deja de escuchar|gracias)\b/.test(n)) return terminarCharla("Listo, dejé de escuchar.");
+  const camion = $("camaraBuscarCamion");
+  if (/(es mi camion|es el camion|que camion|numero del camion)/.test(n) && !camion.hidden && !camion.disabled) return camion.click();
+  if (/donde estoy/.test(n)) return dondeEstoy("voz");
+  preguntarIA(texto);
+}
+$("camaraEnfrente").addEventListener("click", () => preguntarIA());
+$("camaraConversar").addEventListener("click", () => {
+  if (charla.activa) return terminarCharla("Listo, dejé de escuchar.");
+  charla.activa = true; charla.silencios = 0;
+  $("camaraConversar").setAttribute("aria-pressed", "true");
+  $("camaraConversar").querySelector("span").textContent = "Dejar de preguntar";
+  decirIA("Te escucho. Pregunta lo que quieras de lo que tienes enfrente. Di «ya» para terminar.");
+  escucharPregunta();
+});
+new MutationObserver(() => { if (document.body.dataset.pantalla !== "camara" && charla.activa) terminarCharla(); })
+  .observe(document.body, { attributes: true, attributeFilter: ["data-pantalla"] });
 // Asistencia a pie: la camara avisa escalones y hoyos mientras la tarjeta de la vuelta sigue arriba.
 $("guiaAsistencia").addEventListener("click", () => {
   cancelarDictado();
@@ -4442,6 +4521,9 @@ Promise.all([
   prepararLenguas(config);
   // En local se usa la API local, para que las pruebas no escriban en la base de produccion.
   API = ["localhost", "127.0.0.1"].includes(location.hostname) ? "http://localhost:3000/api" : config.api || "";
+  IA = ["localhost", "127.0.0.1"].includes(location.hostname) ? "http://localhost:8798" : config.ia || "";
+  $("camaraEnfrente").hidden = !IA;
+  $("camaraConversar").hidden = !IA || !Reconocer;
   pintarImpacto();
   pintarGuardados();
   avisoConexion();

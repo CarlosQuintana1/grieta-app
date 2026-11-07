@@ -1,0 +1,10 @@
+{
+  "name": "grieta-ia",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-20",
+  "ai": { "binding": "AI", "remote": true },
+  "vars": { "MODELO": "@cf/qwen/qwen3.8-27b", "TOPE_DIARIO": "800" },
+  "ratelimits": [{ "name": "POR_IP", "namespace_id": "4401", "simple": { "limit": 8, "period": 60 } }],
+  "durable_objects": { "bindings": [{ "name": "TOPE", "class_name": "Tope" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Tope"] }]
+}

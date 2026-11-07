@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://tile.openstreetmap.org; connect-src 'self' https://photon.komoot.io https://router.project-osrm.org https://routing.openstreetmap.de https://grieta-api-qro.azurewebsites.net https://api.open-meteo.com http://localhost:3000; media-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://tile.openstreetmap.org; connect-src 'self' https://photon.komoot.io https://router.project-osrm.org https://routing.openstreetmap.de https://grieta-api-qro.azurewebsites.net https://grieta-ia.carlosquintanara.workers.dev https://api.open-meteo.com http://localhost:3000 http://localhost:8798; media-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
   <meta name="theme-color" content="#0b0a09">
   <title>Grieta</title>
   <link rel="icon" href="icono-192.png">
@@ -100,7 +100,7 @@
       <symbol id="p-gasolina" viewBox="0 0 48 48"><path fill-rule="evenodd" d="M11 4h16a3 3 0 0 1 3 3v34h1.5a2 2 0 0 1 0 4h-25a2 2 0 0 1 0-4H8V7a3 3 0 0 1 3-3Zm2.5 5a1.5 1.5 0 0 0-1.5 1.5v7a1.5 1.5 0 0 0 1.5 1.5h11a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 24.5 9Z"/><path d="M32.6 9.4a2 2 0 0 1 2.8 0l5.2 5.2a3 3 0 0 1 .9 2.1V34a5 5 0 0 1-10 0v-6h-1.5v-4H33a2 2 0 0 1 2 2v8a1 1 0 0 0 2 0V21h-1a2 2 0 0 1-2-2v-3.2l-1.4-1.4a2 2 0 0 1 0-2.8Z"/></symbol>
       <symbol id="p-hielo" viewBox="0 0 48 48"><path d="M19.4 6.6a2 2 0 0 1 3.4-.3l4.6 6.5 3-2.6a2 2 0 0 1 3 .6L41 27H7Z"/><path d="M4 32.5c3.3 0 3.3-2 6.7-2s3.3 2 6.6 2 3.4-2 6.7-2 3.3 2 6.7 2 3.3-2 6.6-2 3.4 2 6.7 2v4c-3.3 0-3.4-2-6.7-2s-3.3 2-6.6 2-3.4-2-6.7-2-3.4 2-6.7 2-3.3-2-6.6-2S7.3 36.5 4 36.5Z"/><path d="M10 40.5c2.3 0 2.3-1.5 4.7-1.5s2.3 1.5 4.6 1.5 2.4-1.5 4.7-1.5 2.4 1.5 4.7 1.5 2.3-1.5 4.6-1.5 2.4 1.5 4.7 1.5v3.5c-2.3 0-2.4-1.5-4.7-1.5s-2.3 1.5-4.6 1.5-2.4-1.5-4.7-1.5-2.4 1.5-4.7 1.5-2.3-1.5-4.6-1.5-2.4 1.5-4.7 1.5Z"/></symbol>
       <symbol id="p-camara" viewBox="0 0 48 48"><path fill-rule="evenodd" d="M18.2 7h11.6a3 3 0 0 1 2.6 1.5L35 13h6a4 4 0 0 1 4 4v20a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V17a4 4 0 0 1 4-4h6l2.6-4.5A3 3 0 0 1 18.2 7ZM24 17.5a9 9 0 1 0 0 18a9 9 0 1 0 0-18Z"/><circle cx="24" cy="26.5" r="4.6"/><circle cx="38.5" cy="19" r="2"/></symbol>
-      <symbol id="p-senal" viewBox="0 0 48 48"><path fill-rule="evenodd" d="M21 4.2Q24 1.2 27 4.2L43.8 21Q46.8 24 43.8 27L27 43.8Q24 46.8 21 43.8L4.2 27Q1.2 24 4.2 21ZM21.3 13.8a2.7 2.7 0 0 1 2.7-2.9 2.7 2.7 0 0 1 2.7 2.9l-.9 13.1a1.8 1.8 0 0 1-3.6 0ZM24 30.6a3 3 0 1 0 0 6 3 3 0 1 0 0-6Z"/></symbol>
+      <symbol id="p-aviso" viewBox="0 0 48 48"><path fill-rule="evenodd" d="M21 4.2Q24 1.2 27 4.2L43.8 21Q46.8 24 43.8 27L27 43.8Q24 46.8 21 43.8L4.2 27Q1.2 24 4.2 21ZM21.3 13.8a2.7 2.7 0 0 1 2.7-2.9 2.7 2.7 0 0 1 2.7 2.9l-.9 13.1a1.8 1.8 0 0 1-3.6 0ZM24 30.6a3 3 0 1 0 0 6 3 3 0 1 0 0-6Z"/></symbol>
       <symbol id="p-megafono" viewBox="0 0 48 48"><g transform="translate(-3 -2.4) scale(1.1)"><path d="M7 19a2 2 0 0 1 2-2h5l20.2-8.8A2 2 0 0 1 37 10v28a2 2 0 0 1-2.8 1.8L14 31H9a2 2 0 0 1-2-2Z"/><path d="M10.5 30h6l2.3 8.2a1.6 1.6 0 0 1-1.5 2h-3.1a1.6 1.6 0 0 1-1.5-1.2Z"/><path d="M40.4 18.4a8 8 0 0 1 0 11.2l-2-2a5.2 5.2 0 0 0 0-7.2Z"/></g></symbol>
       <symbol id="p-tarjeta" viewBox="0 0 48 48"><path fill-rule="evenodd" d="M7 8h34a5 5 0 0 1 5 5v22a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V13a5 5 0 0 1 5-5ZM15.4 24a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0-4.4 0ZM22.55 17.83A8.3 8.3 0 0 1 22.55 30.17L20.68 28.09A5.5 5.5 0 0 0 20.68 19.91ZM25.90 14.12A13.3 13.3 0 0 1 25.90 33.88L24.03 31.80A10.5 10.5 0 0 0 24.03 16.20ZM29.25 10.40A18.3 18.3 0 0 1 29.25 37.60L27.37 35.52A15.5 15.5 0 0 0 27.37 12.48Z"/></symbol>
       <symbol id="p-nopara" viewBox="0 0 48 48"><rect x="9" y="19" width="6" height="26" rx="2.5"/><circle cx="12" cy="12" r="10"/><path d="M21 26.5h13.5V18L47 30.5 34.5 43v-8.5H21Z"/></symbol>
@@ -255,7 +255,7 @@
           <span class="lugar-icono"><svg class="picto"><use href="#p-donde"/></svg></span><span class="lugar-nombre">Dónde estoy</span>
         </button>
         <button id="reportarInicio" type="button" class="lugar tono-salud" aria-label="Reportar un problema">
-          <span class="lugar-icono"><svg class="picto"><use href="#p-senal"/></svg></span><span class="lugar-nombre">Reportar</span>
+          <span class="lugar-icono"><svg class="picto"><use href="#p-aviso"/></svg></span><span class="lugar-nombre">Reportar</span>
         </button>
         <button id="abrirCamara" type="button" class="lugar tono-ciruela" aria-label="Describir con la cámara: escucha objetos y texto frente a ti">
           <span class="lugar-icono"><svg class="picto"><use href="#p-camara"/></svg></span><span class="lugar-nombre">Describir</span>
@@ -783,13 +783,16 @@
       </div>
       <details class="camara-config camara-mas">
         <summary class="boton oscuro"><svg class="icono" aria-hidden="true"><use href="#i-lista"/></svg>Más información</summary>
-        <p class="nota camara-privacidad">Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app.</p>
+        <p class="nota camara-privacidad">Las imágenes se analizan en tu teléfono. Solo cuando tocas «¿Qué tengo enfrente?» o haces una pregunta se envía una foto, con las caras pixeladas, para describirla; no se guarda. La cámara se apaga al salir o al ocultar la app.</p>
         <p id="camaraVibracion" class="nota"></p>
         <button id="camaraProbar" type="button" class="boton oscuro" hidden><svg class="icono" aria-hidden="true"><use href="#i-vibrar"/></svg>Probar vibración</button>
       </details>
       <div class="camara-pie">
-        <button id="camaraLeer" type="button" class="boton oscuro" disabled>Leer letrero ahora</button>
-        <button id="camaraDetener" type="button" class="boton" hidden>Detener cámara</button>
+        <p id="camaraIA" class="camara-ia-texto" role="status" aria-live="polite"></p>
+        <button id="camaraEnfrente" type="button" class="boton camara-enfrente" hidden><svg class="picto" aria-hidden="true"><use href="#p-ojo"/></svg>¿Qué tengo enfrente?</button>
+        <button id="camaraConversar" type="button" class="boton oscuro" aria-pressed="false" hidden><svg class="icono" aria-hidden="true"><use href="#i-microfono"/></svg><span>Preguntar</span></button>
+        <button id="camaraLeer" type="button" class="boton oscuro" disabled>Leer letrero</button>
+        <button id="camaraDetener" type="button" class="boton oscuro" aria-label="Detener cámara" hidden>Detener</button>
       </div>
     </section>
 
