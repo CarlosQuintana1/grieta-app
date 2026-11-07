@@ -783,7 +783,7 @@ async function trazar() {
   limpiarRuta(true);
   estado.momento = 0;
   estado.otra = null;
-  estado.caminatas = { sube: new Map(), baja: new Map(), pedidas: new Set() };
+  estado.caminatas = { sube: new Map(), baja: new Map(), pedidas: new Set(), relieve: new Map() };
   titulos.opciones = `A ${d.nombre}`;
   // Se pasa de una vez a Como llegar, con la forma de las tarjetas, mientras se pide la ruta por calles.
   ir("opciones", ["buscar", "elegirMapa"].includes(document.body.dataset.pantalla));
@@ -870,9 +870,55 @@ async function caminoAPie(a, b) {
       { signal: AbortSignal.timeout(6000) })
       .then((r) => r.json())
       .then(({ routes: [r] }) => ({ puntos: r.geometry.coordinates.map(([lon, lat]) => [lat, lon]), metros: r.distance, minutos: r.duration / 60 }))
+      .then(async (c) => ({ ...c, ...await relieve(c.puntos) }))
       .catch(() => { caminos.delete(clave); return null; }));
   }
   return caminos.get(clave);
+}
+// Pendiente del camino con el modelo de terreno de Open-Meteo (celdas de 90 m) y la funcion de Tobler para caminar:
+// factor es cuanto mas (o menos) tarda que en plano; si no responde, se camina como en plano.
+const tobler = (pendiente) => 6 * Math.exp(-3.5 * Math.abs(Math.max(-0.3, Math.min(0.3, pendiente)) + 0.05));
+async function relieve(puntos) {
+  const plano = { factor: 1, subida: 0, bajada: 0 };
+  let largo = 0;
+  for (let i = 1; i < puntos.length; i++) largo += Grieta.metros(...puntos[i - 1], ...puntos[i]);
+  if (largo < 60) return plano;
+  const paso = Math.max(50, largo / 99), muestras = [puntos[0]];
+  let falta = paso;
+  for (let i = 1; i < puntos.length; i++) {
+    const [a, b] = [puntos[i - 1], puntos[i]];
+    let d = Grieta.metros(...a, ...b), hecho = 0;
+    while (d - hecho >= falta) {
+      hecho += falta;
+      muestras.push([a[0] + (b[0] - a[0]) * hecho / d, a[1] + (b[1] - a[1]) * hecho / d]);
+      falta = paso;
+    }
+    falta -= d - hecho;
+  }
+  muestras.push(puntos.at(-1));
+  try {
+    const { elevation: z } = await fetch(`https://api.open-meteo.com/v1/elevation?latitude=${muestras.map((p) => p[0].toFixed(5)).join(",")}&longitude=${muestras.map((p) => p[1].toFixed(5)).join(",")}`, { signal: AbortSignal.timeout(5000) }).then((r) => r.json());
+    if (!Array.isArray(z) || z.length !== muestras.length) return plano;
+    // Se suaviza: con celdas de 90 m, dos muestras vecinas pueden brincar sin que la calle lo haga.
+    const alto = z.map((_, i) => (z[Math.max(0, i - 1)] + z[i] + z[Math.min(z.length - 1, i + 1)]) / 3);
+    let t = 0, tPlano = 0, subida = 0, bajada = 0;
+    for (let i = 1; i < muestras.length; i++) {
+      const d = Grieta.metros(...muestras[i - 1], ...muestras[i]), dz = alto[i] - alto[i - 1];
+      if (!d) continue;
+      t += d / tobler(dz / d); tPlano += d / tobler(0);
+      if (dz > 0) subida += dz; else bajada -= dz;
+    }
+    return { factor: tPlano ? t / tPlano : 1, subida: Math.round(subida), bajada: Math.round(bajada) };
+  } catch { return plano; }
+}
+// Como lo diria una persona; solo cuando se nota.
+function pendienteTexto(r) {
+  if (!r) return "";
+  const { subida: s, bajada: b } = r;
+  if (s >= 12 && s > 2 * b) return `de subida, ${s} m`;
+  if (b >= 12 && b > 2 * s) return `de bajada, ${b} m`;
+  if (s >= 12 && b >= 12) return `sube ${s} m y baja ${b} m`;
+  return "";
 }
 // El GTFS de Qrobus no trae trazos (shapes.txt vacio): se usan los de OpenStreetMap validados contra sus paradas
 // (scripts/trazos_osm.py) y, donde no hay, se rutea por calles de parada en parada.
@@ -1012,10 +1058,10 @@ function mostrarAPie() {
   $("aPie").hidden = true;
   if (Grieta.metros(o.lat, o.lon, d.lat, d.lon) > 2000) return;
   caminoAPie([o.lat, o.lon], [d.lat, d.lon]).then((c) => {
-    if (!c || estado.aPie !== clave || minutosCaminando(c.metros) > 25) return;
+    if (!c || estado.aPie !== clave || minutosCaminando(c.metros * c.factor) > 25) return;
     // A quien le cuesta caminar no se le promete un tiempo: solo la distancia
     const camina = (acc.movilidad ?? "normal") === "normal";
-    $("aPieTexto").textContent = camina ? `Caminando llegas en ${minutosCaminando(c.metros)} min` : `Queda a ${distanciaTexto(c.metros)} por calles`;
+    $("aPieTexto").textContent = camina ? `Caminando llegas en ${minutosCaminando(c.metros * c.factor)} min` : `Queda a ${distanciaTexto(c.metros)} por calles`;
     $("aPieDetalle").textContent = camina ? `${distanciaTexto(c.metros, true)} por calles, sin costo` : "Si te sientes bien para ir a pie, no cuesta nada";
     $("aPie").hidden = false;
     // La ruta a pie de verdad, punteada como los demas tramos a pie; la amarilla es la del auto.
@@ -1026,7 +1072,7 @@ function mostrarAPie() {
     }
     // Con el tiempo a pie ya medido, se quitan los camiones que no llegan antes que caminando.
     if (camina) {
-      estado.minAPie = minutosCaminando(c.metros);
+      estado.minAPie = minutosCaminando(c.metros * c.factor);
       if (estado.r && estado.tarjetas?.some(({ o }) => o.minutos >= estado.minAPie)) pintarOpciones(estado.r);
     }
   });
@@ -1051,7 +1097,8 @@ async function refinarCaminatas() {
   faltan.forEach(([lado, i]) => cam.pedidas.add(`${lado}:${i}`));
   const hechas = await Promise.all(faltan.map(([lado, i, punto]) => {
     const parada = Grieta.qrobus.paradas[i].slice(0, 2);
-    return caminoAPie(...(lado === "sube" ? [punto, parada] : [parada, punto])).then((c) => c && cam[lado].set(i, c.metros));
+    // Al motor le llega la distancia que se siente: una subida cuenta como caminar mas.
+    return caminoAPie(...(lado === "sube" ? [punto, parada] : [parada, punto])).then((c) => c && cam[lado].set(i, c.metros * c.factor) && cam.relieve.set(`${lado}:${i}`, c));
   }));
   if (cam === estado.caminatas && hechas.some(Boolean)) calcular();
 }
@@ -1523,9 +1570,12 @@ function pasosDe(o) {
     const camina = ["tono-maiz", "caminar"];
     const enApp = ["tono-anil", "app"];
     if (p.tipo === "caminar" && p.transbordo) return { ficha: camina, titulo: `Camina ${min} min y cambia de camión`, nota: p.parada, hora: inicio };
-    if (p.tipo === "caminar") return p.hacia
-      ? { ficha: camina, titulo: `Camina ${min} min a la parada`, nota: p.parada, hora: inicio }
-      : { ficha: camina, titulo: `Camina ${min} min a tu destino`, nota: `${estado.destino.nombre}. Llegas a las ${hora(llegada(o))}.`, hora: inicio };
+    if (p.tipo === "caminar") {
+      const cuesta = pendienteTexto(estado.caminatas?.relieve.get(p.hacia ? `sube:${o.paradas?.sube}` : `baja:${o.paradas?.baja}`));
+      return p.hacia
+        ? { ficha: camina, titulo: `Camina ${min} min a la parada`, nota: `${p.parada}${cuesta ? `. Camino ${cuesta}` : ""}`, hora: inicio }
+        : { ficha: camina, titulo: `Camina ${min} min a tu destino`, nota: `${estado.destino.nombre}. ${cuesta ? `Camino ${cuesta}. ` : ""}Llegas a las ${hora(llegada(o))}.`, hora: inicio };
+    }
     if (p.tipo === "app") return p.hacia
       ? { ficha: enApp, titulo: `Pide ${Grieta.nombreApp(p.app)} hasta la parada`, nota: `${p.parada}. Precio estimado ${rangoVoz(limitesPrecio(rangoTramo(o, p)))}.`, hora: inicio }
       : { ficha: enApp, titulo: `Pide ${Grieta.nombreApp(p.app)} a tu destino`, nota: `Precio estimado ${rangoVoz(limitesPrecio(rangoTramo(o, p)))}. Llegas a las ${hora(llegada(o))}.`, hora: inicio };
@@ -1821,11 +1871,11 @@ function pintarParadas(punto, lista, seleccionada = false) {
   }
   const revision = revisionCamiones;
   seguirCalles(aPie).then(c => {
-    if (revision === revisionCamiones && document.body.dataset.pantalla === 'camiones' && estado.listaCamiones?.[0] === lista[0]) ponerCaminata(lista[0], c?.metros, seleccionada);
+    if (revision === revisionCamiones && document.body.dataset.pantalla === 'camiones' && estado.listaCamiones?.[0] === lista[0]) ponerCaminata(lista[0], c?.metros, seleccionada, c);
   });
 }
 // La distancia real a pie llega despues que la pantalla: se pone y se dice una sola vez
-function ponerCaminata(p, metros, seleccionada = false) {
+function ponerCaminata(p, metros, seleccionada = false, rel = p.relieve) {
   if (!$("distanciaParada")) return;
   if (!metros) {
     if (p.caminado) return;
@@ -1834,18 +1884,20 @@ function ponerCaminata(p, metros, seleccionada = false) {
     return;
   }
   p.caminado = metros;
-  const [texto, detalle] = textoCaminata(metros);
+  p.relieve = rel;
+  const [texto, detalle] = textoCaminata(metros, rel);
   $("caminaParada").textContent = texto;
   $("caminaDetalle").textContent = detalle;
   actualizarComparacionParadas(estado.listaCamiones ?? []);
-  if (!p.dicho) hablar(`Caminando son ${distanciaTexto(metros)}, unos ${minutosCaminando(metros)} minutos.`, true);
+  if (!p.dicho) hablar(`Caminando son ${distanciaTexto(metros)}, unos ${minutosCaminando(metros * (rel?.factor ?? 1))} minutos${pendienteTexto(rel) ? `, ${pendienteTexto(rel).replace(" m", " metros")}` : ""}.`, true);
   p.dicho = true;
 }
 // A quien le cuesta caminar no se le promete un tiempo, igual que en las opciones de viaje
-function textoCaminata(metros) {
+function textoCaminata(metros, rel) {
+  const cuesta = pendienteTexto(rel);
   return (acc.movilidad ?? "normal") === "normal"
-    ? [`Caminando llegas en ${minutosCaminando(metros)} min`, `${distanciaTexto(metros, true)} por calles, sin costo`]
-    : [`Queda a ${distanciaTexto(metros)} por calles`, "Si te sientes bien para ir a pie, no cuesta nada"];
+    ? [`Caminando llegas en ${minutosCaminando(metros * (rel?.factor ?? 1))} min`, `${distanciaTexto(metros, true)} por calles${cuesta ? `, ${cuesta}` : ", sin costo"}`]
+    : [`Queda a ${distanciaTexto(metros)} por calles`, cuesta ? `Camino ${cuesta}` : "Si te sientes bien para ir a pie, no cuesta nada"];
 }
 // 250 metros, 1.2 kilómetros: redondeado como lo diría una persona
 const distanciaTexto = (m, corta = false) => m < 1000
@@ -2026,7 +2078,7 @@ async function ordenarPorCaminata(punto, lista) {
   const distancia = (x) => x.caminado ?? x.m * 1.3;
   const orden = [...lista].sort((a, b) => distancia(a) - distancia(b));
   if (orden[0] === lista[0]) {
-    ponerCaminata(lista[0], lista[0].caminado);
+    ponerCaminata(lista[0], lista[0].caminado, false, lista[0].relieve);
     document.querySelectorAll(".parada-alternativa[data-parada]").forEach((b) => {
       const parada = lista[Number(b.dataset.parada)];
       const texto = b.querySelector(".tenue");
@@ -2055,7 +2107,7 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
       <p class="etiqueta" id="distanciaParada">${seleccionada ? "Parada elegida" : "Parada más cercana"}</p>
       <p class="parada-nombre" translate="no">${escapar(cruce(p.nombre))}</p>
     </div>
-    <div class="a-pie" role="status">${ico("caminar")}<span class="fila-texto"><strong id="caminaParada">${p.caminado ? textoCaminata(p.caminado)[0] : "Calculando el camino a pie..."}</strong><small id="caminaDetalle">${p.caminado ? textoCaminata(p.caminado)[1] : `A ${distanciaTexto(p.m, true)} en línea recta`}</small></span></div>
+    <div class="a-pie" role="status">${ico("caminar")}<span class="fila-texto"><strong id="caminaParada">${p.caminado ? textoCaminata(p.caminado, p.relieve)[0] : "Calculando el camino a pie..."}</strong><small id="caminaDetalle">${p.caminado ? textoCaminata(p.caminado)[1] : `A ${distanciaTexto(p.m, true)} en línea recta`}</small></span></div>
     <button id="irParada" type="button" class="boton oscuro">${ico("ruta")}Ver cómo llegar a la parada</button>
     <h2>Próximos camiones</h2>
     ${filas(p)}
@@ -2743,7 +2795,7 @@ function medirCaminata(desde, parada) {
   caminoAPie([desde.lat, desde.lon], [parada.lat, parada.lon]).then((c) => {
     if (!c || !guia.activa || guia.fase !== "parada") return;
     guia.pie = { metros: c.metros, recta };
-    const texto = `Son ${distanciaTexto(c.metros)} caminando, unos ${minutosCaminando(c.metros)} minutos.`;
+    const texto = `Son ${distanciaTexto(c.metros)} caminando, unos ${minutosCaminando(c.metros * c.factor)} minutos${pendienteTexto(c) ? `, ${pendienteTexto(c).replace(" m", " metros")}` : ""}.`;
     $("guiaDetalle").textContent = `${texto} ${Interfaz.original($("guiaDetalle"))}`;
     hablar(texto, true);
   });

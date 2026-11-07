@@ -195,11 +195,14 @@ const Grieta = (() => {
     const mejores = new Map();
     let pasaCerca = false;
 
+    // Si llegan a la misma hora, gana la que menos te hace caminar (las caminatas ya traen la pendiente).
+    const andar = (f) => f.pasos.reduce((t, x) => t + (x.tipo === "caminar" ? x.min : 0), 0);
     const quedarse = (fila, clave) => {
       for (const sufijo of [":rapida", ":barata"]) {
         const actual = mejores.get(clave + sufijo);
         const campo = sufijo === ":rapida" ? "minutos" : "costo";
-        if (!actual || fila[campo] < actual[campo] || (fila[campo] === actual[campo] && fila.minutos < actual.minutos)) mejores.set(clave + sufijo, fila);
+        const empate = actual && fila[campo] === actual[campo];
+        if (!actual || fila[campo] < actual[campo] || (empate && (fila.minutos < actual.minutos || (fila.minutos === actual.minutos && andar(fila) < andar(actual))))) mejores.set(clave + sufijo, fila);
       }
     };
 
