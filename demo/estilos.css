@@ -1439,18 +1439,14 @@ body.guia-mapa #guia .guia-titulo { position: absolute; width: 1px; height: 1px;
 body.guia-mapa #guiaAsistencia { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 4px 0 2px; background: var(--g-t); color: var(--g-c); border-color: var(--g-t); }
 #guiaAsistencia .picto { width: 26px; height: 26px; fill: currentColor; }
 body.camara-guia .vuelta-pie { top: calc(env(safe-area-inset-top, 0px) + 72px); }
-/* CO2 del viaje: una frase, el arbol como equivalencia y dos barras delgadas */
-.co2-cabeza { display: flex; align-items: center; gap: 12px; }
+/* CO2 del viaje: la cifra, por que no la echas y a que equivale */
+.co2-comparar .etiqueta { margin: 0 0 8px; }
+.co2-cabeza { display: flex; align-items: flex-start; gap: 12px; }
 .co2-cabeza .mini-ficha { width: 40px; height: 40px; flex: none; }
 .co2-cabeza .mini-ficha .picto { width: 22px; height: 22px; }
-.co2-cabeza p { margin: 0; font-size: .95rem; font-weight: 600; line-height: 1.3; }
-.co2-cabeza strong { color: var(--verde); font-weight: 800; }
-.co2-cabeza small { display: block; margin-top: 2px; color: var(--tenue); font-size: .82rem; font-weight: 500; }
-.co2-barras { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 6px 10px; margin-top: 12px; font-size: .8rem; color: var(--tenue); }
-.co2-barras i { height: 8px; border-radius: 4px; }
-.co2-barras i.auto { background: var(--cuidado); }
-.co2-barras i.tu { width: 8px; background: var(--verde); }
-.co2-barras b { color: var(--tinta); font-weight: 700; text-align: right; }
+.co2-cabeza p { margin: 0; color: var(--tenue); font-size: .88rem; line-height: 1.35; }
+.co2-cabeza strong { display: block; color: var(--verde); font-size: 1.35rem; font-weight: 800; line-height: 1.15; }
+.co2-arbol { margin: 10px 0 0; padding-top: 10px; border-top: 1px solid var(--linea); font-size: .88rem; font-weight: 600; }
 body[data-pantalla="detalle"] #mapa { min-height: 42%; }
 body[data-pantalla="detalle"] .hoja { max-height: 58%; }
 /* Sentidos de una linea: Ida y Regreso, con el rumbo y la ultima parada en chico */
@@ -1463,3 +1459,7 @@ body[data-pantalla="detalle"] .hoja { max-height: 58%; }
 .fichas-linea .linea-caja { min-width: 56px; min-height: 44px; padding: 8px 10px; font-size: 1.05rem; font-weight: 800; letter-spacing: .02em; box-shadow: 0 2px 6px rgb(0 0 0 / .25); }
 body.camara-guia { --g-c: #424d88; --g-t: #ffffff; }
 body.camara-guia .camara { padding-top: calc(var(--alto-vuelta, 140px) + 16px); }
+/* Paradas en los mapas: la misma ficha que la de "Subes a la"; chica para las demas y punteada sin horario */
+.parada-ruta.chica { width: 26px; height: 26px; border-radius: 8px 8px 8px 3px; }
+.parada-ruta.chica .picto { width: 15px; height: 15px; }
+.parada-ruta.sin-horario { background: var(--superficie); color: var(--tenue); border: 2px dashed var(--tenue); }

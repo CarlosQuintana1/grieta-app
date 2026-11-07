@@ -284,6 +284,7 @@ function mostrar(nombre) {
   // El foco va al titulo para que el lector de pantalla anuncie el cambio.
   const titulo = conf.encabezado ? $("tituloPantalla") : [...$(nombre).querySelectorAll("h1")].find((h) => !h.closest("[hidden]"));
   titulo?.focus({ preventScroll: true });
+  pedirCortes();
   setTimeout(() => { mapa.invalidateSize(); if (conf.mapa) reencuadrar(nombre); }, 60);
 }
 // Un mapa que estuvo oculto pierde el encuadre; se rehace con lo que toca en cada pantalla.
@@ -301,6 +302,41 @@ function reencuadrar(nombre) {
   const c = estado.gps ?? estado.origen;
   if (nombre === "inicio" && c) suave() ? mapa.flyTo([c.lat, c.lon], 15, { duration: 0.6 }) : mapa.setView([c.lat, c.lon], 15);
 }
+// Regla de diseno: al reposo ningun boton ni ficha queda partido por la orilla de la hoja o por la barra fija.
+// La hoja crece para mostrarlo entero si el mapa conserva 30 % de la pantalla; si no, se corta justo antes.
+const BLOQUES = "button, li, label, h2, p, .co2-comparar, .tarjeta, .parada-cerca, .a-pie, .aviso";
+function evitarCortes() {
+  const hoja = $("hoja"), pantalla = $(document.body.dataset.pantalla ?? "");
+  if (hoja.scrollTop > 0) return;
+  hoja.style.maxHeight = "";
+  if (!pantalla || !document.body.classList.contains("con-mapa") || document.body.classList.contains("guia-mapa") || !$("mapa").offsetHeight) return;
+  for (let vuelta = 0; vuelta < 3; vuelta++) {
+    const caja = hoja.getBoundingClientRect(), fija = pantalla.querySelector(".acciones-fijas");
+    const limite = fija?.offsetHeight ? Math.min(caja.bottom, fija.getBoundingClientRect().top) : caja.bottom;
+    const cortado = [...pantalla.querySelectorAll(BLOQUES)]
+      .filter((e) => e.offsetParent && !fija?.contains(e))
+      .map((e) => e.getBoundingClientRect())
+      .filter((r) => r.height && r.top < limite - 2 && r.bottom > limite + 1)
+      .sort((a, b) => a.top - b.top)[0];
+    if (!cortado) break;
+    const crecer = cortado.bottom - limite;
+    const cabe = vuelta === 0 && $("mapa").getBoundingClientRect().height - crecer >= innerHeight * 0.3;
+    hoja.style.maxHeight = `${caja.height + (cabe ? crecer : cortado.top - limite)}px`;
+  }
+  mapa.invalidateSize();
+}
+let revisionCortes = 0, segundaRevision = 0;
+// Se revisa al siguiente cuadro y otra vez cuando la pantalla ya se acomodo.
+const pedirCortes = () => {
+  cancelAnimationFrame(revisionCortes); clearTimeout(segundaRevision);
+  revisionCortes = requestAnimationFrame(evitarCortes);
+  segundaRevision = setTimeout(evitarCortes, 400);
+};
+const vigiaCortes = new ResizeObserver(pedirCortes);
+// Se vigila todo lo que hay en la hoja: un aviso que aparece arriba recorre la pantalla sin cambiarle el tamano.
+for (const e of $("hoja").children) vigiaCortes.observe(e);
+document.fonts?.ready.then(pedirCortes);
+addEventListener("resize", pedirCortes);
 function ir(nombre, reemplazar) {
   if (history.state?.p !== nombre) history[reemplazar ? "replaceState" : "pushState"]({ p: nombre }, "");
   mostrar(nombre);
@@ -1514,12 +1550,14 @@ function pintarDetalle(sinMapa) {
   $("detalleLlegada").innerHTML = `Llegas <strong>${hora(llegada(o))}</strong>`;
   $("detalleCo2").hidden = !sinAuto(o);
   if (sinAuto(o)) {
-    const g = co2Auto(estado.r.directo.km), aPie = o.tipo === "caminar";
-    $("co2Gracias").textContent = aPie ? "Caminando no se emiten" : "Gracias al camión no se emiten";
-    $("co2Auto").textContent = $("co2BarraAuto").textContent = kgTexto(g);
-    $("co2Arbol").textContent = `Lo que limpia un árbol joven en ${tiempoArbol(g)}.`;
-    $("co2Nosotros").textContent = aPie ? "Caminando" : "En camión";
+    const g = co2Auto(estado.r.directo.km);
+    $("co2Auto").textContent = `${kgTexto(g)} de CO₂`;
+    $("co2Explica").textContent = o.tipo === "caminar"
+      ? "es lo que echaría un auto en este viaje. Caminando no echas nada."
+      : "es lo que echaría un auto en este viaje. El camión pasa de todos modos, así que tú casi no sumas.";
+    $("co2Arbol").textContent = `Un árbol joven tarda ${tiempoArbol(g)} en limpiar eso del aire.`;
   }
+
   $("pasos").innerHTML = pasosDe(o).map((p, i) => `<li class="${p.camion ? "camion" : ""}">
     ${miniFicha(p.ficha[0], picto(p.ficha[1]))}
     <span class="fila-texto"><strong>${escapar(p.titulo)}</strong><small>${escapar(cruce(p.nota))}</small></span>
@@ -1756,10 +1794,10 @@ function elegirParadaDelMapa(x) {
   $("hoja").scrollTop = 0;
 }
 
-const iconoParadaSinHorario = L.divIcon({ className: "", iconSize: [30, 30], html: `<span class="parada-mapa sin-horario">${ico("camion")}</span>` });
-// Camiones cerca
-const iconoParada = (cerca) => L.divIcon({ className: "", iconSize: cerca ? [38, 38] : [30, 30],
-  html: `<span class="parada-mapa${cerca ? " cerca" : ""}">${ico("camion")}</span>` });
+// Las paradas usan la misma ficha que la de "Subes a la" de los viajes.
+const fichaParada = (clase) => `<span class="parada-ruta ${clase}"><svg class="picto" aria-hidden="true"><use href="#p-qrobus"/></svg></span>`;
+const iconoParadaSinHorario = L.divIcon({ className: "", iconSize: [26, 26], html: fichaParada("chica sin-horario") });
+const iconoParada = (cerca) => L.divIcon({ className: "", iconSize: cerca ? [34, 34] : [26, 26], html: fichaParada(cerca ? "sube" : "sube chica") });
 // Las paradas en el mapa: tu ubicacion, la mas cercana resaltada con el camino a pie y las demas; tocar una baja a sus camiones.
 let encuadreParadas = null;
 function pintarParadas(punto, lista, seleccionada = false) {
@@ -1964,7 +2002,8 @@ function pintarSentido(hacia) {
       const aqui = pat.paradas[k] === parada, extremo = k === 0 || k === puntos.length - 1;
       if (!aqui && !extremo) return L.circleMarker([la, lo], { radius: 4, color: COLOR_LINEA, weight: 2, fillColor: "#fff", fillOpacity: 1, interactive: false });
       return L.marker([la, lo], { interactive: false, keyboard: false, zIndexOffset: aqui ? 600 : 300,
-        icon: L.divIcon({ className: "", iconSize: aqui ? [34, 34] : [26, 26], html: `<span class="parada-linea${aqui ? " aqui" : " extremo"}">${ico("camion")}</span>` }) });
+        icon: L.divIcon({ className: "", iconSize: aqui ? [34, 34] : [26, 26], html: fichaParada(aqui ? "sube" : "sube chica") }) })
+        .bindTooltip(aqui ? "Tu parada" : k ? "Última parada" : "Primera parada", { permanent: aqui, direction: "top", offset: [0, aqui ? -18 : -14], className: `etiqueta-mapa${aqui ? " sube" : ""}` });
     }),
   ]).addTo(mapa);
   setTimeout(encuadrarLinea, 80);
