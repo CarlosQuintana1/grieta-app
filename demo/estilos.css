@@ -596,6 +596,7 @@ html.modo-voz #compararPrecio { display: none; }
 .boton-perfil { flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; }
 .boton-perfil .avatar.chico { width: 46px; height: 46px; }
 .boton-perfil .avatar.chico .icono { width: 32px; height: 32px; }
+html.claro .boton-perfil .avatar { background: #0b0a09; color: #e0a03c; }
 .tarjeta-perfil { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 8px; padding: 14px; border-radius: var(--radio);
   background: var(--superficie); border: 2px solid var(--ambar); text-align: left; }
 .tarjeta-perfil .mini-ficha { width: 48px; height: 48px; }
@@ -1464,12 +1465,7 @@ body.guia-mapa #mapa { flex: 1 1 auto; min-height: 50%; }
 body.guia-mapa .hoja { flex: 0 0 auto; max-height: 50%; }
 body.guia-mapa #guia { min-height: 0; }
 /* Racha y tlacuache: la tarjeta del inicio, su pantalla y la tienda */
-.racha-inicio { align-items: center; }
-.racha-mini { flex: none; width: 64px; height: 40px; }
-.racha-inicio strong { color: var(--ambar) !important; }
-.racha-cuenta { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
-.racha-cuenta > b { color: var(--tenue); font-size: .85rem; font-weight: 700; }
-.racha-puntos { flex: none; width: 152px; height: 10px; overflow: visible; }
+.racha-puntos { flex: none; display: block; width: 100%; height: auto; margin-top: 10px; overflow: visible; }
 .racha-puntos .fondo { fill: var(--linea); }
 .racha-puntos .fondo.actual { stroke: color-mix(in srgb, var(--ambar) 60%, transparent); stroke-width: 1.2; }
 .racha-puntos .lleno { fill: var(--ambar); }
@@ -1586,3 +1582,26 @@ html.daltonico #co2Equivale li.eq-parque { --acento: #a58be0; } html.daltonico.c
 @keyframes trato-avance { 0%, 8% { transform: scaleX(0); } 62%, 100% { transform: scaleX(1); } }
 @keyframes trato-mas { 0%, 60% { opacity: 0; transform: translateY(6px) scale(.7); } 70% { opacity: 1; transform: translateY(-2px) scale(1.08); } 88% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-4px); } }
 @keyframes trato-tuna { 0%, 60% { transform: none; } 68% { transform: scale(1.14); } 78%, 100% { transform: none; } }
+
+/* Inicio: el tlacuache al frente y dos pastillas de color para el CO2 y el ahorro */
+.racha-heroe { position: relative; display: block; width: 100%; margin-top: 10px; padding: 0; overflow: hidden; border: 0; border-radius: 24px; background: var(--superficie); color: var(--tinta); font: inherit; text-align: left; }
+.racha-heroe[hidden] { display: none; }
+.heroe-escena { display: block; width: 100%; height: auto; }
+.heroe-pie { display: block; padding: 12px 16px 16px; }
+.heroe-pie strong { display: block; color: var(--ambar); font-size: 1.3rem; font-weight: 800; line-height: 1.2; }
+.heroe-pie small { display: block; margin-top: 2px; color: var(--tenue); font-size: .85rem; font-weight: 600; }
+/* En el inicio el tlacuache solo parpadea y mueve la cola: lo demas de la escena se queda quieto. */
+.racha-heroe :is(.an-papel, .an-nubes, .an-halo) { animation: none; }
+.pastillas-inicio { display: flex; gap: 10px; margin-top: 10px; }
+.pastillas-inicio:not(:has(> :not([hidden]))) { display: none; }
+.pastilla-inicio { position: relative; flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; min-height: 84px; padding: 14px 12px 14px 16px; overflow: hidden; border: 0; border-radius: 20px; font: inherit; text-align: left; }
+.pastilla-inicio[hidden] { display: none; }
+.pastilla-texto { flex: 1; min-width: 0; }
+.pastilla-inicio b { display: block; font-size: 1.5rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.05; }
+.pastilla-inicio small { display: block; margin-top: 3px; font-size: .78rem; font-weight: 700; line-height: 1.2; }
+.pastilla-dibujo { flex: none; width: 44px; height: 44px; }
+.pastilla-inicio.verde { background: #1f6b46; color: #fff; }
+.pastilla-inicio.verde small { color: #cfe9da; }
+.pastilla-inicio.ambar { background: #e0a03c; color: #1c1408; }
+.pastilla-inicio.ambar small { color: #4a3210; }
+@media (max-width: 370px) { .pastilla-inicio { padding: 12px 10px 12px 13px; gap: 6px; } .pastilla-inicio b { font-size: 1.25rem; } .pastilla-dibujo { width: 32px; height: 32px; } }

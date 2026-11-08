@@ -226,14 +226,7 @@ RELLENOS = {
 for k, v in RELLENOS.items():
     L[k] = f'<g fill="currentColor" stroke="none" opacity=".2">{v}</g>' + L[k]
 
-if __name__ == "__main__":
-    nuevos = {k: ["0 0 24 24", v] for k, v in L.items()} | {k: ["0 0 48 48", v] for k, v in P.items()}
-    destino = Path(__file__).with_name("nuevos.json")
-    destino.write_text(json.dumps(nuevos, ensure_ascii=False, indent=0), encoding="utf-8")
-    print(f"{len(L)} de linea y {len(P)} pictogramas en {destino.name}")
-
-
-# Opciones para Trabajo (2026-11-08): no van a nuevos.json hasta que LuXo elija una.
+# Opciones para Trabajo (2026-11-08); LuXo eligio la oficina.
 TRABAJO = {
     "maletin": suave(R(4, 14, 40, 27, 7)) + solido("M4 21a7 7 0 0 1 7-7h26a7 7 0 0 1 7 7v4.5c-6 3-13 4.5-20 4.5S10 28.5 4 25.5z")
     + solido("M17 14v-3.5a3.5 3.5 0 0 1 3.5-3.5h7a3.5 3.5 0 0 1 3.5 3.5V14h-4v-3h-6v3z", R(20.5, 25.5, 7, 7.5, 2.5)),
@@ -242,3 +235,28 @@ TRABAJO = {
     "gafete": trazo_suave("M13 3.5l11 12 11-12", 3.6) + solido(R(19.5, 12.5, 9, 6.5, 2.2))
     + solido(R(9, 17.5, 30, 26, 5.5), C(24, 26.5, 4.3), "M16 39.5a8 6.5 0 0 1 16 0z"),
 }
+P["p-trabajo"] = TRABAJO["oficina"]
+
+# Para las pastillas del inicio (2026-11-08): hoja partida en dos tonos y monedas apiladas.
+def hoja():
+    # Hoja ancha partida por la vena: una mitad solida y otra suave.
+    arriba = "M8.6 38.4C3 25 13 6.6 41.5 6.5L9.6 38.4z"
+    abajo = "M42.5 7.5C42.4 36 24 46 10.6 39.4L42.5 7.5z"
+    return solido(arriba) + suave(abajo) + trazo("M10 38 4.5 43.5", 3.4)
+
+
+def monedas():
+    pila = "".join(f"M6 {y}v5.5a12 4.6 0 0 0 24 0V{y}a12 4.6 0 0 1-24 0z" for y in (35.5, 28.5, 21.5))
+    return (suave(f"M6 16.5a12 4.6 0 1 0 24 0a12 4.6 0 1 0-24 0z") + solido(pila)
+            + solido(C(35, 17, 10), C(35, 17, 6.4)) + solido(C(35, 17, 3.6)))
+
+
+P["p-hoja"] = hoja()
+P["p-monedas"] = monedas()
+
+if __name__ == "__main__":
+    nuevos = {k: ["0 0 24 24", v] for k, v in L.items()} | {k: ["0 0 48 48", v] for k, v in P.items()}
+    destino = Path(__file__).with_name("nuevos.json")
+    destino.write_text(json.dumps(nuevos, ensure_ascii=False, indent=0), encoding="utf-8")
+    print(f"{len(L)} de linea y {len(P)} pictogramas en {destino.name}")
+

@@ -3097,7 +3097,7 @@ function pintarAhorro() {
   const nuevaMeta = meta && meta > leer("grieta-meta-co2", 0) ? meta : null;
   if (nuevaMeta) { escribir("grieta-meta-co2", nuevaMeta); hablar(`Llevas ${nuevaMeta} kilos de CO₂ que no emitió un auto.`); }
   $("ahorroMes").hidden = false;
-  $("ahorroMes").innerHTML = `${ico("moneda")}<span class="fila-texto"><strong>${total >= 1 ? `${pesos(total)} de ahorro estimado` : "Tu ahorro"}</strong><span>${total >= 1 ? "Tu bolsillo lo nota." : "Y qué bono de Qrobus te conviene."}</span></span>${ico("chevron", "chevron")}`;
+  $("ahorroMes").innerHTML = `<span class="pastilla-texto"><b>${total >= 1 ? pesos(total) : "Tu ahorro"}</b><small>${total >= 1 ? "ahorrados este mes" : "y qué bono te conviene"}</small></span>${picto("monedas", "pastilla-dibujo")}`;
 }
 // Lo de todos: cada viaje en camion empezado con la guia manda solo sus km; la API los suma.
 const contarViaje = (km) => llamar("/viajes", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ km: Math.round(km * 10) / 10 }) })
@@ -3109,7 +3109,7 @@ async function pintarImpacto() {
     const { co2_kg, viajes: n, km } = await llamar("/impacto");
     if (!co2_kg) return;
     estado.impacto = { g: co2_kg * 1000, viajes: n, km };
-    $("impactoTodos").innerHTML = `${ico("planta")}<span class="fila-texto"><strong>${kgTexto(co2_kg * 1000)} de CO₂ evitados</strong><span>Moverte diferente sí cuenta.</span></span>${ico("chevron", "chevron")}`;
+    $("impactoTodos").innerHTML = `<span class="pastilla-texto"><b>${kgTexto(co2_kg * 1000)}</b><small>de CO₂ evitados</small></span>${picto("hoja", "pastilla-dibujo")}`;
     $("impactoTodos").hidden = false;
   } catch { estado.impactoLeido = 0; }
 }
@@ -3278,7 +3278,7 @@ function mostrarRachaViaje(r) {
   if (caja.hidden) return;
   caja.innerHTML = `<svg viewBox="-70 -80 136 84" aria-hidden="true">${tlacuache(r.cumplida ? 5 : 4)}</svg><span><strong>+${plural(r.tunas, "tuna", "tunas")}</strong>${r.cumplida ? `Semana cumplida. Llevas ${plural(r.semanas, "semana", "semanas")}.` : `Esta semana: ${r.cuenta} de ${plural(racha.meta, "viaje", "viajes")}.`}</span>`;
 }
-// Inicio: el titulo y una raya por semana; la de esta semana se llena con los viajes que van.
+// Inicio: el tlacuache en su escena de la hora, y abajo el titulo con una raya por semana; la de esta semana se llena con los viajes que van.
 function pintarRachaInicio() {
   const caja = $("rachaInicio");
   caja.hidden = acc.modoVoz || acc.facil;
@@ -3290,13 +3290,14 @@ function pintarRachaInicio() {
   const rayas = Array.from({ length: 6 }, (_, i) => {
     const d = lunes(new Date()); d.setDate(d.getDate() - (5 - i) * 7);
     const k = claveSemana(d), llena = i === 5 ? Math.min(1, cuenta / racha.meta) : viajesDeSemana(k) >= racha.meta || racha.usados.includes(k) ? 1 : 0;
-    const x = 1 + i * 27;
-    return `<rect class="fondo${i === 5 ? " actual" : ""}" x="${x}" y="1" width="22" height="8" rx="4"/>${llena ? `<rect class="lleno" x="${x}" y="1" width="${Math.max(8, 22 * llena).toFixed(1)}" height="8" rx="4"/>` : ""}`;
+    const x = 1 + i * 53.6;
+    return `<rect class="fondo${i === 5 ? " actual" : ""}" x="${x}" y="1" width="49" height="8" rx="4"/>${llena ? `<rect class="lleno" x="${x}" y="1" width="${Math.max(8, 49 * llena).toFixed(1)}" height="8" rx="4"/>` : ""}`;
   }).join("");
-  caja.innerHTML = `<svg class="racha-mini" viewBox="-70 -80 136 84" aria-hidden="true">${tlacuache(animoRacha())}</svg>
-    <span class="fila-texto"><strong>${titulo}</strong><span class="racha-cuenta"><svg class="racha-puntos" viewBox="0 0 160 10" aria-hidden="true">${rayas}</svg><b aria-hidden="true">${cuenta}/${racha.meta}</b><span class="oculto">Esta semana: ${cuenta} de ${plural(racha.meta, "viaje", "viajes")} en camión.</span></span></span>${ico("chevron", "chevron")}`;
-}
-function pintarRacha() {
+  caja.setAttribute("aria-label", `${titulo}. Esta semana: ${cuenta} de ${plural(racha.meta, "viaje", "viajes")} en camión. Ver tu tlacuache.`);
+  caja.innerHTML = `<svg class="heroe-escena" viewBox="0 40 640 300" aria-hidden="true">${escenaRacha(animoRacha())}</svg>
+    <span class="heroe-pie" aria-hidden="true"><strong>${titulo}</strong><small>Cada viaje en camión le da una tuna a tu tlacuache</small>
+    <svg class="racha-puntos" viewBox="0 0 320 10">${rayas}</svg></span>`;
+}function pintarRacha() {
   protectorDelMes();
   semanasSeguidas();
   $("rachaEscena").innerHTML = escenaRacha(animoRacha());
