@@ -830,7 +830,7 @@ function esqueletoOpciones() {
   $("opciones").setAttribute("aria-busy", "true");
   $("appsRapido").innerHTML = '<span class="esqueleto corto"></span>'.repeat(3);
   $("tarjetas").before($("ultimoCamion"));
-  $("tarjetas").innerHTML = '<span class="esqueleto"></span>'.repeat(2);
+  $("tarjetas").innerHTML = `<div class="tl-espera"><svg viewBox="-72 -84 140 88" aria-hidden="true">${tlacuache(3, racha.puestos, false)}</svg><span>Buscando camiones para ti<i></i><i></i><i></i></span></div>`;
   $("llegadaApp").textContent = "Calculando...";
   $("respuestaEspera").textContent = "";
   $("ultimoCamion").hidden = true;
@@ -1433,7 +1433,9 @@ function pintarOpciones(r) {
   $("opciones").classList.toggle("camion-primero", camionPrimero);
   // El aviso va debajo de la opcion a la que se refiere; arriba empujaba la tarjeta fuera de la hoja.
   $("tarjetas").querySelector(".tarjeta")?.after($("ultimoCamion"));
-  if (!hayCamion) {
+  if (!hayCamion && yaNoPasan(r.ctx.minuto)) {
+    $("tarjetas").innerHTML += tlacuacheDormido("Ya no pasan camiones a esta hora", "Vuelven en la mañana. Por ahora te queda ir en app.");
+  } else if (!hayCamion) {
     $("tarjetas").innerHTML += `<div class="aviso cuidado sin-camion">${ico("alerta")}<strong>${r.pasaCerca ? "Ningún Qrobus te lleva directo en la próxima hora." : "En la próxima hora no pasa ningún Qrobus cerca."}</strong></div>`;
   }
 }
@@ -2152,11 +2154,18 @@ async function ordenarPorCaminata(punto, lista) {
 function pintarCamiones(punto, lista, primera, seleccionada = false) {
   const revision = revisionCamiones;
   const caja = $("camionesContenido");
-  const filas = (p) => !p.lineas.length ? `<p class="nota">${Grieta.tieneRecorridos(p.i) ? "No hay próximos horarios guardados para esta parada." : "Parada oficial de Qrobus sin horarios publicados. No sabemos qué camiones pasan aquí."}</p>` : `<ul class="filas fichas-linea">${p.lineas.slice(0, 6).map((l) => `<li data-linea="${escapar(l.linea)}"><button type="button" class="ficha-linea" data-ver-linea="${escapar(l.linea)}" data-hacia="${escapar(l.hacia)}" data-indice="${p.i}">
+  // El tlacuache dormido solo en la parada principal; en las demas basta una linea.
+  const filas = (p, principal = false) => !p.lineas.length && Grieta.tieneRecorridos(p.i) && yaNoPasan() ? (principal ? tlacuacheDormido("Ya no pasan camiones a esta hora", "Vuelven en la mañana.") : '<p class="nota">Ya no pasan camiones a esta hora.</p>') : !p.lineas.length ? `<p class="nota">${Grieta.tieneRecorridos(p.i) ? "No hay próximos horarios guardados para esta parada." : "Parada oficial de Qrobus sin horarios publicados. No sabemos qué camiones pasan aquí."}</p>` : `<ul class="filas fichas-linea">${p.lineas.slice(0, 6).map((l) => `<li data-linea="${escapar(l.linea)}"><button type="button" class="ficha-linea" data-ver-linea="${escapar(l.linea)}" data-hacia="${escapar(l.hacia)}" data-indice="${p.i}">
       <span class="linea-caja">${escapar(l.linea)}</span>
       <span class="fila-texto"><small class="hacia-rotulo">Hacia</small><strong translate="no">${escapar(l.hacia)}</strong>${l.horas[1] !== undefined ? `<small>También a las ${hora(l.horas[1])}</small>` : ""}</span>
       <span class="hora-camion"><strong>${hora(l.horas[0])}</strong><small>${enCuanto(l.horas[0])}</small></span>${ico("chevron", "chevron")}
     </button></li>`).join("")}</ul>`;
+  // De noche, si el siguiente camion es hasta la manana, el tlacuache dormido dice a que hora pasa el primero.
+  const dormidoParada = (p) => {
+    if (!p.lineas.length || !yaNoPasan()) return "";
+    const primero = Math.min(...p.lineas.map((l) => l.horas[0])), falta = (primero - ahoraMin() + 1440) % 1440;
+    return falta > 90 ? tlacuacheDormido("Ya no pasan camiones a esta hora", `El primero pasa a las ${hora(primero)}.`) : "";
+  };
   const p = lista[0];
   pintarParadas(punto, lista, seleccionada);
   caja.innerHTML = `
@@ -2170,7 +2179,7 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
       <button id="appParada" type="button" class="boton oscuro">${ico("auto")}Ir en app</button>
     </div>
     <h2>Próximos camiones</h2>
-    ${filas(p)}
+    ${dormidoParada(p)}${filas(p, true)}
     <h2 class="cabeza-avisos"><span>Avisos de la parada</span><span id="contadorAvisos" class="contador-avisos">${ico("alerta")}<b>…</b></span></h2>
     <div id="avisosParada" class="avisos"></div>
     <button id="reportarParada" type="button" class="boton oscuro">Reportar algo en esta parada</button>
@@ -3276,7 +3285,12 @@ function mostrarRachaViaje(r) {
   const caja = $("guiaRacha");
   caja.hidden = !r || acc.modoVoz;
   if (caja.hidden) return;
-  caja.innerHTML = `<svg viewBox="-70 -80 136 84" aria-hidden="true">${tlacuache(r.cumplida ? 5 : 4)}</svg><span><strong>+${plural(r.tunas, "tuna", "tunas")}</strong>${r.cumplida ? `Semana cumplida. Llevas ${plural(r.semanas, "semana", "semanas")}.` : `Esta semana: ${r.cuenta} de ${plural(racha.meta, "viaje", "viajes")}.`}</span>`;
+  caja.innerHTML = `<svg class="tl-salta" viewBox="-70 -80 136 84" aria-hidden="true">${tlacuache(r.cumplida ? 5 : 4)}</svg><span><strong>+${plural(r.tunas, "tuna", "tunas")}</strong>${r.cumplida ? `Semana cumplida. Llevas ${plural(r.semanas, "semana", "semanas")}.` : `Esta semana: ${r.cuenta} de ${plural(racha.meta, "viaje", "viajes")}.`}</span>`;
+}
+// De noche, cuando ya no pasan camiones, el tlacuache se duerme en lugar de un aviso seco.
+const yaNoPasan = (minuto = ahoraMin()) => { const h = Math.floor(minuto / 60) % 24; return h >= 21 || h < 5; };
+function tlacuacheDormido(texto, detalle) {
+  return `<div class="tl-dormido" role="status"><svg viewBox="-72 -94 140 98" aria-hidden="true">${tlacuache(3, racha.puestos, true)}</svg><span><strong>${texto}</strong><small>${detalle}</small></span></div>`;
 }
 // Inicio: el tlacuache en su escena de la hora, y abajo el titulo con una raya por semana; la de esta semana se llena con los viajes que van.
 function pintarRachaInicio() {
