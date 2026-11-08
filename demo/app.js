@@ -213,14 +213,14 @@ const PANTALLAS = {
   camara: { tab: "inicio", encabezado: true },
   practica: { tab: "inicio", encabezado: true },
   guia: {},
-  reporte: { tab: "reporte" },
+  reporte: { tab: "inicio", encabezado: true },
   ahorro: { tab: "inicio", encabezado: true },
   co2: { tab: "inicio", encabezado: true },
   racha: { tab: "inicio", encabezado: true },
   ajustes: { tab: "ajustes" },
   perfil: { tab: "ajustes", encabezado: true },
 };
-const titulos = { racha: "Tu tlacuache", nombrar: "Guardar un lugar", co2: "Lo que evitamos", ahorro: "Tu ahorro", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
+const titulos = { reporte: "Reportar", racha: "Tu tlacuache", nombrar: "Guardar un lugar", co2: "Lo que evitamos", ahorro: "Tu ahorro", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
 
 function actualizarVozEncabezado() {
   const boton = $("vozEncabezado"), enCamara = document.body.dataset.pantalla === "camara";
@@ -314,7 +314,7 @@ function reencuadrar(nombre) {
 }
 // Regla de diseno: al reposo ningun boton ni ficha queda partido por la orilla de la hoja o por la barra fija.
 // La hoja crece para mostrarlo entero si el mapa conserva 30 % de la pantalla; si no, se corta justo antes.
-const BLOQUES = "button, li, label, h2, p, .co2-comparar, .tarjeta, .parada-cerca, .a-pie, .aviso";
+const BLOQUES = "button, li, label, h2, p, .co2-comparar, .tarjeta, .parada-cerca, .a-pie, .aviso, .tl-dormido";
 function evitarCortes() {
   const hoja = $("hoja"), pantalla = $(document.body.dataset.pantalla ?? "");
   if (hoja.scrollTop > 0) return;
@@ -2157,17 +2157,13 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
   const revision = revisionCamiones;
   const caja = $("camionesContenido");
   // El tlacuache dormido solo en la parada principal; en las demas basta una linea.
-  const filas = (p, principal = false) => !p.lineas.length && Grieta.tieneRecorridos(p.i) && yaNoPasan() ? (principal ? tlacuacheDormido("Ya no pasan<br>camiones a esta hora") : '<p class="nota">Ya no pasan camiones a esta hora.</p>') : !p.lineas.length ? `<p class="nota">${Grieta.tieneRecorridos(p.i) ? "No hay próximos horarios guardados para esta parada." : "Parada oficial de Qrobus sin horarios publicados. No sabemos qué camiones pasan aquí."}</p>` : `<ul class="filas fichas-linea">${p.lineas.slice(0, 6).map((l) => `<li data-linea="${escapar(l.linea)}"><button type="button" class="ficha-linea" data-ver-linea="${escapar(l.linea)}" data-hacia="${escapar(l.hacia)}" data-indice="${p.i}">
+  const filas = (p, principal = false) => !p.lineas.length && Grieta.tieneRecorridos(p.i) && yaNoPasan() ? (principal ? "" : '<p class="nota">Ya no pasan camiones a esta hora.</p>') : !p.lineas.length ? `<p class="nota">${Grieta.tieneRecorridos(p.i) ? "No hay próximos horarios guardados para esta parada." : "Parada oficial de Qrobus sin horarios publicados. No sabemos qué camiones pasan aquí."}</p>` : `<ul class="filas fichas-linea">${p.lineas.slice(0, 6).map((l) => `<li data-linea="${escapar(l.linea)}"><button type="button" class="ficha-linea" data-ver-linea="${escapar(l.linea)}" data-hacia="${escapar(l.hacia)}" data-indice="${p.i}">
       <span class="linea-caja">${escapar(l.linea)}</span>
       <span class="fila-texto"><small class="hacia-rotulo">Hacia</small><strong translate="no">${escapar(l.hacia)}</strong>${l.horas[1] !== undefined ? `<small>También a las ${hora(l.horas[1])}</small>` : ""}</span>
       <span class="hora-camion"><strong>${hora(l.horas[0])}</strong><small>${enCuanto(l.horas[0])}</small></span>${ico("chevron", "chevron")}
     </button></li>`).join("")}</ul>`;
-  // De noche, si el siguiente camion es hasta la manana, el tlacuache dormido dice a que hora pasa el primero.
-  const dormidoParada = (p) => {
-    if (!p.lineas.length || !yaNoPasan()) return "";
-    const primero = Math.min(...p.lineas.map((l) => l.horas[0])), falta = (primero - ahoraMin() + 1440) % 1440;
-    return falta > 90 ? tlacuacheDormido("Ya no pasan<br>camiones a esta hora", `El primero pasa a las ${hora(primero)}.`) : "";
-  };
+  // De noche, si ya no hay camiones o el siguiente tarda mas de hora y media, se duerme el tlacuache.
+  const durmiendo = (p) => yaNoPasan() && (p.lineas.length ? (Math.min(...p.lineas.map((l) => l.horas[0])) - ahoraMin() + 1440) % 1440 > 90 : Grieta.tieneRecorridos(p.i));
   const p = lista[0];
   pintarParadas(punto, lista, seleccionada);
   caja.innerHTML = `
@@ -2177,11 +2173,12 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
     </div>
     <div class="a-pie" role="status">${ico("caminar")}<span class="fila-texto"><strong id="caminaParada">${p.caminado ? textoCaminata(p.caminado, p.relieve)[0] : "Calculando el camino a pie..."}</strong><small id="caminaDetalle">${p.caminado ? textoCaminata(p.caminado)[1] : `A ${distanciaTexto(p.m, true)} en línea recta`}</small></span></div>
     <div class="dos-botones ir-parada">
-      <button id="irParada" type="button" class="boton oscuro">${ico("caminar")}Caminar con guía</button>
-      <button id="appParada" type="button" class="boton oscuro">${ico("auto")}Ir en app</button>
+      <button id="irParada" type="button" class="boton boton-guia">${picto("caminar")}Caminar con guía</button>
+      <button id="appParada" type="button" class="boton boton-app">${picto("carro")}Ir en app</button>
     </div>
-    <h2>Próximos camiones</h2>
-    ${dormidoParada(p)}${filas(p, true)}
+    ${durmiendo(p) ? tlacuacheDormido("Ya no pasan<br>camiones a esta hora") : ""}
+    ${p.lineas.length || !durmiendo(p) ? `<h2>${durmiendo(p) ? "Primeros camiones del día" : "Próximos camiones"}</h2>` : ""}
+    ${filas(p, true)}
     <h2 class="cabeza-avisos"><span>Avisos de la parada</span><span id="contadorAvisos" class="contador-avisos">${ico("alerta")}<b>…</b></span></h2>
     <div id="avisosParada" class="avisos"></div>
     <button id="reportarParada" type="button" class="boton oscuro">Reportar algo en esta parada</button>

@@ -1559,17 +1559,18 @@ html.daltonico :is(#co2Equivale, #ahorroEquivale) li.eq-parque { --acento: #a58b
 .racha-trato p { margin: 0; display: grid; gap: 4px; text-align: center; }
 .racha-trato strong { font-size: 1.15rem; font-weight: 800; color: var(--tinta); }
 .racha-trato p span { color: var(--tenue); font-size: .92rem; }
-.trato-camino { display: flex; align-items: center; gap: 10px; }
-.trato-parada { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: color-mix(in srgb, var(--ambar) 20%, transparent); color: var(--ambar); }
-.trato-parada .picto { width: 26px; height: 26px; }
-.trato-via { position: relative; flex: 1; height: 34px; }
-.trato-via::before, .trato-avance { content: ""; position: absolute; left: 0; right: 0; bottom: 6px; height: 4px; border-radius: 2px; }
-.trato-via::before { background: color-mix(in srgb, var(--ambar) 22%, transparent); }
-.trato-avance { background: var(--ambar); transform-origin: left; }
-.trato-carril { position: absolute; left: 0; bottom: 9px; width: calc(100% - 34px); height: 22px; }
-.trato-bus { display: block; width: 34px; height: 22px; }
-.trato-tuna { position: relative; flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: #efe9dd; }
+.trato-camino { display: flex; align-items: center; }
+.trato-parada, .trato-tuna { position: relative; z-index: 1; flex: none; display: grid; place-items: center; box-sizing: border-box; width: 58px; height: 58px; border: 4px solid var(--ambar); border-radius: 50%; background: #efe9dd; }
+.trato-parada { color: #2b2420; }
+.trato-parada .picto { width: 30px; height: 30px; }
 .trato-tuna svg { width: 34px; height: 34px; }
+/* La via sale de un aro y entra al otro: va por debajo de los dos, a media altura. */
+.trato-via { position: relative; flex: 1; height: 58px; margin: 0 -4px; }
+.trato-via::before, .trato-avance { content: ""; position: absolute; left: 0; right: 0; top: calc(50% - 3px); height: 6px; }
+.trato-via::before { background: color-mix(in srgb, var(--ambar) 28%, var(--superficie)); }
+.trato-avance { background: var(--ambar); transform-origin: left; }
+.trato-carril { position: absolute; left: 10px; bottom: calc(50% + 3px); width: calc(100% - 54px); height: 22px; }
+.trato-bus { display: block; width: 34px; height: 22px; }
 .trato-tuna b { position: absolute; top: -12px; right: -8px; padding: 2px 7px; border-radius: 999px; background: var(--ambar); color: var(--sobre-ambar, #0b0a09); font-size: .85rem; font-weight: 800; }
 @media (prefers-reduced-motion: no-preference) {
   .trato-avance { animation: trato-avance 3.2s ease-in-out infinite; }
@@ -1655,3 +1656,11 @@ html.claro #ahorroEquivale li.eq-pantalla { --acento: #a3312f; }
 .leyenda-arbol { display: flex; align-items: center; gap: 10px; text-wrap: balance; }
 .leyenda-arbol svg { flex: none; width: 30px; height: 40px; }
 .leyenda-arbol b { color: var(--verde); }
+
+/* Camiones cerca: caminar en verde e ir en app en azul */
+.ir-parada .boton { border: 0; color: #fff; }
+.ir-parada .picto { width: 26px; height: 26px; }
+.boton-guia { background: #1f6b46; }
+.boton-app { background: #2c5aa0; }
+/* En Camiones cerca el tlacuache no es otra ficha: va suelto, como parte de la lista */
+#camionesContenido .tl-dormido { margin: 18px 0 0; padding: 0; background: none; }

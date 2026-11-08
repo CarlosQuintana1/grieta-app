@@ -278,6 +278,11 @@ def monedas():
 P["p-hoja"] = hoja()
 P["p-monedas"] = monedas()
 
+# Carro de lado para "Ir en app" (2026-11-08): se entiende mejor que de frente a tamano de boton.
+_carro = "M4 30v-4.5c0-2 1.4-3.6 3.3-4l4.2-.9 4.6-7.3A5 5 0 0 1 20.3 11h9.6a5 5 0 0 1 3.9 1.9l6.1 7.6 3.1.9c1.8.5 3 2.1 3 4V30a3 3 0 0 1-3 3h-1a7 7 0 0 0-14 0h-8a7 7 0 0 0-14 0a2 3 0 0 1-2-3z"
+_frente, _atras = "M26.5 14.5h3.4a2 2 0 0 1 1.6.8l4.6 5.7H26.5z", "M23.5 14.5V21H15.4l3.4-5.4a2.4 2.4 0 0 1 2-1.1z"
+P["p-carro"] = solido(_carro, _frente, _atras, R(41.5, 25, 3.5, 2.6, 1.3)) + suave(_frente, _atras) + solido(C(13, 35, 5.2), C(13, 35, 1.9), C(35, 35, 5.2), C(35, 35, 1.9))
+
 if __name__ == "__main__":
     nuevos = {k: ["0 0 24 24", v] for k, v in L.items()} | {k: ["0 0 48 48", v] for k, v in P.items()}
     destino = Path(__file__).with_name("nuevos.json")
