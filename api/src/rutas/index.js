@@ -4,6 +4,7 @@ import { auto } from "../controladores/auto.js";
 import { buscar } from "../controladores/buscar.js";
 import { impacto } from "../controladores/impacto.js";
 import { observatorio } from "../controladores/observatorio.js";
+import { respaldos } from "../controladores/respaldos.js";
 import { sentir } from "../controladores/sentir.js";
 import { consultasRouter } from "./consultas.js";
 import { cotizacionesRouter } from "./cotizaciones.js";
@@ -42,5 +43,9 @@ export const api = Router()
   .post("/viajes/demo", impacto.demo)
   .delete("/viajes/demo", impacto.quitarDemo)
   .get("/impacto", impacto.total)
+  // Copia cifrada del progreso para pasarlo a otro telefono, sin cuenta ni contrasena
+  .get("/respaldos/:id", respaldos.leer)
+  .put("/respaldos/:id", respaldos.guardar)
+  .delete("/respaldos/:id", respaldos.borrar)
   // Datos abiertos agregados para la ciudad
   .get("/observatorio", observatorio);

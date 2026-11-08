@@ -470,3 +470,33 @@ describe("Observatorio", () => {
     assert.ok(r.body.quejas.porRuta.some((x) => x.clave === "C24"));
   });
 });
+
+describe("Copia cifrada del progreso", () => {
+  const id = "a".repeat(64), otro = "b".repeat(64);
+  test("se guarda, se lee y no se pisa una version mas nueva", async () => {
+    await publico().get(`/api/respaldos/${id}`).expect(404);
+    const r1 = await publico().put(`/api/respaldos/${id}`).send({ datos: "QUJD", version: 0 }).expect(201);
+    assert.equal(r1.body.version, 1);
+    await publico().put(`/api/respaldos/${id}`).send({ datos: "REVG", version: 0 }).expect(409);
+    const r2 = await publico().put(`/api/respaldos/${id}`).send({ datos: "REVG", version: 1 }).expect(200);
+    assert.equal(r2.body.version, 2);
+    await publico().put(`/api/respaldos/${id}`).send({ datos: "R0hJ", version: 1 }).expect(409);
+    const leida = await publico().get(`/api/respaldos/${id}`).expect(200);
+    assert.deepEqual(leida.body, { datos: "REVG", version: 2 });
+  });
+  test("rechaza ids y copias invalidas", async () => {
+    await publico().get("/api/respaldos/hola").expect(400);
+    await publico().put("/api/respaldos/hola").send({ datos: "QUJD" }).expect(401);
+    await publico().put(`/api/respaldos/${otro}`).send({ datos: "<script>" }).expect(400);
+    await publico().put(`/api/respaldos/${otro}`).send({ datos: "" }).expect(400);
+  });
+  test("acepta copias grandes solo en esta ruta y se puede borrar", async () => {
+    await publico().put(`/api/respaldos/${otro}`).send({ datos: "A".repeat(300_000), version: 0 }).expect(201);
+    await publico().delete(`/api/respaldos/${otro}`).expect(200);
+    await publico().get(`/api/respaldos/${otro}`).expect(404);
+    await publico().post("/api/viajes").send({ km: 3, relleno: "A".repeat(30_000) }).expect(413);
+  });
+  test("nadie lista todas las copias", async () => {
+    await publico().get("/api/respaldos").expect(404);
+  });
+});

@@ -17,7 +17,9 @@ const fichaApp = (app) => `<span class="mini-ficha ficha-app app-${app}" aria-hi
 const miniFicha = (tono, contenido) => `<span class="mini-ficha ${tono}" aria-hidden="true">${contenido}</span>`;
 const ico = (nombre, clase = "") => `<svg class="icono ${clase}" aria-hidden="true"><use href="#i-${nombre}"/></svg>`;
 const leer = (clave, defecto) => { try { return JSON.parse(localStorage.getItem(clave)) ?? defecto; } catch { return defecto; } };
-const escribir = (clave, valor) => { try { localStorage.setItem(clave, JSON.stringify(valor)); } catch {} };
+// llave.js lo cambia para anotar la hora de cada cambio y guardar la copia cifrada.
+let alEscribir = () => {};
+const escribir = (clave, valor) => { try { localStorage.setItem(clave, JSON.stringify(valor)); } catch {} alEscribir(clave); };
 const sinAcentos = (t) => t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
 // Los colores del mapa siguen al tema: con alto contraste o colores para daltonismo cambian igual que la pantalla.
 const tono = (nombre) => getComputedStyle(document.documentElement).getPropertyValue(nombre).trim();
@@ -4637,17 +4639,20 @@ Interfaz.iniciar(acc.idioma, () => {
   actualizarFilasPerfil();
 });
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+const SIN_INTERNET = "Sin internet: puedes ver qué camión pasa y tus lugares guardados; para buscar calles hace falta conexión.";
+// Al volver la conexion solo se quita su propio aviso, no otro que este en pantalla.
 function avisoConexion() {
-  avisar(navigator.onLine ? "" : "Sin internet: puedes ver qué camión pasa y tus lugares guardados; para buscar calles hace falta conexión.");
+  if (!navigator.onLine) avisar(SIN_INTERNET);
+  else if ($("estado").textContent === SIN_INTERNET) avisar("");
 }
 addEventListener("online", avisoConexion);
 addEventListener("offline", avisoConexion);
 
-// Pantalla de arranque: se va cuando ya cargaron los datos, nunca antes de 0.7 s para que no parpadee y nunca despues de 4 s.
+// Pantalla de arranque: se va cuando ya cargaron los datos, nunca antes de 1.6 s para que se vea el camioncito llegar y nunca despues de 4 s.
 function quitarArranque() {
   const a = $("arranque");
   if (!a || a.classList.contains("listo")) return;
-  setTimeout(() => { a.classList.add("listo"); setTimeout(() => a.remove(), 350); }, Math.max(0, 700 - performance.now()));
+  setTimeout(() => { a.classList.add("listo"); setTimeout(() => a.remove(), 350); }, Math.max(0, 1600 - performance.now()));
 }
 setTimeout(quitarArranque, Math.max(0, 4000 - performance.now()));
 
@@ -4674,6 +4679,7 @@ Promise.all([
   Promise.race([pintarImpacto(), new Promise((r) => setTimeout(r, 1500))]).then(quitarArranque);
   pintarGuardados();
   avisoConexion();
+  sincronizarRespaldo();
   if (!primeraVez) ubicar();
   accionInicial();
 });

@@ -1,7 +1,7 @@
 import express from "express";
 import { CARPETA_LOCAL } from "./almacen.js";
 import { api } from "./rutas/index.js";
-import { encabezados, limiteEnvios, permisos } from "./seguridad.js";
+import { encabezados, limiteEnvios, limiteRespaldos, permisos } from "./seguridad.js";
 
 export const app = express();
 app.disable("x-powered-by");
@@ -19,6 +19,8 @@ app.use((req, res, next) => {
 });
 app.use(permisos);
 app.use(limiteEnvios);
+// La copia cifrada del progreso pesa mas que cualquier otro envio; solo esa ruta acepta hasta 400 KB.
+app.use("/api/respaldos", limiteRespaldos, express.json({ limit: "400kb" }));
 app.use(express.json({ limit: "20kb" }));
 app.use("/fotos", express.static(CARPETA_LOCAL));
 app.use("/api", api);
@@ -35,7 +37,7 @@ app.use((err, req, res, _next) => {
       ? res.status(409).json({ error: "No se puede borrar: tiene datos relacionados" })
       : res.status(400).json({ error: "Hace referencia a un dato que no existe" });
   }
-  if (err.type === "entity.too.large") return res.status(413).json({ error: "La foto pesa más de 5 MB" });
+  if (err.type === "entity.too.large") return res.status(413).json({ error: req.path.startsWith("/api/respaldos") ? "La copia es muy grande" : "La foto pesa más de 5 MB" });
   console.error(err);
   res.status(500).json({ error: "Error interno" });
 });

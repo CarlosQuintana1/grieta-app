@@ -111,6 +111,13 @@ export const VerificacionReporte = sequelize.define("VerificacionReporte", {
   sigue: { type: DataTypes.BOOLEAN, allowNull: false },
 }, { tableName: "verificaciones_reporte", updatedAt: false });
 
+// Copia cifrada del progreso de alguien. El id y la llave para descifrar salen de sus seis palabras en el telefono: aqui no se puede leer.
+export const Respaldo = sequelize.define("Respaldo", {
+  id: { type: DataTypes.STRING(64), primaryKey: true, validate: { is: /^[0-9a-f]{64}$/ } },
+  datos: { type: DataTypes.TEXT, allowNull: false },
+  version: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 },
+}, { tableName: "respaldos" });
+
 // RESTRICT: un lugar, una ruta o un usuario con datos ligados no se puede borrar.
 const llave = (name, onDelete = "RESTRICT") => ({ foreignKey: { name, allowNull: false }, onDelete });
 

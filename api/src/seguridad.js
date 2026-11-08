@@ -12,6 +12,8 @@ const ESCRITURAS_PUBLICAS = [
   ["POST", /^\/api\/notificaciones(\/cancelar)?\/?$/],
   ["POST", /^\/api\/viajes\/?$/],
   ["POST", /^\/api\/sentir\/?$/],
+  ["PUT", /^\/api\/respaldos\/[0-9a-f]{64}\/?$/],
+  ["DELETE", /^\/api\/respaldos\/[0-9a-f]{64}\/?$/],
 ];
 // Lecturas con datos de personas: quién captura, por dónde se mueve y qué consulta.
 // El texto de cada queja puede traer datos de alguien: solo el resumen es publico.
@@ -41,6 +43,20 @@ export function limiteEnvios(req, res, next) {
   lista.push(ahora);
   envios.set(quien, lista);
   if (envios.size > 5000) envios.delete(envios.keys().next().value);
+  next();
+}
+
+// Las copias se piden mas seguido que los envios (al abrir y al terminar cada viaje): tope propio por persona.
+const TOPE_RESPALDOS = Number(process.env.TOPE_RESPALDOS_HORA ?? 120);
+const respaldosPorIp = new Map();
+
+export function limiteRespaldos(req, res, next) {
+  const ahora = Date.now();
+  const lista = (respaldosPorIp.get(req.ip) ?? []).filter((t) => ahora - t < VENTANA_MS);
+  if (lista.length >= TOPE_RESPALDOS) return res.status(429).json({ error: "Muchas copias seguidas. Intenta en un rato" });
+  lista.push(ahora);
+  respaldosPorIp.set(req.ip, lista);
+  if (respaldosPorIp.size > 5000) respaldosPorIp.delete(respaldosPorIp.keys().next().value);
   next();
 }
 

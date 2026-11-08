@@ -755,6 +755,13 @@ html.grande .lugar-nombre, html.facil .lugar-nombre { font-size: 0.95rem; }
 .dos-botones .boton { margin-top: 0; }
 .aviso-gente { margin: 0 0 10px; padding-left: 62px; font-size: 0.85rem; font-weight: 600; color: var(--ambar); }
 .familiar .campo { margin-top: 10px; }
+.ajuste-panel .llave { padding: 0; background: transparent; }
+.llave .campo { margin-top: 18px; }
+.llave .boton { margin-top: 10px; }
+.llave-palabras { list-style: none; counter-reset: palabra; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; padding: 0; }
+.llave-palabras li { counter-increment: palabra; display: flex; align-items: baseline; gap: 8px; min-width: 0; padding: 12px 14px; border-radius: 12px; background: var(--superficie); border: 1px solid var(--linea); font-size: 1.15rem; font-weight: 700; overflow-wrap: anywhere; }
+.llave-palabras li::before { content: counter(palabra); color: var(--tenue); font-size: .85rem; font-weight: 600; }
+.llave .fila-boton.peligro { color: var(--cuidado); }
 #avisarFamiliar .icono { width: 22px; height: 22px; }
 
 /* Modo facil: solo lo esencial. Fuera lo secundario y todo en una columna con botones grandes */
@@ -1507,12 +1514,12 @@ html.daltonico #co2Equivale li.eq-parque { --acento: #a58be0; } html.daltonico.c
 .arranque-camino { position: relative; width: 168px; height: 24px; }
 .arranque-camino::before, .arranque-avance { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 4px; border-radius: 2px; }
 .arranque-camino::before { background: #2b2724; }
-.arranque-avance { background: #e0a03c; transform-origin: left; animation: arranque-avance 1.3s cubic-bezier(.25, .7, .3, 1) .15s both; }
-.arranque-camion { position: absolute; left: 0; bottom: 3px; width: 30px; height: 20px; animation: arranque-camion 1.3s cubic-bezier(.25, .7, .3, 1) .15s both; }
+.arranque-avance { background: #e0a03c; transform-origin: left; animation: arranque-avance 1.4s cubic-bezier(.45, .1, .3, 1) .15s both; }
+.arranque-camion { position: absolute; left: 0; bottom: 3px; width: 30px; height: 20px; animation: arranque-camion 1.4s cubic-bezier(.45, .1, .3, 1) .15s both; }
 .arranque-camion svg { display: block; width: 100%; height: 100%; animation: arranque-bache .32s ease-in-out infinite alternate; }
 @keyframes arranque-logo { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
-@keyframes arranque-avance { from { transform: scaleX(.18); } to { transform: scaleX(.88); } }
-@keyframes arranque-camion { from { transform: translateX(0); } to { transform: translateX(118px); } }
+@keyframes arranque-avance { from { transform: scaleX(.18); } to { transform: scaleX(1); } }
+@keyframes arranque-camion { from { transform: translateX(0); } to { transform: translateX(138px); } }
 @keyframes arranque-bache { to { transform: translateY(-1px); } }
 @media (prefers-reduced-motion: reduce) {
   .arranque-logo, .arranque-avance, .arranque-camion, .arranque-camion svg { animation: none; }
