@@ -15,6 +15,15 @@ const Grieta = (() => {
   const TRANSBORDO_M = 250;
   const ESPERA_TRANSBORDO = 2;
   const AHORRO_MINIMO = 0.3;
+  // Hasta cuatro camiones seguidos, es decir tres transbordos.
+  const MAX_CAMIONES = 4;
+  // Formas distintas de llegar que se recuerdan por parada y por tipo de acceso.
+  const TOPE_ETIQUETAS = 4;
+  // Una ruta que tarda mas solo se conserva si ahorra al menos estos minutos a pie.
+  const CAMINA_MENOS_MIN = 4;
+  // Un camion extra tiene que ahorrar al menos estos minutos de viaje, o estos otros a pie.
+  const CAMION_EXTRA_MIN = 8;
+  const CAMION_EXTRA_PIE = 12;
   const INF = 1e9;
 
   let modelo, qrobus, porParada;
@@ -144,7 +153,17 @@ const Grieta = (() => {
 
   // Los viajes que cruzan la medianoche vienen en el horario del dia anterior como 24:10, 25:00...
   const MADRUGADA = 120;
-  const primeraDesde = (salidas, corrimiento, t, ventana) => salidas?.map((x) => x + corrimiento).find((h) => h >= t && h <= t + ventana);
+  function primeraDesde(salidas, corrimiento, t, ventana) {
+    if (!salidas) return undefined;
+    let a = 0, b = salidas.length;
+    while (a < b) {
+      const m = (a + b) >> 1;
+      if (salidas[m] + corrimiento < t) a = m + 1;
+      else b = m;
+    }
+    const h = salidas[a] + corrimiento;
+    return a < salidas.length && h <= t + ventana ? h : undefined;
+  }
 
   // Primera salida de un recorrido que pasa por la posicion pos despues del minuto t.
   function salidaDesde(p, ctx, pos, t, ventana = VENTANA_MIN) {
@@ -157,7 +176,7 @@ const Grieta = (() => {
     // La ultima salida del dia de esa linea desde la parada donde se sube.
     const ultima = Math.max(...(p.salidas[servicio] ?? [sale - p.minutos[pb]])) + p.minutos[pb];
     return {
-      tipo: "camion", linea: p.linea, hacia: p.hacia, sale, llega, ultima, paradas: pa - pb, baja: nombreParada(p.paradas[pa]),
+      tipo: "camion", linea: p.linea, hacia: p.hacia, sale, llega, ultima, paradas: pa - pb, baja: nombreParada(p.paradas[pa]), estimado: !!p.estimado,
       recorrido: p.paradas.slice(pb, pa + 1).map((k) => ({ nombre: nombreParada(k), lat: qrobus.paradas[k][0], lon: qrobus.paradas[k][1] })),
     };
   }
@@ -187,81 +206,132 @@ const Grieta = (() => {
     };
   }
 
-  function opciones(ctx, o, d, kmCalle, caminarMax, tarifa = { pasaje: qrobus.pasaje, transbordo: qrobus.pasaje / 2 }, caminatas) {
+  // Una etiqueta es una forma de llegar a una parada: a que hora, cuanto se camino y cuanto se pago de app.
+  const gana = (a, b) => a.s.modo === b.s.modo && a.t <= b.t && a.pie <= b.pie && a.pago <= b.pago;
+  const pesoEtiqueta = (e) => e.t + 1.5 * e.pie + e.pago / 5;
+  function meter(mapa, parada, e) {
+    let bolsa = mapa.get(parada);
+    if (!bolsa) mapa.set(parada, (bolsa = []));
+    if (bolsa.some((x) => gana(x, e))) return false;
+    for (let i = bolsa.length - 1; i >= 0; i--) if (gana(e, bolsa[i])) bolsa.splice(i, 1);
+    bolsa.push(e);
+    const mismas = bolsa.filter((x) => x.s.modo === e.s.modo);
+    if (mismas.length <= TOPE_ETIQUETAS) return true;
+    // La que llega primero y la que menos camina nunca se tiran.
+    const primera = mismas.reduce((a, b) => (b.t < a.t ? b : a));
+    const andarMenos = mismas.reduce((a, b) => (b.pie < a.pie ? b : a));
+    const peor = mismas.filter((x) => x !== primera && x !== andarMenos).reduce((a, b) => (pesoEtiqueta(b) > pesoEtiqueta(a) ? b : a));
+    bolsa.splice(bolsa.indexOf(peor), 1);
+    return peor !== e;
+  }
+
+  // Busqueda por rondas: cada ronda agrega un camion y guarda varias formas de llegar a cada parada, no solo la primera.
+  function buscarCamiones(ctx, sube, maxCamiones, alLlegar) {
+    let listas = new Map();
+    const vistas = new Map();
+    let hayCerca = false;
+    for (const [sb, s] of sube) {
+      const e = { t: ctx.minuto + s.min, pie: s.modo === "caminando" ? s.min : 0, pago: s.costo, s, sb, n: 0 };
+      meter(vistas, sb, e);
+      meter(listas, sb, e);
+    }
+    for (let n = 1; n <= maxCamiones && listas.size; n++) {
+      const llegadas = new Map();
+      for (const p of qrobus.patrones) {
+        const abordo = [];
+        for (let pos = 0; pos < p.paradas.length; pos++) {
+          const parada = p.paradas[pos];
+          for (const a of abordo) {
+            meter(llegadas, parada, { t: a.base + p.minutos[pos], pie: a.e.pie, pago: a.e.pago, s: a.e.s, sb: a.e.sb, n, previo: a.e, p, pb: a.pb, pa: pos, sale: a.sale });
+          }
+          for (const e of listas.get(parada) ?? []) {
+            const sale = salidaDesde(p, ctx, pos, e.t);
+            if (sale === undefined) continue;
+            if (n === 1 && e.s.modo === "caminando") hayCerca = true;
+            const base = sale - p.minutos[pos];
+            const mejor = (a, b, c) => a.e.s.modo === c.s.modo && a.base <= b && a.e.pie <= c.pie && a.e.pago <= c.pago;
+            if (abordo.some((a) => mejor(a, base, e))) continue;
+            for (let i = abordo.length - 1; i >= 0; i--) {
+              const a = abordo[i];
+              if (a.e.s.modo === e.s.modo && base <= a.base && e.pie <= a.e.pie && e.pago <= a.e.pago) abordo.splice(i, 1);
+            }
+            abordo.push({ base, sale, pb: pos, e });
+          }
+        }
+      }
+      alLlegar(llegadas);
+      if (n === maxCamiones) break;
+      const siguiente = new Map();
+      for (const [x, bolsa] of llegadas) {
+        for (const [y, m] of vecinasDe(x)) {
+          const caminar = (m * RODEO) / 1000 / VEL_CAMINAR * 60;
+          for (const e of bolsa) {
+            const listo = { ...e, t: e.t + caminar + ESPERA_TRANSBORDO, pie: e.pie + caminar, caminar };
+            if (meter(vistas, y, listo)) meter(siguiente, y, listo);
+          }
+        }
+      }
+      listas = siguiente;
+    }
+    return hayCerca;
+  }
+
+  function opciones(ctx, o, d, kmCalle, caminarMax, tarifa = { pasaje: qrobus.pasaje, transbordo: qrobus.pasaje / 2 }, caminatas, maxCamiones = MAX_CAMIONES) {
     const directo = tramoApp(ctx, o, d, kmCalle);
     const filas = [{ opcion: `Solo app (${nombreApp(directo.mejor.app)})`, tipo: "app", costo: directo.mejor.precio, minutos: directo.minutos, detalle: "" }];
     const sube = alcanzables(ctx, o, true, caminarMax, caminatas?.sube);
     const baja = alcanzables(ctx, d, false, caminarMax, caminatas?.baja);
-    const mejores = new Map();
-    let pasaCerca = false;
+    const candidatos = new Map();
+    const CRITERIOS = { rapida: (c) => c.minutos, barata: (c) => c.costo, comoda: (c) => c.minutos + 1.5 * c.pie };
 
-    // Si llegan a la misma hora, gana la que menos te hace caminar (las caminatas ya traen la pendiente).
-    const andar = (f) => f.pasos.reduce((t, x) => t + (x.tipo === "caminar" ? x.min : 0), 0);
-    const quedarse = (fila, clave) => {
-      for (const sufijo of [":rapida", ":barata"]) {
-        const actual = mejores.get(clave + sufijo);
-        const campo = sufijo === ":rapida" ? "minutos" : "costo";
-        const empate = actual && fila[campo] === actual[campo];
-        if (!actual || fila[campo] < actual[campo] || (empate && (fila.minutos < actual.minutos || (fila.minutos === actual.minutos && andar(fila) < andar(actual))))) mejores.set(clave + sufijo, fila);
+    // Bajarse para tomar otra vez la misma linea nunca se ofrece.
+    const repiteLinea = (e) => {
+      for (let x = e; x?.previo?.p; x = x.previo) if (x.p.linea === x.previo.p.linea) return true;
+      return false;
+    };
+    const quedarse = (c) => {
+      const clave = `${c.e.n}:${c.e.s.modo}+${c.b.modo}`;
+      for (const [nombre, valor] of Object.entries(CRITERIOS)) {
+        const actual = candidatos.get(`${clave}:${nombre}`);
+        const mejora = !actual || valor(c) < valor(actual) || (valor(c) === valor(actual) && (c.minutos < actual.minutos || (c.minutos === actual.minutos && c.pie < actual.pie)));
+        if (mejora) candidatos.set(`${clave}:${nombre}`, c);
       }
     };
-
-    const recorrer = (sube, baja, marcar) => {
-      const llegada1 = new Map();
-      // Un camion: directo al destino, y de paso a que hora se llega a cada parada para transbordar.
-      qrobus.patrones.forEach((p) => {
-        p.paradas.forEach((sb, pb) => {
-          const s = sube.get(sb);
-          if (!s) return;
-          const sale = salidaDesde(p, ctx, pb, ctx.minuto + s.min);
-          if (sale === undefined) return;
-          if (marcar && s.modo === "caminando") pasaCerca = true;
-          for (let pa = pb + 1; pa < p.paradas.length; pa++) {
-            const llega = sale - p.minutos[pb] + p.minutos[pa];
-            const parada = p.paradas[pa];
-            const previa = llegada1.get(parada);
-            if (!previa || llega + s.costo / 10 < previa.llega + previa.s.costo / 10) llegada1.set(parada, { llega, p, pb, pa, sb, s, sale });
-            const b = baja.get(parada);
-            if (b) quedarse(armar(ctx, o, d, s, sb, [tramoCamion(p, pb, pa, sale, ctx.servicio)], b, parada, tarifa), `${s.modo}+${b.modo}`);
-          }
-        });
-      });
-
-      // Dos camiones: se baja en una parada, camina a una cercana y toma otra linea.
-      const listo = new Map();
-      for (const [x, primero] of llegada1) {
-        for (const [y, m] of vecinasDe(x)) {
-          const caminar = (m * RODEO) / 1000 / VEL_CAMINAR * 60;
-          const t = primero.llega + caminar + ESPERA_TRANSBORDO;
-          const previo = listo.get(y);
-          if (!previo || t < previo.t) listo.set(y, { t, caminar, primero });
+    const recorrer = (sube, baja, tope = maxCamiones) => buscarCamiones(ctx, sube, tope, (llegadas) => {
+      for (const [parada, bolsa] of llegadas) {
+        const b = baja.get(parada);
+        if (!b) continue;
+        for (const e of bolsa) {
+          if (repiteLinea(e)) continue;
+          quedarse({ e, b, parada, minutos: e.t + b.min - ctx.minuto, costo: e.pago + tarifa.pasaje + tarifa.transbordo * (e.n - 1) + b.costo, pie: e.pie + (b.modo === "caminando" ? b.min : 0) });
         }
       }
-      qrobus.patrones.forEach((q) => {
-        q.paradas.forEach((tb, qb) => {
-          const cambio = listo.get(tb);
-          if (!cambio || cambio.primero.p.linea === q.linea) return;
-          const sale = salidaDesde(q, ctx, qb, cambio.t);
-          if (sale === undefined) return;
-          for (let qa = qb + 1; qa < q.paradas.length; qa++) {
-            const b = baja.get(q.paradas[qa]);
-            if (!b) continue;
-            const f = cambio.primero;
-            const segundo = { ...tramoCamion(q, qb, qa, sale, ctx.servicio), caminar: Math.max(1, Math.round(cambio.caminar)) };
-            quedarse(armar(ctx, o, d, f.s, f.sb, [tramoCamion(f.p, f.pb, f.pa, f.sale, ctx.servicio), segundo], b, q.paradas[qa], tarifa), `2:${f.s.modo}+${b.modo}`);
-          }
-        });
-      });
-    };
-    recorrer(sube, baja, true);
-    const soloCamion = () => [...mejores.values()].some((f) => f.tipo === "caminando+caminando");
-    if (!(caminarMax < CAMINAR_MAX_M) && !soloCamion()) recorrer(aPie(o, caminatas?.sube), aPie(d, caminatas?.baja), false);
+    });
+    const pasaCerca = recorrer(sube, baja);
+    // Tambien se prueba caminando mas lejos: a veces un solo camion a 1 km gana a dos transbordos.
+    if (!(caminarMax < CAMINAR_MAX_M)) recorrer(aPie(o, caminatas?.sube), aPie(d, caminatas?.baja), Math.min(2, maxCamiones));
 
-    for (const f of mejores.values()) filas.push({ ...f, opcion: NOMBRES[f.tipo] + (f.transbordos ? " con transbordo" : "") });
+    const armados = new Map();
+    for (const c of candidatos.values()) {
+      if (armados.has(c)) continue;
+      const cadena = [];
+      for (let x = c.e; x?.p; x = x.previo) cadena.unshift(x);
+      const camiones = cadena.map((x, k) => ({ ...tramoCamion(x.p, x.pb, x.pa, x.sale, ctx.servicio), ...(k ? { caminar: Math.max(1, Math.round(x.previo.caminar)) } : {}) }));
+      const fila = armar(ctx, o, d, c.e.s, c.e.sb, camiones, c.b, c.parada, tarifa);
+      armados.set(c, { ...fila, opcion: NOMBRES[fila.tipo] + (fila.transbordos ? " con transbordo" : "") });
+    }
+    filas.push(...armados.values());
     const unicas = [...new Map(filas.map((f) => [`${f.opcion}|${f.detalle}`, { ...f, costo: Math.round(f.costo), minutos: Math.round(f.minutos) }])).values()];
-    // Fuera las opciones que cuestan mas y tardan mas que alguna otra.
-    const vivas = unicas.filter((r) => !unicas.some((x) =>
-      x.costo <= r.costo && x.minutos <= r.minutos && (x.costo < r.costo || x.minutos < r.minutos)));
+    const andar = (f) => (f.pasos ?? []).reduce((t, x) => t + (x.tipo === "caminar" ? x.min : 0), 0);
+    const soloCamion = (f) => f.tipo === "caminando+caminando";
+    const pierde = (r, x) => {
+      if (x === r || (soloCamion(r) && !soloCamion(x))) return false;
+      // Cuesta y tarda mas que otra, salvo que le ahorre una caminata que se note.
+      const peor = x.costo <= r.costo && x.minutos <= r.minutos && (x.costo < r.costo || x.minutos < r.minutos);
+      if (peor && andar(r) > andar(x) - CAMINA_MENOS_MIN) return true;
+      return x.tipo === r.tipo && (r.transbordos ?? 0) > (x.transbordos ?? 0) && x.minutos - r.minutos < CAMION_EXTRA_MIN && andar(x) - andar(r) < CAMION_EXTRA_PIE;
+    };
+    const vivas = unicas.filter((r) => !unicas.some((x) => pierde(r, x)));
     return { directo, opciones: vivas.sort((a, b) => a.minutos - b.minutos || a.costo - b.costo), pasaCerca };
   }
 
@@ -320,9 +390,9 @@ const Grieta = (() => {
     return { accion, fuerza, activas: activas.sort((a, b) => b.w - a.w) };
   }
 
-  function evaluar({ origen, destino, dia, minuto, app, precioVisto, margen, kmCalle, caminarMax, tarifa, caminatas }) {
+  function evaluar({ origen, destino, dia, minuto, app, precioVisto, margen, kmCalle, caminarMax, tarifa, caminatas, camiones }) {
     const ctx = contexto(dia, minuto);
-    const { directo, opciones: lista, pasaCerca } = opciones(ctx, origen, destino, kmCalle, caminarMax, tarifa, caminatas);
+    const { directo, opciones: lista, pasaCerca } = opciones(ctx, origen, destino, kmCalle, caminarMax, tarifa, caminatas, camiones);
     const res = { ctx, directo, opciones: lista, pasaCerca };
 
     const inicio = CORTES.find((c) => c > minuto / 60);

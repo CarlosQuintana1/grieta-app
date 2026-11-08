@@ -8,6 +8,8 @@ import math
 
 import h3
 
+from statistics import median
+
 from camion import PASAJE, cargar_gtfs
 from entrenar_modelo import FRANJAS, MODELO, cargar
 from tarifa import ANILLOS, H3_RES, Tarifa
@@ -44,6 +46,49 @@ def modelo() -> dict:
     return {"h3_res": H3_RES, "franjas": FRANJAS, "apps": apps,
             "cuantiles_habitual": [0.25, 0.75],
             "momentos": int(df["momento_id"].nunique()), "hasta": str(df["dia"].max())}
+
+
+def sentidos_estimados(patrones: list, coords: list) -> list:
+    """El GTFS oficial trae lineas con un sentido que solo sale de madrugada; el resto del dia se estima con el otro sentido."""
+    def largo(p):
+        puntos = [coords[s] for s in p["paradas"]]
+        return sum(math.hypot((a[0] - b[0]) * 110540, (a[1] - b[1]) * 111320 * math.cos(math.radians(a[0]))) for a, b in zip(puntos, puntos[1:]))
+
+    def ultima(ps):
+        return max((h for p in ps for v in p["salidas"].values() for h in v), default=0)
+
+    def viajes(p):
+        return sum(len(v) for v in p["salidas"].values())
+
+    por_linea = {}
+    for p in patrones:
+        por_linea.setdefault(p["linea"], {}).setdefault(p["hacia"], []).append(p)
+    # Metros por minuto de un recorrido tipico de la red.
+    normal = median(largo(p) / p["minutos"][-1] for p in patrones if p["minutos"][-1] > 10)
+    nuevos = []
+    for sentidos in por_linea.values():
+        if len(sentidos) != 2:
+            continue
+        ps_corto, ps_lleno = sorted(sentidos.values(), key=ultima)
+        if ultima(ps_corto) >= 8 * 60 or ultima(ps_lleno) < 16 * 60:
+            continue
+        base = max(ps_corto, key=viajes)
+        guia = max(ps_lleno, key=viajes)
+        # Si los dos sentidos no se parecen en distancia, el otro no sirve de guia.
+        if not base["minutos"][-1] or not guia["minutos"][-1] or not 0.5 <= largo(base) / largo(guia) <= 1.8:
+            continue
+        # Los tiempos de base son de madrugada, sin trafico: si van mas rapido que lo normal de la red, se ajustan.
+        factor = min(1.6, max(1, largo(base) / normal / base["minutos"][-1]))
+        salidas = {}
+        for servicio in {k for p in ps_lleno for k in p["salidas"]}:
+            guias = sorted(h for p in ps_lleno for h in p["salidas"].get(servicio, []))
+            propias = sorted(base["salidas"].get(servicio, []))
+            corrimiento = propias[0] - guias[0] if propias else 0
+            desde = propias[-1] + 1 if propias else -1
+            salidas[servicio] = [round(h + corrimiento, 1) for h in guias if h + corrimiento > desde]
+        nuevos.append({"linea": base["linea"], "hacia": base["hacia"], "paradas": base["paradas"],
+                       "minutos": [round(m * factor, 1) for m in base["minutos"]], "salidas": salidas, "estimado": True})
+    return nuevos
 
 
 def qrobus() -> dict:
@@ -90,6 +135,8 @@ def qrobus() -> dict:
             "minutos": [float(x) for x in offs.values],
             "salidas": {k: sorted(v) for k, v in salidas.items()},
         })
+    # Van al final: trazos.json se indexa por la posicion de cada recorrido.
+    patrones += sentidos_estimados(patrones, [[float(paradas.loc[s, "stop_lat"]), float(paradas.loc[s, "stop_lon"])] for s in usadas])
     cal = g["calendario"]
     dias = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
     return {

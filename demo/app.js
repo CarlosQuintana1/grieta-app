@@ -254,6 +254,8 @@ function mostrar(nombre) {
     limpiarRuta();
     pintarViajes();
     pintarRutina();
+    estado.impacto ??= leer("grieta-impacto", null);
+    pintarPastillaCo2();
     pintarAhorro();
     pintarRachaInicio();
     pintarImpacto();
@@ -1131,7 +1133,8 @@ async function refinarCaminatas() {
   if (!cam || !estado.r) return;
   const { origen: o, destino: d } = estado;
   const nuevas = [];
-  for (const op of estado.r.opciones) {
+  // Las primeras bastan: cada caminata nueva es una consulta al servidor de rutas.
+  for (const op of estado.r.opciones.slice(0, 12)) {
     if (!op.paradas) continue;
     // Tambien las paradas a menos de 1 km a las que se llega en app: caminando quiza se alcanzan
     const cerca = (i, p) => Grieta.metros(p.lat, p.lon, ...Grieta.qrobus.paradas[i].slice(0, 2)) <= 1000;
@@ -1169,7 +1172,9 @@ const fichaOpcion = (o) => {
 // Maximo tres caminos con camion: el mas barato, el mas rapido y uno equilibrado si es distinto.
 // El viaje solo en app no lleva tarjeta: ya tiene su seccion con el precio de cada app.
 // Las etiquetas se comparan contra todas las opciones, para no decir "mas rapido" si la app llega antes.
-const valorOpcion = (o) => o.costo + 1.5 * o.minutos;
+// Un minuto a pie pesa mas que uno sentado en el camion.
+const valorOpcion = (o) => o.costo + 1.5 * o.minutos + 1.5 * caminata(o);
+const masEconomica = (a, b) => a.costo - b.costo || (a.minutos + 1.5 * caminata(a)) - (b.minutos + 1.5 * caminata(b));
 const menor = (ops, f) => ops.reduce((a, b) => (f(b) < f(a) ? b : a));
 function elegirTarjetas(r) {
   // Un camion que no llega antes que caminando no se ofrece: caminar es gratis.
@@ -1182,7 +1187,7 @@ function elegirTarjetas(r) {
     else lista.push({ o, etiquetas: [etiqueta] });
   };
   const criterios = criteriosViaje(r);
-  const economica = [...ops].sort((a, b) => a.costo - b.costo || a.minutos - b.minutos)[0];
+  const economica = [...ops].sort(masEconomica)[0];
   agregar(economica, economica === criterios.economica ? "Más económica" : "Menor precio en Qrobus");
   if (criterios.rapida.tipo !== "app") agregar(criterios.rapida, "Más rápida");
   const equilibrada = menor(ops, valorOpcion);
@@ -1204,9 +1209,17 @@ function elegirTarjetas(r) {
     if (ya) ya.etiquetas = [...ya.etiquetas.filter((e) => e !== "Otra opción"), noche];
     else if (conAppAlFinal.length) agregar(menor(conAppAlFinal, valorOpcion), noche);
   }
-  // Siempre que exista, una tarjeta de solo camion aunque tarde mucho.
+  // Siempre que exista, una tarjeta de solo camion aunque tarde mucho o lleve varios transbordos.
   const soloCamion = ops.filter((o) => o.tipo === "caminando+caminando");
-  if (soloCamion.length && !lista.some((x) => x.o.tipo === "caminando+caminando")) agregar(menor(soloCamion, valorOpcion), "Otra opción");
+  if (soloCamion.length && !lista.some((x) => x.o.tipo === "caminando+caminando")) agregar(menor(soloCamion, valorOpcion), "Solo camión");
+  // Si otro camion llega casi igual y evita una caminata que se note, se ofrece aparte.
+  const listadas = lista.filter(({ o }) => o.tipo === "caminando+caminando").map(({ o }) => o);
+  if (listadas.length) {
+    const menosPie = Math.min(...listadas.map(caminata));
+    const masTarde = Math.min(...listadas.map((o) => o.minutos)) + 25;
+    const comodas = soloCamion.filter((o) => !listadas.includes(o) && caminata(o) <= menosPie - 4 && o.minutos <= masTarde);
+    if (comodas.length) agregar(menor(comodas, valorOpcion), "Caminas menos");
+  }
   return lista;
 }
 
@@ -1237,7 +1250,7 @@ function rangoOpcion(o) {
 }
 function criteriosViaje(r) {
   return {
-    economica: [...r.opciones].sort((a, b) => a.costo - b.costo || a.minutos - b.minutos)[0],
+    economica: [...r.opciones].sort(masEconomica)[0],
     rapida: [...r.opciones].sort((a, b) => a.minutos - b.minutos || a.costo - b.costo)[0],
   };
 }
@@ -1540,7 +1553,7 @@ function calcularSalida() {
   const base = {
     origen: [estado.origen.lat, estado.origen.lon], destino: [estado.destino.lat, estado.destino.lon], kmCalle: estado.kmCalle,
     dia: hoyDia(), caminarMax: acc.camino ? 300 : undefined, tarifa: acc.unidos ? { pasaje: 2, transbordo: 0 } : undefined,
-    caminatas: estado.caminatas,
+    caminatas: estado.caminatas, camiones: 2,
   };
   const aTiempo = [];
   const probar = (t) => {
@@ -1633,7 +1646,7 @@ function pasosDe(o) {
     if (p.tipo === "app") return p.hacia
       ? { ficha: enApp, titulo: `Pide ${Grieta.nombreApp(p.app)} hasta la parada`, nota: `${p.parada}. Precio estimado ${rangoFrase(limitesPrecio(rangoTramo(o, p)))}.`, hora: inicio }
       : { ficha: enApp, titulo: `Pide ${Grieta.nombreApp(p.app)} a tu destino`, nota: `Precio estimado ${rangoFrase(limitesPrecio(rangoTramo(o, p)))}. Llegas a las ${hora(llegada(o))}.`, hora: inicio };
-    return { ficha: ["tono-hospital", "qrobus"], camion: true, titulo: `Toma la línea ${p.linea} a las ${hora(p.sale)}`, nota: `Hacia ${p.hacia}. Bájate en ${p.baja}, ${p.paradas} paradas después, a las ${hora(p.llega)}. Te aviso antes.`, hora: inicio };
+    return { ficha: ["tono-hospital", "qrobus"], camion: true, titulo: `Toma la línea ${p.linea} a las ${hora(p.sale)}`, nota: `Hacia ${p.hacia}. Bájate en ${p.baja}, ${p.paradas} paradas después, a las ${hora(p.llega)}. Te aviso antes.${p.estimado ? " Horario estimado: Qrobus no publica esta salida." : ""}`, hora: inicio };
   });
 }
 
@@ -3145,12 +3158,20 @@ function pintarAhorro() {
   const meta = [100, 50, 25, 10, 5, 1].find((kg) => acumulado >= kg * 1000);
   const nuevaMeta = meta && meta > leer("grieta-meta-co2", 0) ? meta : null;
   if (nuevaMeta) { escribir("grieta-meta-co2", nuevaMeta); hablar(`Llevas ${nuevaMeta} kilos de CO₂ que no emitió un auto.`); }
-  $("ahorroMes").hidden = false;
-  $("ahorroMes").innerHTML = `<span class="pastilla-texto"><b>${total >= 1 ? pesos(total) : "Tu ahorro"}</b><small>${total >= 1 ? "ahorrados este mes" : "y qué bono te conviene"}</small></span>${picto("monedas", "pastilla-dibujo")}`;
+  const texto = `<b>${total >= 1 ? pesos(total) : "Tu ahorro"}</b><small>${total >= 1 ? "ahorrados este mes" : "y qué bono te conviene"}</small>`;
+  const caja = $("ahorroMes").querySelector(".pastilla-texto");
+  if (caja.innerHTML !== texto) caja.innerHTML = texto;
 }
 // Lo de todos: cada viaje en camion empezado con la guia manda solo sus km; la API los suma.
 const contarViaje = (km) => llamar("/viajes", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ km: Math.round(km * 10) / 10 }) })
   .then(() => { estado.impactoLeido = 0; }).catch(() => {});
+function pintarPastillaCo2() {
+  const g = estado.impacto?.g;
+  const texto = `<b>${g ? kgTexto(g) : "Tu CO₂"}</b><small>${g ? "de CO₂ evitados" : "lo que evitamos"}</small>`;
+  const caja = $("impactoTodos").querySelector(".pastilla-texto");
+  if (caja.innerHTML !== texto) caja.innerHTML = texto;
+}
+// Las dos pastillas ocupan su lugar desde el primer cuadro: la red solo cambia el numero, nunca el acomodo.
 async function pintarImpacto() {
   if (!API || Date.now() - (estado.impactoLeido ?? 0) < 5 * 60 * 1000) return;
   estado.impactoLeido = Date.now();
@@ -3158,8 +3179,8 @@ async function pintarImpacto() {
     const { co2_kg, viajes: n, km } = await llamar("/impacto");
     if (!co2_kg) return;
     estado.impacto = { g: co2_kg * 1000, viajes: n, km };
-    $("impactoTodos").innerHTML = `<span class="pastilla-texto"><b>${kgTexto(co2_kg * 1000)}</b><small>de CO₂ evitados</small></span>${picto("hoja", "pastilla-dibujo")}`;
-    $("impactoTodos").hidden = false;
+    escribir("grieta-impacto", estado.impacto);
+    pintarPastillaCo2();
   } catch { estado.impactoLeido = 0; }
 }
 // Equivalencias de la EPA (arbol urbano joven, 60 kg de CO₂ al ano; 8,887 g por galon de gasolina) y de Notz y Stroeve 2016 (3 m² de hielo artico por tonelada).
@@ -4664,8 +4685,19 @@ function pintarResumenPerfil() {
 }
 // Cada ficha de Ajustes abre su panel en una pantalla con flecha de regreso.
 const TITULOS_AJUSTE = { pantalla: "Pantalla", accesibilidad: "Accesibilidad", voz: "Voz", viajes: "Tus viajes", progreso: "Tu progreso", ayuda: "Ayuda" };
+// Cada opcion de si o no se elige con dos tarjetas; el checkbox sigue guardando el dato.
+const marcarPares = [...document.querySelectorAll("[data-par]")].map((grupo) => {
+  const caja = $(grupo.dataset.par);
+  const sincronizar = () => marcar(caja.checked ? "si" : "no");
+  const marcar = radios(grupo.id, (v) => {
+    if (caja.checked !== (v === "si")) caja.click();
+    sincronizar();
+  });
+  return sincronizar;
+});
 function abrirAjuste(panel) {
   for (const d of document.querySelectorAll("[data-ajuste-panel]")) d.hidden = d.dataset.ajustePanel !== panel;
+  marcarPares.forEach((f) => f());
   titulos.ajuste = TITULOS_AJUSTE[panel];
   ir("ajuste");
 }
@@ -4869,13 +4901,14 @@ Promise.all([
   IA = ["localhost", "127.0.0.1"].includes(location.hostname) ? "http://localhost:8798" : config.ia || "";
   $("camaraEnfrente").hidden = !IA;
   $("camaraConversar").hidden = !IA || !Reconocer;
-  // La tarjeta del CO₂ de todos se espera un poco, para que no aparezca despues y recorra el inicio.
-  Promise.race([pintarImpacto(), new Promise((r) => setTimeout(r, 1500))]).then(quitarArranque);
+  pintarImpacto();
+  quitarArranque();
   pintarGuardados();
   avisoConexion();
   sincronizarRespaldo();
   if (!primeraVez) ubicar();
   accionInicial();
+  document.documentElement.classList.add("inicio-listo");
   ({ co2: abrirCo2, ahorro: abrirAhorro, racha: abrirRacha, ajustes: () => ir("ajustes"), ajuste: () => ir("ajustes"), camiones: abrirCamiones })[pantallaPrevia]?.();
 });
 

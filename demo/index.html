@@ -279,8 +279,8 @@
       <div id="salidaInicio" class="salida-inicio" role="status" hidden></div>
       <button id="rachaInicio" type="button" class="racha-heroe" hidden></button>
       <div class="pastillas-inicio">
-        <button id="impactoTodos" type="button" class="pastilla-inicio verde" hidden></button>
-        <button id="ahorroMes" type="button" class="pastilla-inicio ambar" hidden></button>
+        <button id="impactoTodos" type="button" class="pastilla-inicio verde"><span class="pastilla-texto"><b>Tu CO₂</b><small>lo que evitamos</small></span><svg class="picto pastilla-dibujo" aria-hidden="true"><use href="#p-hoja"/></svg></button>
+        <button id="ahorroMes" type="button" class="pastilla-inicio ambar"><span class="pastilla-texto"><b>Tu ahorro</b><small>y qué bono te conviene</small></span><svg class="picto pastilla-dibujo" aria-hidden="true"><use href="#p-monedas"/></svg></button>
       </div>
       <h2 id="tituloLugares" class="seccion">Tus lugares</h2>
       <div id="guardados" class="lugares" role="group" aria-labelledby="tituloLugares"></div>
@@ -946,28 +946,56 @@
       </div>
       <div data-ajuste-panel="accesibilidad" class="tono-trabajo" hidden>
         <div class="ajuste-cabeza"><svg class="picto" aria-hidden="true"><use href="#p-ojo"/></svg><p>Que todo se vea bien para ti</p></div>
-        <div class="grupo">
-        <label class="interruptor"><span class="mini-ficha" aria-hidden="true"><svg class="picto"><use href="#p-letra"/></svg></span><span class="interruptor-texto"><strong>Letra grande</strong><small>Textos y botones más grandes</small></span><input type="checkbox" role="switch" id="optGrande"></label>
-        <label class="interruptor"><span class="mini-ficha" aria-hidden="true"><svg class="picto"><use href="#p-contraste"/></svg></span><span class="interruptor-texto"><strong>Alto contraste</strong><small>Colores más marcados para leer mejor</small></span><input type="checkbox" role="switch" id="optContraste"></label>
-        <label class="interruptor"><span class="mini-ficha" aria-hidden="true"><svg class="picto"><use href="#p-colores"/></svg></span><span class="interruptor-texto"><strong>Colores para daltonismo</strong><small>Azul y naranja en vez de ámbar y rojo</small></span><input type="checkbox" role="switch" id="optDaltonico"></label>
+        <input type="checkbox" id="optGrande" hidden><input type="checkbox" id="optContraste" hidden><input type="checkbox" id="optDaltonico" hidden>
+        <h2 id="tituloLetra" class="con-icono"><svg class="icono" aria-hidden="true"><use href="#i-letra"/></svg>Tamaño de la letra</h2>
+        <div id="parGrande" class="par-opciones" role="radiogroup" aria-labelledby="tituloLetra" data-par="optGrande">
+          <button type="button" role="radio" aria-checked="true" data-v="no" tabindex="0"><span class="muestra muestra-letra" aria-hidden="true"><b>Aa</b></span>Normal</button>
+          <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1"><span class="muestra muestra-letra grande" aria-hidden="true"><b>Aa</b></span>Grande</button>
         </div>
+        <h2 id="tituloContraste" class="con-icono"><svg class="icono" aria-hidden="true"><use href="#i-sol"/></svg>Contraste</h2>
+        <div id="parContraste" class="par-opciones" role="radiogroup" aria-labelledby="tituloContraste" data-par="optContraste">
+          <button type="button" role="radio" aria-checked="true" data-v="no" tabindex="0"><span class="muestra muestra-contraste" aria-hidden="true"><i></i><i></i></span>Normal</button>
+          <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1"><span class="muestra muestra-contraste alto" aria-hidden="true"><i></i><i></i></span>Alto</button>
+        </div>
+        <h2 id="tituloDaltonico" class="con-icono"><svg class="icono" aria-hidden="true"><use href="#i-ojo"/></svg>Colores</h2>
+        <div id="parDaltonico" class="par-opciones" role="radiogroup" aria-labelledby="tituloDaltonico" data-par="optDaltonico">
+          <button type="button" role="radio" aria-checked="true" data-v="no" tabindex="0"><span class="muestra muestra-puntos" aria-hidden="true"><i></i><i></i></span>Normales</button>
+          <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1"><span class="muestra muestra-puntos daltonico" aria-hidden="true"><i></i><i></i></span>Para daltonismo</button>
+        </div>
+        <p class="par-nota">Para daltonismo usa azul y naranja en vez de ámbar y rojo.</p>
       </div>
       <div data-ajuste-panel="voz" class="tono-ciruela" hidden>
         <div class="ajuste-cabeza"><svg class="picto" aria-hidden="true"><use href="#p-decir"/></svg><p>Grieta te dice lo importante</p></div>
-        <div class="grupo">
-        <label class="interruptor"><span class="mini-ficha" aria-hidden="true"><svg class="picto"><use href="#p-decir"/></svg></span><span class="interruptor-texto"><strong>Voz de Grieta</strong><small>Apágala si tu teléfono ya te lee la pantalla (VoiceOver o TalkBack)</small></span><input type="checkbox" role="switch" id="optVoz"></label>
-        <label class="interruptor"><span class="mini-ficha" aria-hidden="true"><svg class="icono"><use href="#i-reloj"/></svg></span><span class="interruptor-texto"><strong>Voz más lenta</strong><small>Habla con más calma</small></span><input type="checkbox" role="switch" id="optLenta"></label>
-        <div id="opcionesToques" class="opciones-toques" hidden>
+        <input type="checkbox" id="optVoz" hidden><input type="checkbox" id="optLenta" hidden>
+        <h2 id="tituloVozGrieta" class="con-icono"><svg class="icono" aria-hidden="true"><use href="#i-altavoz"/></svg>Voz de Grieta</h2>
+        <div id="parVoz" class="par-opciones" role="radiogroup" aria-labelledby="tituloVozGrieta" data-par="optVoz">
+          <button type="button" role="radio" aria-checked="true" data-v="no" tabindex="0"><span class="muestra muestra-apagada" aria-hidden="true"><svg viewBox="0 0 100 30" class="muestra-onda" aria-hidden="true" fill="currentColor"><rect x="0" y="13.5" width="4" height="3" rx="2"/><rect x="8" y="13.5" width="4" height="3" rx="2"/><rect x="16" y="13.5" width="4" height="3" rx="2"/><rect x="24" y="13.5" width="4" height="3" rx="2"/><rect x="32" y="13.5" width="4" height="3" rx="2"/><rect x="40" y="13.5" width="4" height="3" rx="2"/><rect x="48" y="13.5" width="4" height="3" rx="2"/><rect x="56" y="13.5" width="4" height="3" rx="2"/><rect x="64" y="13.5" width="4" height="3" rx="2"/><rect x="72" y="13.5" width="4" height="3" rx="2"/><rect x="80" y="13.5" width="4" height="3" rx="2"/><rect x="88" y="13.5" width="4" height="3" rx="2"/><rect x="96" y="13.5" width="4" height="3" rx="2"/></svg></span>Apagada</button>
+          <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1"><span class="muestra" aria-hidden="true"><svg viewBox="0 0 100 30" class="muestra-onda" aria-hidden="true" fill="currentColor"><rect x="0" y="11" width="4" height="8" rx="2"/><rect x="8" y="7" width="4" height="16" rx="2"/><rect x="16" y="3" width="4" height="24" rx="2"/><rect x="24" y="9" width="4" height="12" rx="2"/><rect x="32" y="1" width="4" height="28" rx="2"/><rect x="40" y="6" width="4" height="18" rx="2"/><rect x="48" y="10" width="4" height="10" rx="2"/><rect x="56" y="4" width="4" height="22" rx="2"/><rect x="64" y="8" width="4" height="14" rx="2"/><rect x="72" y="2" width="4" height="26" rx="2"/><rect x="80" y="9" width="4" height="12" rx="2"/><rect x="88" y="5" width="4" height="20" rx="2"/><rect x="96" y="11" width="4" height="8" rx="2"/></svg></span>Encendida</button>
+        </div>
+        <p class="par-nota">Apágala si tu teléfono ya te lee la pantalla, con VoiceOver o TalkBack.</p>
+        <h2 id="tituloLenta" class="con-icono"><svg class="icono" aria-hidden="true"><use href="#i-reloj"/></svg>Velocidad</h2>
+        <div id="parLenta" class="par-opciones" role="radiogroup" aria-labelledby="tituloLenta" data-par="optLenta">
+          <button type="button" role="radio" aria-checked="true" data-v="no" tabindex="0"><span class="muestra" aria-hidden="true"><svg viewBox="0 0 100 30" class="muestra-onda" aria-hidden="true" fill="currentColor"><rect x="0" y="11" width="4" height="8" rx="2"/><rect x="8" y="7" width="4" height="16" rx="2"/><rect x="16" y="3" width="4" height="24" rx="2"/><rect x="24" y="9" width="4" height="12" rx="2"/><rect x="32" y="1" width="4" height="28" rx="2"/><rect x="40" y="6" width="4" height="18" rx="2"/><rect x="48" y="10" width="4" height="10" rx="2"/><rect x="56" y="4" width="4" height="22" rx="2"/><rect x="64" y="8" width="4" height="14" rx="2"/><rect x="72" y="2" width="4" height="26" rx="2"/><rect x="80" y="9" width="4" height="12" rx="2"/><rect x="88" y="5" width="4" height="20" rx="2"/><rect x="96" y="11" width="4" height="8" rx="2"/></svg></span>Normal</button>
+          <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1"><span class="muestra" aria-hidden="true"><svg viewBox="0 0 100 30" class="muestra-onda" aria-hidden="true" fill="currentColor"><rect x="0" y="10" width="4" height="10" rx="2"/><rect x="16" y="4" width="4" height="22" rx="2"/><rect x="32" y="1" width="4" height="28" rx="2"/><rect x="48" y="7" width="4" height="16" rx="2"/><rect x="64" y="3" width="4" height="24" rx="2"/><rect x="80" y="9" width="4" height="12" rx="2"/><rect x="96" y="5" width="4" height="20" rx="2"/></svg></span>Más lenta</button>
+        </div>
+        <div id="opcionesToques" class="grupo opciones-toques" hidden>
           <label class="interruptor"><span class="mini-ficha" aria-hidden="true"><svg class="icono"><use href="#i-boton"/></svg></span><span class="interruptor-texto"><strong>Tocar para escuchar</strong><small>En modo Voz: un toque describe; dos toques rápidos activan. Con VoiceOver o TalkBack se usan los gestos del teléfono.</small></span><input type="checkbox" role="switch" id="optToques"></label>
           <button id="practicarAjustes" type="button" class="fila-boton"><span>Practicar los toques</span><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></button>
-        </div>
         </div>
       </div>
       <div data-ajuste-panel="viajes" class="tono-hospital" hidden>
         <div class="ajuste-cabeza"><svg class="picto" aria-hidden="true"><use href="#p-qrobus"/></svg><p>Grieta calcula según cómo viajas</p></div>
-        <div class="grupo">
-        <label class="interruptor"><span class="mini-ficha" aria-hidden="true"><svg class="picto"><use href="#p-caminar"/></svg></span><span class="interruptor-texto"><strong>Caminar poco</strong><small>Solo paradas a menos de 300 metros</small></span><input type="checkbox" role="switch" id="optCamino"></label>
-        <label class="interruptor"><span class="mini-ficha" aria-hidden="true"><svg class="picto"><use href="#p-tarjeta"/></svg></span><span class="interruptor-texto"><strong>Pago Tarifa Unidos ($2)</strong><small>Estudiantes, mayores de 60 y personas con discapacidad; el transbordo es gratis</small></span><input type="checkbox" role="switch" id="optUnidos"></label>
+        <input type="checkbox" id="optCamino" hidden><input type="checkbox" id="optUnidos" hidden>
+        <h2 id="tituloTarifa" class="con-icono"><svg class="icono" aria-hidden="true"><use href="#i-moneda"/></svg>Lo que pagas en Qrobus</h2>
+        <div id="parUnidos" class="par-opciones" role="radiogroup" aria-labelledby="tituloTarifa" data-par="optUnidos">
+          <button type="button" role="radio" aria-checked="true" data-v="no" tabindex="0"><span class="muestra muestra-precio" aria-hidden="true"><b>$11</b></span>Tarifa normal</button>
+          <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1"><span class="muestra muestra-precio" aria-hidden="true"><b>$2</b></span>Tarifa Unidos</button>
+        </div>
+        <p class="par-nota">Unidos es para estudiantes, mayores de 60 y personas con discapacidad. El transbordo es gratis.</p>
+        <h2 id="tituloCamino" class="con-icono"><svg class="icono" aria-hidden="true"><use href="#i-persona"/></svg>Cuánto quieres caminar</h2>
+        <div id="parCamino" class="par-opciones" role="radiogroup" aria-labelledby="tituloCamino" data-par="optCamino">
+          <button type="button" role="radio" aria-checked="true" data-v="no" tabindex="0"><span class="muestra muestra-camino" aria-hidden="true"><svg class="picto"><use href="#p-caminar"/></svg><i></i><svg class="picto"><use href="#p-parada"/></svg></span>Lo normal</button>
+          <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1"><span class="muestra muestra-camino poco" aria-hidden="true"><svg class="picto"><use href="#p-caminar"/></svg><i></i><svg class="picto"><use href="#p-parada"/></svg></span>Menos de 300 m</button>
         </div>
         <div class="ajustes-lista">
         <details class="ajuste-seccion ajuste-plegable">
@@ -1013,38 +1041,20 @@
       </div>
       <div data-ajuste-panel="ayuda" class="tono-obsidiana" hidden>
         <div class="ajuste-cabeza"><svg class="picto" aria-hidden="true"><use href="#p-reportar"/></svg><p>Aprende a usar Grieta</p></div>
-        <div class="ajustes-lista">
-        <details class="ajuste-seccion ajuste-plegable">
-          <summary class="fila-ajustes">
-            <span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-lugar"/></svg></span>
-            <span class="fila-texto"><strong id="tituloAyuda">Cómo usar Grieta</strong><small>Apréndelo en 3 pasos</small></span>
-            <svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
-          </summary>
-          <div class="ajuste-panel">
-            <button id="abrirTutorial" type="button" class="boton oscuro"><svg class="icono" aria-hidden="true"><use href="#i-play"/></svg>Ver tutorial</button>
-            <ol class="pasos-ayuda">
+        <button id="abrirTutorial" type="button" class="boton ayuda-tutorial"><svg class="icono" aria-hidden="true"><use href="#i-play"/></svg>Ver tutorial</button>
+        <h2 id="tituloAyuda" class="con-icono"><svg class="icono" aria-hidden="true"><use href="#i-persona"/></svg>Cómo usar Grieta</h2>
+        <ol class="pasos-ayuda linea-tiempo">
               <li><span class="num" aria-hidden="true">1</span><span><strong>Di o escribe a dónde vas</strong><small>En Inicio, en "Busca un lugar" o con "Dictar".</small></span></li>
               <li><span class="num" aria-hidden="true">2</span><span><strong>Compara y elige</strong><small>Ves cuánto cuesta en Uber, DiDi e inDrive y cómo llegar en Qrobus.</small></span></li>
               <li><span class="num" aria-hidden="true">3</span><span><strong>Empieza el viaje con avisos</strong><small>Grieta te avisa cuándo pasa tu camión y cuándo bajarte.</small></span></li>
             </ol>
-          </div>
-        </details>
-        <details class="ajuste-seccion ajuste-plegable">
-          <summary class="fila-ajustes">
-            <span class="mini-ficha tono-obsidiana" aria-hidden="true"><svg class="picto"><use href="#p-reportar"/></svg></span>
-            <span class="fila-texto"><strong id="tituloPreguntas">Preguntas frecuentes</strong><small>Respuestas sobre Grieta</small></span>
-            <svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
-          </summary>
-          <div class="ajuste-panel">
-            <div class="grupo ayuda" role="group" aria-labelledby="tituloPreguntas">
+        <h2 id="tituloPreguntas" class="con-icono"><svg class="icono" aria-hidden="true"><use href="#i-lupa"/></svg>Preguntas frecuentes</h2>
+        <div class="grupo ayuda" role="group" aria-labelledby="tituloPreguntas">
               <details class="pregunta-ayuda"><summary><svg class="icono pregunta-icono" aria-hidden="true"><use href="#i-moneda"/></svg><strong>¿Los precios son exactos?</strong><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>No, son estimados. Los calcula nuestro modelo predictivo a partir de nuestros registros de cotizaciones reales. Si la app te marca otro, compáralo en "¿La app ya te dio precio?".</p></details>
               <details class="pregunta-ayuda"><summary><svg class="icono pregunta-icono" aria-hidden="true"><use href="#i-lupa"/></svg><strong>No encuentro un lugar</strong><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Escribe la calle y la colonia, o toca "Elígelo en el mapa".</p></details>
               <details class="pregunta-ayuda"><summary><svg class="icono pregunta-icono" aria-hidden="true"><use href="#i-altavoz"/></svg><strong>¿Por qué me habla Grieta?</strong><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Para avisarte durante el viaje. Puedes apagarla en Ajustes, en Voz., en "Voz de Grieta".</p></details>
               <details class="pregunta-ayuda"><summary><svg class="icono pregunta-icono" aria-hidden="true"><use href="#i-reloj"/></svg><strong>¿Las horas del camión son seguras?</strong><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse unos minutos.</p></details>
             </div>
-          </div>
-        </details>
-        </div>
       </div>
     </section>
   </main>
