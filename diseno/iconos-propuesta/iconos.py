@@ -287,6 +287,12 @@ P["p-carro"] = solido(_carro, _frente, _atras, R(41.5, 25, 3.5, 2.6, 1.3)) + sua
 P["p-celular"] = solido(R(12, 2.5, 24, 43, 6), R(15.5, 7, 17, 30, 2), C(24, 41, 2.2)) + suave(R(15.5, 7, 17, 30, 2))
 P["p-fuego"] = solido("M24 4c2 9 14 13 14 26a14 14 0 0 1-28 0c0-6 3-10 6-13 0 4 2 7 4 7 2-6 0-13 4-20z")
 
+P["p-contraste"] = solido(C(24, 24, 19.5), C(24, 24, 15.5)) + solido("M24 11.5a12.5 12.5 0 0 1 0 25z")
+P["p-colores"] = solido(C(18, 24, 13.5)) + suave(C(30, 24, 13.5))
+
+# Huellas como las que marcan los caminos en los codices: para el campo de "a donde vas".
+P["p-huellas"] = '<g transform="scale(2)"><g transform="translate(8 15.6) rotate(14) scale(0.96 0.96)"><path d="M-2.6 1.2C-3 -1.4 -2.2 -3.6 -.2 -3.8C2 -4 3 -2 2.7 .2C2.5 1.6 1.7 2.2 1.6 3.4C1.5 4.8 .8 5.8 -.4 5.8C-1.8 5.8 -2.4 4.6 -2.4 3.4C-2.4 2.6 -2.5 2 -2.6 1.2Z"/><circle cx="-2.3" cy="-5.2" r="1"/><circle cx="-.5" cy="-6.1" r=".9"/><circle cx="1.2" cy="-5.9" r=".8"/><circle cx="2.6" cy="-4.9" r=".7"/></g><g transform="translate(16.2 9.2) rotate(22) scale(-0.96 0.96)"><path d="M-2.6 1.2C-3 -1.4 -2.2 -3.6 -.2 -3.8C2 -4 3 -2 2.7 .2C2.5 1.6 1.7 2.2 1.6 3.4C1.5 4.8 .8 5.8 -.4 5.8C-1.8 5.8 -2.4 4.6 -2.4 3.4C-2.4 2.6 -2.5 2 -2.6 1.2Z"/><circle cx="-2.3" cy="-5.2" r="1"/><circle cx="-.5" cy="-6.1" r=".9"/><circle cx="1.2" cy="-5.9" r=".8"/><circle cx="2.6" cy="-4.9" r=".7"/></g></g>'
+
 if __name__ == "__main__":
     nuevos = {k: ["0 0 24 24", v] for k, v in L.items()} | {k: ["0 0 48 48", v] for k, v in P.items()}
     destino = Path(__file__).with_name("nuevos.json")

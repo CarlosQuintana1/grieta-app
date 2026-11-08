@@ -151,7 +151,6 @@ function aplicarAcc() {
   $('optToques').checked = acc.toques;
   // Tocar para escuchar y su práctica solo existen en modo Voz, sin lector de pantalla del teléfono.
   $('opcionesToques').hidden = !acc.modoVoz || acc.lector === 'si';
-  $('notaDensidad').textContent = { completa: "Precios, horarios, comparar y esperar.", facil: "Solo lo esencial, con botones grandes.", voz: "Pocos botones, muy grandes, y Grieta te dice todo en voz alta." }[densidadActual()];
   $('ayudaToques').hidden = !acc.modoVoz || acc.lector === 'si' || !acc.toques;
   ToquesGrieta.reiniciar();
   if (!vozActiva()) detenerVoz();
@@ -261,6 +260,7 @@ function mostrar(nombre) {
     pintarSalida();
     $("invitaPerfil").hidden = acc.modoVoz || leer("grieta-perfil", false) || leer("grieta-invita-cerrada", false);
   }
+  if (nombre === "ajustes") $("perfilTlacuache").innerHTML = tlacuache(3, racha.puestos, false);
   if (nombre === "opciones") {
     quitarTrazo();
     estado.lineaAPie?.addTo(mapa);
@@ -4618,11 +4618,8 @@ function resumenCortoPerfil() {
 }
 function pintarResumenPerfil() {
   if (!$("textoPerfil")) return;
-  const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
-  const pictograma = `#p-${{ normal: "caminar", poco: "caminar", silla: "silla" }[movilidad]}`;
   const [vista, movimiento, , , tarifa] = resumenCortoPerfil();
   $("textoPerfil").textContent = [vista, movimiento, tarifa].map(([, t], i) => (i ? t.charAt(0).toLowerCase() + t.slice(1) : t)).join(", ");
-  $("ajustesAvatar").setAttribute("href", pictograma);
   $("perfilFichas").innerHTML = fichasPerfil().map(([grupo, tono, picto, texto, nombrePropio]) =>
     `<button type="button" class="perfil-ficha" data-ir-perfil="${grupo}">
       <span class="mini-ficha tono-${tono}" aria-hidden="true"><svg class="picto"><use href="#p-${picto}"/></svg></span><span${nombrePropio ? ' translate="no"' : ""}>${escapar(texto)}</span></button>`).join("");
@@ -4694,6 +4691,8 @@ function actualizarFilasPerfil() {
   marcarGasolina(valores.perfilGasolina);
   $("preguntaGasolina").hidden = acc.modoVoz;
   marcarLengua(valores.perfilLengua);
+  marcarAjusteIdioma(valores.perfilLengua);
+  $("ajusteIdiomaNota").textContent = EFECTOS.perfilLengua[valores.perfilLengua] ?? "";
   $("perfilLector").hidden = !acc.modoVoz;
   $("preguntaForma").hidden = acc.modoVoz;
 }
@@ -4751,6 +4750,10 @@ const marcarLengua = radios("perfilLengua", (v) => cambiarPerfil(() => {
   acc.idioma = v;
   Interfaz.cambiar(v);
 }));
+const marcarAjusteIdioma = radios("ajusteIdioma", (v) => cambiarPerfil(() => {
+  acc.idioma = v;
+  Interfaz.cambiar(v);
+}));
 function abrirPerfil() {
   marcarVista(vistaActual());
   marcarLector(acc.modoVoz ? acc.lector : null);
@@ -4782,7 +4785,7 @@ Interfaz.iniciar(acc.idioma, () => {
     ? id === "oto" && Interfaz.parcialPara(id) ? "Traducción automática parcial. Algunos textos siguen en español. El audio sigue en español." : "Traducción automática provisional. El audio sigue en español."
     : "La traducción de la interfaz todavía no está disponible. El audio sigue en español.";
   const disponible = Interfaz.disponiblePara("nah");
-  document.querySelector('#perfilLengua [data-v="nah"]').disabled = !disponible;
+  for (const b of document.querySelectorAll('#perfilLengua [data-v="nah"], #ajusteIdioma [data-v="nah"]')) b.disabled = !disponible;
   $("nahuatlPendiente").hidden = disponible;
   actualizarFilasPerfil();
 });
