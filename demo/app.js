@@ -3311,7 +3311,7 @@ function pintarRachaInicio() {
   }).join("");
   caja.setAttribute("aria-label", `${titulo}. Esta semana: ${cuenta} de ${plural(racha.meta, "viaje", "viajes")} en camión. Ver tu tlacuache.`);
   caja.innerHTML = `<svg class="heroe-escena" viewBox="0 40 640 300" aria-hidden="true">${escenaRacha(animoRacha())}</svg>
-    <span class="heroe-pie" aria-hidden="true"><strong>${titulo}</strong><small>Cada viaje en camión le da una tuna a tu tlacuache</small>
+    <span class="heroe-pie" aria-hidden="true"><strong>${titulo}</strong>
     <svg class="racha-puntos" viewBox="0 0 320 10">${rayas}</svg></span>`;
 }function pintarRacha() {
   protectorDelMes();
