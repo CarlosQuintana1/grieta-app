@@ -3128,31 +3128,19 @@ function equivalencias(g) {
     ["hielo", cm2 < 1000 ? `${Math.round(cm2)} cm²` : `${+(cm2 / 10000).toFixed(cm2 < 100000 ? 2 : 1)} m²`, "de hielo ártico, casa del oso polar"],
   ];
 }
-// Doce lugares en los cerros: cada arbol es un mes de trabajo de un arbol joven, o un ano si ya pasamos de doce meses.
-const LUGARES_BOSQUE = [[34, 101, 0], [88, 96, 1], [142, 97, 0], [196, 102, 1], [250, 104, 0], [306, 98, 1], [60, 126, 1], [114, 121, 0], [168, 123, 1], [222, 129, 0], [278, 131, 1], [334, 124, 0]];
-function arbol(x, y, t, pino) {
-  const tronco = `<rect class="tronco" x="${x - t * 0.06}" y="${y - t * 0.42}" width="${t * 0.12}" height="${t * 0.42}" rx="${t * 0.04}"/>`;
-  if (pino) return `${tronco}<path class="copa oscura" d="M${x} ${y - t * 1.1}L${x + t * 0.34} ${y - t * 0.32}H${x - t * 0.34}Z"/>`;
-  return `${tronco}<circle class="copa" cx="${x}" cy="${y - t * 0.7}" r="${t * 0.3}"/><circle class="copa" cx="${x - t * 0.2}" cy="${y - t * 0.5}" r="${t * 0.22}"/><circle class="copa" cx="${x + t * 0.2}" cy="${y - t * 0.5}" r="${t * 0.22}"/>`;
-}
-// Brote de dos hojas iguales que salen del mismo punto, como plantula recien nacida.
-const brote = (x, y) => `<g class="brote" transform="translate(${x} ${y}) scale(1.35)"><ellipse class="brote-tierra" cx="0" cy="0.6" rx="6.5" ry="2"/><path class="brote-tallo" d="M0 0V-8"/>
-  <path class="brote-hoja" d="M0 -8C-1.5 -14.5 -8.5 -15.5 -10.5 -11C-8 -7.5 -3 -6.5 0 -8Z"/>
-  <path class="brote-hoja clara" d="M0 -8C1.5 -14.5 8.5 -15.5 10.5 -11C8 -7.5 3 -6.5 0 -8Z"/></g>`;
+// Doce lugares en los cerros de Figma: cada arbol es un mes de trabajo de un arbol joven, o un ano si ya pasamos de doce meses.
 function pintarBosque(g) {
-  const dias = g / ARBOL_G_DIA, porAnio = dias > 360, llenos = dias / (porAnio ? 365 : 30.4);
-  const plantas = LUGARES_BOSQUE.map(([x, y, pino], i) => {
-    const avance = Math.min(1, Math.max(0, llenos - i));
-    return avance ? arbol(x, y, 20 + 22 * avance, pino) : brote(x, y);
+  const dias = g / ARBOL_G_DIA, porAnio = dias > 360, llenos = dias / (porAnio ? 365 : 30.4), lugares = ARTE_ESC.lugares;
+  // El radio del punto de Figma dice que tan atras esta: los de atras se dibujan mas chicos.
+  const plantas = lugares.map(([x, y, r], i) => {
+    const avance = Math.min(1, Math.max(0, llenos - i)), s = r / 8.5;
+    const tipo = `${i % 2 ? "sabino" : "mezquite"}-${avance >= 1 ? "grande" : avance > 0 ? "arbolito" : "brote"}`;
+    return `<g transform="translate(${(x - 60 * s).toFixed(1)} ${(y - 160 * s).toFixed(1)}) scale(${s.toFixed(3)})">${ARTE_ESC.arbol[tipo]}</g>`;
   }).join("");
-  const sobra = llenos >= LUGARES_BOSQUE.length + 1 ? `<text class="sobra" x="16" y="30">+${Math.floor(llenos) - LUGARES_BOSQUE.length}</text>` : "";
-  $("bosque").innerHTML = `<circle class="halo" cx="304" cy="34" r="30"/><circle class="sol" cx="304" cy="34" r="17"/>
-    <path class="ave" d="M226 30q4-4 8 0q4-4 8 0M250 18q3-3 6 0q3-3 6 0"/>
-    <path class="sierra" d="M0 92L42 70l36 14 44-26 48 26 44-20 48 24 44-22 54 18V150H0Z"/>
-    <path class="cerro atras" d="M0 100C70 80 130 84 190 94s110 4 170-16V150H0Z"/>
-    <path class="cerro" d="M0 124c60-16 130-18 200-8s100 4 160-8V150H0Z"/>${plantas}${sobra}`;
-  const hechos = Math.min(LUGARES_BOSQUE.length, Math.floor(llenos));
-  $("bosque").setAttribute("aria-label", `${plural(hechos, "árbol", "árboles")} y ${LUGARES_BOSQUE.length - hechos} brotes en un cerro`);
+  const sobra = llenos >= lugares.length + 1 ? `<text class="sobra" x="28" y="62">+${Math.floor(llenos) - lugares.length}</text>` : "";
+  $("bosque").innerHTML = `${ARTE_ESC.bosque[horario()]}${plantas}${sobra}`;
+  const hechos = Math.min(lugares.length, Math.floor(llenos));
+  $("bosque").setAttribute("aria-label", `${plural(hechos, "árbol", "árboles")} y ${lugares.length - hechos} brotes en un cerro`);
   $("co2Unidad").textContent = porAnio ? "1 árbol = 1 año de lo que absorbe uno joven" : "1 árbol = 1 mes de lo que absorbe uno joven";
 }
 // Ocho semanas de los viajes propios en camion, de lunes a domingo; las vacias quedan como raya tenue.
@@ -3187,30 +3175,18 @@ function tlacuache(e, puestos = racha.puestos) {
   const listones = puestos?.cabeza === "listones";
   return `<g class="tlacuache" transform="translate(-2 0) scale(${ESCALA_TL}) translate(-193 -259)">${listones ? ARTE_TL.acc["listones-atras"] : ""}${ARTE_TL.estados[estado]}${lleva("espalda")}${lleva("cuello")}${lleva("cara")}${listones ? ARTE_TL.acc["listones-frente"] : lleva("cabeza")}</g>`;
 }
+// Mañana, día o noche según la hora real; los escenarios de Figma vienen en los tres horarios.
+function horario(d = new Date()) {
+  const h = d.getHours() + d.getMinutes() / 60;
+  return h >= 6 && h < 11 ? "manana" : h >= 11 && h < 19 ? "dia" : "noche";
+}
+// El mundo del tlacuache (Figma, 720x440): cada etapa enciende sus capas encima del fondo de la hora.
 function escenaTlacuache(e) {
-  const basura = e < 1, humo = e < 1 ? 0.5 : e < 3 ? 0.25 : 0, limpia = e >= 3;
-  const edificio = (x, w, h) => `<rect x="${x}" y="${150 - h}" width="${w}" height="${h + 30}" class="edificio"/>` +
-    Array.from({ length: Math.floor((h - 10) / 14) }, (_, f) => Array.from({ length: Math.floor((w - 6) / 10) }, (_, c) => `<rect x="${x + 6 + c * 10}" y="${150 - h + 8 + f * 14}" width="4" height="6" class="ventana${(f + c + x) % 3 ? "" : " luz"}"/>`).join("")).join("");
-  const arbol = (x, y, t) => `<rect x="${x - 2.5}" y="${y - t * 0.5}" width="5" height="${t * 0.5}" rx="2" class="tronco"/><circle cx="${x}" cy="${y - t * 0.75}" r="${t * 0.32}" class="copa"/><circle cx="${x - t * 0.22}" cy="${y - t * 0.55}" r="${t * 0.24}" class="copa"/><circle cx="${x + t * 0.22}" cy="${y - t * 0.55}" r="${t * 0.24}" class="copa"/>`;
-  const bolsa = (x, y) => `<path d="M${x - 8} ${y}c-2-9 3-14 8-14s10 5 8 14Z" class="bolsa"/><path d="M${x - 2} ${y - 14}l2-4 2 4" class="bolsa-nudo"/>`;
-  const pajaro = (x, y) => `<path d="M${x} ${y}q4-4 8 0q4-4 8 0" class="pajaro"/>`;
-  return `<defs><linearGradient id="cieloTl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="cielo-arriba"/><stop offset="1" class="cielo-abajo"/></linearGradient></defs>
-  <rect width="360" height="220" fill="url(#cieloTl)"/>
-  <circle cx="300" cy="44" r="18" class="sol${e >= 3 ? "" : " tenue"}"/>
-  <path d="M0 128C50 80 110 70 170 92s120-28 190 6V220H0Z" class="cerro${e >= 4 ? " verde" : e >= 2 ? " medio" : ""}"/>
-  ${e >= 4 ? arbol(150, 96, 22) + arbol(186, 100, 18) + arbol(214, 92, 20) : ""}
-  ${edificio(4, 38, 70)}${edificio(44, 28, 50)}${edificio(270, 34, 60)}${edificio(306, 50, 84)}
-  ${humo ? `<rect width="360" height="220" class="humo" opacity="${humo}"/>` : ""}
-  <rect y="168" width="360" height="52" class="suelo${e >= 2 ? " pasto" : ""}"/>
-  <rect y="164" width="360" height="6" class="banqueta"/>
-  ${e >= 2 ? arbol(40, 172, 54) : '<path d="M40 172v-30m0 12l-9-9m9 2l8-10" class="seco"/>'}
-  ${e >= 4 ? arbol(352, 172, 46) + pajaro(30, 40) + pajaro(64, 28) + pajaro(318, 110) : ""}
-  <g transform="translate(318 190)"><ellipse cx="0" cy="8" rx="28" ry="6" class="fuente-borde"/><ellipse cx="0" cy="5" rx="23" ry="4.2" class="${limpia ? "agua" : "agua sucia"}"/>${limpia ? '<path d="M0 3V-18M0-18q-8 2-12 10M0-18q8 2 12 10" class="chorro"/>' : ""}</g>
-  ${basura ? bolsa(78, 202) + bolsa(94, 206) + bolsa(262, 204) + '<rect x="280" y="196" width="9" height="15" rx="2" transform="rotate(70 284 204)" class="lata"/><path d="M60 210l14-6" class="botella"/>' : ""}
-  ${e >= 1 ? '<g transform="translate(256 176)"><rect x="0" y="0" width="18" height="24" rx="3" class="bote"/><rect x="-2" y="-4" width="22" height="6" rx="2" class="bote-tapa"/><path d="M6 8v10M12 8v10" class="bote-raya"/></g>' : ""}
-  ${e >= 5 ? '<g transform="translate(84 198)"><ellipse cx="0" cy="-14" rx="9" ry="14" class="nopal"/><ellipse cx="-12" cy="-30" rx="7" ry="11" transform="rotate(-25 -12 -30)" class="nopal"/><ellipse cx="11" cy="-31" rx="7" ry="10" transform="rotate(25 11 -31)" class="nopal"/><circle cx="-16" cy="-41" r="3.5" class="tuna"/><circle cx="-8" cy="-41" r="3.5" class="tuna"/><circle cx="14" cy="-41" r="3.5" class="tuna"/></g>' : ""}
-  ${e >= 4 ? '<circle cx="80" cy="196" r="2.5" class="flor"/><circle cx="300" cy="206" r="2.5" class="flor"/><circle cx="196" cy="210" r="2.5" class="flor amarilla"/><circle cx="20" cy="204" r="2.5" class="flor amarilla"/>' : ""}
-  <g transform="translate(172 204) scale(1.4)">${tlacuache(e)}</g>`;
+  const M = ARTE_ESC.mundo, hora = horario(), capa = (si, nombre, extra = "") => (si ? `<g${extra}>${M[nombre]}</g>` : "");
+  return M[hora] + capa(e < 3, "humo", e < 1 ? "" : ' opacity=".5"') + capa(e >= 2, "pasto", hora === "noche" ? ' opacity=".55"' : "") + capa(e >= 4, "arboles") + capa(e >= 2, "arbol")
+    + M[e >= 3 ? "fuente-limpia" : "fuente-sucia"] + capa(e >= 1, "bote") + capa(e < 1, "basura") + capa(e >= 5, "nopal") + capa(e >= 4, "flores")
+    + capa(e >= 4, hora === "noche" ? "luciernagas" : "aves")
+    + `<g transform="translate(360 408) scale(${(0.8 / ESCALA_TL).toFixed(3)})">${tlacuache(e)}</g>`;
 }
 // Racha semanal en camion, como la de Duolingo pero por semana: cada quien pone su meta y una semana mala
 // se cubre con un protector. Solo cuentan viajes que la guia confirmo por GPS, maximo 4 al dia.
@@ -3325,9 +3301,9 @@ function pintarRacha() {
       <button type="button" class="boton ${puesto ? "" : "oscuro"}" data-accesorio="${id}" ${!tiene && !alcanza ? "disabled" : ""} aria-pressed="${puesto}" aria-label="${accion}: ${a.nombre}${tiene ? "" : `, ${a.precio} tunas`}">${accion}</button></li>`;
   }).join("");
 }
-// Querétaro de fondo (Figma): acueducto, papel picado y nopal; nublado si el tlacuache esta preocupado.
+// Querétaro de fondo (Figma) según la hora: acueducto, papel picado y nopal; con nubes si el tlacuache esta preocupado.
 function escenaRacha(e) {
-  return `${ARTE_TL.escena[e < 2 ? "nublado" : "soleado"]}<g transform="translate(330 330) scale(${(1 / ESCALA_TL).toFixed(3)})">${tlacuache(e)}</g>`;
+  return `${ARTE_ESC.racha[horario()]}${e < 2 ? ARTE_ESC.racha.nubes : ""}<g transform="translate(330 330) scale(${(1 / ESCALA_TL).toFixed(3)})">${tlacuache(e)}</g>`;
 }
 let marcarMeta = () => {};
 function abrirRacha() {
@@ -4259,29 +4235,15 @@ function pintarBonos() {
     : `<strong>${VEREDICTO_BONO[mejor[0]]}</strong><span>Ahorras ${pesos(porViaje - mejor[1])} al mes contra pagar cada viaje.</span>`;
 }
 const marcarTarifaBonos = radios("tarifaBonos", (v) => { bono.tarifa = v; pintarBonos(); });
-// Puerquito de Lucide (ISC), el mismo de la tarjeta del inicio. Cada moneda son $10 ahorrados; caben 41.
-const METAS_AHORRO = [[111, "semanal"], [231, "quincenal"], [451, "mensual"]];
-const PUERQUITO = ["M11 17h3v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-3a3.16 3.16 0 0 0 2-2h1a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1h-1a5 5 0 0 0-2-4V3a4 4 0 0 0-3.2 1.6l-.3.4H11a6 6 0 0 0-6 6v1a5 5 0 0 0 2 4v3a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1z", "M16 10h.01", "M2 8v1a2 2 0 0 0 2 2h1"];
-// Huecos para 41 monedas dentro de la silueta, de abajo hacia arriba (calculados una vez con isPointInFill).
-const HUECOS = [[9.26, 18.56], [16.52, 18.56], [15.62, 16.99], [9.26, 15.42], [11.08, 15.42], [12.89, 15.42], [14.71, 15.42], [16.52, 15.42], [8.35, 13.84], [10.17, 13.84], [11.99, 13.84], [13.8, 13.84], [15.62, 13.84], [17.43, 13.84], [7.45, 12.27], [9.26, 12.27], [11.08, 12.27], [12.89, 12.27], [14.71, 12.27], [16.52, 12.27], [18.34, 12.27], [20.16, 12.27], [6.54, 10.7], [8.35, 10.7], [10.17, 10.7], [11.99, 10.7], [13.8, 10.7], [17.43, 10.7], [7.45, 9.13], [9.26, 9.13], [11.08, 9.13], [12.89, 9.13], [14.71, 9.13], [18.34, 9.13], [8.35, 7.55], [10.17, 7.55], [11.99, 7.55], [13.8, 7.55], [15.62, 7.55], [17.43, 7.55], [16.52, 5.98]];
-function moneda([x, y], i) {
-  // De frente con canto y "$", ladeadas con su grosor, y una que otra parada: un monton, no una cuadricula.
-  const giro = ((i * 47) % 70) - 35, cx = +(x + (((i * 13) % 5) - 2) * 0.06).toFixed(2);
-  if (i % 9 === 4) return `<g transform="rotate(${giro / 3} ${cx} ${y})"><rect x="${cx - 0.34}" y="${y - 1}" width="0.68" height="2" rx="0.3" class="canto"/><path d="M${cx - 0.12} ${y - 0.7}v1.4M${cx + 0.12} ${y - 0.7}v1.4" class="estria"/></g>`;
-  if (i % 3 === 1) return `<g transform="rotate(${giro} ${cx} ${y})"><ellipse cx="${cx}" cy="${y + 0.24}" rx="1" ry="0.5" class="canto"/><ellipse cx="${cx}" cy="${y}" rx="1" ry="0.5" class="cara"/><ellipse cx="${cx}" cy="${y}" rx="0.66" ry="0.31" class="aro"/></g>`;
-  return `<circle cx="${cx}" cy="${y + 0.2}" r="1" class="canto"/><circle cx="${cx}" cy="${y}" r="1" class="cara"/><circle cx="${cx}" cy="${y}" r="0.74" class="aro"/><text x="${cx}" y="${y + 0.4}" text-anchor="middle" class="signo">$</text>`;
-}
-// Se llenan de abajo hacia arriba y hacia el centro primero, como un monton que crece.
-const ORDEN = HUECOS.map((h, i) => [h, h[1] - 0.45 * Math.abs(h[0] - 12.6), i]).sort((a, b) => b[1] - a[1]).map(([h, , i]) => [h, i]);
-function puerquito(pesosMes) {
-  const n = Math.min(HUECOS.length, Math.floor(pesosMes / 10));
-  return `${ORDEN.slice(0, n).sort((a, b) => a[0][1] - b[0][1]).map(([h, i]) => moneda(h, i)).join("")}${PUERQUITO.map((d, i) => `<path d="${d}" class="linea${i === 1 ? " ojo" : ""}"/>`).join("")}`;
-}
+// Camioncito de hojalata (Figma): sube de nivel con lo ahorrado en el mes; con $450 ya pagaste un bono mensual.
+const NIVELES_AHORRO = [0, 1, 100, 200, 300, 450];
 function pintarAlcancia(mes) {
-  const monedas = Math.floor(mes / 10);
-  $("alcancia").innerHTML = puerquito(mes);
-  $("alcancia").setAttribute("aria-label", `Alcancía con ${plural(Math.min(41, monedas), "moneda", "monedas")}`);
-  $("ahorroPie").textContent = "Cada moneda son $10.";
+  const A = ARTE_ESC.ahorro, nivel = NIVELES_AHORRO.findLastIndex((desde) => mes >= desde), siguiente = NIVELES_AHORRO[nivel + 1];
+  const cae = nivel ? `<g transform="translate(296 -52)"><g class="moneda-cae">${A.moneda}</g></g>` : "";
+  $("alcancia").innerHTML = `${A[horario()]}${A[`nivel${nivel}`]}${cae}<g transform="translate(330 340) scale(${(0.66 / ESCALA_TL).toFixed(3)})">${tlacuache(nivel ? 4 : 3)}</g>`;
+  $("alcancia").setAttribute("aria-label", nivel === 5 ? "Camioncito de hojalata lleno de monedas" : nivel ? `Camioncito de hojalata en el nivel ${nivel} de 5` : "Camioncito de hojalata vacío");
+  $("ahorroPie").textContent = !nivel ? "Tu primer viaje en camión pone la primera moneda."
+    : siguiente === undefined ? "El camioncito está lleno este mes." : `Te faltan ${pesos(siguiente - mes)} para el siguiente nivel del camioncito.`;
 }
 // Lo ahorrado contado en cosas de todos los dias, y la gasolina que tu carro habria quemado en esos mismos viajes.
 function cosasAhorro(monto, co2Mes) {

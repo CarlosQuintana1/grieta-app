@@ -1077,21 +1077,8 @@ button.impacto-todos { width: 100%; text-align: left; }
 .co2-cifra { margin: 2px 0 0; }
 .co2-cifra strong { display: block; font-size: 3.2rem; font-weight: 800; line-height: 1; letter-spacing: -0.02em; color: var(--verde); }
 .co2-cifra span { display: block; margin-top: 6px; color: var(--tinta); font-weight: 600; }
-.bosque { display: block; width: 100%; height: auto; margin-top: 4px; }
-.bosque .halo { fill: rgb(233 168 63 / 18%); }
-.bosque .sol { fill: #e9a83f; }
-.bosque .ave { fill: none; stroke: var(--tenue); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-.bosque .sierra { fill: color-mix(in srgb, var(--verde) 9%, var(--superficie)); }
-.bosque .cerro.atras { fill: color-mix(in srgb, var(--verde) 20%, var(--superficie)); }
-.bosque .cerro { fill: color-mix(in srgb, var(--verde) 32%, var(--superficie)); }
-.bosque .copa { fill: var(--verde); }
-.bosque .copa.oscura { fill: color-mix(in srgb, var(--verde) 72%, var(--fondo)); }
-.bosque .tronco { fill: #8a5a3c; }
-.bosque .brote-tierra { fill: color-mix(in srgb, #8a5a3c 55%, var(--superficie)); }
-.bosque .brote-tallo { fill: none; stroke: color-mix(in srgb, var(--verde) 80%, #1d3b2a); stroke-width: 2; stroke-linecap: round; }
-.bosque .brote-hoja { fill: color-mix(in srgb, var(--verde) 78%, #1d3b2a); }
-.bosque .brote-hoja.clara { fill: var(--verde); }
-.bosque .sobra { fill: var(--verde); font-weight: 800; font-size: 20px; }
+.bosque { display: block; width: calc(100% - 24px); height: auto; margin: 14px 12px 0; border-radius: 16px; }
+.bosque .sobra { fill: #2b2420; font-weight: 800; font-size: 40px; }
 .co2-pie { padding: 12px 20px 16px; background: color-mix(in srgb, var(--verde) 32%, var(--superficie)); }
 .ahorro-hero .co2-pie { background: var(--ambar); }
 .ahorro-hero .co2-pie .co2-unidad { color: var(--sobre-ambar, #0b0a09); font-weight: 700; }
@@ -1129,43 +1116,13 @@ button.impacto-todos { width: 100%; text-align: left; }
 .co2-fuentes p { margin: 12px 0 0; padding: 14px 16px; border-radius: var(--radio); background: var(--superficie); color: var(--tenue); font-size: .88rem; line-height: 1.45; text-align: justify; hyphens: auto; }
 @media (max-width: 360px) { .co2-equivale { grid-template-columns: 1fr; } .co2-cifra strong { font-size: 2.6rem; } }
 
-/* Tlacuache: colores fijos de la ilustracion, iguales en tema claro y oscuro */
-.escena .cielo-arriba { stop-color: #8fc3dc; } .escena .cielo-abajo { stop-color: #d9ecef; }
-.escena.e0 .cielo-arriba, .escena.e1 .cielo-arriba, .escena.e2 .cielo-arriba { stop-color: #9a9789; }
-.escena.e0 .cielo-abajo, .escena.e1 .cielo-abajo, .escena.e2 .cielo-abajo { stop-color: #c9c1ac; }
-.escena .sol { fill: #f2b64a; } .escena .sol.tenue { fill: #d9c79a; opacity: .6; }
-.escena .cerro { fill: #a58c69; } .escena .cerro.medio { fill: #8e9a66; } .escena .cerro.verde { fill: #6f9e62; }
-.escena .edificio { fill: #6d6a72; } .escena .ventana { fill: #8a8790; } .escena .ventana.luz { fill: #f2d48a; }
-.escena .humo { fill: #8a7f6c; }
-.escena .suelo { fill: #8f7a5c; } .escena .suelo.pasto { fill: #79a35f; } .escena .banqueta { fill: #b9b2a6; }
-.escena .tronco { fill: #7a5236; } .escena .copa { fill: #4f9a5c; } .escena .seco { fill: none; stroke: #6b5440; stroke-width: 4; stroke-linecap: round; }
-.escena .pajaro { fill: none; stroke: #3d3a40; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.escena .fuente-borde { fill: #b4ada2; } .escena .agua { fill: #5fb7d9; } .escena .agua.sucia { fill: #7a6a45; }
-.escena .chorro { fill: none; stroke: #8fd3ee; stroke-width: 3; stroke-linecap: round; }
-.escena .bolsa { fill: #2f2d31; } .escena .bolsa-nudo { fill: none; stroke: #2f2d31; stroke-width: 2; stroke-linejoin: round; }
-.escena .lata { fill: #c0433b; } .escena .botella { stroke: #9cc7b4; stroke-width: 4; stroke-linecap: round; }
-.escena .bote { fill: #2e7d4f; } .escena .bote-tapa { fill: #245f3c; } .escena .bote-raya { stroke: #4fa070; stroke-width: 2; stroke-linecap: round; }
-.escena .nopal { fill: #5c9a4a; } :is(.escena, .tl-svg) .tuna { fill: #c2346b; }
-.escena .flor { fill: #e86f9a; } .escena .flor.amarilla { fill: #f2c94c; }
-:is(.escena, .tl-svg) .tl-gris { fill: #a7a4a8; } :is(.escena, .tl-svg) .tl-lomo { fill: none; stroke: #8b878d; stroke-width: 6; stroke-linecap: round; opacity: .6; }
-:is(.escena, .tl-svg) .tl-blanco { fill: #f4f1ea; } :is(.escena, .tl-svg) .tl-negro { fill: #26232a; } :is(.escena, .tl-svg) .tl-oscuro { fill: #3d3940; } :is(.escena, .tl-svg) .tl-oreja { fill: #e9b9b4; }
-:is(.escena, .tl-svg) .tl-nariz { fill: #e58a9a; } :is(.escena, .tl-svg) .tl-brillo { fill: #fff; }
-:is(.escena, .tl-svg) .tl-cola-trazo { fill: none; stroke: #e7bdb3; stroke-width: 4.5; stroke-linecap: round; }
-:is(.escena, .tl-svg) .tl-trazo { fill: none; stroke: #26232a; stroke-width: 2; stroke-linecap: round; } :is(.escena, .tl-svg) .tl-trazo.fino { stroke-width: 1.4; }
-:is(.escena, .tl-svg) .tl-bigote { stroke: #8b878d; stroke-width: .8; stroke-linecap: round; }
-:is(.escena, .tl-svg) .lagrima { fill: #7cc3e8; } :is(.escena, .tl-svg) .tl-panza { fill: #c9c6c8; } :is(.escena, .tl-svg) .tl-trazo.grueso { stroke-width: 2.4; }
-:is(.escena, .tl-svg) .tl-cria { fill: #c4c1c5; stroke: #8b878d; stroke-width: 1; }
 .bono-titulo { margin-top: 28px; }
 
-/* Alcancia: el puerquito de Lucide en grande; monedas en dorado fijo para los dos temas */
-.alcancia { display: block; width: 210px; height: 210px; margin: 8px auto 4px; overflow: visible; }
-.alcancia .linea { fill: none; stroke: var(--tinta); stroke-width: .95; stroke-linecap: round; stroke-linejoin: round; }
-.alcancia .ojo { stroke-width: 1.7; }
-.alcancia .cara { fill: #f0b445; }
-.alcancia .canto { fill: #a8711a; }
-.alcancia .aro { fill: none; stroke: #c48a22; stroke-width: .13; }
-.alcancia .signo { fill: #b07818; font: 800 1.15px Montserrat, sans-serif; }
-.alcancia .estria { stroke: #d99a33; stroke-width: .1; }
+/* Camioncito del ahorro: escena de Figma con la moneda que cae en la ranura del techo */
+.alcancia { display: block; width: calc(100% - 24px); height: auto; margin: 14px 12px 0; border-radius: 16px; overflow: hidden; }
+.alcancia .moneda-cae { animation: moneda-cae 1.1s .3s ease-in both; }
+@keyframes moneda-cae { 0% { transform: translateY(0); opacity: 1; } 80% { transform: translateY(96px); opacity: 1; } 100% { transform: translateY(112px); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .alcancia .moneda-cae { display: none; } }
 .ahorro-nota { margin: 4px 0 0; color: var(--tenue); font-size: .82rem; }
 html.claro .ahorro-nota { color: var(--tinta); }
 .filas-dato { margin: 18px 0 0; }
