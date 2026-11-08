@@ -2082,7 +2082,8 @@ function abrirLinea(linea, hacia, paradaActual) {
   estado.linea = { linea, sentidos, parada: paradaActual };
   ir("linea");
   $("tituloPantalla").textContent = linea;
-  $("lineaSentidos").innerHTML = sentidos.map((x, i) => `<button type="button" aria-pressed="false" data-v="${escapar(x.hacia)}">${ico("ruta")}<span class="sentido-texto"><strong>${["Ida", "Regreso"][i] ?? "Otro recorrido"}${pasaAqui(x) ? ` <em>Pasa por tu parada</em>` : ""}</strong><small translate="no">${rumboDeSentido(x)} y termina en ${escapar(x.hacia)}</small></span></button>`).join("");
+  // Ida y Regreso lado a lado para que se vean los dos sin desplazar; abajo, hacia donde va el elegido.
+  $("lineaSentidos").innerHTML = sentidos.map((x, i) => `<button type="button" aria-pressed="false" data-v="${escapar(x.hacia)}" aria-label="${["Ida", "Regreso"][i] ?? "Otro recorrido"}: ${rumboDeSentido(x).toLowerCase()} y termina en ${escapar(x.hacia)}${pasaAqui(x) ? ". Pasa por tu parada" : ""}"><strong>${["Ida", "Regreso"][i] ?? "Otro"}</strong>${pasaAqui(x) ? "<em>Pasa por tu parada</em>" : ""}</button>`).join("");
   pintarSentido(sentidos.some((x) => x.hacia === hacia) ? hacia : sentidos[0].hacia);
 }
 // Hacia donde avanza el recorrido, de su primera a su ultima parada, en palabras.
@@ -2102,6 +2103,7 @@ function pintarSentido(hacia) {
   const { linea, sentidos, parada } = estado.linea;
   const pat = sentidos.find((x) => x.hacia === hacia);
   for (const b of $("lineaSentidos").children) b.setAttribute("aria-pressed", String(b.dataset.v === hacia));
+  $("lineaRumbo").textContent = `${rumboDeSentido(pat)} y termina en ${pat.hacia}`;
   const puntos = pat.paradas.map((i) => Grieta.qrobus.paradas[i]);
   capas.rutaLinea?.remove();
   const trazoLinea = L.polyline(puntos.map(([la, lo]) => [la, lo]), { color: COLOR_LINEA, weight: 5, opacity: 0.9 });

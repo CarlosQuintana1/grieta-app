@@ -1344,10 +1344,6 @@ body:not(.camara-en-uso) :is(#camaraSueloEstado, #camaraHoyosEstado) { display: 
 .chip-dato .icono { width: 15px; height: 15px; color: var(--ambar); }
 .chip-linea b { padding: 0 6px; border-radius: 6px; background: #424d88; color: #fff; }
 .comparar-total { color: var(--ambar); font-size: 1.05rem; }
-.sentidos-linea { display: grid; gap: 8px; margin-bottom: 14px; }
-.sentidos-linea button { display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 10px 14px; border-radius: var(--radio); border: 2px solid var(--linea); background: var(--superficie); font-weight: 700; text-align: left; }
-.sentidos-linea button[aria-pressed="true"] { border-color: #2f8a5c; background: color-mix(in srgb, #2f8a5c 18%, var(--superficie)); }
-.sentidos-linea .icono { width: 18px; height: 18px; flex: none; }
 .parada-linea { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 6px; background: #fff; color: #424d88; border: 2px solid #424d88; box-shadow: 0 1px 3px rgb(0 0 0 / .4); }
 .parada-linea .icono { width: 13px; height: 13px; }
 .parada-linea.extremo { background: #2f8a5c; color: #fff; border-color: #fff; }
@@ -1424,10 +1420,6 @@ body.camara-guia .vuelta-pie { top: calc(env(safe-area-inset-top, 0px) + 72px); 
 body[data-pantalla="detalle"] #mapa { min-height: 42%; }
 body[data-pantalla="detalle"] .hoja { max-height: 58%; }
 /* Sentidos de una linea: Ida y Regreso, con el rumbo y la ultima parada en chico */
-.sentidos-linea .sentido-texto { display: grid; gap: 2px; min-width: 0; }
-.sentidos-linea .sentido-texto strong { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 1.05rem; }
-.sentidos-linea .sentido-texto em { padding: 1px 8px; border-radius: 999px; background: #1f6b44; color: #fff; font-size: .72rem; font-style: normal; font-weight: 700; }
-.sentidos-linea .sentido-texto small { color: var(--tenue); font-size: .8rem; font-weight: 500; line-height: 1.3; }
 /* La regla general de .filas le quitaba el relleno a la ficha de linea y la pegaba al borde */
 .fichas-linea > li > .ficha-linea { display: grid; padding: 12px 10px 12px 12px; }
 .fichas-linea .linea-caja { min-width: 56px; min-height: 44px; padding: 8px 10px; font-size: 1.05rem; font-weight: 800; letter-spacing: .02em; box-shadow: 0 2px 6px rgb(0 0 0 / .25); }
@@ -1624,3 +1616,11 @@ html.daltonico #co2Equivale li.eq-parque { --acento: #a58be0; } html.daltonico.c
 @keyframes tl-respira { 50% { transform: translateY(-3px); } }
 @keyframes tl-puntos { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
 @keyframes tl-salta { 0%, 100% { transform: none; } 30% { transform: translateY(-12px) rotate(-4deg); } 55% { transform: translateY(0) scaleY(.92); } 70% { transform: translateY(-4px); } }
+
+/* Ida y Regreso lado a lado; abajo, una linea con el rumbo del sentido elegido */
+.sentidos-linea { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 8px; }
+.sentidos-linea button { display: grid; align-content: center; justify-items: center; gap: 4px; min-height: 64px; padding: 8px 6px; border-radius: var(--radio); border: 2px solid var(--linea); background: var(--superficie); color: var(--tinta); text-align: center; }
+.sentidos-linea button[aria-pressed="true"] { border-color: #2f8a5c; background: color-mix(in srgb, #2f8a5c 18%, var(--superficie)); }
+.sentidos-linea strong { font-size: 1.1rem; font-weight: 800; }
+.sentidos-linea em { padding: 1px 8px; border-radius: 999px; background: #1f6b44; color: #fff; font-size: .72rem; font-style: normal; font-weight: 700; line-height: 1.5; }
+.linea-rumbo { margin: 10px 2px 14px; color: var(--tenue); font-size: .9rem; line-height: 1.35; }
