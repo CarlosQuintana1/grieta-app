@@ -4643,6 +4643,14 @@ function avisoConexion() {
 addEventListener("online", avisoConexion);
 addEventListener("offline", avisoConexion);
 
+// Pantalla de arranque: se va cuando ya cargaron los datos, nunca antes de 0.7 s para que no parpadee y nunca despues de 4 s.
+function quitarArranque() {
+  const a = $("arranque");
+  if (!a || a.classList.contains("listo")) return;
+  setTimeout(() => { a.classList.add("listo"); setTimeout(() => a.remove(), 350); }, Math.max(0, 700 - performance.now()));
+}
+setTimeout(quitarArranque, Math.max(0, 4000 - performance.now()));
+
 const primeraVez = !leer("grieta-bienvenida", false);
 if (primeraVez) abrirBienvenida();
 else {
@@ -4662,7 +4670,8 @@ Promise.all([
   IA = ["localhost", "127.0.0.1"].includes(location.hostname) ? "http://localhost:8798" : config.ia || "";
   $("camaraEnfrente").hidden = !IA;
   $("camaraConversar").hidden = !IA || !Reconocer;
-  pintarImpacto();
+  // La tarjeta del CO₂ de todos se espera un poco, para que no aparezca despues y recorra el inicio.
+  Promise.race([pintarImpacto(), new Promise((r) => setTimeout(r, 1500))]).then(quitarArranque);
   pintarGuardados();
   avisoConexion();
   if (!primeraVez) ubicar();
