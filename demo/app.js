@@ -1434,7 +1434,7 @@ function pintarOpciones(r) {
   // El aviso va debajo de la opcion a la que se refiere; arriba empujaba la tarjeta fuera de la hoja.
   $("tarjetas").querySelector(".tarjeta")?.after($("ultimoCamion"));
   if (!hayCamion && yaNoPasan(r.ctx.minuto)) {
-    $("tarjetas").innerHTML += tlacuacheDormido("Ya no pasan camiones a esta hora");
+    $("tarjetas").innerHTML += tlacuacheDormido("Ya no pasan<br>camiones a esta hora");
   } else if (!hayCamion) {
     $("tarjetas").innerHTML += `<div class="aviso cuidado sin-camion">${ico("alerta")}<strong>${r.pasaCerca ? "Ningún Qrobus te lleva directo en la próxima hora." : "En la próxima hora no pasa ningún Qrobus cerca."}</strong></div>`;
   }
@@ -2157,7 +2157,7 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
   const revision = revisionCamiones;
   const caja = $("camionesContenido");
   // El tlacuache dormido solo en la parada principal; en las demas basta una linea.
-  const filas = (p, principal = false) => !p.lineas.length && Grieta.tieneRecorridos(p.i) && yaNoPasan() ? (principal ? tlacuacheDormido("Ya no pasan camiones a esta hora") : '<p class="nota">Ya no pasan camiones a esta hora.</p>') : !p.lineas.length ? `<p class="nota">${Grieta.tieneRecorridos(p.i) ? "No hay próximos horarios guardados para esta parada." : "Parada oficial de Qrobus sin horarios publicados. No sabemos qué camiones pasan aquí."}</p>` : `<ul class="filas fichas-linea">${p.lineas.slice(0, 6).map((l) => `<li data-linea="${escapar(l.linea)}"><button type="button" class="ficha-linea" data-ver-linea="${escapar(l.linea)}" data-hacia="${escapar(l.hacia)}" data-indice="${p.i}">
+  const filas = (p, principal = false) => !p.lineas.length && Grieta.tieneRecorridos(p.i) && yaNoPasan() ? (principal ? tlacuacheDormido("Ya no pasan<br>camiones a esta hora") : '<p class="nota">Ya no pasan camiones a esta hora.</p>') : !p.lineas.length ? `<p class="nota">${Grieta.tieneRecorridos(p.i) ? "No hay próximos horarios guardados para esta parada." : "Parada oficial de Qrobus sin horarios publicados. No sabemos qué camiones pasan aquí."}</p>` : `<ul class="filas fichas-linea">${p.lineas.slice(0, 6).map((l) => `<li data-linea="${escapar(l.linea)}"><button type="button" class="ficha-linea" data-ver-linea="${escapar(l.linea)}" data-hacia="${escapar(l.hacia)}" data-indice="${p.i}">
       <span class="linea-caja">${escapar(l.linea)}</span>
       <span class="fila-texto"><small class="hacia-rotulo">Hacia</small><strong translate="no">${escapar(l.hacia)}</strong>${l.horas[1] !== undefined ? `<small>También a las ${hora(l.horas[1])}</small>` : ""}</span>
       <span class="hora-camion"><strong>${hora(l.horas[0])}</strong><small>${enCuanto(l.horas[0])}</small></span>${ico("chevron", "chevron")}
@@ -2166,7 +2166,7 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
   const dormidoParada = (p) => {
     if (!p.lineas.length || !yaNoPasan()) return "";
     const primero = Math.min(...p.lineas.map((l) => l.horas[0])), falta = (primero - ahoraMin() + 1440) % 1440;
-    return falta > 90 ? tlacuacheDormido("Ya no pasan camiones a esta hora", `El primero pasa a las ${hora(primero)}.`) : "";
+    return falta > 90 ? tlacuacheDormido("Ya no pasan<br>camiones a esta hora", `El primero pasa a las ${hora(primero)}.`) : "";
   };
   const p = lista[0];
   pintarParadas(punto, lista, seleccionada);
