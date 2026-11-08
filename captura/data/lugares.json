@@ -129,9 +129,9 @@
     {
       "id": "pena-flor",
       "nombre": "Blvd. Peña Flor y Prol. Bernardo Quintana",
-      "lat": 20.646499,
-      "lon": -100.479798,
-      "verificado": false
+      "lat": 20.647124,
+      "lon": -100.478496,
+      "verificado": true
     },
     {
       "id": "parque-innovacion",
@@ -145,7 +145,7 @@
       "nombre": "Circuito 11 de Febrero",
       "lat": 20.514658,
       "lon": -100.475767,
-      "verificado": false
+      "verificado": true
     }
   ]
 }
