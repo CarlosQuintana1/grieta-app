@@ -1559,3 +1559,7 @@ html.grande .racha-tienda { grid-template-columns: 1fr; }
 .tienda-muestra { height: 84px; background: color-mix(in srgb, var(--verde) 10%, transparent); border-radius: 12px; }
 .precio-tunas { display: inline-flex; align-items: center; justify-content: center; gap: 6px; color: var(--ambar); font-size: .85rem; font-weight: 800; }
 .tuna-icono { width: 12px; height: 10px; border-radius: 50%; background: #c2346b; box-shadow: inset -2px -2px 0 rgb(0 0 0 / .18); }
+/* Equivalencias de CO2 en verde, el color de lo que se evita */
+#co2Equivale li { background: color-mix(in srgb, var(--verde) 16%, var(--superficie)); border: 1px solid color-mix(in srgb, var(--verde) 45%, transparent); }
+#co2Equivale strong { color: var(--verde); }
+#co2Equivale span:last-child { color: var(--tinta); opacity: .85; }
