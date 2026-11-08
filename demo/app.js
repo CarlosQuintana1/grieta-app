@@ -3460,7 +3460,7 @@ function pintarGuardados() {
     `<button type="button" class="boton-voz" data-i="${guardados.indexOf(g)}" aria-keyshortcuts="Shift+F10">${picto(iconoLugar(g.nombre))}Ir a ${escapar(g.nombre)}</button>`).join("");
   // Tus lugares como fichas grandes; si falta la casa, su ficha invita a agregarla.
   const ficha = (attrs, clase, icono, nombre, propio = false) => `<button type="button" class="lugar ${clase}" ${attrs}>
-    <span class="lugar-icono">${picto(icono, icono === "plus" ? "picto-lucide" : "")}</span><span class="lugar-nombre"${propio ? ' translate="no"' : ""}>${escapar(nombre)}</span></button>`;
+    <span class="lugar-icono">${picto(icono)}</span><span class="lugar-nombre"${propio ? ' translate="no"' : ""}>${escapar(nombre)}</span></button>`;
   const fichas = guardados.map((g, i) => ficha(`data-i="${i}" aria-keyshortcuts="Shift+F10" aria-label="Ir a ${escapar(g.nombre)}"`, `${tonoLugar(g.nombre, i)}${nuevoGuardado?.nombre === g.nombre ? " recien" : ""}`, iconoLugar(g.nombre), g.nombre, true));
   const faltaCasa = !guardados.some((g) => g.nombre === "Casa") && guardados.length < MAX_LUGARES;
   if (faltaCasa) fichas.push(ficha('data-nuevo="Casa"', "nuevo tono-casa", "casa", "Agregar casa"));
