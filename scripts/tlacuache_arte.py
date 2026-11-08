@@ -19,6 +19,8 @@ ANIMADAS = {"tail": "an-cola", "papel-picado": "an-papel", "racha-fair-weather-c
 
 def interior(nombre, carpeta=ORIGEN):
     texto = (carpeta / f"{nombre}.svg").read_text(encoding="utf-8")
+    # Marcas para pintar encima el patron del alebrije: sobre el cuerpo y sobre la cara.
+    texto = texto.replace('<g data-part="leg-back-near"', '@@CUERPO@@<g data-part="leg-back-near"').replace('<g data-part="outer-contour"', '@@CARA@@<g data-part="outer-contour"')
     texto = re.sub(r'data-part="([a-z-]+)"', lambda m: f'class="{ANIMADAS[m.group(1)]}"' if m.group(1) in ANIMADAS else m.group(0), texto)
     # El ojo abierto (trazo oscuro con su brillo) se agrupa para que parpadee.
     texto = re.sub(r'(<path d="[^"]*" fill="#2B2420"/><circle [^>]*fill="#FFFFFF"/>)', r'<g class="an-ojo">\1</g>', texto)
@@ -76,6 +78,7 @@ def main():
     arte = {
         "estados": {e: interior(f"tlacuache-{e}") for e in ["normal", "contento", "preocupado", "comiendo", "crias"]},
         "acc": {a: interior(f"acc-{a}") for a in ["flor", "paliacate", "lentes", "palma", "charro", "morral", "rebozo", "listones-atras", "listones-frente"]},
+        "alebrije": {p: interior(f"alebrije-{p}") for p in ["cuerpo", "cara"]},
         "icono": {i: interior(f"icono-{i}") for i in ["flor", "paliacate", "lentes", "palma", "charro", "morral", "rebozo", "listones", "tuna"]},
     }
     escribir("tlacuache-arte.js", "ARTE_TL", arte, "diseno/tlacuache")

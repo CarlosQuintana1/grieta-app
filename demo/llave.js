@@ -95,9 +95,10 @@ function juntarRacha(remota, local, localMasNueva) {
   }
   for (const s of local.premiadas ?? []) if (!(remota.premiadas ?? []).includes(s)) tunas += SEMANA_TUNAS;
   for (const id of local.compras ?? []) if (!(remota.compras ?? []).includes(id)) tunas -= ACCESORIOS[ACCESORIOS_VIEJOS[id] ?? id]?.precio ?? 0;
+  if (local.alebrije && !remota.alebrije) tunas -= ALEBRIJE_TUNAS;
   return Object.assign(r, {
     viajes: viajes.sort((x, y) => y.f.localeCompare(x.f)).slice(0, 400), tunas: Math.max(0, tunas),
-    premiadas: union(remota.premiadas, local.premiadas), usados: union(remota.usados, local.usados), compras: union(remota.compras, local.compras),
+    alebrije: Boolean(remota.alebrije || local.alebrije), premiadas: union(remota.premiadas, local.premiadas), usados: union(remota.usados, local.usados), compras: union(remota.compras, local.compras),
     mes: [remota.mes ?? "", local.mes ?? ""].sort().at(-1),
   });
 }

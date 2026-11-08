@@ -23,7 +23,7 @@ const catalogo={codigo:'nhe',completa:true,revision:'Prueba técnica sintética;
  const {c,p}=await pagina();
  assert.equal(await p.locator('body').getAttribute('data-pantalla'),'bienvenida');
  await p.locator('#bienvenida [data-v=vista]').click();await p.locator('#bienvenida [data-forma=completa]').click();
- await p.locator('#sinUbicacion').click();await p.locator('#bienvenida [data-movilidad=normal]').click();await p.locator('#bienvenida [data-oido=bien]').click();await p.locator('#bienvenida [data-tarifa=no]').click();
+ await p.locator('#sinUbicacion').click();await p.locator('#bienvenida [data-movilidad=normal]').click();await p.locator('#bienvenida [data-oido=bien]').click();await p.locator('#bienvenida [data-tarifa=no]').click();await p.locator('#bienvenida [data-gasolina=magna]').click();
  assert.equal(await p.locator('body').getAttribute('data-pantalla'),'tutorial');
  assert.equal(await p.locator('#tutorialProgreso').textContent(),'Paso 1 de 3');
  assert.equal(await p.evaluate(()=>document.activeElement.id),'tutorialTitulo');

@@ -145,14 +145,16 @@
 
     <section id="bienvenida" class="pantalla bienvenida" aria-labelledby="tituloBienvenida" hidden>
       <div class="bienvenida-cabecera">
-        <span class="bienvenida-marca" role="img" aria-label="Grieta">G</span>
+        <button id="regresarBienvenida" type="button" class="regresar bienvenida-atras oculta" aria-label="Regresar"><svg class="icono" aria-hidden="true"><use href="#i-atras"/></svg></button>
         <button id="saltarBienvenida" type="button" class="enlace">Saltar</button>
         <div id="progresoBienvenida" class="bienvenida-progreso progreso-1" role="progressbar" aria-label="Progreso de bienvenida" aria-valuemin="1" aria-valuemax="6" aria-valuenow="1" aria-valuetext="Paso 1 de 6"><span id="avanceBienvenida"></span></div>
       </div>
       <div data-paso="vista" class="paso">
+        <div class="tl-dialogo"><svg class="tl-pregunta" viewBox="-72 -84 140 88" aria-hidden="true"></svg><div class="tl-globo">
         <p class="paso-numero">PASO 1 DE 6</p>
+        <p class="tl-saludo">¡Hola! Yo te acompaño en tus viajes.</p>
         <h1 id="tituloBienvenida" tabindex="-1"><span class="oculto">Bienvenida a Grieta. </span>¿Cómo ves la pantalla?</h1>
-        <p class="nota-paso">Grieta se acomoda a ti. Lo puedes cambiar después.</p>
+        </div></div>
         <div class="vista-opciones">
           <button type="button" class="opcion-vista" data-v="vista"><span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-ojo"/></svg></span><span class="opcion-texto"><strong>Veo bien</strong><small>Mapa y letra normal</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
           <button type="button" class="opcion-vista" data-v="poco"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-letra"/></svg></span><span class="opcion-texto"><strong>Veo poco</strong><small>Letra grande y más contraste</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
@@ -160,39 +162,43 @@
         </div>
       </div>
       <div data-paso="lector" class="paso" hidden>
-        <button type="button" class="enlace regresar">Regresar</button>
+        <div class="tl-dialogo"><svg class="tl-pregunta" viewBox="-72 -84 140 88" aria-hidden="true"></svg><div class="tl-globo">
         <p class="paso-numero">PASO 2 DE 6</p>
         <h1 id="tituloLector" tabindex="-1">¿Tu teléfono ya te lee la pantalla?</h1>
+        </div></div>
         <div class="vista-opciones">
           <button type="button" class="opcion-vista" data-lector="si"><span class="mini-ficha tono-escuela" aria-hidden="true"><svg class="picto"><use href="#p-decir"/></svg></span><span class="opcion-texto"><strong>Sí, ya uso uno</strong><small>VoiceOver o TalkBack</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
           <button type="button" class="opcion-vista" data-lector="no"><span class="mini-ficha tono-hospital" aria-hidden="true"><svg class="picto"><use href="#p-familiar"/></svg></span><span class="opcion-texto"><strong>No, ayúdame</strong><small>Grieta te lo dice en voz alta</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
         </div>
       </div>
       <div data-paso="forma" class="paso" hidden>
-        <button type="button" class="enlace regresar">Regresar</button>
+        <div class="tl-dialogo"><svg class="tl-pregunta" viewBox="-72 -84 140 88" aria-hidden="true"></svg><div class="tl-globo">
         <p class="paso-numero">PASO 2 DE 6</p>
         <h1 id="tituloForma" tabindex="-1">¿Cómo quieres ver Grieta?</h1>
         <p class="nota-paso">Lo puedes cambiar después en tu perfil.</p>
+        </div></div>
         <div class="vista-opciones">
           <button type="button" class="opcion-vista" data-forma="completa"><span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-lugar"/></svg></span><span class="opcion-texto"><strong>Completa</strong><small>Precios, horarios, comparar y esperar</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
           <button type="button" class="opcion-vista" data-forma="facil"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-agregar"/></svg></span><span class="opcion-texto"><strong>Fácil</strong><small>Solo lo esencial, con botones grandes</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
         </div>
       </div>
       <div data-paso="ubicacion" class="paso" hidden>
-        <button type="button" class="enlace regresar">Regresar</button>
+        <div class="tl-dialogo"><svg class="tl-pregunta" viewBox="-72 -84 140 88" aria-hidden="true"></svg><div class="tl-globo">
         <p class="paso-numero">PASO 3 DE 6</p>
         <h1 id="tituloUbicacion" tabindex="-1">¿Usamos tu ubicación?</h1>
         <p class="nota-paso">Sirve para encontrar paradas y guiarte.</p>
+        </div></div>
         <div class="vista-opciones">
           <button id="permisoUbicacion" type="button" class="opcion-vista" aria-label="Sí, usar mi ubicación"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-donde"/></svg></span><span class="opcion-texto"><strong>Sí, usar mi ubicación</strong><small>Para saber desde dónde sales</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
           <button id="sinUbicacion" type="button" class="opcion-vista"><span class="mini-ficha tono-obsidiana" aria-hidden="true"><svg class="picto"><use href="#p-lugar"/></svg></span><span class="opcion-texto"><strong>Ahora no</strong><small>Escribes desde dónde sales</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
         </div>
       </div>
       <div data-paso="movilidad" class="paso" hidden>
-        <button type="button" class="enlace regresar">Regresar</button>
+        <div class="tl-dialogo"><svg class="tl-pregunta" viewBox="-72 -84 140 88" aria-hidden="true"></svg><div class="tl-globo">
         <p class="paso-numero">PASO 4 DE 6</p>
         <h1 id="tituloMovilidad" tabindex="-1">¿Cómo te mueves?</h1>
         <p class="nota-paso">Sirve para encontrar paradas a tu medida.</p>
+        </div></div>
         <div class="vista-opciones">
           <button type="button" class="opcion-vista" data-movilidad="normal"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-caminar"/></svg></span><span class="opcion-texto"><strong>Camino sin problema</strong></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
           <button type="button" class="opcion-vista" data-movilidad="poco"><span class="mini-ficha tono-casa" aria-hidden="true"><svg class="picto"><use href="#p-caminar"/></svg></span><span class="opcion-texto"><strong>Me cuesta caminar</strong><small>Paradas más cerca</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
@@ -201,10 +207,11 @@
         <button type="button" class="enlace saltar">Saltar estas preguntas</button>
       </div>
       <div data-paso="oido" class="paso" hidden>
-        <button type="button" class="enlace regresar">Regresar</button>
+        <div class="tl-dialogo"><svg class="tl-pregunta" viewBox="-72 -84 140 88" aria-hidden="true"></svg><div class="tl-globo">
         <p class="paso-numero">PASO 5 DE 6</p>
         <h1 id="tituloOido" tabindex="-1">¿Escuchas bien los avisos?</h1>
         <p class="nota-paso">Sirve para elegir cómo avisarte durante el viaje.</p>
+        </div></div>
         <div class="vista-opciones">
           <button type="button" class="opcion-vista" data-oido="bien"><span class="mini-ficha tono-escuela" aria-hidden="true"><svg class="picto"><use href="#p-decir"/></svg></span><span class="opcion-texto"><strong>Sí, escucho bien</strong><small>Avisos con voz</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
           <button type="button" class="opcion-vista" data-oido="poco"><span class="mini-ficha tono-hospital" aria-hidden="true"><svg class="picto"><use href="#p-familiar"/></svg></span><span class="opcion-texto"><strong>Me cuesta escuchar</strong><small>Avisos grandes y con vibración</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
@@ -212,15 +219,28 @@
         <button type="button" class="enlace saltar">Saltar estas preguntas</button>
       </div>
       <div data-paso="tarifa" class="paso" hidden>
-        <button type="button" class="enlace regresar">Regresar</button>
+        <div class="tl-dialogo"><svg class="tl-pregunta" viewBox="-72 -84 140 88" aria-hidden="true"></svg><div class="tl-globo">
         <p class="paso-numero">PASO 6 DE 6</p>
         <h1 id="tituloTarifa" tabindex="-1">¿Pagas Tarifa Unidos?</h1>
         <p class="nota-paso">Sirve para calcular cuánto te cuesta el camión.</p>
+        </div></div>
         <div class="vista-opciones">
           <button type="button" class="opcion-vista" data-tarifa="si"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-qrobus"/></svg></span><span class="opcion-texto"><strong>Sí</strong><small>Estudiante, mayor de 60 o persona con discapacidad</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
           <button type="button" class="opcion-vista" data-tarifa="no"><span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-camiones"/></svg></span><span class="opcion-texto"><strong>No, pago la tarifa normal</strong></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
         </div>
         <button type="button" class="enlace saltar">Saltar estas preguntas</button>
+      </div>
+      <div data-paso="gasolina" class="paso" hidden>
+        <div class="tl-dialogo"><svg class="tl-pregunta" viewBox="-72 -84 140 88" aria-hidden="true"></svg><div class="tl-globo">
+        <p class="paso-numero">PASO 7 DE 7</p>
+        <h1 id="tituloGasolina" tabindex="-1">¿Qué gasolina le pones a tu carro?</h1>
+        <p class="nota-paso">Sirve para calcular cuánto gastarías en carro.</p>
+        </div></div>
+        <div class="vista-opciones">
+          <button type="button" class="opcion-vista" data-gasolina="magna"><span class="mini-ficha tono-hospital" aria-hidden="true"><svg class="picto"><use href="#p-gasolina"/></svg></span><span class="opcion-texto"><strong>Verde</strong><small>Magna</small></span></button>
+          <button type="button" class="opcion-vista" data-gasolina="premium"><span class="mini-ficha tono-salud" aria-hidden="true"><svg class="picto"><use href="#p-gasolina"/></svg></span><span class="opcion-texto"><strong>Roja</strong><small>Premium</small></span></button>
+          <button type="button" class="opcion-vista" data-gasolina="no"><span class="mini-ficha tono-obsidiana" aria-hidden="true"><svg class="picto"><use href="#p-qrobus"/></svg></span><span class="opcion-texto"><strong>No tengo carro</strong></span></button>
+        </div>
       </div>
     </section>
 
@@ -332,7 +352,11 @@
     </section>
 
     <section id="elegirMapa" class="pantalla" aria-labelledby="tituloPantalla" hidden>
-      <p id="elegirTexto" class="texto">Mueve el mapa y toca dónde está el lugar.</p>
+      <p id="elegirTexto" class="texto">Selecciona el lugar en el mapa</p>
+      <div id="tonoMapa" class="segmento" role="radiogroup" aria-label="Color del mapa">
+        <button type="button" role="radio" aria-checked="false" data-v="claro">Mapa claro</button>
+        <button type="button" role="radio" aria-checked="true" data-v="oscuro">Mapa oscuro</button>
+      </div>
       <button id="usarPunto" type="button" class="boton" hidden></button>
     </section>
 
@@ -548,8 +572,12 @@
       <div id="tlNombreFila" class="tl-nombre">
         <button id="tlNombrar" type="button" class="tl-nombre-boton"><span id="tlNombre">Ponle nombre</span></button>
       </div>
+      <div id="pelajes" class="pelajes" role="group" aria-label="Color de tu tlacuache"></div>
+      <p id="pelajeNota" class="pelaje-nota" role="status"></p>
+      <button id="pelajeComprar" type="button" class="boton" hidden></button>
       <form id="tlNombreForma" class="tl-nombre-forma" hidden>
         <label class="campo"><span>¿Cómo se llama tu tlacuache?</span><input id="tlNombreEntrada" type="text" maxlength="24" autocomplete="off" enterkeyhint="done"></label>
+        <p id="tlNombreAviso" class="nota" role="status"></p>
         <div class="dos-botones"><button type="submit" class="boton">Guardar</button><button id="tlNombreCancelar" type="button" class="boton oscuro">Cancelar</button></div>
       </form>
       <div class="racha-trato">
@@ -558,8 +586,26 @@
           <span class="trato-via"><i class="trato-avance"></i><span class="trato-carril"><svg class="trato-bus" viewBox="0 0 30 20"><rect x="1" y="2" width="27" height="12" rx="3.5" fill="#e0a03c"/><path d="M4 5h5v4H4zM11 5h5v4h-5zM18 5h4v4h-4zM24 5h2.4a.6.6 0 0 1 .6.6V10h-3z" fill="#0b0a09"/><circle cx="7.5" cy="15" r="2.8" fill="#0b0a09" stroke="#e0a03c" stroke-width="1.6"/><circle cx="21.5" cy="15" r="2.8" fill="#0b0a09" stroke="#e0a03c" stroke-width="1.6"/></svg></span></span>
           <span class="trato-tuna"><svg id="tratoTuna" viewBox="0 0 24 24"></svg><b>+1</b></span>
         </div>
-        <p><strong>Cada viaje en camión te da una tuna</strong><span>Con ellas le compras cosas a tu tlacuache.</span></p>
+        <p><strong>Cada viaje en camión te da una tuna</strong><span>Con ellas le compras cosas a <span id="tratoNombre">tu tlacuache</span>.</span></p>
       </div>
+      <details class="ajuste-seccion ajuste-plegable conoce">
+        <summary class="fila-ajustes">
+          <span class="mini-ficha tono-hospital" aria-hidden="true"><svg class="picto"><use href="#p-hoja"/></svg></span>
+          <span class="fila-texto"><strong>Conoce a los tlacuaches</strong><small>Por qué cuidarlos</small></span>
+          <svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </summary>
+        <div class="ajuste-panel">
+          <ul class="conoce-lista">
+            <li><strong>No es una rata</strong><span>Es un marsupial: sus crías pasan las primeras semanas en una bolsa. En México viven al menos ocho especies. Muchos salen lastimados porque los confunden con ratas.</span></li>
+            <li><strong>Limpia la ciudad</strong><span>Come garrapatas, cucarachas e insectos que transmiten enfermedades. También come carroña, y eso reduce la propagación de enfermedades.</span></li>
+            <li><strong>Siembra plantas</strong><span>Come fruta y dispersa las semillas con sus excrementos. Que haya tlacuaches es señal de un ambiente sano.</span></li>
+            <li><strong>Si se asusta, se hace el muerto</strong><span>Se queda inmóvil y suelta un olor fuerte. Es su forma de defenderse.</span></li>
+            <li><strong>Si te encuentras uno</strong><span>Míralo de lejos y deja que siga su camino. No le des comida, porque atrae ratas, y no dejes que tus mascotas lo ataquen. Si se mete a tu casa, ayúdalo a salir sin lastimarlo. Si está herido, avisa a Profepa.</span></li>
+            <li><strong>Nos trajo el fuego</strong><span>Según una leyenda, fue el tlacuache quien trajo el fuego al mundo.</span></li>
+          </ul>
+          <p class="nota">Fuentes: Universidad Veracruzana (2025), Selecciones (2024) y México Desconocido.</p>
+        </div>
+      </details>
       <div class="tienda-cabeza"><h2>Tienda</h2><span id="rachaSaldo" class="tunas-saldo"></span></div>
       <ul id="rachaTienda" class="racha-tienda"></ul>
     </section>
@@ -746,6 +792,19 @@
             <div id="perfilTarifa" class="fichas dos" role="radiogroup" aria-labelledby="pTarifa" aria-describedby="perfilTarifaEfecto">
               <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-boleto"/></svg><span>Sí, pago $2</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
               <button type="button" role="radio" aria-checked="false" data-v="no" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-camion"/></svg><span>Pago tarifa normal</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <div id="preguntaGasolina" class="item-perfil" data-grupo-perfil="perfilGasolina">
+          <div class="fila-perfil">
+            <span class="mini-ficha tono-salud" aria-hidden="true"><svg class="picto"><use href="#p-gasolina"/></svg></span>
+            <div class="fila-texto"><h3 id="pGasolina">¿Qué gasolina le pones a tu carro?</h3><strong class="respuesta-perfil"></strong><small id="perfilGasolinaEfecto" class="efecto fila-perfil-efecto"></small></div>
+          </div>
+          <div id="panelPerfilGasolina" class="opciones-perfil">
+            <div id="perfilGasolina" class="fichas" role="radiogroup" aria-labelledby="pGasolina" aria-describedby="perfilGasolinaEfecto">
+              <button type="button" role="radio" aria-checked="false" data-v="magna" tabindex="-1" class="ficha"><span>Verde</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+              <button type="button" role="radio" aria-checked="false" data-v="premium" tabindex="-1" class="ficha"><span>Roja</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+              <button type="button" role="radio" aria-checked="false" data-v="no" tabindex="-1" class="ficha"><span>No tengo carro</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
             </div>
           </div>
         </div>
@@ -973,7 +1032,7 @@
   <div id="vueltaPie" class="vuelta-pie" hidden>
     <span id="vueltaFlecha" class="vuelta-flecha" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21V6"/><path d="m6 11 6-6 6 6"/></svg><svg class="picto vuelta-meta"><use href="#p-qrobus"/></svg></span>
     <span class="vuelta-texto"><b id="vueltaDistancia"></b><strong id="vueltaTexto"></strong></span>
-    <span id="vueltaCamion" class="vuelta-camion" hidden><b></b><span></span></span>
+    <span id="vueltaCamion" class="vuelta-camion" hidden><b><svg class="picto" aria-hidden="true"><use href="#p-qrobus"/></svg><i></i></b><span></span></span>
   </div>
   <nav class="guia-fija" aria-label="Acciones del viaje">
     <button id="compartirGuia" type="button"><svg class="icono" aria-hidden="true"><use href="#i-compartir"/></svg><span>Compartir</span></button>

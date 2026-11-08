@@ -23,6 +23,7 @@ const assert = require('node:assert/strict');
     const p = await contexto.newPage(), errores = [];
     p.on('pageerror', error => errores.push(error.message));
     await p.goto(process.env.GRIETA_URL ?? 'http://127.0.0.1:8829/');
+    await p.waitForFunction(() => !document.getElementById('arranque'));
     await p.waitForFunction(() => lugares.length > 0);
     const cdp = await contexto.newCDPSession(p);
     const dialogo = p.locator('#dialogoLugar');

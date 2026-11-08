@@ -872,12 +872,6 @@ html.daltonico .app-didi { --tono: #174e8a; } html.daltonico .app-indrive { --to
 .bienvenida-cabecera .enlace { min-height: 44px; padding: 0 8px; }
 .bienvenida-progreso { grid-column: 1 / -1; height: 6px; border-radius: 99px; overflow: hidden; background: var(--linea); }
 .bienvenida-progreso span { display: block; height: 100%; border-radius: inherit; background: var(--ambar); transition: width 180ms ease-out; }
-.bienvenida-progreso.progreso-1 span { width: 16.67%; }
-.bienvenida-progreso.progreso-2 span { width: 33.34%; }
-.bienvenida-progreso.progreso-3 span { width: 50%; }
-.bienvenida-progreso.progreso-4 span { width: 66.67%; }
-.bienvenida-progreso.progreso-5 span { width: 83.34%; }
-.bienvenida-progreso.progreso-6 span { width: 100%; }
 #bienvenida .paso { flex: 1; min-height: 0; }
 #bienvenida .paso-numero { margin: 0 0 8px; color: var(--ambar); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; }
 #bienvenida .paso h1 { font-size: 2.1rem; line-height: 1.08; margin: 0; }
@@ -1528,8 +1522,8 @@ html.daltonico :is(#co2Equivale, #ahorroEquivale) li.eq-parque { --acento: #a58b
 }
 
 /* Animaciones de las escenas: solo transform y opacity, y nada si el telefono pide menos movimiento */
-.an-zzz text { fill: #f6f2ea; stroke: #2b2420; stroke-width: 3; paint-order: stroke; font: 800 34px Montserrat, sans-serif; }
-.an-zzz text:nth-child(2) { font-size: 42px; } .an-zzz text:nth-child(3) { font-size: 54px; }
+.an-zzz text { fill: #f6f2ea; stroke: #2b2420; stroke-width: 3; paint-order: stroke; font: 800 30px Montserrat, sans-serif; }
+.an-zzz text:nth-child(2) { font-size: 38px; } .an-zzz text:nth-child(3) { font-size: 48px; }
 @media (prefers-reduced-motion: no-preference) {
   .an-ojo { transform-box: fill-box; transform-origin: center; animation: parpadeo 5.5s infinite; }
   .dormido .an-ojo { animation: dormitar 7s ease-in-out infinite; }
@@ -1545,7 +1539,7 @@ html.daltonico :is(#co2Equivale, #ahorroEquivale) li.eq-parque { --acento: #a58b
 }
 @keyframes parpadeo { 0%, 94%, 100% { transform: scaleY(1); } 97% { transform: scaleY(.1); } }
 @keyframes dormitar { 0%, 62%, 100% { transform: scaleY(.1); } 72%, 80% { transform: scaleY(.6); } 86% { transform: scaleY(.1); } }
-@keyframes zzz { 0% { opacity: 0; transform: translate(0, 10px); } 25% { opacity: 1; } 100% { opacity: 0; transform: translate(14px, -22px); } }
+@keyframes zzz { 0% { opacity: 0; transform: translate(0, 6px); } 25% { opacity: 1; } 100% { opacity: 0; transform: translate(6px, -10px); } }
 @keyframes cola { 0%, 55%, 100% { transform: rotate(0); } 65% { transform: rotate(-7deg); } 75% { transform: rotate(5deg); } 85% { transform: rotate(-3deg); } }
 @keyframes papel { from { transform: skewX(-1.2deg); } to { transform: skewX(1.2deg) translateY(2px); } }
 @keyframes nubes { to { transform: translateX(22px); } }
@@ -1612,8 +1606,8 @@ html.daltonico :is(#co2Equivale, #ahorroEquivale) li.eq-parque { --acento: #a58b
 /* El tlacuache en tres momentos: dormido cuando ya no pasan camiones, esperando mientras busca rutas y saltando al llegar */
 .tl-dormido { display: grid; justify-items: center; gap: 6px; margin-top: 8px; padding: 14px 18px 18px; border-radius: var(--radio); background: var(--superficie); text-align: center; }
 .tl-dormido > span { text-wrap: balance; }
-html.claro .tl-dormido .an-zzz text { fill: #2b2420; stroke: none; }
-.tl-dormido svg { width: 128px; height: 100px; }
+.tl-dormido .an-zzz text { fill: var(--tenue); stroke: none; }
+.tl-dormido svg { width: 150px; height: 100px; overflow: visible; }
 .tl-dormido strong { display: block; color: var(--tinta); font-size: 1.05rem; font-weight: 800; line-height: 1.25; }
 .tl-dormido small { display: block; margin-top: 3px; color: var(--tenue); font-size: .88rem; line-height: 1.35; }
 .tl-espera { display: grid; justify-items: center; gap: 4px; padding: 14px 0 8px; color: var(--tenue); font-weight: 700; }
@@ -1647,9 +1641,9 @@ html.claro #ahorroEquivale li.eq-pantalla { --acento: #a3312f; }
 /* Nombre del tlacuache */
 .tl-nombre { display: flex; justify-content: center; margin: 4px 0 12px; }
 .tl-nombre[hidden], .tl-nombre-forma[hidden] { display: none; }
-.tl-nombre-boton { max-width: 100%; min-height: 48px; padding: 4px 12px 6px; border: 0; background: none; color: var(--tinta); font: inherit; font-size: 1.6rem; font-weight: 800; line-height: 1.2; overflow-wrap: anywhere; }
-.tl-nombre-boton span { border-bottom: 2px solid color-mix(in srgb, var(--ambar) 45%, transparent); }
-.tl-nombre-boton.sin-nombre span { display: inline-block; min-width: 210px; padding-bottom: 2px; border-bottom: 3px dashed var(--ambar); color: var(--tenue); font-size: 1.05rem; font-weight: 700; }
+.tl-nombre-boton { display: inline-flex; align-items: center; justify-content: center; max-width: 100%; min-height: 48px; padding: 6px 28px; border: 0; border-radius: 999px; background: var(--ambar); color: var(--sobre-ambar, #0b0a09); font: inherit; font-size: 1.3rem; font-weight: 800; line-height: 1.2; overflow-wrap: anywhere; }
+.tl-nombre-boton.sin-nombre { padding: 4px 12px 6px; background: none; color: var(--tenue); }
+.tl-nombre-boton.sin-nombre span { display: inline-block; min-width: 210px; padding-bottom: 2px; border-bottom: 3px dashed var(--ambar); font-size: 1.05rem; font-weight: 700; }
 .tl-nombre-forma { display: grid; gap: 10px; margin: 2px 0 14px; }
 .tl-nombre-forma .boton { margin: 0; }
 /* Leyenda del bosque */
@@ -1664,3 +1658,51 @@ html.claro #ahorroEquivale li.eq-pantalla { --acento: #a3312f; }
 .boton-app { background: #2c5aa0; }
 /* En Camiones cerca el tlacuache no es otra ficha: va suelto, como parte de la lista */
 #camionesContenido .tl-dormido { margin: 18px 0 0; padding: 0; background: none; }
+
+/* Pelajes del tlacuache: colores reales y el alebrije */
+.pelajes { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.pelajes button { display: grid; justify-items: center; gap: 2px; min-height: 64px; padding: 6px 2px; border: 2px solid transparent; border-radius: 14px; background: var(--superficie); color: var(--tinta); font: inherit; font-size: .72rem; font-weight: 700; }
+.pelajes button[aria-pressed="true"] { border-color: var(--ambar); }
+.pelajes svg { width: 100%; max-width: 54px; height: 34px; overflow: visible; }
+.pelajes svg * { animation: none !important; }
+html.grande .pelajes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.pelaje-nota { margin: 8px 0 12px; color: var(--tenue); font-size: .85rem; text-align: center; text-wrap: balance; }
+#pelajeComprar { width: 100%; margin: 0 0 14px; }
+/* Conoce a los tlacuaches */
+.conoce { margin-top: 12px; }
+.conoce-lista { display: grid; gap: 14px; margin: 0 0 12px; padding: 0; list-style: none; }
+.conoce-lista strong { display: block; color: var(--tinta); font-weight: 800; }
+.conoce-lista span { display: block; margin-top: 2px; color: var(--tenue); font-size: .92rem; line-height: 1.4; }
+/* Elegir en el mapa: claro u oscuro solo aqui */
+#tonoMapa { margin: 10px 0 0; }
+#tonoMapa button { min-height: 44px; }
+body[data-pantalla="elegirMapa"].mapa-claro .leaflet-tile-pane { filter: saturate(.8) contrast(1.03); }
+body[data-pantalla="elegirMapa"].mapa-oscuro .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) grayscale(1) sepia(.25) brightness(.62) contrast(1.15); }
+/* Camion en el aviso de la guia */
+.vuelta-camion b { display: inline-flex; align-items: center; gap: 5px; }
+.vuelta-camion b i { font-style: normal; }
+.vuelta-camion .picto { width: 18px; height: 18px; }
+/* Bienvenida: el tlacuache pregunta con su globo, como una platica */
+.bienvenida-cabecera { display: flex; align-items: center; gap: 6px; }
+.bienvenida-progreso { order: 1; flex: 1; height: 10px; }
+#saltarBienvenida { order: 2; }
+#bienvenida .bienvenida-atras { display: grid; place-items: center; align-self: center; width: 44px; height: 44px; margin: 0 0 0 -10px; color: var(--tinta); }
+.bienvenida-atras.oculta { visibility: hidden; }
+#bienvenida .paso-numero { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.tl-dialogo { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+.tl-pregunta { flex: none; width: 112px; height: 72px; overflow: visible; }
+.tl-globo { position: relative; flex: 1; min-width: 0; padding: 12px 14px; border: 2px solid var(--linea); border-radius: 16px; }
+.tl-globo::before { content: ""; position: absolute; left: -9px; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-left: 2px solid var(--linea); border-bottom: 2px solid var(--linea); background: var(--fondo); transform: rotate(45deg); }
+.tl-saludo { margin: 0 0 4px; color: var(--ambar); font-size: .88rem; font-weight: 700; }
+#bienvenida .tl-globo h1 { margin: 0; font-size: 1.25rem; line-height: 1.22; }
+#bienvenida .tl-globo .nota-paso { margin: 4px 0 0; font-size: .82rem; }
+#bienvenida .opcion-vista { border: 2px solid var(--linea); border-bottom-width: 4px; border-radius: 16px; }
+#bienvenida .vista-opciones { margin-top: 0; }
+html.modo-voz #bienvenida .vista-opciones { margin-top: auto; }
+#bienvenida .saltar { display: none; }
+html.modo-voz #bienvenida .saltar { display: block; }
+html.modo-voz .tl-pregunta { display: none; }
+html.modo-voz .tl-globo { padding: 0; border: 0; }
+html.modo-voz .tl-globo::before { display: none; }
+html.modo-voz #bienvenida .tl-globo h1 { font-size: 2.1rem; line-height: 1.08; }
+@media (max-width: 360px) { .tl-pregunta { width: 84px; height: 54px; } #bienvenida .tl-globo h1 { font-size: 1.1rem; } }

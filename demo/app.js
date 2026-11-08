@@ -236,6 +236,7 @@ function actualizarVozEncabezado() {
 let ayudaToquesDicha = false;
 function mostrar(nombre) {
   if (dictadoActual) cancelarDictado();
+  if (nombre !== "racha") pelajeVista = null;
   // Lo que se estaba leyendo de otra pantalla se calla al salir de ella; la guia y su camara siguen hablando.
   const antes = document.body.dataset.pantalla;
   if (antes && antes !== nombre && !(guia.activa && ["guia", "camara"].includes(nombre))) detenerVoz();
@@ -737,7 +738,7 @@ function elegirEnMapa() {
   estado.puntoMapa = null;
   capas.punto?.remove();
   $("usarPunto").hidden = true;
-  $("elegirTexto").textContent = `Mueve el mapa y toca dónde está ${estado.eligiendo === "origen" ? "el lugar de donde sales" : "el lugar a donde vas"}.`;
+  aplicarTonoMapa();
   ir("elegirMapa");
   const c = cambioUbicacionGuardada?.lugar ?? cerca() ?? estado.destino ?? { lat: QUERETARO[0], lon: QUERETARO[1] };
   setTimeout(() => mapa.setView([c.lat, c.lon], 15), 80);
@@ -1249,14 +1250,17 @@ const kgTexto = (g) => `${(g / 1000).toFixed(g < 9950 ? 1 : 0)} kg`;
 // Lo que gastaria en su propio carro. Gasolina regular: mediana de 290 gasolineras de la zona metropolitana en los
 // datos abiertos de la CRE (2026-11-05). Rendimiento: 17.3 km/L, meta de la NOM-163 para autos nuevos (135.7 g/km).
 const GASOLINA_LITRO = 23.99;
+// Premium: mediana de 250 gasolineras de la misma zona y fuente (2026-11-08).
+const GASOLINA_PREMIUM = 28.69;
+const precioGasolina = () => (acc.gasolina === "premium" ? GASOLINA_PREMIUM : GASOLINA_LITRO);
 const AUTO_KM_LITRO = 17.3;
 const CENTRO_HISTORICO = [20.5928, -100.3911];
 function pintarCarro(r) {
   const km = r.directo.km;
   const centro = Grieta.metros(estado.destino.lat, estado.destino.lon, ...CENTRO_HISTORICO) < 1200;
-  $("enCarro").hidden = !(km > 0);
+  $("enCarro").hidden = !(km > 0) || acc.gasolina === "no";
   $("enCarro").innerHTML = `${miniFicha("tono-obsidiana", picto("app"))}<span class="fila-texto">
-    <strong>En tu carro: al menos ${pesos((km / AUTO_KM_LITRO) * GASOLINA_LITRO)} de gasolina${centro ? " más estacionamiento" : ""}</strong>
+    <strong>En tu carro: al menos ${pesos((km / AUTO_KM_LITRO) * precioGasolina())} de gasolina${centro ? " más estacionamiento" : ""}</strong>
     <small id="carroDetalle" hidden></small></span>`;
   // Saliendo ahorita, cuanto tarda en auto con el trafico real (Azure Maps, desde la API)
   if (estado.momento !== 0) return;
@@ -1315,7 +1319,7 @@ async function estacionaYSigue(r) {
   caja.hidden = true;
   const { origen: o, destino: d } = estado;
   const directo = Grieta.metros(o.lat, o.lon, d.lat, d.lon);
-  if (Grieta.metros(d.lat, d.lon, ...CENTRO_HISTORICO) > 1200 || Grieta.metros(o.lat, o.lon, ...CENTRO_HISTORICO) < 4000) return;
+  if (acc.gasolina === "no" || Grieta.metros(d.lat, d.lon, ...CENTRO_HISTORICO) > 1200 || Grieta.metros(o.lat, o.lon, ...CENTRO_HISTORICO) < 4000) return;
   estacionamientos ??= fetch("datos/estacionamientos.json").then((x) => x.json()).catch(() => []);
   const lista = await estacionamientos;
   if (estado.r !== r) return;
@@ -1333,7 +1337,7 @@ async function estacionaYSigue(r) {
   }
   if (!mejor || estado.r !== r) return;
   const c = mejor.bus.pasos.find((p) => p.tipo === "camion");
-  const gasolina = ((mejor.e.ida * 1.3) / 1000 / AUTO_KM_LITRO) * GASOLINA_LITRO;
+  const gasolina = ((mejor.e.ida * 1.3) / 1000 / AUTO_KM_LITRO) * precioGasolina();
   caja.innerHTML = `<span class="mini-ficha ficha-combinada" aria-hidden="true"><span class="tono-obsidiana">${picto("app")}</span><span class="tono-hospital">${picto("qrobus")}</span></span>
     <span class="fila-texto"><strong>Estaciona y sigue en Qrobus: llegas ${hora(r.ctx.minuto + mejor.total)}</strong>
     <small><span>Deja el carro junto a la parada ${escapar(cruce(c.recorrido[0].nombre))} y toma la ${escapar(c.linea)}.</span> <span>Gasolina ${pesos(gasolina)} más ${pesos(mejor.bus.costo)} de camión, sin entrar al Centro.</span>
@@ -2646,10 +2650,10 @@ function pintarVueltaPie(lat, lon, falta) {
     const resta = Grieta.metros(lat, lon, c.recorrido[0].lat, c.recorrido[0].lon) * 1.3;
     const ahora = new Date(), minuto = ahora.getHours() * 60 + ahora.getMinutes() + ahora.getSeconds() / 60;
     const holgura = c.sale - minuto - resta / 75;
-    chip.querySelector("b").textContent = `${c.linea} a las ${hora(c.sale)}`;
-    chip.querySelector("span").textContent = holgura >= 2 ? "Vas a tiempo" : "Apúrate";
+    chip.querySelector("b i").textContent = `${c.linea} a las ${hora(c.sale)}`;
+    chip.querySelector("b + span").textContent = holgura >= 2 ? "Vas a tiempo" : "Apúrate";
     chip.classList.toggle("justo", holgura < 2);
-  } else if (c) { chip.querySelector("b").textContent = `${c.linea} a las ${hora(c.sale)}`; chip.querySelector("span").textContent = ""; }
+  } else if (c) { chip.querySelector("b i").textContent = `${c.linea} a las ${hora(c.sale)}`; chip.querySelector("b + span").textContent = ""; }
   tarjeta.hidden = false;
   if (conCamara) document.body.style.setProperty("--alto-vuelta", `${tarjeta.offsetHeight}px`);
 }
@@ -3180,13 +3184,13 @@ function pintarSemanas(propio, viajesPropios) {
 // ocupe lo mismo que el dibujo anterior (pies en y=0, unas 128 unidades de ancho). Los accesorios ya vienen en su lugar.
 const ESCALA_TL = 0.36;
 // De noche, si tiene los ojos abiertos, se duerme: los ojos se le cierran y le salen unas "z".
-function tlacuache(e, puestos = racha.puestos, dormido = horario() === "noche") {
+function tlacuache(e, puestos = racha.puestos, dormido = horario() === "noche", pelaje = pelajeActual()) {
   const estado = e >= 6 ? "crias" : e >= 5 ? "comiendo" : e >= 4 ? "contento" : e < 2 ? "preocupado" : "normal";
   const duerme = dormido && (estado === "normal" || estado === "preocupado");
   const lleva = (lugar) => ARTE_TL.acc[puestos?.[lugar]] ?? "";
   const listones = puestos?.cabeza === "listones";
-  const zzz = duerme ? '<g class="an-zzz"><text x="318" y="98">z</text><text x="340" y="68">z</text><text x="366" y="32">Z</text></g>' : "";
-  return `<g class="tlacuache${duerme ? " dormido" : ""}" transform="translate(-2 0) scale(${ESCALA_TL}) translate(-193 -259)">${listones ? ARTE_TL.acc["listones-atras"] : ""}${ARTE_TL.estados[estado]}${lleva("espalda")}${lleva("cuello")}${lleva("cara")}${listones ? ARTE_TL.acc["listones-frente"] : lleva("cabeza")}${zzz}</g>`;
+  const zzz = duerme ? '<g class="an-zzz"><text x="322" y="100">z</text><text x="350" y="64">z</text><text x="384" y="20">Z</text></g>' : "";
+  return `<g class="tlacuache${duerme ? " dormido" : ""}" transform="translate(-2 0) scale(${ESCALA_TL}) translate(-193 -259)">${listones ? ARTE_TL.acc["listones-atras"] : ""}${dibujoPelaje(estado, pelaje)}${lleva("espalda")}${lleva("cuello")}${lleva("cara")}${listones ? ARTE_TL.acc["listones-frente"] : lleva("cabeza")}${zzz}</g>`;
 }
 // Mañana, día o noche según la hora real; los escenarios de Figma vienen en los tres horarios.
 function horario(d = new Date()) {
@@ -3225,6 +3229,36 @@ function tunasEnEscala(r) {
   return { ...r, tunas: Math.round((r.tunas ?? 0) / 10), escala: 1 };
 }
 Object.assign(racha, tunasEnEscala(racha));
+// Colores reales documentados en Didelphis (Therya Notes 2024 y 2025) y un alebrije que se compra con tunas.
+const ALEBRIJE_TUNAS = 80;
+const PELAJES = {
+  gris: { nombre: "Gris", nota: "El más común.", tonos: {} },
+  oscuro: { nombre: "Oscuro", nota: "Común en México.", tonos: { "#A7A4A8": "#4A454C", "#C9C6C8": "#6B656E", "#8B878D": "#38343A", "#625B61": "#2C292E", "#494247": "#1F1C20", "#F4F1EA": "#D9D3CB", "#DED8CF": "#BDB6AD" } },
+  canela: { nombre: "Canela", nota: "Muy raro: en México se documentó por primera vez en 2024.", tonos: { "#A7A4A8": "#B9804E", "#C9C6C8": "#D6A475", "#8B878D": "#97643A", "#625B61": "#7A4F2C", "#494247": "#5B3A22", "#F4F1EA": "#F6E6CF", "#DED8CF": "#E3CBA9" } },
+  blanco: { nombre: "Blanco", nota: "Muy raro: en México solo se ha documentado en la Península de Yucatán.", tonos: { "#A7A4A8": "#EDE9E1", "#C9C6C8": "#FAF7F1", "#8B878D": "#D3CEC5", "#625B61": "#BDB8AF", "#494247": "#D9BFBE", "#F4F1EA": "#FDFBF6", "#DED8CF": "#EDE8DF" } },
+  alebrije: { nombre: "Alebrije", nota: "Este no existe en la naturaleza: es puro arte mexicano.", tonos: { "#A7A4A8": "#E8456B", "#C9C6C8": "#F5A623", "#8B878D": "#2FA9B8", "#625B61": "#3B4FC0", "#494247": "#6A2FB5", "#F4F1EA": "#F7D23E", "#DED8CF": "#EF9F24", "#E58A9A": "#2FA36B", "#E7BDB3": "#A6E05A", "#C88791": "#1E7D52" } },
+};
+// Vista previa del alebrije antes de comprarlo; se olvida al salir de la pantalla.
+let pelajeVista = null;
+const pelajeActual = () => pelajeVista ?? (PELAJES[racha.pelaje] && (racha.pelaje !== "alebrije" || racha.alebrije) ? racha.pelaje : "gris");
+const artePelaje = new Map();
+function dibujoPelaje(estado, pelaje) {
+  const clave = `${pelaje}-${estado}`;
+  if (!artePelaje.has(clave)) {
+    const { tonos } = PELAJES[pelaje], alebrije = pelaje === "alebrije";
+    artePelaje.set(clave, ARTE_TL.estados[estado].replace(/#[0-9a-f]{6}/gi, (c) => tonos[c.toUpperCase()] ?? c)
+      .replace("@@CUERPO@@", alebrije ? ARTE_TL.alebrije.cuerpo : "").replace("@@CARA@@", alebrije ? ARTE_TL.alebrije.cara : ""));
+  }
+  return artePelaje.get(clave);
+}
+function pintarPelajes() {
+  const actual = pelajeActual(), bloqueado = actual === "alebrije" && !racha.alebrije, falta = ALEBRIJE_TUNAS - racha.tunas;
+  $("pelajes").innerHTML = Object.entries(PELAJES).map(([id, p]) => `<button type="button" data-pelaje="${id}" aria-pressed="${id === actual}" aria-label="${p.nombre}${id === "alebrije" && !racha.alebrije ? `, ${plural(ALEBRIJE_TUNAS, "tuna", "tunas")}` : ""}"><svg viewBox="-72 -84 140 88" aria-hidden="true">${tlacuache(3, {}, false, id)}</svg><span>${p.nombre}</span></button>`).join("");
+  $("pelajeNota").textContent = PELAJES[actual].nota;
+  $("pelajeComprar").hidden = !bloqueado;
+  $("pelajeComprar").disabled = falta > 0;
+  $("pelajeComprar").textContent = falta > 0 ? `Te faltan ${plural(falta, "tuna", "tunas")}` : `Comprar por ${ALEBRIJE_TUNAS} tunas`;
+}
 racha.compras = [...new Set(racha.compras.map((id) => ACCESORIOS_VIEJOS[id] ?? id).filter((id) => ACCESORIOS[id]))];
 for (const [lugar, id] of Object.entries(racha.puestos)) racha.puestos[lugar] = ACCESORIOS[ACCESORIOS_VIEJOS[id] ?? id] ? ACCESORIOS_VIEJOS[id] ?? id : null;
 const lunes = (f) => { const d = new Date(f); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d; };
@@ -3289,7 +3323,7 @@ function mostrarRachaViaje(r) {
 // De noche, cuando ya no pasan camiones, el tlacuache se duerme en lugar de un aviso seco.
 const yaNoPasan = (minuto = ahoraMin()) => { const h = Math.floor(minuto / 60) % 24; return h >= 21 || h < 5; };
 function tlacuacheDormido(texto, detalle = "") {
-  return `<div class="tl-dormido" role="status"><svg viewBox="-72 -106 140 110" aria-hidden="true">${tlacuache(3, racha.puestos, true)}</svg><span><strong>${texto}</strong>${detalle ? `<small>${detalle}</small>` : ""}</span></div>`;
+  return `<div class="tl-dormido" role="status"><svg viewBox="-84 -108 168 112" aria-hidden="true">${tlacuache(3, racha.puestos, true)}</svg><span><strong>${texto}</strong>${detalle ? `<small>${detalle}</small>` : ""}</span></div>`;
 }
 // Inicio: el tlacuache en su escena de la hora, y abajo el titulo con una raya por semana; la de esta semana se llena con los viajes que van.
 function pintarRachaInicio() {
@@ -3317,6 +3351,8 @@ function pintarRachaInicio() {
   $("rachaEscena").innerHTML = escenaRacha(animoRacha());
   $("rachaEscena").setAttribute("aria-label", `Tu tlacuache${Object.values(racha.puestos).filter(Boolean).length ? ` con ${Object.values(racha.puestos).filter(Boolean).map((id) => ACCESORIOS[id]?.nombre.toLowerCase()).join(", ")}` : ""}`);
   $("tratoTuna").innerHTML = ARTE_TL.icono.tuna;
+  $("tratoNombre").textContent = racha.nombre || "tu tlacuache";
+  pintarPelajes();
   // Sin nombre se ve una raya para llenar; con nombre, el nombre mismo es el boton para cambiarlo.
   $("tlNombre").textContent = racha.nombre || "Ponle nombre";
   $("tlNombrar").classList.toggle("sin-nombre", !racha.nombre);
@@ -3340,16 +3376,45 @@ function abrirRacha() {
   ir("racha");
 }
 $("rachaInicio").addEventListener("click", abrirRacha);
+// Sin groserias: se compara sin acentos, sin numeros disfrazados de letra y sin letras repetidas.
+const GROSERIAS_DENTRO = ["pendej", "chinga", "chingon", "chupaverg", "culer", "cabron", "mamon", "mamad", "pinche", "maricon", "mierd", "panoch", "ojete", "idiot", "imbecil", "estupid", "retrasad", "violad", "hitler", "narco", "sicari", "hijodeput", "fuck", "shit", "bitch", "ashole", "pusy", "cunt", "whore", "slut", "gilipo"];
+const GROSERIAS_EXACTAS = new Set(["puto", "puta", "putos", "putas", "putito", "putita", "pvto", "pvta", "culo", "culos", "culito", "pito", "pitote", "pene", "penes", "teta", "tetas", "tetona", "chichi", "chichis", "nalga", "nalgas", "nalgon", "nalgona", "caca", "pedo", "pedos", "joto", "jotos", "jota", "marica", "zorra", "zorras", "perra", "perras", "mayate", "naco", "naca", "indio", "india", "sida", "coger", "cogida", "cogido", "follar", "polla", "tarado", "tarada", "baboso", "babosa", "verga", "vergas", "vergon", "vergota", "vergazo", "vagina", "semen", "ano", "punal", "nazi", "niga", "nigga", "niger", "nigger", "dick", "cock", "ptm", "alv", "hdp", "ctm", "vrg", "wtf"]);
+function nombrePermitido(texto) {
+  const limpio = sinAcentos(texto).replace(/[4@]/g, "a").replace(/3/g, "e").replace(/[1!|]/g, "i").replace(/0/g, "o").replace(/[5$]/g, "s").replace(/7/g, "t");
+  const sinRepetir = (t) => t.replace(/(.)\1+/g, "$1"), palabras = limpio.split(/[^a-z]+/).filter(Boolean), junto = palabras.join(""), compacto = sinRepetir(junto);
+  if (GROSERIAS_DENTRO.some((g) => compacto.includes(g))) return false;
+  return ![...palabras, ...palabras.map(sinRepetir), junto, compacto].some((p) => GROSERIAS_EXACTAS.has(p));
+}
 function nombrarTlacuache(abierto) {
+  $("tlNombreAviso").textContent = "";
   $("tlNombreForma").hidden = !abierto;
   $("tlNombreFila").hidden = abierto;
   if (abierto) { $("tlNombreEntrada").value = racha.nombre ?? ""; $("tlNombreEntrada").focus(); }
 }
+$("pelajes").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-pelaje]");
+  if (!b) return;
+  const id = b.dataset.pelaje;
+  if (id === "alebrije" && !racha.alebrije) pelajeVista = id;
+  else { pelajeVista = null; racha.pelaje = id; guardarRacha(); }
+  pintarRacha();
+  document.querySelector(`[data-pelaje="${id}"]`)?.focus();
+});
+$("pelajeComprar").addEventListener("click", () => {
+  if (racha.tunas < ALEBRIJE_TUNAS) return;
+  racha.tunas -= ALEBRIJE_TUNAS;
+  Object.assign(racha, { alebrije: true, pelaje: "alebrije" });
+  pelajeVista = null;
+  guardarRacha();
+  pintarRacha();
+  $("pelajes").querySelector('[data-pelaje="alebrije"]')?.focus();
+});
 $("tlNombrar").addEventListener("click", () => nombrarTlacuache(true));
 $("tlNombreCancelar").addEventListener("click", () => nombrarTlacuache(false));
 $("tlNombreForma").addEventListener("submit", (e) => {
   e.preventDefault();
   const nombre = $("tlNombreEntrada").value.replace(/\s+/g, " ").trim().slice(0, 16);
+  if (nombre && !nombrePermitido(nombre)) { $("tlNombreAviso").textContent = "Ese nombre no se vale. Elige otro."; return; }
   if (nombre) racha.nombre = nombre.charAt(0).toUpperCase() + nombre.slice(1);
   else delete racha.nombre;
   guardarRacha();
@@ -3384,7 +3449,8 @@ const ETAPAS_TL = [
 ];
 const CAMINO_TL = ["Basura", "Bote", "Árbol", "Agua", "Aves", "Tunas", "Crías"];
 function pintarTlacuache(g, viajesPropios) {
-  const e = ETAPAS_TL.findLastIndex(([desde]) => g >= desde), [desde, texto, sigue] = ETAPAS_TL[e];
+  const e = ETAPAS_TL.findLastIndex(([desde]) => g >= desde), [desde, frase_, sigue] = ETAPAS_TL[e], texto = frase_.replace("Tu tlacuache", racha.nombre || "Tu tlacuache");
+  document.querySelector('#co2Alcance [data-v="tu"]').textContent = racha.nombre || "Tu tlacuache";
   $("mundoTl").setAttribute("class", `escena e${e}`);
   $("mundoTl").innerHTML = escenaTlacuache(e);
   $("mundoTl").setAttribute("aria-label", `Ilustración: ${texto}`);
@@ -4293,12 +4359,12 @@ function pintarAlcancia(mes) {
 }
 // Lo ahorrado contado en cosas de todos los dias, y la gasolina que tu carro habria quemado en esos mismos viajes.
 function cosasAhorro(monto, co2Mes) {
-  const gasolina = (co2Mes / CO2_AUTO_G_KM / AUTO_KM_LITRO) * GASOLINA_LITRO, viajes = Math.floor(monto / BONOS.normal.viaje), meses = Math.floor(monto / 139);
+  const gasolina = (co2Mes / CO2_AUTO_G_KM / AUTO_KM_LITRO) * precioGasolina(), viajes = Math.floor(monto / BONOS.normal.viaje), meses = Math.floor(monto / 139);
   return [
     ["qrobus", "tono-hospital", plural(viajes, "viaje", "viajes"), "en Qrobus"],
     ["pantalla", "tono-salud", meses >= 1 ? plural(meses, "mes", "meses") : `${Math.round((monto / 139) * 100)}%`, meses >= 1 ? "de suscripción de Netflix" : "de un mes de Netflix"],
     ["gasolina", "tono-maiz", pesos(gasolina), "de gasolina si ibas en tu carro"],
-  ].map(([p, tono, cifra, texto]) => {
+  ].filter(([p]) => p !== "gasolina" || acc.gasolina !== "no").map(([p, tono, cifra, texto]) => {
     const [numero, ...unidad] = cifra.split(" ");
     return `<li class="eq-${p}">${miniFicha(tono, picto(p))}<span class="eq-texto"><strong>${numero}${unidad.length ? ` <small>${unidad.join(" ")}</small>` : ""}</strong><span>${texto}</span></span></li>`;
   }).join("");
@@ -4413,7 +4479,7 @@ const PASOS_VOZ = {
   tarifa: "3 de 3. ¿Pagas Tarifa Unidos, el pasaje de 2 pesos para estudiantes, mayores de 60 y personas con discapacidad? Arriba, sí. Abajo, no.",
 };
 // Orden de la bienvenida; la pregunta del lector solo aparece con la guía por voz.
-const ordenPasos = () => ["vista", ...(acc.modoVoz ? ["lector"] : ["forma"]), "ubicacion", "movilidad", "oido", "tarifa"];
+const ordenPasos = () => ["vista", ...(acc.modoVoz ? ["lector"] : ["forma"]), "ubicacion", "movilidad", "oido", "tarifa", ...(acc.modoVoz ? [] : ["gasolina"])];
 let pasoActual = "vista";
 function irPaso(p) {
   ToquesGrieta.reiniciar();
@@ -4422,7 +4488,8 @@ function irPaso(p) {
   const orden = ordenPasos();
   const numero = orden.indexOf(p) + 1;
   const progreso = $("progresoBienvenida");
-  progreso.className = `bienvenida-progreso progreso-${numero}`;
+  $("avanceBienvenida").style.width = `${(numero / orden.length) * 100}%`;
+  $("regresarBienvenida").classList.toggle("oculta", numero === 1);
   progreso.setAttribute("aria-valuemax", String(orden.length));
   progreso.setAttribute("aria-valuenow", String(numero));
   progreso.setAttribute("aria-valuetext", `Paso ${numero} de ${orden.length}`);
@@ -4435,6 +4502,7 @@ function irPaso(p) {
   if (acc.modoVoz && PASOS_VOZ[p]) hablar(`${p === 'ubicacion' && anteriorPaso === 'lector' && ToquesGrieta.activo() ? ToquesGrieta.instrucciones + ' ' : ''}${PASOS_VOZ[p]}`, false, true);
 }
 function abrirBienvenida() {
+  for (const s of document.querySelectorAll(".tl-pregunta")) s.innerHTML = tlacuache(3, {}, false, "gris");
   ir("bienvenida", true);
   irPaso("vista");
 }
@@ -4491,7 +4559,7 @@ $("sinUbicacion").addEventListener("click", () => {
 });
 // Las tres preguntas del perfil: cada respuesta ajusta lo mismo que la pantalla "Tu perfil".
 $("bienvenida").addEventListener("click", (e) => {
-  const b = e.target.closest("[data-movilidad], [data-oido], [data-tarifa], .saltar");
+  const b = e.target.closest("[data-movilidad], [data-oido], [data-tarifa], [data-gasolina], .saltar");
   if (!b) return;
   if (b.classList.contains("saltar")) return terminarBienvenida();
   if (b.dataset.movilidad) {
@@ -4499,6 +4567,8 @@ $("bienvenida").addEventListener("click", (e) => {
   } else if (b.dataset.oido) {
     acc.oido = b.dataset.oido;
     acc.voz = b.dataset.oido === "bien" && acc.modoVoz && acc.lector !== "si";
+  } else if (b.dataset.gasolina) {
+    acc.gasolina = b.dataset.gasolina;
   } else {
     acc.unidos = b.dataset.tarifa === "si";
     escribir("grieta-perfil", true);
@@ -4507,6 +4577,7 @@ $("bienvenida").addEventListener("click", (e) => {
   aplicarAcc();
   if (b.dataset.movilidad) return irPaso("oido");
   if (b.dataset.oido) return irPaso("tarifa");
+  if (b.dataset.tarifa && ordenPasos().includes("gasolina")) return irPaso("gasolina");
   terminarBienvenida();
 });
 // Perfil de viaje: lo que la persona necesita para moverse, guardado solo en este telefono.
@@ -4525,6 +4596,7 @@ function fichasPerfil() {
     ["perfilMovilidad", "maiz", movilidad === "silla" ? "silla" : "caminar", { normal: "Camino bien", poco: "Camino poco", silla: "Silla o andadera" }[movilidad]],
     ["perfilOido", "ciruela", "decir", acc.oido === "poco" ? "Escucho poco" : "Escucho bien"],
     ["perfilTarifa", "anil", "qrobus", acc.unidos ? "Tarifa Unidos" : "Tarifa normal"],
+    !acc.modoVoz && ["perfilGasolina", "salud", "gasolina", { magna: "Gasolina verde", premium: "Gasolina roja", no: "No tengo carro" }[acc.gasolina ?? "magna"]],
   ].filter(Boolean);
 }
 function resumenCortoPerfil() {
@@ -4568,6 +4640,7 @@ const EFECTOS = {
   perfilMovilidad: { normal: "Te busco la parada que más te convenga.", poco: "Te busco paradas más cerca.", silla: "Paradas cerca, y te aviso si reportaron que no tienen rampa." },
   perfilOido: { bien: "Durante el viaje te aviso con voz.", poco: "Avisos en pantalla grande y con vibración, sin voz." },
   perfilTarifa: { si: "Calculo el camión a $2 y el transbordo gratis.", no: "Calculo el camión con la tarifa normal." },
+  perfilGasolina: { magna: "Calculo el gasto de tu carro con gasolina verde.", premium: "Calculo el gasto de tu carro con gasolina roja.", no: "No te muestro lo que gastarías en carro." },
   perfilForma: { completa: "Precios, horarios, comparar y esperar.", facil: "Solo lo esencial, con botones grandes." },
   perfilLengua: { es: "La interfaz está en español. El audio sigue en español.", oto: "La traducción de la interfaz todavía no está disponible. El audio sigue en español.", nah: "La traducción de la interfaz todavía no está disponible. El audio sigue en español." },
 };
@@ -4579,6 +4652,7 @@ const RESPUESTAS_PERFIL = {
   perfilMovilidad: { normal: "Camino sin problema", poco: "Me cuesta caminar", silla: "Uso silla de ruedas o andadera" },
   perfilOido: { bien: "Escucho bien los avisos", poco: "Me cuesta escuchar" },
   perfilTarifa: { si: "Pago Tarifa Unidos", no: "Pago tarifa normal" },
+  perfilGasolina: { magna: "Gasolina verde", premium: "Gasolina roja", no: "No tengo carro" },
   perfilLengua: { es: "Español", oto: NOMBRE_OTOMI, nah: NOMBRE_NAHUATL },
 };
 function actualizarFilasPerfil() {
@@ -4590,6 +4664,7 @@ function actualizarFilasPerfil() {
     perfilMovilidad: movilidad,
     perfilOido: acc.oido ?? "bien",
     perfilTarifa: acc.unidos ? "si" : "no",
+    perfilGasolina: acc.gasolina ?? "magna",
     perfilLengua: acc.idioma,
   };
   for (const [grupo, valor] of Object.entries(valores)) {
@@ -4604,6 +4679,8 @@ function actualizarFilasPerfil() {
   marcarMovilidad(valores.perfilMovilidad);
   marcarOido(valores.perfilOido);
   marcarTarifa(valores.perfilTarifa);
+  marcarGasolina(valores.perfilGasolina);
+  $("preguntaGasolina").hidden = acc.modoVoz;
   marcarLengua(valores.perfilLengua);
   $("perfilLector").hidden = !acc.modoVoz;
   $("preguntaForma").hidden = acc.modoVoz;
@@ -4645,6 +4722,19 @@ const marcarTarifa = radios("perfilTarifa", (v) => cambiarPerfil(() => {
   efecto("perfilTarifa", v);
   acc.unidos = v === "si";
 }));
+const marcarGasolina = radios("perfilGasolina", (v) => cambiarPerfil(() => {
+  efecto("perfilGasolina", v);
+  acc.gasolina = v;
+}));
+// Elegir en el mapa: claro u oscuro solo en esta pantalla, sin tocar el tema de la app.
+const tonoMapa = () => acc.tonoMapa ?? (document.documentElement.classList.contains("claro") ? "claro" : "oscuro");
+const marcarTonoMapa = radios("tonoMapa", (v) => { acc.tonoMapa = v; guardarAcc(); aplicarTonoMapa(); });
+function aplicarTonoMapa() {
+  const v = tonoMapa();
+  document.body.classList.toggle("mapa-claro", v === "claro");
+  document.body.classList.toggle("mapa-oscuro", v === "oscuro");
+  marcarTonoMapa(v);
+}
 const marcarLengua = radios("perfilLengua", (v) => cambiarPerfil(() => {
   acc.idioma = v;
   Interfaz.cambiar(v);
