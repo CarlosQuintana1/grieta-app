@@ -3194,20 +3194,26 @@ function escenaTlacuache(e) {
 // se cubre con un protector. Solo cuentan viajes que la guia confirmo por GPS, maximo 4 al dia.
 // Las tunas se ganan con esos viajes y se gastan en accesorios del tlacuache; nunca con dinero.
 const ACCESORIOS = {
-  flor: { nombre: "Flor de cempasúchil", nota: "La del Día de Muertos", precio: 30, lugar: "cabeza" },
-  paliacate: { nombre: "Paliacate", nota: "Rojo, con sus puntitos", precio: 40, lugar: "cuello" },
-  listones: { nombre: "Listones de colores", nota: "Como los de la muñeca Lele de Amealco", precio: 50, lugar: "cabeza" },
-  lentes: { nombre: "Lentes de sol", nota: "Para el sol de Querétaro", precio: 60, lugar: "cara" },
-  palma: { nombre: "Sombrero de palma", nota: "Tejido a mano", precio: 80, lugar: "cabeza" },
-  morral: { nombre: "Morral otomí", nota: "Bordado como los de Amealco", precio: 100, lugar: "espalda" },
-  rebozo: { nombre: "Rebozo", nota: "De rayas, con su fleco", precio: 120, lugar: "espalda" },
-  charro: { nombre: "Sombrero de charro", nota: "El de gala, con galón dorado", precio: 150, lugar: "cabeza" },
+  flor: { nombre: "Flor de cempasúchil", nota: "La del Día de Muertos", precio: 3, lugar: "cabeza" },
+  paliacate: { nombre: "Paliacate", nota: "Rojo, con sus puntitos", precio: 4, lugar: "cuello" },
+  listones: { nombre: "Listones de colores", nota: "Como los de la muñeca Lele de Amealco", precio: 5, lugar: "cabeza" },
+  lentes: { nombre: "Lentes de sol", nota: "Para el sol de Querétaro", precio: 6, lugar: "cara" },
+  palma: { nombre: "Sombrero de palma", nota: "Tejido a mano", precio: 8, lugar: "cabeza" },
+  morral: { nombre: "Morral otomí", nota: "Bordado como los de Amealco", precio: 10, lugar: "espalda" },
+  rebozo: { nombre: "Rebozo", nota: "De rayas, con su fleco", precio: 12, lugar: "espalda" },
+  charro: { nombre: "Sombrero de charro", nota: "El de gala, con galón dorado", precio: 15, lugar: "cabeza" },
 };
 // Lo que se compro en la primera version de la tienda se cambia por su equivalente.
 const ACCESORIOS_VIEJOS = { gorra: "palma", sombrero: "charro", mochila: "morral" };
-const VIAJE_TUNAS = 10, SEMANA_TUNAS = 20, TOPE_DIA = 4;
+const VIAJE_TUNAS = 1, SEMANA_TUNAS = 2, TOPE_DIA = 4;
 const racha = Object.assign({ meta: 3, viajes: [], protectores: 1, usados: [], premiadas: [], tunas: 0, compras: [], puestos: {}, mes: "" }, leer("grieta-racha", {}));
 const guardarRacha = () => escribir("grieta-racha", racha);
+// Antes cada viaje daba 10 tunas; ahora 1 y los precios bajaron igual. Lo ganado se pasa a la escala nueva una vez.
+function tunasEnEscala(r) {
+  if (!r || r.escala === 1) return r;
+  return { ...r, tunas: Math.round((r.tunas ?? 0) / 10), escala: 1 };
+}
+Object.assign(racha, tunasEnEscala(racha));
 racha.compras = [...new Set(racha.compras.map((id) => ACCESORIOS_VIEJOS[id] ?? id).filter((id) => ACCESORIOS[id]))];
 for (const [lugar, id] of Object.entries(racha.puestos)) racha.puestos[lugar] = ACCESORIOS[ACCESORIOS_VIEJOS[id] ?? id] ? ACCESORIOS_VIEJOS[id] ?? id : null;
 const lunes = (f) => { const d = new Date(f); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d; };
@@ -3267,22 +3273,25 @@ function mostrarRachaViaje(r) {
   const caja = $("guiaRacha");
   caja.hidden = !r || acc.modoVoz;
   if (caja.hidden) return;
-  caja.innerHTML = `<svg viewBox="-70 -80 136 84" aria-hidden="true">${tlacuache(r.cumplida ? 5 : 4)}</svg><span><strong>+${r.tunas} tunas</strong>${r.cumplida ? `Semana cumplida. Llevas ${plural(r.semanas, "semana", "semanas")}.` : `Esta semana: ${r.cuenta} de ${plural(racha.meta, "viaje", "viajes")}.`}</span>`;
+  caja.innerHTML = `<svg viewBox="-70 -80 136 84" aria-hidden="true">${tlacuache(r.cumplida ? 5 : 4)}</svg><span><strong>+${plural(r.tunas, "tuna", "tunas")}</strong>${r.cumplida ? `Semana cumplida. Llevas ${plural(r.semanas, "semana", "semanas")}.` : `Esta semana: ${r.cuenta} de ${plural(racha.meta, "viaje", "viajes")}.`}</span>`;
 }
+// Inicio: el titulo y una raya por semana; la de esta semana se llena con los viajes que van.
 function pintarRachaInicio() {
   const caja = $("rachaInicio");
   caja.hidden = acc.modoVoz || acc.facil;
   if (caja.hidden) return;
   protectorDelMes();
-  const semanas = semanasSeguidas(), cuenta = viajesDeSemana(claveSemana(new Date())), falta = Math.max(0, racha.meta - cuenta);
-  const dia = (new Date().getDay() + 6) % 7, destino = destinoFrecuente();
-  const titulo = !racha.viajes.length ? "Empieza tu racha" : semanas ? `Llevas ${plural(semanas, "semana", "semanas")}` : "Tu racha empieza esta semana";
-  const detalle = !falta ? "Semana cumplida. Tu tlacuache está feliz."
-    : dia >= 3 && racha.viajes.length ? `Te ${falta === 1 ? "falta un viaje" : `faltan ${falta} viajes`} esta semana.${destino ? ` Podrías ir a ${destino} en camión.` : ""}`
-    : `Esta semana: ${cuenta} de ${plural(racha.meta, "viaje", "viajes")} en camión.`;
+  const semanas = semanasSeguidas(), cuenta = viajesDeSemana(claveSemana(new Date()));
+  const titulo = semanas ? `Racha de ${plural(semanas, "semana", "semanas")}` : "Empieza tu racha";
+  // En SVG: la politica de seguridad no deja anchos con style dentro del HTML.
+  const rayas = Array.from({ length: 6 }, (_, i) => {
+    const d = lunes(new Date()); d.setDate(d.getDate() - (5 - i) * 7);
+    const k = claveSemana(d), llena = i === 5 ? Math.min(1, cuenta / racha.meta) : viajesDeSemana(k) >= racha.meta || racha.usados.includes(k) ? 1 : 0;
+    const x = 1 + i * 27;
+    return `<rect class="fondo${i === 5 ? " actual" : ""}" x="${x}" y="1" width="22" height="8" rx="4"/>${llena ? `<rect class="lleno" x="${x}" y="1" width="${Math.max(8, 22 * llena).toFixed(1)}" height="8" rx="4"/>` : ""}`;
+  }).join("");
   caja.innerHTML = `<svg class="racha-mini" viewBox="-70 -80 136 84" aria-hidden="true">${tlacuache(animoRacha())}</svg>
-    <span class="fila-texto"><strong>${titulo}</strong><span>${escapar(detalle)}</span>
-    <span class="racha-puntos" aria-hidden="true">${Array.from({ length: racha.meta }, (_, i) => `<i class="${i < cuenta ? "hecho" : ""}"></i>`).join("")}</span></span>${ico("chevron", "chevron")}`;
+    <span class="fila-texto"><strong>${titulo}</strong><span class="racha-cuenta"><svg class="racha-puntos" viewBox="0 0 160 10" aria-hidden="true">${rayas}</svg><b aria-hidden="true">${cuenta}/${racha.meta}</b><span class="oculto">Esta semana: ${cuenta} de ${plural(racha.meta, "viaje", "viajes")} en camión.</span></span></span>${ico("chevron", "chevron")}`;
 }
 function pintarRacha() {
   protectorDelMes();
@@ -3293,14 +3302,15 @@ function pintarRacha() {
   $("rachaCuenta").textContent = `${cuenta} de ${racha.meta}`;
   $("rachaProtectores").textContent = racha.protectores;
   $("rachaTunas").textContent = racha.tunas;
+  $("rachaSaldo").innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${ARTE_TL.icono.tuna}</svg>${racha.tunas}<span class="oculto"> tunas para gastar</span>`;
   marcarMeta(String(racha.meta));
   $("rachaTienda").innerHTML = Object.entries(ACCESORIOS).map(([id, a]) => {
     const tiene = racha.compras.includes(id), puesto = racha.puestos[a.lugar] === id, alcanza = racha.tunas >= a.precio;
     const accion = puesto ? "Quitárselo" : tiene ? "Ponérselo" : alcanza ? "Comprar" : `Te faltan ${a.precio - racha.tunas}`;
     return `<li class="${puesto ? "puesto" : ""}"><svg class="tienda-muestra" viewBox="0 0 96 96" aria-hidden="true">${ARTE_TL.icono[id]}</svg>
       <strong>${a.nombre}</strong><small>${a.nota}</small>
-      ${tiene ? "" : `<span class="precio-tunas"><svg viewBox="0 0 24 24" aria-hidden="true">${ARTE_TL.icono.tuna}</svg>${a.precio} tunas</span>`}
-      <button type="button" class="boton ${puesto ? "" : "oscuro"}" data-accesorio="${id}" ${!tiene && !alcanza ? "disabled" : ""} aria-pressed="${puesto}" aria-label="${accion}: ${a.nombre}${tiene ? "" : `, ${a.precio} tunas`}">${accion}</button></li>`;
+      ${tiene ? "" : `<span class="precio-tunas"><svg viewBox="0 0 24 24" aria-hidden="true">${ARTE_TL.icono.tuna}</svg>${a.precio}</span>`}
+      <button type="button" class="boton ${puesto ? "" : "oscuro"}" data-accesorio="${id}" ${!tiene && !alcanza ? "disabled" : ""} aria-pressed="${puesto}" aria-label="${accion}: ${a.nombre}${tiene ? "" : `, ${plural(a.precio, "tuna", "tunas")}`}">${accion}</button></li>`;
   }).join("");
 }
 // Querétaro de fondo (Figma) según la hora: acueducto, papel picado y nopal; con nubes si el tlacuache esta preocupado.
@@ -4244,8 +4254,8 @@ function pintarAlcancia(mes) {
   const cae = nivel ? `<g transform="translate(296 -52)"><g class="moneda-cae">${A.moneda}</g></g>` : "";
   $("alcancia").innerHTML = `${A[horario()]}${A[`nivel${nivel}`]}${cae}<g transform="translate(330 340) scale(${(0.66 / ESCALA_TL).toFixed(3)})">${tlacuache(nivel ? 4 : 3)}</g>`;
   $("alcancia").setAttribute("aria-label", nivel === 5 ? "Camioncito de hojalata lleno de monedas" : nivel ? `Camioncito de hojalata en el nivel ${nivel} de 5` : "Camioncito de hojalata vacío");
-  $("ahorroPie").textContent = !nivel ? "Tu primer viaje en camión pone la primera moneda."
-    : siguiente === undefined ? "El camioncito está lleno este mes." : `Te faltan ${pesos(siguiente - mes)} para el siguiente nivel del camioncito.`;
+  const texto = !nivel ? "Tu primer viaje en camión pone la primera moneda." : siguiente === undefined ? "Camioncito lleno este mes" : `Faltan ${pesos(siguiente - mes)} para el nivel ${nivel + 1}`;
+  $("ahorroPie").innerHTML = `<span class="ahorro-niveles" aria-hidden="true">${[1, 2, 3, 4, 5].map((n) => `<i class="${n <= nivel ? "lleno" : ""}"></i>`).join("")}</span><span>${texto}</span>`;
 }
 // Lo ahorrado contado en cosas de todos los dias, y la gasolina que tu carro habria quemado en esos mismos viajes.
 function cosasAhorro(monto, co2Mes) {

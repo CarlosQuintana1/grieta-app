@@ -545,15 +545,19 @@
         <div><dt>Protectores</dt><dd id="rachaProtectores">0</dd></div>
         <div><dt>Tunas</dt><dd id="rachaTunas">0</dd></div>
       </dl>
-      <p class="nota">Cada viaje en camión con la guía, confirmado por el GPS, da 10 tunas; cumplir tu semana da 20 más. Si una semana no se puede, un protector cuida tu racha: tienes uno nuevo cada mes.</p>
-      <h2 id="tituloMeta">¿Cuántos viajes en camión a la semana?</h2>
+      <ul class="racha-reglas" aria-label="Cómo ganas tunas">
+        <li><b>+1</b><span>por viaje en camión</span></li>
+        <li><b>+2</b><span>por semana cumplida</span></li>
+        <li><b>1</b><span>protector cada mes</span></li>
+      </ul>
+      <h2 id="tituloMeta">Tu meta de viajes a la semana</h2>
       <div id="rachaMeta" class="segmento" role="radiogroup" aria-labelledby="tituloMeta">
         <button type="button" role="radio" aria-checked="false" data-v="2">2</button>
         <button type="button" role="radio" aria-checked="true" data-v="3">3</button>
         <button type="button" role="radio" aria-checked="false" data-v="4">4</button>
         <button type="button" role="radio" aria-checked="false" data-v="5">5</button>
       </div>
-      <h2>Para tu tlacuache</h2>
+      <div class="tienda-cabeza"><h2>Tienda</h2><span id="rachaSaldo" class="tunas-saldo"></span></div>
       <ul id="rachaTienda" class="racha-tienda"></ul>
     </section>
     <section id="co2" class="pantalla" aria-labelledby="tituloPantalla" hidden>

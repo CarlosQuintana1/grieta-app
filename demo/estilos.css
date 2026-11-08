@@ -1087,8 +1087,12 @@ button.impacto-todos { width: 100%; text-align: left; }
 .bosque { display: block; width: calc(100% - 24px); height: auto; margin: 14px 12px 0; border-radius: 16px; }
 .bosque .sobra { fill: #2b2420; font-weight: 800; font-size: 40px; }
 .co2-pie { padding: 12px 20px 16px; background: color-mix(in srgb, var(--verde) 32%, var(--superficie)); }
-.ahorro-hero .co2-pie { background: var(--ambar); }
-.ahorro-hero .co2-pie .co2-unidad { color: var(--sobre-ambar, #0b0a09); font-weight: 700; }
+.ahorro-hero .co2-cifra strong { color: var(--ambar); }
+.ahorro-hero .co2-pie { background: none; padding: 14px 20px 18px; }
+.ahorro-hero .co2-pie .co2-unidad { display: flex; align-items: center; gap: 12px; color: var(--tinta); font-weight: 700; }
+.ahorro-niveles { flex: none; display: flex; gap: 5px; }
+.ahorro-niveles i { width: 16px; height: 16px; border-radius: 50%; border: 2px solid color-mix(in srgb, var(--ambar) 45%, transparent); }
+.ahorro-niveles i.lleno { border-color: #a8711a; background: radial-gradient(circle at 50% 50%, #f0b445 0 45%, #d99a33 46% 100%); }
 #bosque:not([hidden]) + .co2-pie { margin-top: -1px; }
 .mundo-tl + svg + .co2-pie, .mundo-tl:not([hidden]) ~ .co2-pie { background: none; padding-top: 12px; }
 .co2-unidad { margin: 0; color: var(--tinta); font-size: .9rem; line-height: 1.4; }
@@ -1459,9 +1463,12 @@ body.guia-mapa #guia { min-height: 0; }
 .racha-inicio { align-items: center; }
 .racha-mini { flex: none; width: 64px; height: 40px; }
 .racha-inicio strong { color: var(--ambar) !important; }
-.racha-puntos { display: flex; gap: 5px; margin-top: 6px; }
-.racha-puntos i { width: 18px; height: 6px; border-radius: 3px; background: var(--linea); }
-.racha-puntos i.hecho { background: var(--ambar); }
+.racha-cuenta { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.racha-cuenta > b { color: var(--tenue); font-size: .85rem; font-weight: 700; }
+.racha-puntos { flex: none; width: 152px; height: 10px; overflow: visible; }
+.racha-puntos .fondo { fill: var(--linea); }
+.racha-puntos .fondo.actual { stroke: color-mix(in srgb, var(--ambar) 60%, transparent); stroke-width: 1.2; }
+.racha-puntos .lleno { fill: var(--ambar); }
 .racha-escena { display: block; width: 100%; max-height: 220px; margin: 4px 0 8px; border-radius: var(--radio); background: color-mix(in srgb, var(--verde) 12%, var(--superficie)); }
 .racha-suelo { fill: color-mix(in srgb, var(--verde) 30%, var(--superficie)); }
 .racha-datos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 0 0 10px; }
@@ -1479,6 +1486,15 @@ html.grande .racha-tienda { grid-template-columns: 1fr; }
 .guia-racha[hidden] { display: none; }
 .guia-racha svg { flex: none; width: 72px; height: 44px; }
 .guia-racha strong { display: block; font-size: 1.1rem; }
+.racha-reglas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
+.racha-reglas li { display: grid; gap: 2px; padding: 12px 8px; border-radius: 14px; background: color-mix(in srgb, var(--ambar) 12%, var(--superficie)); text-align: center; }
+.racha-reglas b { color: var(--ambar); font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
+.racha-reglas span { color: var(--tinta); font-size: .78rem; font-weight: 600; line-height: 1.25; }
+html.grande .racha-reglas { grid-template-columns: 1fr; }
+.tienda-cabeza { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 24px 0 10px; }
+.tienda-cabeza h2 { margin: 0; }
+.tunas-saldo { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--superficie); color: var(--ambar); font-weight: 800; }
+.tunas-saldo svg { width: 20px; height: 20px; }
 #rachaMeta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-radius: 999px; }
 #rachaMeta button { min-width: 0; min-height: 44px; }
 /* Escena de la racha */

@@ -83,6 +83,7 @@ function juntarRespaldo(remoto, local) {
 const unirPor = (lista, clave) => [...new Map(lista.map((x) => [clave(x), x]).reverse()).values()].reverse();
 // Viajes, semanas premiadas y compras se suman sin repetir; las tunas se ajustan con lo que la copia no tenia.
 function juntarRacha(remota, local, localMasNueva) {
+  remota = tunasEnEscala(remota); local = tunasEnEscala(local);
   const r = { ...(localMasNueva ? local : remota) }, union = (a = [], b = []) => [...new Set([...a, ...b])];
   const viajes = [...(remota.viajes ?? [])], vistos = new Set(viajes.map((v) => v.f));
   const masViejo = viajes.length >= 400 ? viajes.at(-1).f : "";
