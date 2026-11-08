@@ -49,8 +49,8 @@ export type Momento = {
 /** La meta de la ficha tecnica y el poster: al llegar ya no se aceptan registros. */
 export const META_REGISTROS = 1500;
 
-/** Un registro necesita el precio de las tres apps para poder compararlas. */
-export const MINIMO_APPS = 3;
+/** Con una sola app no hay nada que comparar. */
+export const MINIMO_APPS = 2;
 
 export function appsConPrecio(m: Pick<Momento, "precios">): number {
   return PLATAFORMAS.filter((p) => typeof m.precios?.[p] === "number").length;

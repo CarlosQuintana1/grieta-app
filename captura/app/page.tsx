@@ -351,7 +351,7 @@ export default function Captura() {
             ))}
             {faltaApp && (
               <p className="text-justify text-xs leading-relaxed text-alerta">
-                Faltan precios: se necesitan las tres apps para guardar.
+                Falta otro precio: se necesitan al menos dos apps para guardar.
               </p>
             )}
           </div>

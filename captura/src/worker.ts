@@ -51,7 +51,7 @@ async function sincronizar(req: Request, env: Env): Promise<Response> {
      ON CONFLICT (id) DO NOTHING`,
   );
 
-  // Las reglas de las tres apps y de la espera entre la misma ruta tambien se aplican en el servidor.
+  // Las reglas del minimo de apps y de la espera entre la misma ruta tambien se aplican en el servidor.
   const anterior = env.DB.prepare(
     `SELECT timestamp, segundos_captura FROM momentos
      WHERE capturado_por = ?1 AND ruta_id = ?2 AND id <> ?3 AND timestamp <= ?4

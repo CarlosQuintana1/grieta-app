@@ -31,12 +31,12 @@ corte, cuando ya no hay cómo recapturar.
 
 4. **Presiona Empezar ANTES de abrir la primera app.** El reloj mide desde Empezar hasta
    Guardar. Si cotizas primero y luego abres la captura, el reloj marca 10 segundos aunque
-   entre Uber y DiDi hayan pasado 15 minutos, y no protege nada. Las tres apps van casi al
+   entre Uber y DiDi hayan pasado 15 minutos, y no protege nada. Las apps van casi al
    mismo tiempo; pasados 3 minutos se descarta el momento completo y la app bloquea el guardado.
 
-5. **Siempre las tres apps con precio.** Si una plataforma no da servicio o no está el tipo
-   básico, no se guarda: se descarta y se elige otra ruta. Sin los tres precios no hay
-   comparación completa.
+5. **Al menos dos apps con precio.** Si una plataforma no da servicio o no está el tipo
+   básico, ese campo se deja vacío y se guarda con las otras dos. Con una sola no se guarda:
+   se descarta y se elige otra ruta, porque no hay nada que comparar.
 
    La misma ruta no se puede volver a capturar antes de 5 minutos. En ese tiempo el precio casi
    no cambia: rinde más pasar a otra ruta y regresar después.
