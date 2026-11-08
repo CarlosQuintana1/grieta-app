@@ -3287,7 +3287,7 @@ function dibujoPelaje(estado, pelaje) {
 }
 function pintarPelajes() {
   const actual = pelajeActual(), bloqueado = actual === "alebrije" && !racha.alebrije, falta = ALEBRIJE_TUNAS - racha.tunas;
-  $("pelajes").innerHTML = Object.entries(PELAJES).map(([id, p]) => `<button type="button" data-pelaje="${id}" aria-pressed="${id === actual}" aria-label="${p.nombre}${id === "alebrije" && !racha.alebrije ? `, ${plural(ALEBRIJE_TUNAS, "tuna", "tunas")}` : ""}"><svg viewBox="-72 -84 140 88" aria-hidden="true">${tlacuache(3, {}, false, id)}</svg><span>${p.nombre}</span></button>`).join("");
+  $("pelajes").innerHTML = Object.entries(PELAJES).map(([id, p]) => `<button type="button" data-pelaje="${id}" aria-pressed="${id === actual}" aria-label="${p.nombre}${id === "alebrije" && !racha.alebrije ? `, ${plural(ALEBRIJE_TUNAS, "tuna", "tunas")}` : ""}"><svg viewBox="-72 -84 140 88" aria-hidden="true">${tlacuache(3, racha.puestos, false, id)}</svg><span>${p.nombre}</span></button>`).join("");
   $("pelajeNota").textContent = PELAJES[actual].nota;
   $("pelajeComprar").hidden = !bloqueado;
   $("pelajeComprar").disabled = falta > 0;
@@ -4541,7 +4541,7 @@ function irPaso(p) {
   if (acc.modoVoz && PASOS_VOZ[p]) hablar(`${p === 'ubicacion' && anteriorPaso === 'lector' && ToquesGrieta.activo() ? ToquesGrieta.instrucciones + ' ' : ''}${PASOS_VOZ[p]}`, false, true);
 }
 function abrirBienvenida() {
-  for (const s of document.querySelectorAll(".tl-pregunta")) s.innerHTML = tlacuache(3, {}, false, "gris");
+  for (const s of document.querySelectorAll(".tl-pregunta")) s.innerHTML = tlacuache(3, racha.puestos, false);
   ir("bienvenida", true);
   irPaso("vista");
 }
@@ -4652,7 +4652,9 @@ function resumenCortoPerfil() {
 function pintarResumenPerfil() {
   if (!$("textoPerfil")) return;
   const [vista, movimiento, , , tarifa] = resumenCortoPerfil();
-  $("textoPerfil").textContent = [vista, movimiento, tarifa].map(([, t], i) => (i ? t.charAt(0).toLowerCase() + t.slice(1) : t)).join(", ");
+  // Tres iconos a la vista; el lector de pantalla escucha la frase completa.
+  const frasePerfil = [vista, movimiento, tarifa].map(([, t], i) => (i ? t.charAt(0).toLowerCase() + t.slice(1) : t)).join(", ");
+  $("textoPerfil").innerHTML = [acc.modoVoz ? "altavoz" : vista[0], movimiento[0], tarifa[0]].map((i) => `<i aria-hidden="true">${ico(i)}</i>`).join("") + `<span class="oculto">${escapar(frasePerfil)}</span>`;
   $("perfilFichas").innerHTML = fichasPerfil().map(([grupo, tono, picto, texto, nombrePropio]) =>
     `<button type="button" class="perfil-ficha" data-ir-perfil="${grupo}">
       <span class="mini-ficha tono-${tono}" aria-hidden="true"><svg class="picto"><use href="#p-${picto}"/></svg></span><span${nombrePropio ? ' translate="no"' : ""}>${escapar(texto)}</span></button>`).join("");
