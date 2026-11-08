@@ -267,7 +267,9 @@ def hoja():
 
 def monedas():
     pila = "".join(f"M3.5 {y}v5.2a11.5 4.6 0 0 0 23 0V{y}a11.5 4.6 0 0 1-23 0z" for y in (37.5, 30.5, 23.5))
-    return solido(pila) + suave("M3.5 19a11.5 4.6 0 1 0 23 0a11.5 4.6 0 1 0-23 0z") + moneda_pesos(33.5, 23, 12.5)
+    # El aro separa la moneda de la pila; va del color fijo de la pastilla de ahorro, el unico lugar donde se usa.
+    return (solido(pila) + suave("M3.5 19a11.5 4.6 0 1 0 23 0a11.5 4.6 0 1 0-23 0z") + '<circle cx="33.5" cy="23" r="14.3" fill="#e0a03c"/>'
+            + moneda_pesos(33.5, 23, 12.5))
 
 
 P["p-hoja"] = hoja()
