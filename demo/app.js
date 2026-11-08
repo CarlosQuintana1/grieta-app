@@ -3154,7 +3154,7 @@ function pintarBosque(g) {
   $("bosque").innerHTML = `${ARTE_ESC.bosque[horario()]}${plantas}${sobra}`;
   const hechos = Math.min(lugares.length, Math.floor(llenos));
   $("bosque").setAttribute("aria-label", `${plural(hechos, "árbol", "árboles")} y ${lugares.length - hechos} brotes en un cerro`);
-  $("co2Unidad").textContent = porAnio ? "1 árbol = 1 año de lo que absorbe uno joven" : "1 árbol = 1 mes de lo que absorbe uno joven";
+  $("co2Unidad").innerHTML = `<span class="leyenda-arbol"><svg viewBox="0 0 120 160" aria-hidden="true">${ARTE_ESC.arbol["mezquite-grande"]}</svg><span><b>Cada árbol</b> es el CO₂ que absorbe uno joven en un ${porAnio ? "año" : "mes"}</span></span>`;
 }
 // Ocho semanas de los viajes propios en camion, de lunes a domingo; las vacias quedan como raya tenue.
 function pintarSemanas(propio, viajesPropios) {
@@ -3209,13 +3209,13 @@ function escenaTlacuache(e) {
 // Las tunas se ganan con esos viajes y se gastan en accesorios del tlacuache; nunca con dinero.
 const ACCESORIOS = {
   flor: { nombre: "Flor de cempasúchil", nota: "La del Día de Muertos", precio: 3, lugar: "cabeza" },
-  paliacate: { nombre: "Paliacate", nota: "Rojo, con sus puntitos", precio: 4, lugar: "cuello" },
-  listones: { nombre: "Listones de colores", nota: "Como los de la muñeca Lele de Amealco", precio: 5, lugar: "cabeza" },
-  lentes: { nombre: "Lentes de sol", nota: "Para el sol de Querétaro", precio: 6, lugar: "cara" },
-  palma: { nombre: "Sombrero de palma", nota: "Tejido a mano", precio: 8, lugar: "cabeza" },
-  morral: { nombre: "Morral otomí", nota: "Bordado como los de Amealco", precio: 10, lugar: "espalda" },
-  rebozo: { nombre: "Rebozo", nota: "De rayas, con su fleco", precio: 12, lugar: "espalda" },
-  charro: { nombre: "Sombrero de charro", nota: "El de gala, con galón dorado", precio: 15, lugar: "cabeza" },
+  paliacate: { nombre: "Paliacate", nota: "Rojo, con sus puntitos", precio: 5, lugar: "cuello" },
+  listones: { nombre: "Listones de colores", nota: "Como los de la muñeca Lele de Amealco", precio: 10, lugar: "cabeza" },
+  lentes: { nombre: "Lentes de sol", nota: "Para el sol de Querétaro", precio: 15, lugar: "cara" },
+  palma: { nombre: "Sombrero de palma", nota: "Tejido a mano", precio: 20, lugar: "cabeza" },
+  morral: { nombre: "Morral otomí", nota: "Bordado como los de Amealco", precio: 30, lugar: "espalda" },
+  rebozo: { nombre: "Rebozo", nota: "De rayas, con su fleco", precio: 40, lugar: "espalda" },
+  charro: { nombre: "Sombrero de charro", nota: "El de gala, con galón dorado", precio: 60, lugar: "cabeza" },
 };
 // Lo que se compro en la primera version de la tienda se cambia por su equivalente.
 const ACCESORIOS_VIEJOS = { gorra: "palma", sombrero: "charro", mochila: "morral" };
@@ -3309,16 +3309,21 @@ function pintarRachaInicio() {
     const x = 1 + i * 53.6;
     return `<rect class="fondo${i === 5 ? " actual" : ""}" x="${x}" y="1" width="49" height="8" rx="4"/>${llena ? `<rect class="lleno" x="${x}" y="1" width="${Math.max(8, 49 * llena).toFixed(1)}" height="8" rx="4"/>` : ""}`;
   }).join("");
-  caja.setAttribute("aria-label", `${titulo}. Esta semana: ${cuenta} de ${plural(racha.meta, "viaje", "viajes")} en camión. Ver tu tlacuache.`);
-  caja.innerHTML = `<svg class="heroe-escena" viewBox="0 40 640 300" aria-hidden="true">${escenaRacha(animoRacha())}</svg>
-    <span class="heroe-pie" aria-hidden="true"><strong>${titulo}</strong>
-    <svg class="racha-puntos" viewBox="0 0 320 10">${rayas}</svg></span>`;
+  const nombre = racha.nombre || "Tu tlacuache";
+  caja.setAttribute("aria-label", `${nombre}. ${titulo}. Esta semana: ${cuenta} de ${plural(racha.meta, "viaje", "viajes")} en camión.`);
+  // Escena recortada y un renglon con el nombre, las semanas y la flecha: cabe sin empujar el buscador.
+  caja.innerHTML = `<svg class="heroe-escena" viewBox="0 36 640 254" aria-hidden="true">${escenaRacha(animoRacha(), 280, 0.78)}</svg>
+    <span class="heroe-fila" aria-hidden="true"><b>${escapar(nombre)}</b><svg class="racha-puntos" viewBox="0 0 320 10">${rayas}</svg>${ico("chevron", "heroe-ir")}</span>`;
 }function pintarRacha() {
   protectorDelMes();
   semanasSeguidas();
   $("rachaEscena").innerHTML = escenaRacha(animoRacha());
   $("rachaEscena").setAttribute("aria-label", `Tu tlacuache${Object.values(racha.puestos).filter(Boolean).length ? ` con ${Object.values(racha.puestos).filter(Boolean).map((id) => ACCESORIOS[id]?.nombre.toLowerCase()).join(", ")}` : ""}`);
   $("tratoTuna").innerHTML = ARTE_TL.icono.tuna;
+  $("tlNombre").textContent = racha.nombre || "Tu tlacuache";
+  // Con nombre, el boton queda en un lapiz para que el nombre luzca; sin nombre, invita a ponerlo.
+  $("tlNombrar").lastChild.textContent = racha.nombre ? "Cambiar nombre" : "Ponle nombre";
+  $("tlNombrar").classList.toggle("solo-icono", !!racha.nombre);
   $("rachaSaldo").innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${ARTE_TL.icono.tuna}</svg>${racha.tunas}<span class="oculto"> tunas para gastar</span>`;
   $("rachaTienda").innerHTML = Object.entries(ACCESORIOS).map(([id, a]) => {
     const tiene = racha.compras.includes(id), puesto = racha.puestos[a.lugar] === id, alcanza = racha.tunas >= a.precio;
@@ -3330,14 +3335,32 @@ function pintarRachaInicio() {
   }).join("");
 }
 // Querétaro de fondo (Figma) según la hora: acueducto, papel picado y nopal; con nubes si el tlacuache esta preocupado.
-function escenaRacha(e) {
-  return `${ARTE_ESC.racha[horario()]}${e < 2 ? ARTE_ESC.racha.nubes : ""}<g transform="translate(330 330) scale(${(1 / ESCALA_TL).toFixed(3)})">${tlacuache(e)}</g>`;
+function escenaRacha(e, pie = 330, tam = 1) {
+  return `${ARTE_ESC.racha[horario()]}${e < 2 ? ARTE_ESC.racha.nubes : ""}<g transform="translate(330 ${pie}) scale(${(tam / ESCALA_TL).toFixed(3)})">${tlacuache(e)}</g>`;
 }
 function abrirRacha() {
   pintarRacha();
   ir("racha");
 }
 $("rachaInicio").addEventListener("click", abrirRacha);
+function nombrarTlacuache(abierto) {
+  $("tlNombreForma").hidden = !abierto;
+  $("tlNombreFila").hidden = abierto;
+  if (abierto) { $("tlNombreEntrada").value = racha.nombre ?? ""; $("tlNombreEntrada").focus(); }
+}
+$("tlNombrar").addEventListener("click", () => nombrarTlacuache(true));
+$("tlNombreCancelar").addEventListener("click", () => nombrarTlacuache(false));
+$("tlNombreForma").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const nombre = $("tlNombreEntrada").value.replace(/\s+/g, " ").trim().slice(0, 16);
+  if (nombre) racha.nombre = nombre.charAt(0).toUpperCase() + nombre.slice(1);
+  else delete racha.nombre;
+  guardarRacha();
+  nombrarTlacuache(false);
+  pintarRacha();
+  pintarRachaInicio();
+  $("tlNombrar").focus();
+});
 $("rachaTienda").addEventListener("click", (e) => {
   const b = e.target.closest("[data-accesorio]");
   if (!b || b.disabled) return;
@@ -4261,8 +4284,8 @@ function pintarBonos() {
     : `<strong>${VEREDICTO_BONO[mejor[0]]}</strong><span>Ahorras ${pesos(porViaje - mejor[1])} al mes contra pagar cada viaje.</span>`;
 }
 const marcarTarifaBonos = radios("tarifaBonos", (v) => { bono.tarifa = v; pintarBonos(); });
-// Camioncito de hojalata (Figma): sube de nivel con lo ahorrado en el mes; con $450 ya pagaste un bono mensual.
-const NIVELES_AHORRO = [0, 1, 100, 200, 300, 450];
+// Camioncito de hojalata (Figma): sube de nivel con lo ahorrado en el mes y se llena con $5000.
+const NIVELES_AHORRO = [0, 1, 1250, 2500, 3750, 5000];
 function pintarAlcancia(mes) {
   const A = ARTE_ESC.ahorro, nivel = NIVELES_AHORRO.findLastIndex((desde) => mes >= desde), siguiente = NIVELES_AHORRO[nivel + 1];
   const cae = nivel ? `<g transform="translate(296 -52)"><g class="moneda-cae">${A.moneda}</g></g>` : "";
@@ -4278,7 +4301,10 @@ function cosasAhorro(monto, co2Mes) {
     ["qrobus", "tono-hospital", plural(viajes, "viaje", "viajes"), "en Qrobus"],
     ["pantalla", "tono-salud", meses >= 1 ? plural(meses, "mes", "meses") : `${Math.round((monto / 139) * 100)}%`, meses >= 1 ? "de suscripción de Netflix" : "de un mes de Netflix"],
     ["gasolina", "tono-maiz", pesos(gasolina), "de gasolina si ibas en tu carro"],
-  ].map(([p, tono, cifra, texto]) => `<li>${miniFicha(tono, picto(p))}<strong>${cifra}</strong><span>${texto}</span></li>`).join("");
+  ].map(([p, tono, cifra, texto]) => {
+    const [numero, ...unidad] = cifra.split(" ");
+    return `<li class="eq-${p}">${miniFicha(tono, picto(p))}<span class="eq-texto"><strong>${numero}${unidad.length ? ` <small>${unidad.join(" ")}</small>` : ""}</strong><span>${texto}</span></span></li>`;
+  }).join("");
 }
 // Ahorro por mes desde el primero con ahorro, hasta seis; con uno solo no hay grafica.
 function pintarMeses() {
@@ -4675,9 +4701,14 @@ addEventListener("offline", avisoConexion);
 function quitarArranque() {
   const a = $("arranque");
   if (!a || a.classList.contains("listo")) return;
+  try { sessionStorage.setItem("grieta-arranco", "1"); } catch {}
+  if (document.documentElement.classList.contains("ya-arranco")) return a.remove();
   setTimeout(() => { a.classList.add("listo"); setTimeout(() => a.remove(), 350); }, Math.max(0, 1600 - performance.now()));
 }
 setTimeout(quitarArranque, Math.max(0, 4000 - performance.now()));
+if (document.documentElement.classList.contains("ya-arranco")) quitarArranque();
+// Si el telefono recargo la pagina (iPhone lo hace al liberar memoria), se vuelve a la pantalla donde estabas.
+const pantallaPrevia = performance.getEntriesByType?.("navigation")[0]?.type === "reload" ? history.state?.p : null;
 
 const primeraVez = !leer("grieta-bienvenida", false);
 if (primeraVez) abrirBienvenida();
@@ -4705,6 +4736,7 @@ Promise.all([
   sincronizarRespaldo();
   if (!primeraVez) ubicar();
   accionInicial();
+  ({ co2: abrirCo2, ahorro: abrirAhorro, racha: abrirRacha, ajustes: () => ir("ajustes"), camiones: abrirCamiones })[pantallaPrevia]?.();
 });
 
 // Accesos directos del icono de la app (manifest): llegan como ?accion= y se hacen en cuanto hay ubicacion

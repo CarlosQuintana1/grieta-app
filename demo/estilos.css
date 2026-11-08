@@ -1490,23 +1490,24 @@ html.grande .racha-tienda { grid-template-columns: 1fr; }
 .precio-tunas { display: inline-flex; align-items: center; justify-content: center; gap: 6px; color: var(--ambar); font-size: .85rem; font-weight: 800; }
 .precio-tunas svg { width: 18px; height: 18px; }
 /* Equivalencias de CO2: una fila por cosa, con su color, la cifra grande y la unidad chica */
-#co2Equivale { grid-template-columns: 1fr; gap: 10px; }
-#co2Equivale li { --acento: #6fc38a; flex-direction: row; align-items: center; gap: 14px; padding: 14px 16px;
+:is(#co2Equivale, #ahorroEquivale) { grid-template-columns: 1fr; gap: 10px; }
+:is(#co2Equivale, #ahorroEquivale) li { --acento: #6fc38a; flex-direction: row; align-items: center; gap: 14px; padding: 14px 16px;
   background: linear-gradient(110deg, color-mix(in srgb, var(--acento) 20%, var(--superficie)), var(--superficie) 75%); }
-#co2Equivale li.eq-gasolina { --acento: #e0a03c; }
-#co2Equivale li.eq-hielo { --acento: #7cc3e8; }
-html.claro #co2Equivale li { --acento: #1f6b3a; } html.claro #co2Equivale li.eq-gasolina { --acento: #8f5300; } html.claro #co2Equivale li.eq-hielo { --acento: #145b7d; }
-html.daltonico #co2Equivale li.eq-parque { --acento: #a58be0; } html.daltonico.claro #co2Equivale li.eq-parque { --acento: #5a408c; }
-#co2Equivale .mini-ficha { flex: none; width: 52px; height: 52px; margin: 0; }
-#co2Equivale .mini-ficha .picto { width: 28px; height: 28px; }
-#co2Equivale .eq-texto { display: grid; gap: 2px; min-width: 0; }
-#co2Equivale strong { color: var(--acento); font-size: 1.9rem; font-weight: 800; line-height: 1; }
-#co2Equivale strong small { font-size: 1rem; font-weight: 700; }
-#co2Equivale .eq-texto > span { color: var(--tinta); opacity: .85; font-size: .88rem; line-height: 1.3; }
+:is(#co2Equivale, #ahorroEquivale) li.eq-gasolina { --acento: #e0a03c; }
+:is(#co2Equivale, #ahorroEquivale) li.eq-hielo { --acento: #7cc3e8; }
+html.claro :is(#co2Equivale, #ahorroEquivale) li { --acento: #1f6b3a; } html.claro :is(#co2Equivale, #ahorroEquivale) li.eq-gasolina { --acento: #8f5300; } html.claro :is(#co2Equivale, #ahorroEquivale) li.eq-hielo { --acento: #145b7d; }
+html.daltonico :is(#co2Equivale, #ahorroEquivale) li.eq-parque { --acento: #a58be0; } html.daltonico.claro :is(#co2Equivale, #ahorroEquivale) li.eq-parque { --acento: #5a408c; }
+:is(#co2Equivale, #ahorroEquivale) .mini-ficha { flex: none; width: 52px; height: 52px; margin: 0; }
+:is(#co2Equivale, #ahorroEquivale) .mini-ficha .picto { width: 28px; height: 28px; }
+:is(#co2Equivale, #ahorroEquivale) .eq-texto { display: grid; gap: 2px; min-width: 0; }
+:is(#co2Equivale, #ahorroEquivale) strong { color: var(--acento); font-size: 1.9rem; font-weight: 800; line-height: 1; }
+:is(#co2Equivale, #ahorroEquivale) strong small { font-size: 1rem; font-weight: 700; }
+:is(#co2Equivale, #ahorroEquivale) .eq-texto > span { color: var(--tinta); opacity: .85; font-size: .88rem; line-height: 1.3; }
 
 /* Arranque: logo y un camioncito que avanza sobre la linea; solo transform y opacity para no cargar el telefono */
 .arranque { position: fixed; inset: 0; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; background: #0b0a09; transition: opacity .3s ease; }
 .arranque.listo { opacity: 0; pointer-events: none; }
+.ya-arranco .arranque { display: none; }
 .arranque-logo { width: 216px; height: auto; animation: arranque-logo .5s cubic-bezier(.2, .7, .3, 1) both; }
 .arranque.listo .arranque-logo { transform: scale(1.04); transition: transform .3s ease; }
 .arranque-camino { position: relative; width: 168px; height: 24px; }
@@ -1558,20 +1559,26 @@ html.daltonico #co2Equivale li.eq-parque { --acento: #a58be0; } html.daltonico.c
 .racha-trato strong { font-size: 1.15rem; font-weight: 800; color: var(--tinta); }
 .racha-trato p span { color: var(--tenue); font-size: .92rem; }
 .trato-camino { display: flex; align-items: center; gap: 10px; }
-.trato-camino .mini-ficha { width: 52px; height: 52px; }
-.trato-camino .mini-ficha .picto { width: 32px; height: 32px; }
-.trato-linea { position: relative; flex: 1; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--ambar) 22%, transparent); }
-.trato-linea::after { content: ""; position: absolute; right: -2px; top: 50%; width: 12px; height: 12px; border-top: 4px solid var(--ambar); border-right: 4px solid var(--ambar); border-radius: 2px; transform: translateY(-50%) rotate(45deg); }
-.trato-linea i { position: absolute; inset: 0; border-radius: inherit; background: var(--ambar); transform-origin: left; transform: scaleX(1); }
+.trato-parada { flex: none; width: 14px; height: 14px; border-radius: 50%; border: 3px solid var(--ambar); }
+.trato-via { position: relative; flex: 1; height: 34px; }
+.trato-via::before, .trato-avance { content: ""; position: absolute; left: 0; right: 0; bottom: 6px; height: 4px; border-radius: 2px; }
+.trato-via::before { background: color-mix(in srgb, var(--ambar) 22%, transparent); }
+.trato-avance { background: var(--ambar); transform-origin: left; }
+.trato-carril { position: absolute; left: 0; bottom: 9px; width: calc(100% - 34px); height: 22px; }
+.trato-bus { display: block; width: 34px; height: 22px; }
 .trato-tuna { position: relative; flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: #efe9dd; }
 .trato-tuna svg { width: 34px; height: 34px; }
 .trato-tuna b { position: absolute; top: -12px; right: -8px; padding: 2px 7px; border-radius: 999px; background: var(--ambar); color: var(--sobre-ambar, #0b0a09); font-size: .85rem; font-weight: 800; }
 @media (prefers-reduced-motion: no-preference) {
-  .trato-linea i { animation: trato-avance 3.2s ease-in-out infinite; }
+  .trato-avance { animation: trato-avance 3.2s ease-in-out infinite; }
+  .trato-carril { animation: trato-carril 3.2s ease-in-out infinite; }
+  .trato-bus { animation: arranque-bache .32s ease-in-out infinite alternate; }
   .trato-tuna b { animation: trato-mas 3.2s ease-out infinite; }
   .trato-tuna svg { animation: trato-tuna 3.2s ease-out infinite; }
 }
+@media (prefers-reduced-motion: reduce) { .trato-carril { transform: translateX(100%); } }
 @keyframes trato-avance { 0%, 8% { transform: scaleX(0); } 62%, 100% { transform: scaleX(1); } }
+@keyframes trato-carril { 0%, 8% { transform: translateX(0); } 62%, 100% { transform: translateX(100%); } }
 @keyframes trato-mas { 0%, 60% { opacity: 0; transform: translateY(6px) scale(.7); } 70% { opacity: 1; transform: translateY(-2px) scale(1.08); } 88% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-4px); } }
 @keyframes trato-tuna { 0%, 60% { transform: none; } 68% { transform: scale(1.14); } 78%, 100% { transform: none; } }
 
@@ -1579,9 +1586,10 @@ html.daltonico #co2Equivale li.eq-parque { --acento: #a58be0; } html.daltonico.c
 .racha-heroe { position: relative; display: block; width: 100%; margin-top: 10px; padding: 0; overflow: hidden; border: 0; border-radius: 24px; background: var(--superficie); color: var(--tinta); font: inherit; text-align: left; }
 .racha-heroe[hidden] { display: none; }
 .heroe-escena { display: block; width: 100%; height: auto; }
-.heroe-pie { display: block; padding: 12px 16px 16px; }
-.heroe-pie strong { display: block; color: var(--ambar); font-size: 1.3rem; font-weight: 800; line-height: 1.2; }
-.heroe-pie small { display: block; margin-top: 2px; color: var(--tenue); font-size: .85rem; font-weight: 600; }
+.heroe-fila { display: flex; align-items: center; gap: 12px; padding: 10px 12px 10px 16px; }
+.heroe-fila b { flex: 0 1 auto; min-width: 0; max-width: 64%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ambar); font-size: 1.05rem; font-weight: 800; }
+.heroe-fila .racha-puntos { flex: 1 1 60px; min-width: 60px; margin: 0; }
+.heroe-ir { flex: none; width: 30px; height: 30px; padding: 6px; border-radius: 50%; background: var(--ambar); color: var(--sobre-ambar, #0b0a09); stroke-width: 2.6; }
 /* En el inicio el tlacuache solo parpadea y mueve la cola: lo demas de la escena se queda quieto. */
 .racha-heroe :is(.an-papel, .an-nubes, .an-halo) { animation: none; }
 .pastillas-inicio { display: flex; gap: 10px; margin-top: 10px; }
@@ -1626,3 +1634,24 @@ html.claro .tl-dormido .an-zzz text { fill: #2b2420; stroke: none; }
 .sentidos-linea strong { font-size: 1.1rem; font-weight: 800; }
 .sentidos-linea em { padding: 1px 8px; border-radius: 999px; background: #1f6b44; color: #fff; font-size: .72rem; font-style: normal; font-weight: 700; line-height: 1.5; }
 .linea-rumbo { margin: 10px 2px 14px; color: var(--tenue); font-size: .9rem; line-height: 1.35; }
+
+/* Equivalencias del ahorro: Qrobus verde, Netflix rojo y gasolina ambar */
+#ahorroEquivale li.eq-qrobus { --acento: #6fc38a; } #ahorroEquivale li.eq-pantalla { --acento: #f07a72; }
+html.claro #ahorroEquivale li.eq-pantalla { --acento: #a3312f; }
+/* Bonos: las dos tarifas chicas y centradas */
+#tarifaBonos { display: flex; justify-content: center; gap: 8px; max-width: none; margin: 12px 0 14px; }
+#tarifaBonos button { min-height: 44px; padding: 0 16px; font-size: .9rem; text-align: center; }
+/* Nombre del tlacuache */
+.tl-nombre { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 2px 0 12px; }
+.tl-nombre[hidden], .tl-nombre-forma[hidden] { display: none; }
+.tl-nombre-texto { margin: 0; min-width: 0; overflow-wrap: anywhere; color: var(--tinta); font-size: 1.6rem; font-weight: 800; line-height: 1.15; }
+.tl-nombre .boton { flex: none; width: auto; min-height: 44px; margin: 0; padding: 0 16px; gap: 8px; font-size: .9rem; }
+.tl-nombre .boton .icono { width: 18px; height: 18px; }
+.tl-nombre .boton.solo-icono { width: 44px; padding: 0; justify-content: center; }
+.tl-nombre .boton.solo-icono span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.tl-nombre-forma { display: grid; gap: 10px; margin: 2px 0 14px; }
+.tl-nombre-forma .boton { margin: 0; }
+/* Leyenda del bosque */
+.leyenda-arbol { display: flex; align-items: center; gap: 10px; text-wrap: balance; }
+.leyenda-arbol svg { flex: none; width: 30px; height: 40px; }
+.leyenda-arbol b { color: var(--verde); }

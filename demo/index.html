@@ -15,6 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" integrity="sha512-h9FcoyWjHcOcmEVkxOfTLnmZFWIH0iZhZT1H2TbOq55xssQGEJHEaIm+PgoUaZbRvQTNTluNOEfb1ZRy6D3BOw==" crossorigin="anonymous">
+  <script src="arranque.js"></script>
   <link rel="preload" href="logo.png" as="image">
   <link rel="stylesheet" href="estilos.css">
 </head>
@@ -542,10 +543,18 @@
 
     <section id="racha" class="pantalla" aria-labelledby="tituloPantalla" hidden>
       <svg id="rachaEscena" class="racha-escena" viewBox="0 0 640 360" role="img" aria-label="Tu tlacuache"></svg>
+      <div id="tlNombreFila" class="tl-nombre">
+        <p id="tlNombre" class="tl-nombre-texto">Tu tlacuache</p>
+        <button id="tlNombrar" type="button" class="boton oscuro"><svg class="icono" aria-hidden="true"><use href="#i-lapiz"/></svg><span>Ponle nombre</span></button>
+      </div>
+      <form id="tlNombreForma" class="tl-nombre-forma" hidden>
+        <label class="campo"><span>¿Cómo se llama tu tlacuache?</span><input id="tlNombreEntrada" type="text" maxlength="24" autocomplete="off" enterkeyhint="done"></label>
+        <div class="dos-botones"><button type="submit" class="boton">Guardar</button><button id="tlNombreCancelar" type="button" class="boton oscuro">Cancelar</button></div>
+      </form>
       <div class="racha-trato">
         <div class="trato-camino" aria-hidden="true">
-          <span class="mini-ficha tono-hospital"><svg class="picto"><use href="#p-qrobus"/></svg></span>
-          <span class="trato-linea"><i></i></span>
+          <span class="trato-parada"></span>
+          <span class="trato-via"><i class="trato-avance"></i><span class="trato-carril"><svg class="trato-bus" viewBox="0 0 30 20"><rect x="1" y="2" width="27" height="12" rx="3.5" fill="#e0a03c"/><path d="M4 5h5v4H4zM11 5h5v4h-5zM18 5h4v4h-4zM24 5h2.4a.6.6 0 0 1 .6.6V10h-3z" fill="#0b0a09"/><circle cx="7.5" cy="15" r="2.8" fill="#0b0a09" stroke="#e0a03c" stroke-width="1.6"/><circle cx="21.5" cy="15" r="2.8" fill="#0b0a09" stroke="#e0a03c" stroke-width="1.6"/></svg></span></span>
           <span class="trato-tuna"><svg id="tratoTuna" viewBox="0 0 24 24"></svg><b>+1</b></span>
         </div>
         <p><strong>Cada viaje en camión te da una tuna</strong><span>Con ellas le compras cosas a tu tlacuache.</span></p>
