@@ -235,6 +235,7 @@
         </button>
       </div>
       <div id="salidaInicio" class="salida-inicio" role="status" hidden></div>
+      <button id="rachaInicio" type="button" class="impacto-todos racha-inicio" aria-label="Tu racha en camión y tu tlacuache" hidden></button>
       <button id="impactoTodos" type="button" class="impacto-todos" hidden></button>
       <button id="ahorroMes" type="button" class="impacto-todos" hidden></button>
       <h2 id="tituloLugares" class="seccion">Tus lugares</h2>
@@ -465,6 +466,7 @@
       <div id="barraParadas" class="barra-paradas" role="progressbar" aria-valuemin="0" hidden></div>
       <p id="guiaDetalle" class="guia-detalle oculto" aria-live="polite"></p>
       <ul id="guiaDetalleVisual" class="guia-renglones" aria-hidden="true" translate="no"></ul>
+      <p id="guiaRacha" class="guia-racha" hidden></p>
       <div id="comoTeFue" class="como-fue" hidden>
         <p id="tituloComoFue" class="como-fue-pregunta">¿Cómo te fue en este viaje?</p>
         <div class="rutas-queja" role="group" aria-labelledby="tituloComoFue">
@@ -526,6 +528,25 @@
       <ul id="bonoOpciones" class="bono-opciones"></ul>
     </section>
 
+    <section id="racha" class="pantalla" aria-labelledby="tituloPantalla" hidden>
+      <svg id="rachaEscena" class="racha-escena tl-svg" viewBox="-80 -70 160 100" role="img" aria-label="Tu tlacuache"></svg>
+      <dl class="racha-datos">
+        <div><dt>Semanas seguidas</dt><dd id="rachaSemanas">0</dd></div>
+        <div><dt>Esta semana</dt><dd id="rachaCuenta">0</dd></div>
+        <div><dt>Protectores</dt><dd id="rachaProtectores">0</dd></div>
+        <div><dt>Tunas</dt><dd id="rachaTunas">0</dd></div>
+      </dl>
+      <p class="nota">Cada viaje en camión con la guía, confirmado por el GPS, da 10 tunas; cumplir tu semana da 20 más. Si una semana no se puede, un protector cuida tu racha: tienes uno nuevo cada mes.</p>
+      <h2 id="tituloMeta">¿Cuántos viajes en camión a la semana?</h2>
+      <div id="rachaMeta" class="segmento" role="radiogroup" aria-labelledby="tituloMeta">
+        <button type="button" role="radio" aria-checked="false" data-v="2">2</button>
+        <button type="button" role="radio" aria-checked="true" data-v="3">3</button>
+        <button type="button" role="radio" aria-checked="false" data-v="4">4</button>
+        <button type="button" role="radio" aria-checked="false" data-v="5">5</button>
+      </div>
+      <h2>Para tu tlacuache</h2>
+      <ul id="rachaTienda" class="racha-tienda"></ul>
+    </section>
     <section id="co2" class="pantalla" aria-labelledby="tituloPantalla" hidden>
       <div id="co2Alcance" class="segmento" role="radiogroup" aria-label="De quién son los viajes" hidden>
         <button type="button" role="radio" aria-checked="true" data-v="tu">Tu tlacuache</button>

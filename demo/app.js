@@ -214,10 +214,11 @@ const PANTALLAS = {
   reporte: { tab: "reporte" },
   ahorro: { tab: "inicio", encabezado: true },
   co2: { tab: "inicio", encabezado: true },
+  racha: { tab: "inicio", encabezado: true },
   ajustes: { tab: "ajustes" },
   perfil: { tab: "ajustes", encabezado: true },
 };
-const titulos = { nombrar: "Guardar un lugar", co2: "Lo que evitamos", ahorro: "Tu ahorro", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
+const titulos = { racha: "Tu tlacuache", nombrar: "Guardar un lugar", co2: "Lo que evitamos", ahorro: "Tu ahorro", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
 
 function actualizarVozEncabezado() {
   const boton = $("vozEncabezado"), enCamara = document.body.dataset.pantalla === "camara";
@@ -251,6 +252,7 @@ function mostrar(nombre) {
     pintarViajes();
     pintarRutina();
     pintarAhorro();
+    pintarRachaInicio();
     pintarImpacto();
     pintarSalida();
     $("invitaPerfil").hidden = acc.modoVoz || leer("grieta-perfil", false) || leer("grieta-invita-cerrada", false);
@@ -2652,7 +2654,7 @@ function iniciarGuia(o) {
   guia.km = sinAuto(o) ? estado.r.directo.km : 0;
   if (guia.km) contarViaje(guia.km);
   ir("guia");
-  $("comoTeFue").hidden = true;
+  $("comoTeFue").hidden = true; $("guiaRacha").hidden = true;
   Object.assign(guia, { activa: true, o, tramos, k: 0, camion: tramos[0], fase: "parada", actual: 0, dichos: new Set(), previo: null, velocidad: null, vueltas: 0, push: null,
     destino: estado.destino, enApp: o.pasos[0].tipo === "app", pie: null, soloParada: false });
   dibujar(o);
@@ -2690,7 +2692,7 @@ function iniciarGuiaParada(p, desde) {
   const camion = { linea: l?.linea ?? "", hacia: l?.hacia ?? "", sale: l?.horas[0] ?? ahoraMin(), llega: l?.horas[0] ?? ahoraMin(), baja: p.nombre, recorrido: [parada, parada] };
   estado.destino = { nombre: `Parada ${p.nombre}`, lat: p.lat, lon: p.lon };
   ir("guia");
-  $("comoTeFue").hidden = true;
+  $("comoTeFue").hidden = true; $("guiaRacha").hidden = true;
   Object.assign(guia, { activa: true, o: null, tramos: [camion], k: 0, camion, fase: "parada", actual: 0, dichos: new Set(), previo: null, velocidad: null, vueltas: 0, push: null,
     destino: estado.destino, enApp: false, pie: null, soloParada: true, km: 0 });
   mantenerPantalla();
@@ -2918,8 +2920,11 @@ function avanzarCamion(lat, lon, velocidad = 0) {
         medirCaminata({ lat, lon }, sig.recorrido[0]);
         return;
       }
+      // Cuenta para la racha si el GPS te vio en la ruta o junto a tu parada de bajada.
+      const verificado = d.at(-1) < 60 || guia.actual >= 2;
       guia.fase = "fin";
       guia.actual = r.length - 1;
+      if (verificado && !guia.soloParada) mostrarRachaViaje(contarViajeRacha(guia.destino, c.linea));
       mostrarComoFue();
       $("yaMeSubi").hidden = true;
       const fin = guia.o.pasos.at(-1);
@@ -3167,8 +3172,9 @@ function pintarSemanas(propio, viajesPropios) {
   $("co2Semanas").setAttribute("aria-label", `Kilos de CO₂ evitados por semana: ${semanas.map((x) => `${fecha(x.d)}, ${(x.g / 1000).toFixed(1)}`).join("; ")}`);
 }
 // El tlacuache de cada quien: su ciudad sana con los kilos de CO₂ que evitan sus propios viajes en camion.
-function tlacuache(e) {
+function tlacuache(e, puestos = racha.puestos) {
   const triste = e < 2, feliz = e >= 4, come = e >= 5, crias = e >= 6;
+  const lleva = (lugar) => ACCESORIOS[puestos?.[lugar]]?.svg ?? "";
   const cabeza = triste ? 'transform="rotate(14 18 -28)"' : "";
   const ojo = triste ? '<circle cx="32" cy="-30" r="2.6" class="tl-negro"/><path d="M27.5 -35l8 -2.6" class="tl-trazo"/><path d="M32 -25.5q-2.2 4 0 5.2q2.2-1.2 0-5.2Z" class="lagrima"/>'
     : feliz ? '<path d="M28.5 -30q3.5 -3.8 7 0" class="tl-trazo grueso"/>' : '<circle cx="32" cy="-31" r="3" class="tl-negro"/><circle cx="33" cy="-32" r="1" class="tl-brillo"/>';
@@ -3181,6 +3187,7 @@ function tlacuache(e) {
     <ellipse cx="-8" cy="-26" rx="31" ry="20" class="tl-gris"/><ellipse cx="-6" cy="-14" rx="22" ry="7" class="tl-panza"/>
     <path d="M-36 -30c10-12 40-14 52-4" class="tl-lomo"/>
     ${crias ? cria(-30, -45, 1.05) + cria(-8, -47, 0.95) : ""}
+    ${lleva("espalda")}
     <g ${cabeza}>
       <ellipse cx="19" cy="-43" rx="7.5" ry="8.5" class="tl-negro"/><ellipse cx="19.5" cy="-42" rx="4" ry="5" class="tl-oreja"/>
       <path d="M11 -41c16-7 33 1 45 14 2 2 1 5-2 5-14 3-29 5-41 2-8-2-10-17-2-21Z" class="tl-blanco"/>
@@ -3188,7 +3195,9 @@ function tlacuache(e) {
       ${ojo}${boca}
       <path d="M48 -24l11 -4M48 -22l12 0" class="tl-bigote"/>
       ${come ? '<ellipse cx="53" cy="-15" rx="5" ry="4" class="tuna"/><circle cx="51.5" cy="-16.5" r=".8" class="tl-brillo"/>' : ""}
+      ${lleva("cara")}${lleva("cabeza")}
     </g>
+    ${lleva("cuello")}
   </g>`;
 }
 function escenaTlacuache(e) {
@@ -3216,6 +3225,135 @@ function escenaTlacuache(e) {
   ${e >= 4 ? '<circle cx="80" cy="196" r="2.5" class="flor"/><circle cx="300" cy="206" r="2.5" class="flor"/><circle cx="196" cy="210" r="2.5" class="flor amarilla"/><circle cx="20" cy="204" r="2.5" class="flor amarilla"/>' : ""}
   <g transform="translate(172 204) scale(1.4)">${tlacuache(e)}</g>`;
 }
+// Racha semanal en camion, como la de Duolingo pero por semana: cada quien pone su meta y una semana mala
+// se cubre con un protector. Solo cuentan viajes que la guia confirmo por GPS, maximo 4 al dia.
+// Las tunas se ganan con esos viajes y se gastan en accesorios del tlacuache; nunca con dinero.
+const ACCESORIOS = {
+  flor: { nombre: "Flor de cempasúchil", precio: 30, lugar: "cabeza", svg: '<g class="acc-flor"><circle cx="14" cy="-52" r="3.2"/><circle cx="19" cy="-54" r="3.2"/><circle cx="17" cy="-49" r="3.2"/><circle cx="12" cy="-48" r="3"/><circle cx="15.5" cy="-51" r="2" class="acc-flor-centro"/></g>' },
+  paliacate: { nombre: "Paliacate", precio: 40, lugar: "cuello", svg: '<g class="acc-paliacate"><path d="M4 -25q12 5 24 1l-11 14Z"/><circle cx="12" cy="-21" r="1.1" class="acc-punto"/><circle cx="19" cy="-21" r="1.1" class="acc-punto"/><circle cx="16" cy="-15" r="1.1" class="acc-punto"/></g>' },
+  lentes: { nombre: "Lentes de sol", precio: 60, lugar: "cara", svg: '<g class="acc-lentes"><rect x="26" y="-35.5" width="12" height="8" rx="3.5"/><path d="M26 -32.5l-8 -3"/></g>' },
+  gorra: { nombre: "Gorra", precio: 80, lugar: "cabeza", svg: '<g class="acc-gorra"><path d="M8 -44c1-11 21-13 26-2Z"/><path d="M31 -44.5c6-.5 11 .5 14 3" class="acc-visera"/></g>' },
+  morral: { nombre: "Morral bordado", precio: 100, lugar: "espalda", svg: '<g class="acc-morral"><path d="M-4 -40q14 16 26 2"/><rect x="-6" y="-24" width="20" height="16" rx="3"/><path d="M-4 -18l4 -3 4 3 4 -3 4 3 4 -3" class="acc-bordado"/></g>' },
+  mochila: { nombre: "Mochila de estudiante", precio: 120, lugar: "espalda", svg: '<g class="acc-mochila"><rect x="-30" y="-56" width="22" height="24" rx="6"/><rect x="-26" y="-46" width="14" height="8" rx="2" class="acc-bolsillo"/><path d="M-10 -50q9 5 7 16" class="acc-correa"/></g>' },
+  sombrero: { nombre: "Sombrero", precio: 150, lugar: "cabeza", svg: '<g class="acc-sombrero"><ellipse cx="20" cy="-47" rx="17" ry="3.6"/><path d="M11 -48c0-11 18-11 18 0Z"/><path d="M11.5 -50.5h17" class="acc-cinta"/></g>' },
+};
+const VIAJE_TUNAS = 10, SEMANA_TUNAS = 20, TOPE_DIA = 4;
+const racha = Object.assign({ meta: 3, viajes: [], protectores: 1, usados: [], premiadas: [], tunas: 0, compras: [], puestos: {}, mes: "" }, leer("grieta-racha", {}));
+const guardarRacha = () => escribir("grieta-racha", racha);
+const lunes = (f) => { const d = new Date(f); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d; };
+const claveSemana = (f) => { const d = lunes(f); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
+const viajesDeSemana = (clave) => racha.viajes.filter((v) => claveSemana(v.f) === clave).length;
+// Un protector nuevo cada mes, sin juntar mas de dos.
+function protectorDelMes() {
+  const mes = new Date().toISOString().slice(0, 7);
+  if (racha.mes === mes) return;
+  if (racha.mes) racha.protectores = Math.min(2, racha.protectores + 1);
+  racha.mes = mes;
+  guardarRacha();
+}
+// Semanas seguidas cumplidas; una semana pasada sin cumplir gasta un protector si hay.
+function semanasSeguidas() {
+  if (!racha.viajes.length) return 0;
+  const primera = lunes(racha.viajes.at(-1).f), actual = claveSemana(new Date());
+  let n = viajesDeSemana(actual) >= racha.meta ? 1 : 0;
+  for (const d = lunes(new Date()); ;) {
+    d.setDate(d.getDate() - 7);
+    if (d < primera) break;
+    const k = claveSemana(d);
+    if (viajesDeSemana(k) >= racha.meta || racha.usados.includes(k)) { n++; continue; }
+    if (racha.protectores > 0) { racha.protectores--; racha.usados.push(k); guardarRacha(); n++; continue; }
+    break;
+  }
+  return n;
+}
+// Se llama cuando la guia confirma por GPS que el viaje en camion se hizo.
+function contarViajeRacha(destino, linea) {
+  const hoy = new Date().toDateString();
+  if (racha.viajes.filter((v) => new Date(v.f).toDateString() === hoy).length >= TOPE_DIA) return null;
+  racha.viajes.unshift({ f: new Date().toISOString(), destino: destino?.nombre ?? "", lat: destino?.lat, lon: destino?.lon, linea });
+  racha.viajes = racha.viajes.slice(0, 400);
+  racha.tunas += VIAJE_TUNAS;
+  const semana = claveSemana(new Date()), cuenta = viajesDeSemana(semana);
+  let cumplida = false;
+  if (cuenta >= racha.meta && !racha.premiadas.includes(semana)) { racha.premiadas.push(semana); racha.tunas += SEMANA_TUNAS; cumplida = true; }
+  // Dos viajes de mas en la semana regalan un protector.
+  if (cuenta === racha.meta + 2 && racha.protectores < 2) racha.protectores++;
+  guardarRacha();
+  return { cuenta, cumplida, semanas: semanasSeguidas(), tunas: VIAJE_TUNAS + (cumplida ? SEMANA_TUNAS : 0) };
+}
+// Animo del tlacuache: contento si ya cumpliste la semana; preocupado de jueves en adelante si faltan viajes.
+function animoRacha() {
+  const cuenta = viajesDeSemana(claveSemana(new Date())), dia = (new Date().getDay() + 6) % 7;
+  return cuenta >= racha.meta ? 5 : dia >= 3 && racha.viajes.length ? 1 : 3;
+}
+// Para el aviso del jueves: el destino al que mas vas en camion.
+function destinoFrecuente() {
+  const cuenta = new Map();
+  for (const v of racha.viajes.slice(0, 40)) if (v.destino) cuenta.set(v.destino, (cuenta.get(v.destino) ?? 0) + 1);
+  return [...cuenta].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
+}
+// Al terminar: solo en pantalla, nunca en voz, para no confundir en modo Voz.
+function mostrarRachaViaje(r) {
+  const caja = $("guiaRacha");
+  caja.hidden = !r || acc.modoVoz;
+  if (caja.hidden) return;
+  caja.innerHTML = `<svg class="tl-svg" viewBox="-72 -66 136 80" aria-hidden="true">${tlacuache(r.cumplida ? 5 : 4)}</svg><span><strong>+${r.tunas} tunas</strong>${r.cumplida ? `Semana cumplida. Llevas ${plural(r.semanas, "semana", "semanas")}.` : `Esta semana: ${r.cuenta} de ${plural(racha.meta, "viaje", "viajes")}.`}</span>`;
+}
+function pintarRachaInicio() {
+  const caja = $("rachaInicio");
+  caja.hidden = acc.modoVoz || acc.facil;
+  if (caja.hidden) return;
+  protectorDelMes();
+  const semanas = semanasSeguidas(), cuenta = viajesDeSemana(claveSemana(new Date())), falta = Math.max(0, racha.meta - cuenta);
+  const dia = (new Date().getDay() + 6) % 7, destino = destinoFrecuente();
+  const titulo = !racha.viajes.length ? "Empieza tu racha" : semanas ? `Llevas ${plural(semanas, "semana", "semanas")}` : "Tu racha empieza esta semana";
+  const detalle = !falta ? "Semana cumplida. Tu tlacuache está feliz."
+    : dia >= 3 && racha.viajes.length ? `Te ${falta === 1 ? "falta un viaje" : `faltan ${falta} viajes`} esta semana.${destino ? ` Podrías ir a ${destino} en camión.` : ""}`
+    : `Esta semana: ${cuenta} de ${plural(racha.meta, "viaje", "viajes")} en camión.`;
+  caja.innerHTML = `<svg class="racha-mini tl-svg" viewBox="-72 -66 136 80" aria-hidden="true">${tlacuache(animoRacha())}</svg>
+    <span class="fila-texto"><strong>${titulo}</strong><span>${escapar(detalle)}</span>
+    <span class="racha-puntos" aria-hidden="true">${Array.from({ length: racha.meta }, (_, i) => `<i class="${i < cuenta ? "hecho" : ""}"></i>`).join("")}</span></span>${ico("chevron", "chevron")}`;
+}
+function pintarRacha() {
+  protectorDelMes();
+  const semanas = semanasSeguidas(), cuenta = viajesDeSemana(claveSemana(new Date()));
+  $("rachaEscena").innerHTML = `<rect x="-120" y="0" width="240" height="30" class="racha-suelo"/>${tlacuache(animoRacha())}`;
+  $("rachaEscena").setAttribute("aria-label", `Tu tlacuache${Object.values(racha.puestos).filter(Boolean).length ? ` con ${Object.values(racha.puestos).filter(Boolean).map((id) => ACCESORIOS[id]?.nombre.toLowerCase()).join(", ")}` : ""}`);
+  $("rachaSemanas").textContent = semanas;
+  $("rachaCuenta").textContent = `${cuenta} de ${racha.meta}`;
+  $("rachaProtectores").textContent = racha.protectores;
+  $("rachaTunas").textContent = racha.tunas;
+  marcarMeta(String(racha.meta));
+  $("rachaTienda").innerHTML = Object.entries(ACCESORIOS).map(([id, a]) => {
+    const tiene = racha.compras.includes(id), puesto = racha.puestos[a.lugar] === id, alcanza = racha.tunas >= a.precio;
+    const accion = puesto ? "Quitárselo" : tiene ? "Ponérselo" : `Comprar por ${a.precio} tunas`;
+    return `<li><svg class="tienda-muestra tl-svg" viewBox="-72 -66 136 80" aria-hidden="true">${tlacuache(3, { [a.lugar]: id })}</svg>
+      <strong>${a.nombre}</strong>
+      <button type="button" class="boton ${puesto ? "" : "oscuro"}" data-accesorio="${id}" ${!tiene && !alcanza ? "disabled" : ""} aria-pressed="${puesto}">${accion}</button></li>`;
+  }).join("");
+}
+let marcarMeta = () => {};
+function abrirRacha() {
+  pintarRacha();
+  ir("racha");
+}
+$("rachaInicio").addEventListener("click", abrirRacha);
+marcarMeta = radios("rachaMeta", (v) => { racha.meta = Number(v); guardarRacha(); pintarRacha(); });
+$("rachaTienda").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-accesorio]");
+  if (!b || b.disabled) return;
+  const id = b.dataset.accesorio, a = ACCESORIOS[id];
+  if (!racha.compras.includes(id)) {
+    if (racha.tunas < a.precio) return;
+    racha.tunas -= a.precio;
+    racha.compras.push(id);
+    racha.puestos[a.lugar] = id;
+  } else racha.puestos[a.lugar] = racha.puestos[a.lugar] === id ? null : id;
+  guardarRacha();
+  pintarRacha();
+  document.querySelector(`[data-accesorio="${id}"]`)?.focus();
+});
+
 const ETAPAS_TL = [
   [0, "Tu tlacuache vive entre basura y humo.", "recoger la basura"],
   [1000, "Ya no hay basura en el suelo.", "que crezca un árbol"],

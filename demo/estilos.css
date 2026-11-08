@@ -1144,16 +1144,16 @@ button.impacto-todos { width: 100%; text-align: left; }
 .escena .bolsa { fill: #2f2d31; } .escena .bolsa-nudo { fill: none; stroke: #2f2d31; stroke-width: 2; stroke-linejoin: round; }
 .escena .lata { fill: #c0433b; } .escena .botella { stroke: #9cc7b4; stroke-width: 4; stroke-linecap: round; }
 .escena .bote { fill: #2e7d4f; } .escena .bote-tapa { fill: #245f3c; } .escena .bote-raya { stroke: #4fa070; stroke-width: 2; stroke-linecap: round; }
-.escena .nopal { fill: #5c9a4a; } .escena .tuna { fill: #c2346b; }
+.escena .nopal { fill: #5c9a4a; } :is(.escena, .tl-svg) .tuna { fill: #c2346b; }
 .escena .flor { fill: #e86f9a; } .escena .flor.amarilla { fill: #f2c94c; }
-.escena .tl-gris { fill: #a7a4a8; } .escena .tl-lomo { fill: none; stroke: #8b878d; stroke-width: 6; stroke-linecap: round; opacity: .6; }
-.escena .tl-blanco { fill: #f4f1ea; } .escena .tl-negro { fill: #26232a; } .escena .tl-oscuro { fill: #3d3940; } .escena .tl-oreja { fill: #e9b9b4; }
-.escena .tl-nariz { fill: #e58a9a; } .escena .tl-brillo { fill: #fff; }
-.escena .tl-cola-trazo { fill: none; stroke: #e7bdb3; stroke-width: 4.5; stroke-linecap: round; }
-.escena .tl-trazo { fill: none; stroke: #26232a; stroke-width: 2; stroke-linecap: round; } .escena .tl-trazo.fino { stroke-width: 1.4; }
-.escena .tl-bigote { stroke: #8b878d; stroke-width: .8; stroke-linecap: round; }
-.escena .lagrima { fill: #7cc3e8; } .escena .tl-panza { fill: #c9c6c8; } .escena .tl-trazo.grueso { stroke-width: 2.4; }
-.escena .tl-cria { fill: #c4c1c5; stroke: #8b878d; stroke-width: 1; }
+:is(.escena, .tl-svg) .tl-gris { fill: #a7a4a8; } :is(.escena, .tl-svg) .tl-lomo { fill: none; stroke: #8b878d; stroke-width: 6; stroke-linecap: round; opacity: .6; }
+:is(.escena, .tl-svg) .tl-blanco { fill: #f4f1ea; } :is(.escena, .tl-svg) .tl-negro { fill: #26232a; } :is(.escena, .tl-svg) .tl-oscuro { fill: #3d3940; } :is(.escena, .tl-svg) .tl-oreja { fill: #e9b9b4; }
+:is(.escena, .tl-svg) .tl-nariz { fill: #e58a9a; } :is(.escena, .tl-svg) .tl-brillo { fill: #fff; }
+:is(.escena, .tl-svg) .tl-cola-trazo { fill: none; stroke: #e7bdb3; stroke-width: 4.5; stroke-linecap: round; }
+:is(.escena, .tl-svg) .tl-trazo { fill: none; stroke: #26232a; stroke-width: 2; stroke-linecap: round; } :is(.escena, .tl-svg) .tl-trazo.fino { stroke-width: 1.4; }
+:is(.escena, .tl-svg) .tl-bigote { stroke: #8b878d; stroke-width: .8; stroke-linecap: round; }
+:is(.escena, .tl-svg) .lagrima { fill: #7cc3e8; } :is(.escena, .tl-svg) .tl-panza { fill: #c9c6c8; } :is(.escena, .tl-svg) .tl-trazo.grueso { stroke-width: 2.4; }
+:is(.escena, .tl-svg) .tl-cria { fill: #c4c1c5; stroke: #8b878d; stroke-width: 1; }
 .bono-titulo { margin-top: 28px; }
 
 /* Alcancia: el puerquito de Lucide en grande; monedas en dorado fijo para los dos temas */
@@ -1490,3 +1490,46 @@ html.grande .datos-detalle dd { font-size: 1.6rem; }
 body.guia-mapa #mapa { flex: 1 1 auto; min-height: 50%; }
 body.guia-mapa .hoja { flex: 0 0 auto; max-height: 50%; }
 body.guia-mapa #guia { min-height: 0; }
+/* Racha y tlacuache: la tarjeta del inicio, su pantalla y la tienda */
+.racha-inicio { align-items: center; }
+.racha-mini { flex: none; width: 64px; height: 40px; }
+.racha-inicio strong { color: var(--ambar) !important; }
+.racha-puntos { display: flex; gap: 5px; margin-top: 6px; }
+.racha-puntos i { width: 18px; height: 6px; border-radius: 3px; background: var(--linea); }
+.racha-puntos i.hecho { background: var(--ambar); }
+.racha-escena { display: block; width: 100%; max-height: 220px; margin: 4px 0 8px; border-radius: var(--radio); background: color-mix(in srgb, var(--verde) 12%, var(--superficie)); }
+.racha-suelo { fill: color-mix(in srgb, var(--verde) 30%, var(--superficie)); }
+.racha-datos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 0 0 10px; }
+.racha-datos div { display: grid; gap: 2px; padding: 10px 6px; border-radius: 14px; background: var(--superficie); text-align: center; }
+.racha-datos dt { color: var(--tenue); font-size: .72rem; font-weight: 600; line-height: 1.2; }
+.racha-datos dd { margin: 0; color: var(--ambar); font-size: 1.35rem; font-weight: 800; }
+html.grande .racha-datos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.racha-tienda { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.racha-tienda li { display: grid; gap: 6px; padding: 10px; border-radius: var(--radio); background: var(--superficie); text-align: center; }
+.racha-tienda strong { font-size: .9rem; }
+.racha-tienda .boton { min-height: 44px; margin: 0; padding: 6px 8px; font-size: .82rem; line-height: 1.2; }
+html.grande .racha-tienda { grid-template-columns: 1fr; }
+.tienda-muestra { width: 100%; height: 64px; }
+.guia-racha { display: flex; align-items: center; gap: 12px; margin: 10px 0; padding: 10px 12px; border-radius: 16px; background: color-mix(in srgb, var(--g-t) 14%, transparent); text-align: left; }
+.guia-racha[hidden] { display: none; }
+.guia-racha svg { flex: none; width: 72px; height: 44px; }
+.guia-racha strong { display: block; font-size: 1.1rem; }
+/* Accesorios del tlacuache */
+.acc-flor circle { fill: #f2a516; }
+.acc-flor .acc-flor-centro { fill: #c2410c; }
+.acc-paliacate path { fill: #c2261d; }
+.acc-paliacate .acc-punto { fill: #fff; }
+.acc-lentes rect { fill: #1d1d1f; stroke: #e0a03c; stroke-width: 1; }
+.acc-lentes path { fill: none; stroke: #1d1d1f; stroke-width: 1.6; }
+.acc-gorra path { fill: #2457d6; }
+.acc-gorra .acc-visera { fill: none; stroke: #1b3fa0; stroke-width: 3; stroke-linecap: round; }
+.acc-morral path:first-child { fill: none; stroke: #7a4b22; stroke-width: 2; }
+.acc-morral rect { fill: #f3e5c8; stroke: #7a4b22; stroke-width: 1; }
+.acc-morral .acc-bordado { fill: none; stroke: #c2261d; stroke-width: 1.6; }
+.acc-mochila rect { fill: #2f8a5c; }
+.acc-mochila .acc-bolsillo { fill: #23704a; }
+.acc-mochila .acc-correa { fill: none; stroke: #1d5e3d; stroke-width: 2.4; stroke-linecap: round; }
+.acc-sombrero ellipse, .acc-sombrero path:not(.acc-cinta) { fill: #d9b46a; stroke: #9b7a3a; stroke-width: .8; }
+.acc-sombrero .acc-cinta { stroke: #c2261d; stroke-width: 2.2; }
+#rachaMeta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-radius: 999px; }
+#rachaMeta button { min-width: 0; min-height: 44px; }
