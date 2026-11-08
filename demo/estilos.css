@@ -1119,6 +1119,10 @@ button.impacto-todos { width: 100%; text-align: left; }
 .co2-semanas .valor { fill: var(--tinta); font-size: 11px; font-weight: 700; }
 .co2-semanas .dia { fill: var(--tenue); font-size: 10.5px; }
 .co2-semanas .dia.actual { fill: var(--verde); font-weight: 700; }
+#ahorroMeses .barra { fill: color-mix(in srgb, var(--ambar) 55%, var(--superficie)); }
+#ahorroMeses .barra.actual { fill: var(--ambar); }
+#ahorroMeses .barra.vacia { fill: var(--linea); }
+#ahorroMeses .dia.actual { fill: var(--ambar); }
 .co2-vacio { margin: 10px 0 6px; color: var(--tenue); font-size: .9rem; }
 .co2-fuentes { margin: 14px 0 8px; text-align: center; }
 .co2-fuentes summary { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 18px; border: 1px solid var(--linea); border-radius: 999px; color: var(--tinta); font-size: .9rem; font-weight: 700; cursor: pointer; list-style: none; }
@@ -1471,11 +1475,6 @@ body.guia-mapa #guia { min-height: 0; }
 .racha-puntos .lleno { fill: var(--ambar); }
 .racha-escena { display: block; width: 100%; max-height: 220px; margin: 4px 0 8px; border-radius: var(--radio); background: color-mix(in srgb, var(--verde) 12%, var(--superficie)); }
 .racha-suelo { fill: color-mix(in srgb, var(--verde) 30%, var(--superficie)); }
-.racha-datos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 0 0 10px; }
-.racha-datos div { display: grid; gap: 2px; padding: 10px 6px; border-radius: 14px; background: var(--superficie); text-align: center; }
-.racha-datos dt { color: var(--tenue); font-size: .72rem; font-weight: 600; line-height: 1.2; }
-.racha-datos dd { margin: 0; color: var(--ambar); font-size: 1.35rem; font-weight: 800; }
-html.grande .racha-datos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .racha-tienda { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
 .racha-tienda li { display: grid; gap: 6px; padding: 10px; border-radius: var(--radio); background: var(--superficie); text-align: center; }
 .racha-tienda strong { font-size: .9rem; }
@@ -1486,17 +1485,12 @@ html.grande .racha-tienda { grid-template-columns: 1fr; }
 .guia-racha[hidden] { display: none; }
 .guia-racha svg { flex: none; width: 72px; height: 44px; }
 .guia-racha strong { display: block; font-size: 1.1rem; }
-.racha-reglas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
-.racha-reglas li { display: grid; gap: 2px; padding: 12px 8px; border-radius: 14px; background: color-mix(in srgb, var(--ambar) 12%, var(--superficie)); text-align: center; }
-.racha-reglas b { color: var(--ambar); font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
-.racha-reglas span { color: var(--tinta); font-size: .78rem; font-weight: 600; line-height: 1.25; }
-html.grande .racha-reglas { grid-template-columns: 1fr; }
 .tienda-cabeza { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 24px 0 10px; }
 .tienda-cabeza h2 { margin: 0; }
 .tunas-saldo { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--superficie); color: var(--ambar); font-weight: 800; }
 .tunas-saldo svg { width: 20px; height: 20px; }
-#rachaMeta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-radius: 999px; }
-#rachaMeta button { min-width: 0; min-height: 44px; }
+#tarifaBonos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 380px; margin: 8px auto 12px; }
+#tarifaBonos button { padding: 0 10px; }
 /* Escena de la racha */
 .racha-escena { max-height: 260px; background: none; }
 /* Tienda */
@@ -1569,3 +1563,26 @@ html.daltonico #co2Equivale li.eq-parque { --acento: #a58be0; } html.daltonico.c
 @keyframes brillo { from { opacity: .35; } to { opacity: 1; } }
 @keyframes halo { from { opacity: .1; transform: scale(.9); } to { opacity: .3; transform: scale(1.08); } }
 @keyframes agua { from { transform: scaleY(.92); } to { transform: scaleY(1.05); } }
+
+/* El trato del tlacuache: el camion avanza por la linea hasta la tuna y sale el +1 */
+.racha-trato { display: grid; gap: 14px; margin: 0 0 6px; padding: 18px; border-radius: var(--radio); background: color-mix(in srgb, var(--ambar) 10%, var(--superficie)); }
+.racha-trato p { margin: 0; display: grid; gap: 4px; text-align: center; }
+.racha-trato strong { font-size: 1.15rem; font-weight: 800; color: var(--tinta); }
+.racha-trato p span { color: var(--tenue); font-size: .92rem; }
+.trato-camino { display: flex; align-items: center; gap: 10px; }
+.trato-camino .mini-ficha { width: 52px; height: 52px; }
+.trato-camino .mini-ficha .picto { width: 32px; height: 32px; }
+.trato-linea { position: relative; flex: 1; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--ambar) 22%, transparent); }
+.trato-linea::after { content: ""; position: absolute; right: -2px; top: 50%; width: 12px; height: 12px; border-top: 4px solid var(--ambar); border-right: 4px solid var(--ambar); border-radius: 2px; transform: translateY(-50%) rotate(45deg); }
+.trato-linea i { position: absolute; inset: 0; border-radius: inherit; background: var(--ambar); transform-origin: left; transform: scaleX(1); }
+.trato-tuna { position: relative; flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: #efe9dd; }
+.trato-tuna svg { width: 34px; height: 34px; }
+.trato-tuna b { position: absolute; top: -12px; right: -8px; padding: 2px 7px; border-radius: 999px; background: var(--ambar); color: var(--sobre-ambar, #0b0a09); font-size: .85rem; font-weight: 800; }
+@media (prefers-reduced-motion: no-preference) {
+  .trato-linea i { animation: trato-avance 3.2s ease-in-out infinite; }
+  .trato-tuna b { animation: trato-mas 3.2s ease-out infinite; }
+  .trato-tuna svg { animation: trato-tuna 3.2s ease-out infinite; }
+}
+@keyframes trato-avance { 0%, 8% { transform: scaleX(0); } 62%, 100% { transform: scaleX(1); } }
+@keyframes trato-mas { 0%, 60% { opacity: 0; transform: translateY(6px) scale(.7); } 70% { opacity: 1; transform: translateY(-2px) scale(1.08); } 88% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-4px); } }
+@keyframes trato-tuna { 0%, 60% { transform: none; } 68% { transform: scale(1.14); } 78%, 100% { transform: none; } }

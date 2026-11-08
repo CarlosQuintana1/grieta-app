@@ -528,7 +528,6 @@
         <output id="viajesSemana" aria-live="polite">10</output>
         <button id="masViajes" type="button" class="contador-boton" aria-label="Un viaje más">+</button>
       </div>
-      <p id="viajesOrigen" class="nota"></p>
       <div id="tarifaBonos" class="rutas-queja" role="radiogroup" aria-label="Tu tarifa">
         <button type="button" role="radio" aria-checked="true" data-v="normal">Tarifa normal</button>
         <button type="button" role="radio" aria-checked="false" tabindex="-1" data-v="unidos">Tarifa Unidos</button>
@@ -539,23 +538,13 @@
 
     <section id="racha" class="pantalla" aria-labelledby="tituloPantalla" hidden>
       <svg id="rachaEscena" class="racha-escena" viewBox="0 0 640 360" role="img" aria-label="Tu tlacuache"></svg>
-      <dl class="racha-datos">
-        <div><dt>Semanas seguidas</dt><dd id="rachaSemanas">0</dd></div>
-        <div><dt>Esta semana</dt><dd id="rachaCuenta">0</dd></div>
-        <div><dt>Protectores</dt><dd id="rachaProtectores">0</dd></div>
-        <div><dt>Tunas</dt><dd id="rachaTunas">0</dd></div>
-      </dl>
-      <ul class="racha-reglas" aria-label="Cómo ganas tunas">
-        <li><b>+1</b><span>por viaje en camión</span></li>
-        <li><b>+2</b><span>por semana cumplida</span></li>
-        <li><b>1</b><span>protector cada mes</span></li>
-      </ul>
-      <h2 id="tituloMeta">Tu meta de viajes a la semana</h2>
-      <div id="rachaMeta" class="segmento" role="radiogroup" aria-labelledby="tituloMeta">
-        <button type="button" role="radio" aria-checked="false" data-v="2">2</button>
-        <button type="button" role="radio" aria-checked="true" data-v="3">3</button>
-        <button type="button" role="radio" aria-checked="false" data-v="4">4</button>
-        <button type="button" role="radio" aria-checked="false" data-v="5">5</button>
+      <div class="racha-trato">
+        <div class="trato-camino" aria-hidden="true">
+          <span class="mini-ficha tono-hospital"><svg class="picto"><use href="#p-qrobus"/></svg></span>
+          <span class="trato-linea"><i></i></span>
+          <span class="trato-tuna"><svg id="tratoTuna" viewBox="0 0 24 24"></svg><b>+1</b></span>
+        </div>
+        <p><strong>Cada viaje en camión te da una tuna</strong><span>Con ellas le compras cosas a tu tlacuache.</span></p>
       </div>
       <div class="tienda-cabeza"><h2>Tienda</h2><span id="rachaSaldo" class="tunas-saldo"></span></div>
       <ul id="rachaTienda" class="racha-tienda"></ul>

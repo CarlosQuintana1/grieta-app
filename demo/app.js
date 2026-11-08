@@ -3298,15 +3298,11 @@ function pintarRachaInicio() {
 }
 function pintarRacha() {
   protectorDelMes();
-  const semanas = semanasSeguidas(), cuenta = viajesDeSemana(claveSemana(new Date()));
+  semanasSeguidas();
   $("rachaEscena").innerHTML = escenaRacha(animoRacha());
   $("rachaEscena").setAttribute("aria-label", `Tu tlacuache${Object.values(racha.puestos).filter(Boolean).length ? ` con ${Object.values(racha.puestos).filter(Boolean).map((id) => ACCESORIOS[id]?.nombre.toLowerCase()).join(", ")}` : ""}`);
-  $("rachaSemanas").textContent = semanas;
-  $("rachaCuenta").textContent = `${cuenta} de ${racha.meta}`;
-  $("rachaProtectores").textContent = racha.protectores;
-  $("rachaTunas").textContent = racha.tunas;
+  $("tratoTuna").innerHTML = ARTE_TL.icono.tuna;
   $("rachaSaldo").innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${ARTE_TL.icono.tuna}</svg>${racha.tunas}<span class="oculto"> tunas para gastar</span>`;
-  marcarMeta(String(racha.meta));
   $("rachaTienda").innerHTML = Object.entries(ACCESORIOS).map(([id, a]) => {
     const tiene = racha.compras.includes(id), puesto = racha.puestos[a.lugar] === id, alcanza = racha.tunas >= a.precio;
     const accion = puesto ? "Quitárselo" : tiene ? "Ponérselo" : alcanza ? "Comprar" : `Te faltan ${a.precio - racha.tunas}`;
@@ -3320,13 +3316,11 @@ function pintarRacha() {
 function escenaRacha(e) {
   return `${ARTE_ESC.racha[horario()]}${e < 2 ? ARTE_ESC.racha.nubes : ""}<g transform="translate(330 330) scale(${(1 / ESCALA_TL).toFixed(3)})">${tlacuache(e)}</g>`;
 }
-let marcarMeta = () => {};
 function abrirRacha() {
   pintarRacha();
   ir("racha");
 }
 $("rachaInicio").addEventListener("click", abrirRacha);
-marcarMeta = radios("rachaMeta", (v) => { racha.meta = Number(v); guardarRacha(); pintarRacha(); });
 $("rachaTienda").addEventListener("click", (e) => {
   const b = e.target.closest("[data-accesorio]");
   if (!b || b.disabled) return;
@@ -4304,7 +4298,6 @@ function abrirAhorro() {
 function prepararBonos() {
   const deGrieta = viajesDeHistorial();
   bono.semana = deGrieta || 10;
-  $("viajesOrigen").textContent = deGrieta ? "Según tus viajes con Grieta de las últimas 4 semanas. Ajústalo si viajas sin la app." : "Puse 10: ida y vuelta 5 días. Ajústalo a lo que viajas.";
   marcarTarifaBonos(acc.unidos ? "unidos" : "normal");
   pintarBonos();
 }
