@@ -255,9 +255,12 @@ def hoja_en(cx, cy, largo, ancho, giro, tenue=False):
 
 
 def moneda_pesos(cx, cy, r):
+    # Signo de pesos simetrico: la S centrada y la linea sale lo mismo por arriba y por abajo.
     s = r * 0.42
-    signo = (f"M{n(cx + s * 0.72)} {n(cy - s * 0.62)}a{n(s * 0.72)} {n(s * 0.5)} 0 0 0-{n(s * 0.72)}-{n(s * 0.42)}c-{n(s * 0.62)} 0-{n(s * 0.95)} {n(s * 0.32)}-{n(s * 0.95)} {n(s * 0.62)} 0 {n(s * 0.75)} {n(s * 1.9)} {n(s * 0.38)} {n(s * 1.9)} {n(s * 1.15)} "
-             f"0 {n(s * 0.38)}-{n(s * 0.4)} {n(s * 0.68)}-{n(s * 0.98)} {n(s * 0.68)}a{n(s * 0.72)} {n(s * 0.5)} 0 0 1-{n(s * 0.72)}-{n(s * 0.42)}M{n(cx)} {n(cy - s * 1.45)}v{n(s * 2.9)}")
+    p = lambda x, y: f"{n(cx + x * s)} {n(cy + y * s)}"
+    signo = (f"M{p(0.8, -0.7)}C{p(0.6, -1)} {p(0.3, -1.05)} {p(0, -1.05)}C{p(-0.55, -1.05)} {p(-0.85, -0.8)} {p(-0.85, -0.5)}"
+             f"C{p(-0.85, -0.15)} {p(-0.5, -0.05)} {p(0, 0)}C{p(0.5, 0.05)} {p(0.85, 0.15)} {p(0.85, 0.5)}"
+             f"C{p(0.85, 0.8)} {p(0.55, 1.05)} {p(0, 1.05)}C{p(-0.3, 1.05)} {p(-0.6, 1)} {p(-0.8, 0.7)}M{p(0, -1.5)}V{n(cy + 1.5 * s)}")
     return solido(C(cx, cy, r), C(cx, cy, r * 0.78)) + suave(C(cx, cy, r * 0.78)) + trazo(signo, r * 0.16)
 
 
