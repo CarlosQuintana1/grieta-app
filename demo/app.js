@@ -3437,7 +3437,12 @@ function pintarCo2() {
   $("bosque").toggleAttribute("hidden", !deTodos);
   $("mundoTlCaja").hidden = deTodos;
   if (deTodos) { pintarBosque(g); $("co2Camino").hidden = true; } else pintarTlacuache(propio, viajesPropios);
-  $("co2Equivale").innerHTML = equivalencias(g).map(([p, cifra, texto]) => `<li>${miniFicha("tono-hospital", picto(p))}<strong>${cifra}</strong><span>${texto}</span></li>`).join("");
+  // Cada equivalencia con su color: arbol verde, gasolina ambar, hielo azul. La cifra grande y la unidad chica.
+  const tonos = { parque: "tono-hospital", gasolina: "tono-maiz", hielo: "tono-trabajo" };
+  $("co2Equivale").innerHTML = equivalencias(g).map(([p, cifra, texto]) => {
+    const [numero, ...unidad] = cifra.split(" ");
+    return `<li class="eq-${p}">${miniFicha(tonos[p], picto(p))}<span class="eq-texto"><strong>${numero}${unidad.length ? ` <small>${unidad.join(" ")}</small>` : ""}</strong><span>${texto}</span></span></li>`;
+  }).join("");
   pintarSemanas(propio, viajesPropios);
 }
 function abrirCo2() {
