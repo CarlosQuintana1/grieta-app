@@ -3172,41 +3172,14 @@ function pintarSemanas(propio, viajesPropios) {
   $("co2Semanas").setAttribute("aria-label", `Kilos de CO₂ evitados por semana: ${semanas.map((x) => `${fecha(x.d)}, ${(x.g / 1000).toFixed(1)}`).join("; ")}`);
 }
 // El tlacuache de cada quien: su ciudad sana con los kilos de CO₂ que evitan sus propios viajes en camion.
-// Dibujo de perfil con los pies en y=0. La cabeza vive en su propio grupo (centro del craneo en 24,-34) y todo lo que
-// va en la cabeza o la cara se dibuja ahi, asi gira con ella; cuello y lomo se dibujan en las coordenadas del cuerpo.
+// El arte viene de Figma (tlacuache-arte.js): lienzo de 400 x 300 con los pies en y=259; aqui se escala para que
+// ocupe lo mismo que el dibujo anterior (pies en y=0, unas 128 unidades de ancho). Los accesorios ya vienen en su lugar.
+const ESCALA_TL = 0.36;
 function tlacuache(e, puestos = racha.puestos) {
-  const triste = e < 2, feliz = e >= 4, come = e >= 5, crias = e >= 6;
-  const lleva = (lugar) => ACCESORIOS[puestos?.[lugar]]?.svg ?? "";
-  const atras = (lugar) => ACCESORIOS[puestos?.[lugar]]?.atras ?? "";
-  const ojo = triste
-    ? '<path d="M4.5 -7l7 -1.6" class="tl-trazo"/><circle cx="8" cy="-2" r="2.4" class="tl-negro"/><path d="M8 2.4q-1.8 3.2 0 4.4q1.8-1.2 0-4.4Z" class="lagrima"/>'
-    : feliz ? '<path d="M4.8 -1.2q3.2 -3.8 6.4 0" class="tl-trazo grueso"/>'
-    : '<circle cx="8" cy="-2" r="2.6" class="tl-negro"/><circle cx="8.9" cy="-2.9" r=".9" class="tl-brillo"/>';
-  const boca = triste ? '<path d="M17 10q2.6 -1.8 5.2 0" class="tl-trazo fino"/>' : '<path d="M17 8.8q2.6 2.4 5.2 0" class="tl-trazo fino"/>';
-  const cria = (x, y) => `<g transform="translate(${x} ${y})"><path d="M-9 1c-6 0-9 4-6 7" class="tl-cola-trazo fina"/><ellipse cx="0" cy="0" rx="9" ry="5.5" class="tl-cria"/><ellipse cx="7" cy="-4" rx="2" ry="2.4" class="tl-negro"/><path d="M5 -3c5-2 10 0 12 3-4 2-9 2-12 1Z" class="tl-blanco"/><circle cx="9.5" cy="-1.6" r=".9" class="tl-negro"/></g>`;
-  return `<g class="tlacuache">
-    <path d="M-36 -20C-56 -18-65-4-58 4c4 5 12 2 10-4" class="tl-cola-trazo"/>
-    <rect x="-30" y="-13" width="7" height="13" rx="3.5" class="tl-oscuro"/><rect x="12" y="-13" width="7" height="13" rx="3.5" class="tl-oscuro"/>
-    <ellipse cx="-6" cy="-24" rx="32" ry="17" class="tl-gris"/>
-    <path d="M-34 -28c8-12 34-15 48-6" class="tl-lomo"/>
-    <ellipse cx="-4" cy="-13" rx="22" ry="6" class="tl-panza"/>
-    <rect x="-22" y="-12" width="7.5" height="12" rx="3.7" class="tl-negro"/><rect x="20" y="-12" width="7.5" height="12" rx="3.7" class="tl-negro"/>
-    <path d="M-22 -3.6h7.5v.6a3 3 0 0 1-3 3h-1.5a3 3 0 0 1-3-3ZM20 -3.6h7.5v.6a3 3 0 0 1-3 3H23a3 3 0 0 1-3-3Z" class="tl-dedos"/>
-    ${lleva("espalda")}
-    ${crias ? cria(-24, -41) + cria(-6, -43) : ""}
-    ${lleva("cuello")}
-    <g transform="translate(24 -34)${triste ? " rotate(10)" : ""}">
-      ${atras("cabeza")}
-      <ellipse cx="-6" cy="-10" rx="5.6" ry="6.8" transform="rotate(-15 -6 -10)" class="tl-negro"/>
-      <ellipse cx="-6" cy="-9.6" rx="2.8" ry="4" transform="rotate(-15 -6 -9.6)" class="tl-oreja"/>
-      <path d="M-12 1c0-9 7-13 14-12 9 1 18 7 25 12 3 2 2 5-1 6-9 2-20 4-29 2-6-1-9-4-9-8Z" class="tl-blanco"/>
-      <circle cx="27.5" cy="5.6" r="3" class="tl-nariz"/>
-      ${ojo}${boca}
-      <path d="M21 4.6l12 -3M21 6.6l12 1.6" class="tl-bigote"/>
-      ${lleva("cara")}${lleva("cabeza")}
-    </g>
-    ${come ? '<g transform="translate(46 -4.5)"><ellipse rx="5.6" ry="4.6" class="tuna"/><path d="M-2.4 -4.4l-.8 -2.2M1.2 -4.5l.6 -2.2M3.8 -2.6l1.8 -1.4" class="tuna-espina"/></g>' : ""}
-  </g>`;
+  const estado = e >= 6 ? "crias" : e >= 5 ? "comiendo" : e >= 4 ? "contento" : e < 2 ? "preocupado" : "normal";
+  const lleva = (lugar) => ARTE_TL.acc[puestos?.[lugar]] ?? "";
+  const listones = puestos?.cabeza === "listones";
+  return `<g class="tlacuache" transform="translate(-2 0) scale(${ESCALA_TL}) translate(-193 -259)">${listones ? ARTE_TL.acc["listones-atras"] : ""}${ARTE_TL.estados[estado]}${lleva("espalda")}${lleva("cuello")}${lleva("cara")}${listones ? ARTE_TL.acc["listones-frente"] : lleva("cabeza")}</g>`;
 }
 function escenaTlacuache(e) {
   const basura = e < 1, humo = e < 1 ? 0.5 : e < 3 ? 0.25 : 0, limpia = e >= 3;
@@ -3237,23 +3210,14 @@ function escenaTlacuache(e) {
 // se cubre con un protector. Solo cuentan viajes que la guia confirmo por GPS, maximo 4 al dia.
 // Las tunas se ganan con esos viajes y se gastan en accesorios del tlacuache; nunca con dinero.
 const ACCESORIOS = {
-  flor: { nombre: "Flor de cempasúchil", nota: "La del Día de Muertos", precio: 30, lugar: "cabeza",
-    svg: '<g class="acc-flor" transform="translate(-1 -15.5)">' + [0, 60, 120, 180, 240, 300].map((a) => `<circle cx="${(3.4 * Math.cos(a * Math.PI / 180)).toFixed(2)}" cy="${(3.4 * Math.sin(a * Math.PI / 180)).toFixed(2)}" r="2.6"/>`).join("") + '<circle r="2.4" class="acc-flor-centro"/></g>' },
-  paliacate: { nombre: "Paliacate", nota: "Rojo, con sus puntitos", precio: 40, lugar: "cuello",
-    svg: '<g class="acc-paliacate"><path d="M9 -30q12 6 25 0l-.5 5.5q-12 5.5-24 0Z"/><path d="M13 -26.5h19l-9.5 12.5Z"/><circle cx="18" cy="-23" r=".9" class="acc-punto"/><circle cx="24" cy="-23" r=".9" class="acc-punto"/><circle cx="27.5" cy="-23" r=".9" class="acc-punto"/><circle cx="21.5" cy="-19" r=".9" class="acc-punto"/><circle cx="25" cy="-19" r=".9" class="acc-punto"/><circle cx="23" cy="-15.8" r=".9" class="acc-punto"/></g>' },
-  listones: { nombre: "Listones de colores", nota: "Como los de la muñeca Lele de Amealco", precio: 50, lugar: "cabeza",
-    atras: '<g class="acc-listones"><path d="M-6 -14c-8 3-13 10-16 19" class="l1"/><path d="M-6 -14c-5 5-8 12-9 21" class="l2"/><path d="M-6 -14c-10 0-17 5-21 11" class="l3"/><path d="M-6 -14c-2 6-3 13-2 20" class="l4"/></g>',
-    svg: '<g class="acc-listones"><path d="M-9.5 -16.5l3.5 2.5-3.5 2.5ZM-2.5 -16.5l-3.5 2.5 3.5 2.5Z" class="acc-mono"/><circle cx="-6" cy="-14" r="1.8" class="acc-mono"/></g>' },
-  lentes: { nombre: "Lentes de sol", nota: "Para el sol de Querétaro", precio: 60, lugar: "cara",
-    svg: '<g class="acc-lentes"><path d="M4.6 -3.2L-5 -6.4" class="acc-patita"/><ellipse cx="8.4" cy="-2" rx="4" ry="3.6"/><path d="M6.6 -3.6l1.6 -.6" class="acc-reflejo"/></g>' },
-  palma: { nombre: "Sombrero de palma", nota: "Tejido a mano", precio: 80, lugar: "cabeza",
-    svg: '<g class="acc-palma" transform="rotate(-6 0 -12)"><ellipse cx="0" cy="-11" rx="18" ry="4.2"/><path d="M-8 -12c0-9 3-13.5 8-13.5s8 4.5 8 13.5Z"/><path d="M-8 -14.6h16" class="acc-cinta"/><path d="M-14 -11h28M-6 -19.5h12" class="acc-tejido"/></g>' },
-  morral: { nombre: "Morral otomí", nota: "Bordado como los de Amealco", precio: 100, lugar: "espalda",
-    svg: '<g class="acc-morral"><path d="M15 -39L-10 -21" class="acc-correa-m"/><g transform="translate(-20 -24)"><rect width="18" height="15" rx="2.5" class="acc-morral-b"/><path d="M0 4.5h18" class="acc-franja"/><path d="M2 10l2.8-2.8 2.8 2.8 2.8-2.8 2.8 2.8 2.8-2.8" class="acc-zigzag"/><path d="M1.5 15l.8 3M5.5 15l.8 3M9.5 15l.8 3M13.5 15l.8 3" class="acc-fleco"/></g></g>' },
-  rebozo: { nombre: "Rebozo", nota: "De rayas, con su fleco", precio: 120, lugar: "espalda",
-    svg: '<g class="acc-rebozo"><path d="M-37 -21c0-15 17-24 33-23 10 .5 17 4 21 9l-3.5 6.5c-8-6.5-21-8.5-33-4-8 3-13 8.5-14 14Z" class="acc-rebozo-tela"/><path d="M-33 -25c6-10 23-14 39-9M-35 -21c5-9 21-13 36-9" class="acc-raya"/><path d="M-37 -21l-1.5 6M-34.5 -20l-1 6M-32 -19l-.5 6M17 -35l3.5 4.5M15.5 -33l3.5 4.5" class="acc-fleco"/></g>' },
-  charro: { nombre: "Sombrero de charro", nota: "El de gala, con galón dorado", precio: 150, lugar: "cabeza",
-    svg: '<g class="acc-charro" transform="rotate(-6 0 -12)"><path d="M-24 -11.5c3 5 45 5 48 0 1.5-3-2-6-5.5-4-8 3.5-29 3.5-37 0-3.5-2-7 1-5.5 4Z"/><path d="M-8 -13c-1.5-11 3.5-18 8-18s9.5 7 8 18Z"/><path d="M-8.4 -16.5h16.8" class="acc-galon"/><circle cx="-16" cy="-11" r="1" class="acc-galon-p"/><circle cx="-8" cy="-9.4" r="1" class="acc-galon-p"/><circle cx="8" cy="-9.4" r="1" class="acc-galon-p"/><circle cx="16" cy="-11" r="1" class="acc-galon-p"/></g>' },
+  flor: { nombre: "Flor de cempasúchil", nota: "La del Día de Muertos", precio: 30, lugar: "cabeza" },
+  paliacate: { nombre: "Paliacate", nota: "Rojo, con sus puntitos", precio: 40, lugar: "cuello" },
+  listones: { nombre: "Listones de colores", nota: "Como los de la muñeca Lele de Amealco", precio: 50, lugar: "cabeza" },
+  lentes: { nombre: "Lentes de sol", nota: "Para el sol de Querétaro", precio: 60, lugar: "cara" },
+  palma: { nombre: "Sombrero de palma", nota: "Tejido a mano", precio: 80, lugar: "cabeza" },
+  morral: { nombre: "Morral otomí", nota: "Bordado como los de Amealco", precio: 100, lugar: "espalda" },
+  rebozo: { nombre: "Rebozo", nota: "De rayas, con su fleco", precio: 120, lugar: "espalda" },
+  charro: { nombre: "Sombrero de charro", nota: "El de gala, con galón dorado", precio: 150, lugar: "cabeza" },
 };
 // Lo que se compro en la primera version de la tienda se cambia por su equivalente.
 const ACCESORIOS_VIEJOS = { gorra: "palma", sombrero: "charro", mochila: "morral" };
@@ -3319,7 +3283,7 @@ function mostrarRachaViaje(r) {
   const caja = $("guiaRacha");
   caja.hidden = !r || acc.modoVoz;
   if (caja.hidden) return;
-  caja.innerHTML = `<svg class="tl-svg" viewBox="-72 -66 136 80" aria-hidden="true">${tlacuache(r.cumplida ? 5 : 4)}</svg><span><strong>+${r.tunas} tunas</strong>${r.cumplida ? `Semana cumplida. Llevas ${plural(r.semanas, "semana", "semanas")}.` : `Esta semana: ${r.cuenta} de ${plural(racha.meta, "viaje", "viajes")}.`}</span>`;
+  caja.innerHTML = `<svg viewBox="-70 -80 136 84" aria-hidden="true">${tlacuache(r.cumplida ? 5 : 4)}</svg><span><strong>+${r.tunas} tunas</strong>${r.cumplida ? `Semana cumplida. Llevas ${plural(r.semanas, "semana", "semanas")}.` : `Esta semana: ${r.cuenta} de ${plural(racha.meta, "viaje", "viajes")}.`}</span>`;
 }
 function pintarRachaInicio() {
   const caja = $("rachaInicio");
@@ -3332,7 +3296,7 @@ function pintarRachaInicio() {
   const detalle = !falta ? "Semana cumplida. Tu tlacuache está feliz."
     : dia >= 3 && racha.viajes.length ? `Te ${falta === 1 ? "falta un viaje" : `faltan ${falta} viajes`} esta semana.${destino ? ` Podrías ir a ${destino} en camión.` : ""}`
     : `Esta semana: ${cuenta} de ${plural(racha.meta, "viaje", "viajes")} en camión.`;
-  caja.innerHTML = `<svg class="racha-mini tl-svg" viewBox="-72 -66 136 80" aria-hidden="true">${tlacuache(animoRacha())}</svg>
+  caja.innerHTML = `<svg class="racha-mini" viewBox="-70 -80 136 84" aria-hidden="true">${tlacuache(animoRacha())}</svg>
     <span class="fila-texto"><strong>${titulo}</strong><span>${escapar(detalle)}</span>
     <span class="racha-puntos" aria-hidden="true">${Array.from({ length: racha.meta }, (_, i) => `<i class="${i < cuenta ? "hecho" : ""}"></i>`).join("")}</span></span>${ico("chevron", "chevron")}`;
 }
@@ -3349,29 +3313,15 @@ function pintarRacha() {
   $("rachaTienda").innerHTML = Object.entries(ACCESORIOS).map(([id, a]) => {
     const tiene = racha.compras.includes(id), puesto = racha.puestos[a.lugar] === id, alcanza = racha.tunas >= a.precio;
     const accion = puesto ? "Quitárselo" : tiene ? "Ponérselo" : alcanza ? "Comprar" : `Te faltan ${a.precio - racha.tunas}`;
-    const vista = { cabeza: "-6 -70 72 52", cara: "4 -52 56 36", cuello: "-6 -54 60 50", espalda: "-50 -62 84 66" }[a.lugar];
-    return `<li class="${puesto ? "puesto" : ""}"><svg class="tienda-muestra tl-svg" viewBox="${vista}" aria-hidden="true">${tlacuache(4, { [a.lugar]: id })}</svg>
+    return `<li class="${puesto ? "puesto" : ""}"><svg class="tienda-muestra" viewBox="0 0 96 96" aria-hidden="true">${ARTE_TL.icono[id]}</svg>
       <strong>${a.nombre}</strong><small>${a.nota}</small>
-      ${tiene ? "" : `<span class="precio-tunas"><i class="tuna-icono" aria-hidden="true"></i>${a.precio} tunas</span>`}
+      ${tiene ? "" : `<span class="precio-tunas"><svg viewBox="0 0 24 24" aria-hidden="true">${ARTE_TL.icono.tuna}</svg>${a.precio} tunas</span>`}
       <button type="button" class="boton ${puesto ? "" : "oscuro"}" data-accesorio="${id}" ${!tiene && !alcanza ? "disabled" : ""} aria-pressed="${puesto}" aria-label="${accion}: ${a.nombre}${tiene ? "" : `, ${a.precio} tunas`}">${accion}</button></li>`;
   }).join("");
 }
-// Querétaro de fondo: el acueducto, papel picado y un nopal. Nublado si el tlacuache esta preocupado.
+// Querétaro de fondo (Figma): acueducto, papel picado y nopal; nublado si el tlacuache esta preocupado.
 function escenaRacha(e) {
-  const colores = ["#e8456b", "#f2a516", "#2fa36b", "#3b6fd8", "#9b4dca"];
-  const bandera = (x, i) => `<g transform="translate(${x} 10)"><path d="M0 4h26v20l-3.25 3-3.25-3-3.25 3-3.25-3-3.25 3-3.25-3-3.25 3-3.25-3Z" fill="${colores[i % 5]}"/><path d="M13 8.5l4 5-4 5-4-5Z" class="picado-hueco"/><circle cx="5.5" cy="13.5" r="1.4" class="picado-hueco"/><circle cx="20.5" cy="13.5" r="1.4" class="picado-hueco"/></g>`;
-  const arco = (x) => `<path d="M${x} 136v-14a9 9 0 0 1 18 0v14Z" class="arco-hueco"/>`;
-  return `<defs><linearGradient id="cieloRacha" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="cielo-arriba${e < 2 ? " nublado" : ""}"/><stop offset="1" class="cielo-abajo"/></linearGradient></defs>
-    <rect width="320" height="170" fill="url(#cieloRacha)"/>
-    ${e < 2 ? '<g class="nube"><ellipse cx="250" cy="56" rx="26" ry="10"/><ellipse cx="268" cy="50" rx="16" ry="10"/></g>' : '<circle cx="262" cy="54" r="15" class="sol"/>'}
-    <rect x="0" y="100" width="320" height="10" class="acueducto"/><rect x="0" y="108" width="320" height="30" class="acueducto"/>
-    ${Array.from({ length: 12 }, (_, i) => arco(8 + i * 27)).join("")}
-    <path d="M0 8q160 14 320 0" class="picado-hilo"/>
-    ${Array.from({ length: 10 }, (_, i) => bandera(6 + i * 31, i)).join("")}
-    <rect y="136" width="320" height="34" class="racha-suelo"/>
-    <g transform="translate(286 152)"><ellipse cx="0" cy="-14" rx="9" ry="14" class="nopal"/><ellipse cx="-11" cy="-30" rx="7" ry="10" transform="rotate(-25 -11 -30)" class="nopal"/><ellipse cx="10" cy="-31" rx="6.5" ry="9.5" transform="rotate(25 10 -31)" class="nopal"/>
-      ${e >= 4 ? '<ellipse cx="-14" cy="-41" rx="3.4" ry="2.8" class="tuna"/><ellipse cx="13" cy="-41" rx="3.4" ry="2.8" class="tuna"/>' : ""}</g>
-    <g transform="translate(150 156) scale(1.5)">${tlacuache(e)}</g>`;
+  return `${ARTE_TL.escena[e < 2 ? "nublado" : "soleado"]}<g transform="translate(330 330) scale(${(1 / ESCALA_TL).toFixed(3)})">${tlacuache(e)}</g>`;
 }
 let marcarMeta = () => {};
 function abrirRacha() {
