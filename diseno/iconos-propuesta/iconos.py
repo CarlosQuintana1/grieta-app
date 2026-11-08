@@ -237,18 +237,37 @@ TRABAJO = {
 }
 P["p-trabajo"] = TRABAJO["oficina"]
 
-# Para las pastillas del inicio (2026-11-08): hoja partida en dos tonos y monedas apiladas.
+# Para las pastillas del inicio (2026-11-08): un brote con dos hojas en dos tonos y una pila de monedas con el signo de pesos.
+def hoja_local(largo, ancho):
+    # Hoja que sale de (0,0) hacia arriba, con la vena central y dos nervaduras por lado huecas.
+    d = f"M0 0C{n(ancho * 0.95)} {n(-largo * 0.12)} {n(ancho * 0.62)} {n(-largo * 0.8)} 0 {n(-largo)}C{n(-ancho * 0.62)} {n(-largo * 0.8)} {n(-ancho * 0.95)} {n(-largo * 0.12)} 0 0z"
+    d += f"M-0.9 {n(-largo * 0.1)}L0.9 {n(-largo * 0.1)}L0.35 {n(-largo * 0.86)}L-0.35 {n(-largo * 0.86)}z"
+    for t, lado in [(0.34, 1), (0.6, 1), (0.42, -1), (0.68, -1)]:
+        y0, tramo, ang = -largo * t, ancho * (0.36 - 0.22 * t), math.radians(50)
+        x0, x1, y1 = lado * 1.9, lado * (1.9 + tramo * math.sin(ang)), y0 - tramo * math.cos(ang)
+        d += f"M{n(x0)} {n(y0 - 0.65)}L{n(x1)} {n(y1 - 0.3)}L{n(x1)} {n(y1 + 0.3)}L{n(x0)} {n(y0 + 0.65)}z"
+    return d
+
+
+def hoja_en(cx, cy, largo, ancho, giro, tenue=False):
+    tono = ' opacity=".42"' if tenue else ""
+    return f'<path d="{hoja_local(largo, ancho)}" transform="translate({n(cx)} {n(cy)}) rotate({n(giro)})"{EVENODD}{tono}/>'
+
+
+def moneda_pesos(cx, cy, r):
+    s = r * 0.42
+    signo = (f"M{n(cx + s * 0.72)} {n(cy - s * 0.62)}a{n(s * 0.72)} {n(s * 0.5)} 0 0 0-{n(s * 0.72)}-{n(s * 0.42)}c-{n(s * 0.62)} 0-{n(s * 0.95)} {n(s * 0.32)}-{n(s * 0.95)} {n(s * 0.62)} 0 {n(s * 0.75)} {n(s * 1.9)} {n(s * 0.38)} {n(s * 1.9)} {n(s * 1.15)} "
+             f"0 {n(s * 0.38)}-{n(s * 0.4)} {n(s * 0.68)}-{n(s * 0.98)} {n(s * 0.68)}a{n(s * 0.72)} {n(s * 0.5)} 0 0 1-{n(s * 0.72)}-{n(s * 0.42)}M{n(cx)} {n(cy - s * 1.45)}v{n(s * 2.9)}")
+    return solido(C(cx, cy, r), C(cx, cy, r * 0.78)) + suave(C(cx, cy, r * 0.78)) + trazo(signo, r * 0.16)
+
+
 def hoja():
-    # Hoja ancha partida por la vena: una mitad solida y otra suave.
-    arriba = "M8.6 38.4C3 25 13 6.6 41.5 6.5L9.6 38.4z"
-    abajo = "M42.5 7.5C42.4 36 24 46 10.6 39.4L42.5 7.5z"
-    return solido(arriba) + suave(abajo) + trazo("M10 38 4.5 43.5", 3.4)
+    return suave("M6 45a18 6.5 0 0 1 36 0z") + trazo("M24 43V23", 3.6) + hoja_en(24.5, 25, 25, 12.5, -56) + hoja_en(23.5, 22, 21, 10.5, 54, True)
 
 
 def monedas():
-    pila = "".join(f"M6 {y}v5.5a12 4.6 0 0 0 24 0V{y}a12 4.6 0 0 1-24 0z" for y in (35.5, 28.5, 21.5))
-    return (suave(f"M6 16.5a12 4.6 0 1 0 24 0a12 4.6 0 1 0-24 0z") + solido(pila)
-            + solido(C(35, 17, 10), C(35, 17, 6.4)) + solido(C(35, 17, 3.6)))
+    pila = "".join(f"M3.5 {y}v5.2a11.5 4.6 0 0 0 23 0V{y}a11.5 4.6 0 0 1-23 0z" for y in (37.5, 30.5, 23.5))
+    return solido(pila) + suave("M3.5 19a11.5 4.6 0 1 0 23 0a11.5 4.6 0 1 0-23 0z") + moneda_pesos(33.5, 23, 12.5)
 
 
 P["p-hoja"] = hoja()
