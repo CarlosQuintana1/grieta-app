@@ -1680,7 +1680,9 @@ html.grande .conoce-carrusel p { text-align: left; -webkit-hyphens: manual; hyph
 .conoce-puntos i { width: 8px; height: 8px; border-radius: 4px; background: var(--linea); transition: width .2s ease; }
 .conoce-puntos i.ya { width: 22px; background: var(--ambar); }
 /* Elegir en el mapa: claro u oscuro solo aqui */
+#elegirTexto { text-align: center; }
 #tonoMapa { margin: 10px 0 0; }
+#tonoMapa button[aria-checked="true"] { background: var(--ambar); color: var(--sobre-ambar); }
 #tonoMapa button { min-height: 44px; }
 body[data-pantalla="elegirMapa"].mapa-claro .leaflet-tile-pane { filter: saturate(.8) contrast(1.03); }
 body[data-pantalla="elegirMapa"].mapa-oscuro .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) grayscale(1) sepia(.25) brightness(.62) contrast(1.15); }
@@ -1759,7 +1761,19 @@ body[data-pantalla="ajuste"] .hoja { padding-bottom: 12px; }
 .tema-muestra.auto { background: linear-gradient(90deg, #0b0a09 50%, #f6f2ea 50%); }
 .tema-muestra i { position: absolute; left: 5px; right: 5px; top: 9px; height: 5px; border-radius: 3px; background: #e0a03c; }
 .tema-muestra i + i { top: 19px; right: 13px; background: #8f8a80; }
-.idioma-opciones button { min-height: 44px; padding: 4px; font-size: .88rem; font-weight: 700; text-align: center; }
+.idioma-opciones button { display: grid; justify-items: center; align-content: center; gap: 4px; min-height: 66px; padding: 7px 4px; font-size: .84rem; font-weight: 700; text-align: center; }
+.idioma-opciones .picto { width: 26px; height: 26px; }
+#ajuste h2.con-icono { display: flex; align-items: center; gap: 6px; }
+#ajuste h2.con-icono .icono { width: 16px; height: 16px; color: var(--ambar); }
+.densidad-opciones .mini-ficha { flex: none; width: 36px; height: 36px; }
+.densidad-opciones .mini-ficha .picto { width: 22px; height: 22px; }
+.densidad-opciones button > span:not(.mini-ficha) { flex: 1; min-width: 0; }
+.densidad-opciones button[aria-checked="true"] .mini-ficha { background: rgb(255 255 255 / 18%); }
+#ajuste .campo span .icono { width: 15px; height: 15px; margin-right: 5px; vertical-align: -2px; color: var(--ambar); }
+#ajuste .fila-boton .icono { width: 20px; height: 20px; }
+#ajuste .boton .picto, #ajuste .boton .icono { width: 22px; height: 22px; }
+.pregunta-ayuda summary strong { flex: 1; min-width: 0; }
+.pregunta-icono { flex: none; width: 20px; height: 20px; margin-right: 8px; color: var(--ambar); }
 .idioma-opciones button:disabled { opacity: .45; }
 .idioma-nota { margin: 6px 2px 0; font-size: .8rem; line-height: 1.25; }
 .densidad-opciones { display: grid; gap: 6px; }

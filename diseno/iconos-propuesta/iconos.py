@@ -102,6 +102,7 @@ L = {
     "i-moneda": '<circle cx="12" cy="12" r="8.5"/><path d="M14.6 9.3a3 3 0 0 0-2.6-1.3c-1.5 0-2.7.8-2.7 2s1.2 1.7 2.7 2 2.7.8 2.7 2-1.2 2-2.7 2a3 3 0 0 1-2.6-1.3M12 6.3v1.7M12 16v1.7"/>',
     "i-boleto": '<path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z"/><path d="M14.5 8.5v1M14.5 11.5v1M14.5 14.5v1"/>',
 }
+L["i-copiar"] = '<rect x="8.500" y="8.500" width="12" height="12" rx="2.500"/><path d="M15.500 8.500V6A2.500 2.500 0 0 0 13 3.500H6A2.500 2.500 0 0 0 3.500 6v7A2.500 2.500 0 0 0 6 15.500h2.500"/>'
 L["i-engrane"] = f'<path d="{RP(engrane(12, 12, 9.2, 7, 8), 0.6)}"/><circle cx="12" cy="12" r="2.8"/>'
 
 
@@ -292,6 +293,11 @@ P["p-colores"] = solido(C(18, 24, 13.5)) + suave(C(30, 24, 13.5))
 
 # Huellas como las que marcan los caminos en los codices: para el campo de "a donde vas".
 P["p-huellas"] = '<g transform="scale(2)"><g transform="translate(8 15.6) rotate(14) scale(0.96 0.96)"><path d="M-2.6 1.2C-3 -1.4 -2.2 -3.6 -.2 -3.8C2 -4 3 -2 2.7 .2C2.5 1.6 1.7 2.2 1.6 3.4C1.5 4.8 .8 5.8 -.4 5.8C-1.8 5.8 -2.4 4.6 -2.4 3.4C-2.4 2.6 -2.5 2 -2.6 1.2Z"/><circle cx="-2.3" cy="-5.2" r="1"/><circle cx="-.5" cy="-6.1" r=".9"/><circle cx="1.2" cy="-5.9" r=".8"/><circle cx="2.6" cy="-4.9" r=".7"/></g><g transform="translate(16.2 9.2) rotate(22) scale(-0.96 0.96)"><path d="M-2.6 1.2C-3 -1.4 -2.2 -3.6 -.2 -3.8C2 -4 3 -2 2.7 .2C2.5 1.6 1.7 2.2 1.6 3.4C1.5 4.8 .8 5.8 -.4 5.8C-1.8 5.8 -2.4 4.6 -2.4 3.4C-2.4 2.6 -2.5 2 -2.6 1.2Z"/><circle cx="-2.3" cy="-5.2" r="1"/><circle cx="-.5" cy="-6.1" r=".9"/><circle cx="1.2" cy="-5.9" r=".8"/><circle cx="2.6" cy="-4.9" r=".7"/></g></g>'
+
+# Idiomas (2026-11-08): la ene del espanol, un ave de bordado tenango para el hnahnu y la virgula de la palabra de los codices para el nahuatl.
+P["p-lengua-es"] = suave(R(4, 5, 40, 31, 9), "M13 35h10l-10 9z") + trazo("M17 30V20M17 23c1.500-4.500 14-5.500 14 1v6", 3.8) + trazo("M18.500 13.500c2-2.500 4-2.500 6-1.200s4 1.500 5.500-1", 3.2)
+P["p-lengua-oto"] = solido("M5 30c5-1.500 8-5 11-9 3.500-5 8-8 14-7 .8-3.500 3.600-6 7-5.500 2.700.4 4.500 2.300 5 4.700l4 1.800-4 1.700c-.8 10-8.500 19.300-20 19.300-3 0-5.800-.6-8-1.700L6 40l3-7c-1.700-.2-3.300-1.300-4-3z", C(36.5, 13, 1.7), "M20 25c3-4 7-6 12-5.500-.5 5.500-5 9.500-12 9.500z") + suave("M20 25c3-4 7-6 12-5.500-.5 5.500-5 9.500-12 9.500z")
+P["p-lengua-nah"] = trazo("M10 42C5 26 13 8 28 7c9.500-.6 14.500 6 12.500 13-1.700 5.800-9.700 7-12.200 1.800-1.700-3.800 2.200-7 5.200-5", 5) + trazo_suave("M21 42c-1.500-6 0-11 3-15", 4)
 
 if __name__ == "__main__":
     nuevos = {k: ["0 0 24 24", v] for k, v in L.items()} | {k: ["0 0 48 48", v] for k, v in P.items()}

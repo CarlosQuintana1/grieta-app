@@ -267,6 +267,7 @@ function mostrar(nombre) {
   } else estado.lineaAPie?.remove();
   if (nombre !== "elegirMapa") capas.punto?.remove();
   if (nombre !== "camiones") { capas.paradas?.remove(); capas.paradas = null; }
+  else capas.linea?.setStyle?.({ opacity: 0 });
   if (nombre !== "linea") { capas.rutaLinea?.remove(); capas.rutaLinea = null; }
   if (nombre !== "ubicacion") { capas.yo?.remove(); capas.yo = null; }
   if (nombre !== "camiones" && nombre !== "ubicacion") { capas.vista?.remove(); capas.vista = null; }
@@ -2604,6 +2605,8 @@ function avanzarPie(lat, lon) {
 const ANGULO_GIRO = { straight: 0, "slight right": 45, right: 90, "sharp right": 135, uturn: 180, "sharp left": -135, left: -90, "slight left": -45 };
 function entrarMapaPie() {
   if (!guia.activa || guia.fase !== "parada" || !guia.pasosPie || document.body.dataset.pantalla !== "guia" || acc.modoVoz) return;
+  // La ruta en auto de la busqueda no se ve durante la caminata; al volver a opciones regresa.
+  capas.linea?.setStyle?.({ opacity: 0 });
   document.body.classList.add("con-mapa", "guia-mapa");
   capas.aqui?.remove(); capas.aqui = null;
   $("pasosPie").hidden = true;
