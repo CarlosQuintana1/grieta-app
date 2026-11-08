@@ -88,7 +88,7 @@ const base=process.env.GRIETA_URL ?? 'http://127.0.0.1:8791';
  await p.locator('#atras').click();await p.evaluate(()=>{window.__retenerPermiso=false;window.__continuarPermiso();});await p.waitForTimeout(300);
  assert.deepEqual(await p.evaluate(()=>window.__pistas.map(t=>t.readyState)),['ended']);console.log('Permiso resuelto después de salir: pistas cerradas');
  await p.locator('[data-tab="ajustes"]').click();
- await p.locator('#optTema [data-v="claro"]').click();await p.locator('#optGrande').check();
+ await p.locator('[data-ajuste="pantalla"]').click();await p.locator('#optTema [data-v="claro"]').click();await p.locator('#atras').click();await p.locator('[data-ajuste="accesibilidad"]').click();await p.locator('#optGrande').check();
  await p.locator('[data-tab="inicio"]').click();await p.locator('#vozCamara').click();
  assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
  await p.screenshot({path:require('node:path').join(require('node:os').tmpdir(),'grieta-vision-claro-320.png')});

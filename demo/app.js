@@ -219,6 +219,7 @@ const PANTALLAS = {
   racha: { tab: "inicio", encabezado: true },
   ajustes: { tab: "ajustes" },
   perfil: { tab: "ajustes", encabezado: true },
+  ajuste: { tab: "ajustes", encabezado: true },
 };
 const titulos = { reporte: "Reportar", racha: "Tu tlacuache", nombrar: "Guardar un lugar", co2: "Lo que evitamos", ahorro: "Tu ahorro", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
 
@@ -3333,12 +3334,12 @@ function pintarRachaInicio() {
   protectorDelMes();
   const semanas = semanasSeguidas(), cuenta = viajesDeSemana(claveSemana(new Date()));
   const titulo = semanas ? `Racha de ${plural(semanas, "semana", "semanas")}` : "Empieza tu racha";
-  // En SVG: la politica de seguridad no deja anchos con style dentro del HTML.
+  // Se llenan de izquierda a derecha: las semanas de la racha y luego la que va en curso. En SVG porque la politica de seguridad no deja style en el HTML.
+  const actual = Math.min(semanas - (cuenta >= racha.meta ? 1 : 0), 5);
   const rayas = Array.from({ length: 6 }, (_, i) => {
-    const d = lunes(new Date()); d.setDate(d.getDate() - (5 - i) * 7);
-    const k = claveSemana(d), llena = i === 5 ? Math.min(1, cuenta / racha.meta) : viajesDeSemana(k) >= racha.meta || racha.usados.includes(k) ? 1 : 0;
+    const llena = i < actual ? 1 : i === actual ? Math.min(1, cuenta / racha.meta) : 0;
     const x = 1 + i * 53.6;
-    return `<rect class="fondo${i === 5 ? " actual" : ""}" x="${x}" y="1" width="49" height="8" rx="4"/>${llena ? `<rect class="lleno" x="${x}" y="1" width="${Math.max(8, 49 * llena).toFixed(1)}" height="8" rx="4"/>` : ""}`;
+    return `<rect class="fondo${i === actual ? " actual" : ""}" x="${x}" y="1" width="49" height="8" rx="4"/>${llena ? `<rect class="lleno" x="${x}" y="1" width="${Math.max(8, 49 * llena).toFixed(1)}" height="8" rx="4"/>` : ""}`;
   }).join("");
   const nombre = racha.nombre || "Tu tlacuache";
   caja.setAttribute("aria-label", `${nombre}. ${titulo}. Esta semana: ${cuenta} de ${plural(racha.meta, "viaje", "viajes")} en camión.`);
@@ -3409,6 +3410,11 @@ $("pelajeComprar").addEventListener("click", () => {
   pintarRacha();
   $("pelajes").querySelector('[data-pelaje="alebrije"]')?.focus();
 });
+$("conoceCarrusel").addEventListener("scroll", (e) => {
+  const c = e.currentTarget, paso = c.children[1].offsetLeft - c.children[0].offsetLeft;
+  const i = c.scrollLeft >= c.scrollWidth - c.clientWidth - 2 ? c.children.length - 1 : Math.round(c.scrollLeft / paso);
+  [...$("conocePuntos").children].forEach((p, k) => p.classList.toggle("ya", k === i));
+}, { passive: true });
 $("tlNombrar").addEventListener("click", () => nombrarTlacuache(true));
 $("tlNombreCancelar").addEventListener("click", () => nombrarTlacuache(false));
 $("tlNombreForma").addEventListener("submit", (e) => {
@@ -4614,18 +4620,24 @@ function pintarResumenPerfil() {
   if (!$("textoPerfil")) return;
   const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
   const pictograma = `#p-${{ normal: "caminar", poco: "caminar", silla: "silla" }[movilidad]}`;
-  $("textoPerfil").replaceChildren(...resumenCortoPerfil().map(([icono, texto]) => {
-    const chip = document.createElement("span");
-    chip.className = "perfil-chip";
-    chip.innerHTML = `<svg class="icono" aria-hidden="true"><use href="#i-${icono}"/></svg>`;
-    chip.append(texto);
-    return chip;
-  }));
+  const [vista, movimiento, , , tarifa] = resumenCortoPerfil();
+  $("textoPerfil").textContent = [vista, movimiento, tarifa].map(([, t], i) => (i ? t.charAt(0).toLowerCase() + t.slice(1) : t)).join(", ");
   $("ajustesAvatar").setAttribute("href", pictograma);
   $("perfilFichas").innerHTML = fichasPerfil().map(([grupo, tono, picto, texto, nombrePropio]) =>
     `<button type="button" class="perfil-ficha" data-ir-perfil="${grupo}">
       <span class="mini-ficha tono-${tono}" aria-hidden="true"><svg class="picto"><use href="#p-${picto}"/></svg></span><span${nombrePropio ? ' translate="no"' : ""}>${escapar(texto)}</span></button>`).join("");
 }
+// Cada ficha de Ajustes abre su panel en una pantalla con flecha de regreso.
+const TITULOS_AJUSTE = { pantalla: "Pantalla", accesibilidad: "Accesibilidad", voz: "Voz", viajes: "Tus viajes", progreso: "Tu progreso", ayuda: "Ayuda" };
+function abrirAjuste(panel) {
+  for (const d of document.querySelectorAll("[data-ajuste-panel]")) d.hidden = d.dataset.ajustePanel !== panel;
+  titulos.ajuste = TITULOS_AJUSTE[panel];
+  ir("ajuste");
+}
+$("ajustesFichas").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-ajuste]");
+  if (b) abrirAjuste(b.dataset.ajuste);
+});
 $("perfilFichas").addEventListener("click", (e) => {
   const b = e.target.closest("[data-ir-perfil]");
   if (!b) return;
@@ -4823,7 +4835,7 @@ Promise.all([
   sincronizarRespaldo();
   if (!primeraVez) ubicar();
   accionInicial();
-  ({ co2: abrirCo2, ahorro: abrirAhorro, racha: abrirRacha, ajustes: () => ir("ajustes"), camiones: abrirCamiones })[pantallaPrevia]?.();
+  ({ co2: abrirCo2, ahorro: abrirAhorro, racha: abrirRacha, ajustes: () => ir("ajustes"), ajuste: () => ir("ajustes"), camiones: abrirCamiones })[pantallaPrevia]?.();
 });
 
 // Accesos directos del icono de la app (manifest): llegan como ?accion= y se hacen en cuanto hay ubicacion

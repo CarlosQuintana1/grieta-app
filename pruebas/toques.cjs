@@ -90,14 +90,15 @@ const assert = require('node:assert/strict');
     await pagina.locator('[data-tab="inicio"]').tap(); assert.equal(await pagina.locator('body').getAttribute('data-pantalla'), 'inicio');
     assert.equal(await pagina.evaluate(() => ToquesGrieta.activo()), false);
     await pagina.evaluate(() => { acc.lector = 'no'; acc.toques = false; aplicarAcc(); }); await pagina.locator('[data-tab="ajustes"]').tap(); assert.equal(await pagina.locator('body').getAttribute('data-pantalla'), 'ajustes');
-    await pagina.locator('#optToques').check(); assert.equal(await pagina.evaluate(() => acc.toques), true);
+    await pagina.evaluate(() => abrirAjuste('voz')); await pagina.locator('#optToques').check(); assert.equal(await pagina.evaluate(() => acc.toques), true);
     await pagina.reload(); assert.equal(await pagina.evaluate(() => acc.toques), true);
     console.log('Lector del sistema y opción apagada sin doble filtro; preferencia persistente');
     await pagina.locator('[data-tab="ajustes"]').tap(); await pagina.locator('[data-tab="ajustes"]').tap();
+    await pagina.locator('[data-ajuste="voz"]').tap(); await pagina.locator('[data-ajuste="voz"]').tap();
     await pagina.locator('#optToques').tap(); assert(await pagina.locator('#optToques').isChecked());
     await pagina.locator('#optToques').tap(); assert.equal(await pagina.evaluate(() => acc.toques), false);
     await pagina.reload(); assert.equal(await pagina.evaluate(() => acc.toques), false);
-    await pagina.locator('[data-tab="ajustes"]').tap(); await pagina.locator('#optToques').check();
+    await pagina.locator('[data-tab="ajustes"]').tap(); await pagina.evaluate(() => abrirAjuste('voz')); await pagina.locator('#optToques').check();
     await pagina.locator('[data-tab="inicio"]').tap(); await pagina.locator('[data-tab="inicio"]').tap();
 
     await pagina.setViewportSize({ width: 320, height: 844 }); await pagina.evaluate(() => { acc.grande = true; acc.tema = 'claro'; aplicarAcc(); });

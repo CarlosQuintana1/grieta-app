@@ -62,6 +62,7 @@ const assert = require('node:assert/strict');
     assert(await pagina.locator('#camaraEscalones').isChecked()); assert(await pagina.evaluate(() => GrietaEscalones.activo));
     await pagina.locator('#camaraDetener').tap(); await pagina.locator('#camaraDetener').tap(); assert.equal(errores.length, 0);
     await pagina.locator('[data-tab="ajustes"]').tap(); await pagina.locator('[data-tab="ajustes"]').tap();
+    await pagina.locator('[data-ajuste="voz"]').tap(); await pagina.locator('[data-ajuste="voz"]').tap();
     await pagina.locator('#practicarAjustes').tap(); await pagina.locator('#practicarAjustes').tap();
     await pagina.locator('#practicaBoton').tap(); await pagina.locator('#practicaBoton').tap();
     assert.match(await pagina.locator('#practicaEstado').textContent(), /completada/);

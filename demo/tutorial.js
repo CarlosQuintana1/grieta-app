@@ -8,7 +8,7 @@ const TutorialGrieta = (() => {
       texto: 'El botón del centro, Camiones cerca, busca paradas desde tu ubicación.',
       detalle: 'Elige una parada para consultar rutas y horarios o Reportar algo en esta parada. Los horarios son estimados; no vemos los camiones en tiempo real.' },
     { titulo: 'Usa la cámara y la voz', icono: 'decir', tono: 'ciruela',
-      texto: 'En Inicio o Ajustes, abre Describir con la cámara. En Ajustes puedes elegir el modo Voz.',
+      texto: 'En Inicio o Ajustes, abre Describir con la cámara. En Ajustes, en Pantalla, puedes elegir el modo Voz.',
       detalle: 'La cámara puede describir algunos objetos y leer letreros. Analiza las imágenes en tu teléfono y puede omitir obstáculos; usa tu bastón o acompañamiento.' },
   ];
   let opciones, paso = 0, regreso = 'inicio';

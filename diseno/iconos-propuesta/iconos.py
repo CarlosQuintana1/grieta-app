@@ -283,6 +283,10 @@ _carro = "M4 30v-4.5c0-2 1.4-3.6 3.3-4l4.2-.9 4.6-7.3A5 5 0 0 1 20.3 11h9.6a5 5 
 _frente, _atras = "M26.5 14.5h3.4a2 2 0 0 1 1.6.8l4.6 5.7H26.5z", "M23.5 14.5V21H15.4l3.4-5.4a2.4 2.4 0 0 1 2-1.1z"
 P["p-carro"] = solido(_carro, _frente, _atras, R(41.5, 25, 3.5, 2.6, 1.3)) + suave(_frente, _atras) + solido(C(13, 35, 5.2), C(13, 35, 1.9), C(35, 35, 5.2), C(35, 35, 1.9))
 
+# Ajustes y Conoce a los tlacuaches (2026-11-08).
+P["p-celular"] = solido(R(12, 2.5, 24, 43, 6), R(15.5, 7, 17, 30, 2), C(24, 41, 2.2)) + suave(R(15.5, 7, 17, 30, 2))
+P["p-fuego"] = solido("M24 4c2 9 14 13 14 26a14 14 0 0 1-28 0c0-6 3-10 6-13 0 4 2 7 4 7 2-6 0-13 4-20z")
+
 if __name__ == "__main__":
     nuevos = {k: ["0 0 24 24", v] for k, v in L.items()} | {k: ["0 0 48 48", v] for k, v in P.items()}
     destino = Path(__file__).with_name("nuevos.json")

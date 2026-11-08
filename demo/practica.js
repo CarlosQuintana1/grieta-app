@@ -11,7 +11,7 @@ const PracticaGrieta = (() => {
     $('practicaTerminar').hidden = true;
     opciones.decir(instrucciones());
   }
-  function abrir(desde) { regreso = desde === 'tutorial' ? 'tutorial' : document.body.dataset.pantalla === 'ajustes' ? 'ajustes' : 'inicio'; opciones.ir('practica'); }
+  function abrir(desde) { regreso = desde === 'tutorial' ? 'tutorial' : ['ajustes', 'ajuste'].includes(document.body.dataset.pantalla) ? 'ajustes' : 'inicio'; opciones.ir('practica'); }
   function descrito(elemento) {
     if (elemento.id === 'practicaBoton' && !terminada) $('practicaEstado').textContent = 'Paso 2 de 2. Ya escuchaste el botón. Actívalo con dos toques rápidos en el mismo lugar.';
   }

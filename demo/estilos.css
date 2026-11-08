@@ -142,7 +142,7 @@ body:has(#encabezado:not([hidden])):not(.con-mapa, .camara-en-uso) .hoja { paddi
 .buscador:focus-within { border-color: var(--ambar); }
 .buscador-campo { flex: 1; min-height: 56px; color: var(--tenue); text-align: left; }
 .buscador-camion { flex: none; color: var(--ambar); pointer-events: none; }
-.buscador .buscador-camion { width: 30px; height: 20px; }
+.buscador .buscador-camion { width: 34px; height: 21px; }
 .buscador input:focus-visible, .buscador-campo:focus-visible { outline: none; }
 .mic { flex: none; height: 48px; display: flex; align-items: center; gap: 6px; padding: 0 12px; color: var(--ambar); font-weight: 700; font-size: 0.85rem;
   border-left: 1px solid var(--linea); border-radius: 0 12px 12px 0; }
@@ -1283,11 +1283,6 @@ body:not(.camara-en-uso) :is(#camaraSueloEstado, #camaraHoyosEstado) { display: 
 .logo-ajustes { width: 64px; height: 64px; flex: none; border-radius: 16px; }
 .tarjeta-perfil { flex-wrap: wrap; }
 .tarjeta-perfil .fila-texto strong { font-size: 1.1rem; }
-.tarjeta-perfil .perfil-chips { flex-basis: 100%; }
-.perfil-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.perfil-chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px 4px 8px; border-radius: 999px; font-size: 0.85rem; font-weight: 600;
-  color: var(--tinta); background: var(--superficie-2); }
-.perfil-chip .icono { width: 16px; height: 16px; color: var(--ambar); }
 .logo-encabezado { justify-self: center; width: 40px; height: 40px; border-radius: 10px; }
 /* Con la camara activa solo quedan botones: los mensajes se anuncian por voz y lector, sin ocupar pantalla. */
 .camara-panel > p { position: absolute; width: 1px; height: 1px; margin: 0; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -1672,9 +1667,20 @@ html.grande .pelajes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 /* Conoce a los tlacuaches */
 .conoce { margin-top: 12px; border: 0; }
 .conoce > summary, .conoce .ajuste-panel { border: 0; }
-.conoce-lista { display: grid; gap: 14px; margin: 0 0 12px; padding: 0; list-style: none; }
-.conoce-lista strong { display: block; color: var(--tinta); font-weight: 800; }
-.conoce-lista span { display: block; margin-top: 2px; color: var(--tenue); font-size: .92rem; line-height: 1.4; }
+/* Tarjetas para deslizar: llegan hasta la orilla de la pantalla y cada una se detiene al inicio */
+.conoce-carrusel { display: flex; gap: 10px; margin: 0 -30px 10px; padding: 0 30px 4px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-left: 30px; scrollbar-width: none; list-style: none; }
+.conoce-carrusel::-webkit-scrollbar { display: none; }
+.conoce-carrusel:focus-visible { outline: 3px solid var(--ambar); outline-offset: -3px; }
+.conoce-carrusel li { flex: none; display: flex; flex-direction: column; width: min(82%, 340px); min-height: 300px; padding: 20px; border-radius: 24px; background: var(--tono); color: #fff; scroll-snap-align: start; }
+.conoce-azul { --tono: #2c5aa0; } .conoce-verde { --tono: #1f6b46; }
+.conoce-carrusel .picto { flex: none; width: 48px; height: 48px; }
+.conoce-carrusel h3 { margin: 12px 0 8px; color: inherit; font-size: 1.45rem; font-weight: 800; line-height: 1.14; letter-spacing: 0; text-transform: none; }
+.conoce-carrusel p { margin: 0; font-size: 1rem; font-weight: 600; line-height: 1.38; text-align: justify; -webkit-hyphens: auto; hyphens: auto; }
+/* Con letra grande la columna es angosta: justificado abriria huecos que estorban a quien ve poco. */
+html.grande .conoce-carrusel p { text-align: left; -webkit-hyphens: manual; hyphens: manual; }
+.conoce-puntos { display: flex; justify-content: center; gap: 6px; margin-bottom: 12px; }
+.conoce-puntos i { width: 8px; height: 8px; border-radius: 4px; background: var(--linea); transition: width .2s ease; }
+.conoce-puntos i.ya { width: 22px; background: var(--ambar); }
 /* Elegir en el mapa: claro u oscuro solo aqui */
 #tonoMapa { margin: 10px 0 0; }
 #tonoMapa button { min-height: 44px; }
@@ -1708,3 +1714,18 @@ html.modo-voz .tl-globo { padding: 0; border: 0; }
 html.modo-voz .tl-globo::before { display: none; }
 html.modo-voz #bienvenida .tl-globo h1 { font-size: 2.1rem; line-height: 1.08; }
 @media (max-width: 360px) { .tl-pregunta { width: 84px; height: 54px; } #bienvenida .tl-globo h1 { font-size: 1.1rem; } }
+
+/* Ajustes: cuadricula de color; cada ficha abre su panel */
+.tarjeta-perfil .fila-texto small { font-size: .86rem; line-height: 1.3; }
+.ajustes-fichas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+.ajuste-ficha { display: flex; flex-direction: column; justify-content: space-between; gap: 12px; min-width: 0; min-height: 124px; padding: 14px; border: 0; border-radius: 20px; background: var(--tono); color: #fff; font: inherit; text-align: left; text-decoration: none; }
+.ajuste-ficha .picto { width: 34px; height: 34px; }
+.ajuste-ficha strong { display: block; font-size: 1rem; font-weight: 800; line-height: 1.15; }
+.ajuste-ficha small { display: block; margin-top: 3px; font-size: .78rem; font-weight: 600; line-height: 1.25; }
+.ajuste-ficha:focus-visible { outline: 3px solid var(--ambar); outline-offset: 2px; }
+html.grande .ajustes-fichas, html.modo-voz .ajustes-fichas { grid-template-columns: 1fr; }
+html.grande .ajuste-ficha, html.modo-voz .ajuste-ficha { flex-direction: row; align-items: center; justify-content: flex-start; gap: 14px; min-height: 88px; }
+@media (max-width: 360px) { .ajuste-ficha { padding: 12px; } .ajuste-ficha strong { font-size: .9rem; } }
+#ajuste .grupo > :last-child, #ajuste .interruptor:has(+ [hidden]) { border-bottom: 0; }
+#ajuste .ajustes-lista { margin-top: 10px; }
+#textoLlave { margin: 0 0 6px; color: var(--ambar); font-weight: 700; }
