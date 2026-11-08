@@ -1599,8 +1599,9 @@ html.daltonico #co2Equivale li.eq-parque { --acento: #a58be0; } html.daltonico.c
 @media (max-width: 370px) { .pastilla-inicio { padding: 12px 10px 12px 13px; gap: 6px; } .pastilla-inicio b { font-size: 1.25rem; } .pastilla-dibujo { width: 32px; height: 32px; } }
 
 /* El tlacuache en tres momentos: dormido cuando ya no pasan camiones, esperando mientras busca rutas y saltando al llegar */
-.tl-dormido { display: flex; align-items: center; gap: 12px; margin-top: 8px; padding: 14px 16px 14px 8px; border-radius: var(--radio); background: var(--superficie); }
-.tl-dormido svg { flex: none; width: 112px; height: 78px; }
+.tl-dormido { display: grid; justify-items: center; gap: 6px; margin-top: 8px; padding: 14px 18px 18px; border-radius: var(--radio); background: var(--superficie); text-align: center; }
+.tl-dormido > span { text-wrap: balance; }
+.tl-dormido svg { width: 128px; height: 100px; }
 .tl-dormido strong { display: block; color: var(--tinta); font-size: 1.05rem; font-weight: 800; line-height: 1.25; }
 .tl-dormido small { display: block; margin-top: 3px; color: var(--tenue); font-size: .88rem; line-height: 1.35; }
 .tl-espera { display: grid; justify-items: center; gap: 4px; padding: 14px 0 8px; color: var(--tenue); font-weight: 700; }
