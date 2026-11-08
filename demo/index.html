@@ -367,9 +367,10 @@
 
     <section id="opciones" class="pantalla" aria-labelledby="tituloPantalla" hidden>
       <p class="resumen-ruta" id="resumenRuta"></p>
-      <div id="aPie" class="a-pie" role="status" hidden>
+      <div id="aPie" class="a-pie" hidden>
         <svg class="icono"><use href="#i-caminar"/></svg>
-        <span class="fila-texto"><strong id="aPieTexto"></strong><small id="aPieDetalle"></small></span>
+        <span class="fila-texto" role="status"><strong id="aPieTexto"></strong><small id="aPieDetalle"></small></span>
+        <button id="aPieIr" type="button" class="a-pie-ir" aria-label="Empezar a caminar con guía"><svg aria-hidden="true"><use href="#i-play"/></svg></button>
       </div>
       <div id="enApp" class="en-app">
         <h2 id="tituloEnApp" class="titulo-medio tono-anil"><span class="mini-ficha" aria-hidden="true"><svg class="picto"><use href="#p-app"/></svg></span>En app</h2>

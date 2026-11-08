@@ -2440,7 +2440,7 @@ function ponerTitulo(titulo) {
 }
 // Cada etapa pinta toda la pantalla de su color (estilos.css, body[data-etapa]) y dice en que paso del viaje vas.
 const ETAPAS_GUIA = {
-  "Hacia la parada": ["camina", 1, "caminar"], "Transbordo": ["camina", 3, "caminar"], "En la parada": ["parada", 2, "parada"],
+  "Hacia tu destino": ["camina", 1, "caminar"], "Hacia la parada": ["camina", 1, "caminar"], "Transbordo": ["camina", 3, "caminar"], "En la parada": ["parada", 2, "parada"],
   "En el camión": ["camion", 3, "qrobus"], "Próxima parada": ["bajate", 3, "parada"], "Tu parada": ["bajate", 3, "parada"], "Llegaste": ["llegaste", 4, "lugar"],
 };
 // Video en Lengua de Señas Mexicana de la frase del aviso, si ya se grabo (datos/lsm.json, ver docs/lengua-de-senas.md).
@@ -2459,7 +2459,7 @@ function decir(titulo, detalle, etapa, alerta = false) {
   const [clave, paso, picto] = ETAPAS_GUIA[etapa] ?? ETAPAS_GUIA[guia.fase === "camion" ? "En el camión" : "Llegaste"];
   document.body.dataset.etapa = clave;
   $("guiaPicto").setAttribute("href", `#p-${guia.enApp && etapa === "Hacia la parada" ? "app" : picto}`);
-  if (etapa) $("guiaEtapa").textContent = `Paso ${paso} de 4: ${etapa}`;
+  if (etapa) $("guiaEtapa").textContent = guia.soloCaminar ? etapa : `Paso ${paso} de 4: ${etapa}`;
   $("guiaLinea").hidden = !guia.camion || clave === "llegaste";
   if (guia.camion) $("guiaLinea").lastElementChild.textContent = guia.camion.linea;
   // En la parada el boton principal es "¿Es mi parada?"; arriba del camion, "Avisar al chofer".
@@ -2724,6 +2724,38 @@ function iniciarGuiaParada(p, desde) {
   indicacionesPie(desde, parada);
   seguir(avanzarCamion);
 }
+
+// Caminar hasta el destino con la misma guia a pie de las paradas; sin camion, no cuenta para la racha.
+function iniciarGuiaCaminando(lugar, desde) {
+  terminarGuia();
+  viajeEnCurso = true;
+  const meta = { nombre: lugar.nombre, lat: lugar.lat, lon: lugar.lon };
+  ir("guia");
+  $("comoTeFue").hidden = true; $("guiaRacha").hidden = true; $("yaMeSubi").hidden = true;
+  Object.assign(guia, { activa: true, o: null, tramos: [], k: 0, camion: null, fase: "parada", actual: 0, dichos: new Set(), previo: null, velocidad: null, vueltas: 0, push: null,
+    destino: meta, enApp: false, pie: null, soloParada: false, soloCaminar: true, km: 0 });
+  mantenerPantalla();
+  vibrar([60]);
+  decir(frase("camina_parada", { parada: meta.nombre }), "", "Hacia tu destino");
+  medirCaminata(desde, meta);
+  indicacionesPie(desde, meta);
+  seguir(avanzarCaminata);
+}
+function avanzarCaminata(lat, lon) {
+  if (guia.fase === "fin") return;
+  const d = guia.destino, falta = Grieta.metros(lat, lon, d.lat, d.lon);
+  avanzarPie(lat, lon);
+  if (falta >= 40) {
+    const rodeo = guia.pie ? 1 + (guia.pie.metros / guia.pie.recta - 1) * Math.min(1, falta / guia.pie.recta) : 1;
+    $("guiaDetalle").textContent = `Tu destino está a unos ${distanciaTexto(falta * rodeo)} caminando.`;
+    return;
+  }
+  guia.fase = "fin";
+  $("pasosPie").hidden = true;
+  salirMapaPie();
+  unaVez("destino", () => { vibrar([300, 120, 300, 120, 300]); decir(frase("llegaste"), `Estás en ${d.nombre}.`, "Llegaste"); });
+}
+$("aPieIr").addEventListener("click", () => iniciarGuiaCaminando(estado.destino, estado.gps ?? estado.origen));
 
 // Avisos con la pantalla bloqueada: la API los manda por push a su hora. Hace falta la app instalada y el permiso;
 // si algo falta, la guia sigue igual con voz y vibracion mientras la pantalla este encendida.
@@ -3046,6 +3078,7 @@ function terminarGuia() {
   guia.activa = false;
   viajeEnCurso = false;
   guia.camion = null;
+  guia.soloCaminar = false;
   capas.aqui?.remove();
   capas.aqui = null;
   document.body.classList.remove("alerta");

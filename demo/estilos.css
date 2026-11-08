@@ -739,6 +739,10 @@ html.grande .campo-y-boton .boton { flex: 1 0 100%; }
   background: color-mix(in srgb, var(--ambar) 12%, var(--superficie)); border: 1px solid color-mix(in srgb, var(--ambar) 35%, transparent); }
 .a-pie .icono { width: 30px; height: 30px; color: var(--ambar); }
 .a-pie strong { font-weight: 700; }
+.a-pie-ir { flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: #fff; color: #1f6b46; }
+.a-pie-ir svg { width: 20px; height: 20px; margin-left: 2px; fill: currentColor; stroke: none; }
+.a-pie-ir:focus-visible { outline: 3px solid var(--ambar); outline-offset: 2px; }
+html.claro .a-pie-ir { background: #1f6b46; color: #fff; }
 
 /* Con letra grande, las fichas en tres columnas para que crezcan */
 html.grande .lugares, html.grande #inicioNormal .lugares { grid-template-columns: repeat(3, minmax(0, 1fr)); }
