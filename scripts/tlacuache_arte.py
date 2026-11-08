@@ -12,8 +12,18 @@ ORIGEN = RAIZ / "diseno/tlacuache"
 HORAS = ["manana", "dia", "noche"]
 
 
+# Partes de Figma que se animan con CSS (estilos.css, "Animaciones de las escenas").
+ANIMADAS = {"tail": "an-cola", "papel-picado": "an-papel", "racha-fair-weather-clouds": "an-nubes", "savings-clouds": "an-nubes",
+            "fountain-water": "an-agua"}
+
+
 def interior(nombre, carpeta=ORIGEN):
     texto = (carpeta / f"{nombre}.svg").read_text(encoding="utf-8")
+    texto = re.sub(r'data-part="([a-z-]+)"', lambda m: f'class="{ANIMADAS[m.group(1)]}"' if m.group(1) in ANIMADAS else m.group(0), texto)
+    # El ojo abierto (trazo oscuro con su brillo) se agrupa para que parpadee.
+    texto = re.sub(r'(<path d="[^"]*" fill="#2B2420"/><circle [^>]*fill="#FFFFFF"/>)', r'<g class="an-ojo">\1</g>', texto)
+    # El halo de cada farol respira; el poste no se mueve.
+    texto = re.sub(r'<circle (cx="0" cy="17" r="38" fill="#E0A03C")', r'<circle class="an-halo" \1', texto)
     texto = re.sub(r"<\?xml[^>]*>|<!--.*?-->", "", texto, flags=re.S)
     texto = re.sub(r"^\s*<svg[^>]*>|</svg>\s*$", "", texto.strip())
     texto = re.sub(r'\s(data-[a-z-]+|id|role|aria-label)="[^"]*"', "", texto)

@@ -1542,3 +1542,30 @@ html.daltonico #co2Equivale li.eq-parque { --acento: #a58be0; } html.daltonico.c
   .arranque-avance { transform: scaleX(.6); }
   .arranque-camion { transform: translateX(71px); }
 }
+
+/* Animaciones de las escenas: solo transform y opacity, y nada si el telefono pide menos movimiento */
+.an-zzz text { fill: #f6f2ea; stroke: #2b2420; stroke-width: 3; paint-order: stroke; font: 800 34px Montserrat, sans-serif; }
+.an-zzz text:nth-child(2) { font-size: 42px; } .an-zzz text:nth-child(3) { font-size: 54px; }
+@media (prefers-reduced-motion: no-preference) {
+  .an-ojo { transform-box: fill-box; transform-origin: center; animation: parpadeo 5.5s infinite; }
+  .dormido .an-ojo { animation: dormitar 7s ease-in-out infinite; }
+  .an-zzz text { opacity: 0; animation: zzz 3.6s ease-out infinite; }
+  .an-zzz text:nth-child(2) { animation-delay: 1.2s; } .an-zzz text:nth-child(3) { animation-delay: 2.4s; }
+  .an-cola { transform-box: fill-box; transform-origin: 100% 30%; animation: cola 7s ease-in-out infinite; }
+  .an-papel { transform-box: fill-box; transform-origin: 50% 0; animation: papel 3.2s ease-in-out infinite alternate; }
+  .an-nubes { animation: nubes 16s ease-in-out infinite alternate; }
+  .an-aves { animation: aves 9s ease-in-out infinite alternate; }
+  .an-luciernagas { animation: brillo 1.8s ease-in-out infinite alternate; }
+  .an-halo { transform-box: fill-box; transform-origin: center; animation: halo 2.8s ease-in-out infinite alternate; }
+  .an-agua { transform-box: fill-box; transform-origin: 50% 100%; animation: agua 1.4s ease-in-out infinite alternate; }
+}
+@keyframes parpadeo { 0%, 94%, 100% { transform: scaleY(1); } 97% { transform: scaleY(.1); } }
+@keyframes dormitar { 0%, 62%, 100% { transform: scaleY(.1); } 72%, 80% { transform: scaleY(.6); } 86% { transform: scaleY(.1); } }
+@keyframes zzz { 0% { opacity: 0; transform: translate(0, 10px); } 25% { opacity: 1; } 100% { opacity: 0; transform: translate(14px, -22px); } }
+@keyframes cola { 0%, 55%, 100% { transform: rotate(0); } 65% { transform: rotate(-7deg); } 75% { transform: rotate(5deg); } 85% { transform: rotate(-3deg); } }
+@keyframes papel { from { transform: skewX(-1.2deg); } to { transform: skewX(1.2deg) translateY(2px); } }
+@keyframes nubes { to { transform: translateX(22px); } }
+@keyframes aves { to { transform: translate(30px, -8px); } }
+@keyframes brillo { from { opacity: .35; } to { opacity: 1; } }
+@keyframes halo { from { opacity: .1; transform: scale(.9); } to { opacity: .3; transform: scale(1.08); } }
+@keyframes agua { from { transform: scaleY(.92); } to { transform: scaleY(1.05); } }

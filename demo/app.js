@@ -3171,11 +3171,14 @@ function pintarSemanas(propio, viajesPropios) {
 // El arte viene de Figma (tlacuache-arte.js): lienzo de 400 x 300 con los pies en y=259; aqui se escala para que
 // ocupe lo mismo que el dibujo anterior (pies en y=0, unas 128 unidades de ancho). Los accesorios ya vienen en su lugar.
 const ESCALA_TL = 0.36;
-function tlacuache(e, puestos = racha.puestos) {
+// De noche, si tiene los ojos abiertos, se duerme: los ojos se le cierran y le salen unas "z".
+function tlacuache(e, puestos = racha.puestos, dormido = horario() === "noche") {
   const estado = e >= 6 ? "crias" : e >= 5 ? "comiendo" : e >= 4 ? "contento" : e < 2 ? "preocupado" : "normal";
+  const duerme = dormido && (estado === "normal" || estado === "preocupado");
   const lleva = (lugar) => ARTE_TL.acc[puestos?.[lugar]] ?? "";
   const listones = puestos?.cabeza === "listones";
-  return `<g class="tlacuache" transform="translate(-2 0) scale(${ESCALA_TL}) translate(-193 -259)">${listones ? ARTE_TL.acc["listones-atras"] : ""}${ARTE_TL.estados[estado]}${lleva("espalda")}${lleva("cuello")}${lleva("cara")}${listones ? ARTE_TL.acc["listones-frente"] : lleva("cabeza")}</g>`;
+  const zzz = duerme ? '<g class="an-zzz"><text x="318" y="98">z</text><text x="340" y="68">z</text><text x="366" y="32">Z</text></g>' : "";
+  return `<g class="tlacuache${duerme ? " dormido" : ""}" transform="translate(-2 0) scale(${ESCALA_TL}) translate(-193 -259)">${listones ? ARTE_TL.acc["listones-atras"] : ""}${ARTE_TL.estados[estado]}${lleva("espalda")}${lleva("cuello")}${lleva("cara")}${listones ? ARTE_TL.acc["listones-frente"] : lleva("cabeza")}${zzz}</g>`;
 }
 // Mañana, día o noche según la hora real; los escenarios de Figma vienen en los tres horarios.
 function horario(d = new Date()) {
@@ -3187,7 +3190,7 @@ function escenaTlacuache(e) {
   const M = ARTE_ESC.mundo, hora = horario(), capa = (si, nombre, extra = "") => (si ? `<g${extra}>${M[nombre]}</g>` : "");
   return M[hora] + capa(e < 3, "humo", e < 1 ? "" : ' opacity=".5"') + capa(e >= 2, "pasto", hora === "noche" ? ' opacity=".55"' : "") + capa(e >= 4, "arboles") + capa(e >= 2, "arbol")
     + M[e >= 3 ? "fuente-limpia" : "fuente-sucia"] + capa(e >= 1, "bote") + capa(e < 1, "basura") + capa(e >= 5, "nopal") + capa(e >= 4, "flores")
-    + capa(e >= 4, hora === "noche" ? "luciernagas" : "aves")
+    + capa(e >= 4, hora === "noche" ? "luciernagas" : "aves", hora === "noche" ? ' class="an-luciernagas"' : ' class="an-aves"')
     + `<g transform="translate(360 408) scale(${(0.8 / ESCALA_TL).toFixed(3)})">${tlacuache(e)}</g>`;
 }
 // Racha semanal en camion, como la de Duolingo pero por semana: cada quien pone su meta y una semana mala
