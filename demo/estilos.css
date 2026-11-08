@@ -1670,7 +1670,8 @@ html.grande .pelajes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .pelaje-nota { margin: 8px 0 12px; color: var(--tenue); font-size: .85rem; text-align: center; text-wrap: balance; }
 #pelajeComprar { width: 100%; margin: 0 0 14px; }
 /* Conoce a los tlacuaches */
-.conoce { margin-top: 12px; }
+.conoce { margin-top: 12px; border: 0; }
+.conoce > summary, .conoce .ajuste-panel { border: 0; }
 .conoce-lista { display: grid; gap: 14px; margin: 0 0 12px; padding: 0; list-style: none; }
 .conoce-lista strong { display: block; color: var(--tinta); font-weight: 800; }
 .conoce-lista span { display: block; margin-top: 2px; color: var(--tenue); font-size: .92rem; line-height: 1.4; }
