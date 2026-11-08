@@ -3320,10 +3320,10 @@ function pintarRachaInicio() {
   $("rachaEscena").innerHTML = escenaRacha(animoRacha());
   $("rachaEscena").setAttribute("aria-label", `Tu tlacuache${Object.values(racha.puestos).filter(Boolean).length ? ` con ${Object.values(racha.puestos).filter(Boolean).map((id) => ACCESORIOS[id]?.nombre.toLowerCase()).join(", ")}` : ""}`);
   $("tratoTuna").innerHTML = ARTE_TL.icono.tuna;
-  $("tlNombre").textContent = racha.nombre || "Tu tlacuache";
-  // Con nombre, el boton queda en un lapiz para que el nombre luzca; sin nombre, invita a ponerlo.
-  $("tlNombrar").lastChild.textContent = racha.nombre ? "Cambiar nombre" : "Ponle nombre";
-  $("tlNombrar").classList.toggle("solo-icono", !!racha.nombre);
+  // Sin nombre se ve una raya para llenar; con nombre, el nombre mismo es el boton para cambiarlo.
+  $("tlNombre").textContent = racha.nombre || "Ponle nombre";
+  $("tlNombrar").classList.toggle("sin-nombre", !racha.nombre);
+  $("tlNombrar").setAttribute("aria-label", racha.nombre ? `${racha.nombre}. Cambiar el nombre de tu tlacuache` : "Ponle nombre a tu tlacuache");
   $("rachaSaldo").innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${ARTE_TL.icono.tuna}</svg>${racha.tunas}<span class="oculto"> tunas para gastar</span>`;
   $("rachaTienda").innerHTML = Object.entries(ACCESORIOS).map(([id, a]) => {
     const tiene = racha.compras.includes(id), puesto = racha.puestos[a.lugar] === id, alcanza = racha.tunas >= a.precio;

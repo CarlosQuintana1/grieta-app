@@ -141,6 +141,7 @@ body:has(#encabezado:not([hidden])):not(.con-mapa, .camara-en-uso) .hoja { paddi
 }
 .buscador:focus-within { border-color: var(--ambar); }
 .buscador-campo { flex: 1; min-height: 56px; color: var(--tenue); text-align: left; }
+.buscador-camion { flex: none; color: var(--ambar); pointer-events: none; }
 .buscador input:focus-visible, .buscador-campo:focus-visible { outline: none; }
 .mic { flex: none; height: 48px; display: flex; align-items: center; gap: 6px; padding: 0 12px; color: var(--ambar); font-weight: 700; font-size: 0.85rem;
   border-left: 1px solid var(--linea); border-radius: 0 12px 12px 0; }
@@ -1057,8 +1058,8 @@ h2.titulo-medio .mini-ficha .picto { width: 20px; height: 20px; }
 #quejaCamion input { width: 100%; min-height: 52px; margin-bottom: 12px; padding: 12px 14px; color: var(--tinta); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--radio); }
 #quejaCamion input:focus { border-color: var(--ambar); outline: none; }
 .contador { display: flex; align-items: center; justify-content: center; gap: 22px; margin: 8px 0 4px; }
-.contador-boton { display: grid; place-items: center; padding: 0; width: 64px; height: 64px; border-radius: 50%; background: var(--superficie); border: 1px solid var(--linea); color: var(--ambar); font-size: 2rem; font-weight: 700; line-height: 1; }
-.contador output { min-width: 72px; text-align: center; font-size: 2.6rem; font-weight: 800; }
+.contador-boton { display: grid; place-items: center; padding: 0; width: 48px; height: 48px; border-radius: 50%; background: var(--superficie); border: 1px solid var(--linea); color: var(--ambar); font-size: 2rem; font-weight: 700; line-height: 1; }
+.contador output { min-width: 64px; text-align: center; font-size: 2.2rem; font-weight: 800; }
 .bono-veredicto { display: grid; gap: 4px; margin: 14px 0 10px; padding: 14px 16px; border-radius: var(--radio); background: color-mix(in srgb, var(--verde) 14%, var(--fondo)); border: 1px solid color-mix(in srgb, var(--verde) 50%, transparent); }
 .bono-veredicto strong { color: var(--verde); font-size: 1.15rem; }
 .bono-veredicto span { color: var(--tinta); }
@@ -1559,7 +1560,8 @@ html.daltonico :is(#co2Equivale, #ahorroEquivale) li.eq-parque { --acento: #a58b
 .racha-trato strong { font-size: 1.15rem; font-weight: 800; color: var(--tinta); }
 .racha-trato p span { color: var(--tenue); font-size: .92rem; }
 .trato-camino { display: flex; align-items: center; gap: 10px; }
-.trato-parada { flex: none; width: 14px; height: 14px; border-radius: 50%; border: 3px solid var(--ambar); }
+.trato-parada { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: color-mix(in srgb, var(--ambar) 20%, transparent); color: var(--ambar); }
+.trato-parada .picto { width: 26px; height: 26px; }
 .trato-via { position: relative; flex: 1; height: 34px; }
 .trato-via::before, .trato-avance { content: ""; position: absolute; left: 0; right: 0; bottom: 6px; height: 4px; border-radius: 2px; }
 .trato-via::before { background: color-mix(in srgb, var(--ambar) 22%, transparent); }
@@ -1642,13 +1644,11 @@ html.claro #ahorroEquivale li.eq-pantalla { --acento: #a3312f; }
 #tarifaBonos { display: flex; justify-content: center; gap: 8px; max-width: none; margin: 12px 0 14px; }
 #tarifaBonos button { min-height: 44px; padding: 0 16px; font-size: .9rem; text-align: center; }
 /* Nombre del tlacuache */
-.tl-nombre { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 2px 0 12px; }
+.tl-nombre { display: flex; justify-content: center; margin: 4px 0 12px; }
 .tl-nombre[hidden], .tl-nombre-forma[hidden] { display: none; }
-.tl-nombre-texto { margin: 0; min-width: 0; overflow-wrap: anywhere; color: var(--tinta); font-size: 1.6rem; font-weight: 800; line-height: 1.15; }
-.tl-nombre .boton { flex: none; width: auto; min-height: 44px; margin: 0; padding: 0 16px; gap: 8px; font-size: .9rem; }
-.tl-nombre .boton .icono { width: 18px; height: 18px; }
-.tl-nombre .boton.solo-icono { width: 44px; padding: 0; justify-content: center; }
-.tl-nombre .boton.solo-icono span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.tl-nombre-boton { max-width: 100%; min-height: 48px; padding: 4px 12px 6px; border: 0; background: none; color: var(--tinta); font: inherit; font-size: 1.6rem; font-weight: 800; line-height: 1.2; overflow-wrap: anywhere; }
+.tl-nombre-boton span { border-bottom: 2px solid color-mix(in srgb, var(--ambar) 45%, transparent); }
+.tl-nombre-boton.sin-nombre span { display: inline-block; min-width: 210px; padding-bottom: 2px; border-bottom: 3px dashed var(--ambar); color: var(--tenue); font-size: 1.05rem; font-weight: 700; }
 .tl-nombre-forma { display: grid; gap: 10px; margin: 2px 0 14px; }
 .tl-nombre-forma .boton { margin: 0; }
 /* Leyenda del bosque */
