@@ -111,9 +111,15 @@ let colaVoz = Promise.resolve();
 // Ajustes guardados en este telefono.
 const acc = { toques: true, vibracion: true, modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: false, vozElegida: false, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", lengua: "es", ...leer("grieta-acc", {}) };
 let camaraConVoz = true;
+// La voz de la guia es aparte de la de toda la app: activarla en un viaje no hace que hablen las demas pantallas.
+let viajeEnCurso = false;
 acc.idioma ??= acc.lengua === "oto" ? "oto" : "es";
 if (!["es", "oto", "nah"].includes(acc.idioma)) acc.idioma = "es";
 if (!acc.modoVoz && !acc.vozElegida) acc.voz = false;
+if (acc.vozGuia === undefined) {
+  acc.vozGuia = Boolean(acc.voz);
+  if (!acc.modoVoz) { acc.voz = false; acc.vozElegida = false; }
+}
 // Con "Como el telefono", los colores siguen el modo claro u oscuro del sistema.
 const sistemaClaro = matchMedia("(prefers-color-scheme: light)");
 const OPCIONES = { grande: "optGrande", contraste: "optContraste", daltonico: "optDaltonico", voz: "optVoz", lenta: "optLenta", camino: "optCamino", unidos: "optUnidos" };
@@ -138,7 +144,7 @@ function aplicarAcc() {
   recolorear();
   document.querySelector('meta[name="theme-color"]').content = tono("--fondo");
   pintarResumenPerfil();
-  $("guiaVoz").setAttribute("aria-pressed", String(acc.voz));
+  $("guiaVoz").setAttribute("aria-pressed", String(acc.vozGuia || (acc.modoVoz && acc.voz)));
   $("guiaVibrar").setAttribute("aria-pressed", String(acc.vibracion));
   $('optToques').checked = acc.toques;
   // Tocar para escuchar y su práctica solo existen en modo Voz, sin lector de pantalla del teléfono.
@@ -146,7 +152,7 @@ function aplicarAcc() {
   $('notaDensidad').textContent = { completa: "Precios, horarios, comparar y esperar.", facil: "Solo lo esencial, con botones grandes.", voz: "Pocos botones, muy grandes, y Grieta te dice todo en voz alta." }[densidadActual()];
   $('ayudaToques').hidden = !acc.modoVoz || acc.lector === 'si' || !acc.toques;
   ToquesGrieta.reiniciar();
-  if (!acc.voz) detenerVoz();
+  if (!vozActiva()) detenerVoz();
 }
 sistemaClaro.addEventListener("change", () => { if (acc.tema === "auto") aplicarAcc(); });
 $("optTema").addEventListener("click", (e) => {
@@ -174,7 +180,7 @@ $("salirVoz").addEventListener("click", () => {
   aplicarAcc();
   $("tituloInicio").focus();
 });
-$("guiaVoz").addEventListener("click", () => { acc.voz = !acc.voz; acc.vozElegida = true; guardarAcc(); aplicarAcc(); });
+$("guiaVoz").addEventListener("click", () => { acc.vozGuia = !acc.vozGuia; guardarAcc(); aplicarAcc(); });
 $("guiaVibrar").addEventListener("click", () => { acc.vibracion = !acc.vibracion; guardarAcc(); aplicarAcc(); if (acc.vibracion) vibrar([120]); });
 $('optToques').addEventListener('change', () => { acc.toques = $('optToques').checked; guardarAcc(); aplicarAcc(); });
 for (const [k, id] of Object.entries(OPCIONES)) {
@@ -401,8 +407,13 @@ function detenerVoz() {
   colaVoz = Promise.resolve();
   if ("speechSynthesis" in window) speechSynthesis.cancel();
 }
+// En un viaje manda el boton Voz de la guia; fuera del viaje, la voz de toda la app.
+function vozActiva() {
+  const enViaje = viajeEnCurso && ["guia", "camara"].includes(document.body.dataset.pantalla);
+  return enViaje ? acc.vozGuia || (acc.modoVoz && acc.voz) : acc.voz;
+}
 function vozEspanol(texto, alTerminar) {
-  if (microfonoActivo || !acc.voz || !("speechSynthesis" in window)) return alTerminar?.();
+  if (microfonoActivo || !vozActiva() || !("speechSynthesis" in window)) return alTerminar?.();
   const u = new SpeechSynthesisUtterance(DECIR.reduce((t, [a, b]) => t.replace(a, b), texto));
   vozGrieta ??= speechSynthesis.getVoices().find((v) => v.lang === "es-MX") ?? speechSynthesis.getVoices().find((v) => v.lang.startsWith("es"));
   if (vozGrieta) u.voice = vozGrieta;
@@ -463,7 +474,7 @@ function hablar(mensaje, enCola = false, enPantalla = false, soloEspanol = false
     const turno = turnoVoz;
     setTimeout(() => { if (!microfonoActivo && turno === turnoVoz) $("anuncio").textContent = texto; }, 60);
   }
-  if (!acc.voz) return;
+  if (!vozActiva()) return;
   if (!enCola) detenerVoz();
   if (!soloEspanol && acc.lengua === "oto" && lenguasDisponibles.includes("oto") && audiosOto.size) {
     const turno = turnoVoz;
@@ -518,7 +529,7 @@ function vibrar(patron) {
     else golpeHaptico(patron);
   }
   // El tono solo acompana avisos importantes (pulsos largos); los toques cortos no pitan.
-  if ((!acc.voz && acc.lector !== "si") || !patron.some((ms, i) => i % 2 === 0 && ms >= 300)) return;
+  if ((!vozActiva() && acc.lector !== "si") || !patron.some((ms, i) => i % 2 === 0 && ms >= 300)) return;
   try {
     audio ??= new (window.AudioContext || window.webkitAudioContext)();
     let t = audio.currentTime;
@@ -2144,7 +2155,10 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
       <p class="parada-nombre" translate="no">${escapar(cruce(p.nombre))}</p>
     </div>
     <div class="a-pie" role="status">${ico("caminar")}<span class="fila-texto"><strong id="caminaParada">${p.caminado ? textoCaminata(p.caminado, p.relieve)[0] : "Calculando el camino a pie..."}</strong><small id="caminaDetalle">${p.caminado ? textoCaminata(p.caminado)[1] : `A ${distanciaTexto(p.m, true)} en línea recta`}</small></span></div>
-    <button id="irParada" type="button" class="boton oscuro">${ico("ruta")}Ver cómo llegar a la parada</button>
+    <div class="dos-botones ir-parada">
+      <button id="irParada" type="button" class="boton oscuro">${ico("caminar")}Caminar con guía</button>
+      <button id="appParada" type="button" class="boton oscuro">${ico("auto")}Ir en app</button>
+    </div>
     <h2>Próximos camiones</h2>
     ${filas(p)}
     <h2 class="cabeza-avisos"><span>Avisos de la parada</span><span id="contadorAvisos" class="contador-avisos">${ico("alerta")}<b>…</b></span></h2>
@@ -2154,7 +2168,8 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
     ${lista.length > 1 ? `<section class="otras" aria-labelledby="tituloOtrasParadas"><h2 id="tituloOtrasParadas">Otras paradas cerca</h2>
       ${lista.slice(1).map((x, i) => `<button type="button" class="parada-alternativa" data-parada="${i + 1}" aria-label="Ver camiones y reportar en ${escapar(cruce(x.nombre))}"><strong translate="no">${escapar(cruce(x.nombre))}</strong><span class="tenue">A ${distanciaTexto(x.caminado ?? x.m, true)}${x.caminado ? " caminando" : " en línea recta"}</span></button>${filas(x)}`).join("")}</section>` : ""}
     <p class="nota pie">Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.</p>`;
-  $("irParada").addEventListener("click", () => poner("destino", { nombre: `Parada ${p.nombre}`, lat: p.lat, lon: p.lon }));
+  $("irParada").addEventListener("click", () => iniciarGuiaParada(p, estado.gps ?? punto));
+  $("appParada").addEventListener("click", () => poner("destino", { nombre: `Parada ${p.nombre}`, lat: p.lat, lon: p.lon }));
   $("reportarParada").addEventListener("click", () => abrirReporte(p));
   caja.querySelectorAll("[data-parada]").forEach((b) => b.addEventListener("click", () => elegirParada(punto, lista, Number(b.dataset.parada))));
   estado.puntoCamiones = punto;
@@ -2631,6 +2646,7 @@ function moverMapaPie(lat, lon, rumbo) {
 }
 function iniciarGuia(o) {
   terminarGuia();
+  viajeEnCurso = true;
   const tramos = o.pasos.filter((p) => p.tipo === "camion");
   registrarViaje(o);
   guia.km = sinAuto(o) ? estado.r.directo.km : 0;
@@ -2638,7 +2654,7 @@ function iniciarGuia(o) {
   ir("guia");
   $("comoTeFue").hidden = true;
   Object.assign(guia, { activa: true, o, tramos, k: 0, camion: tramos[0], fase: "parada", actual: 0, dichos: new Set(), previo: null, velocidad: null, vueltas: 0, push: null,
-    destino: estado.destino, enApp: o.pasos[0].tipo === "app", pie: null });
+    destino: estado.destino, enApp: o.pasos[0].tipo === "app", pie: null, soloParada: false });
   dibujar(o);
   mantenerPantalla();
   vibrar([60]);
@@ -2662,6 +2678,27 @@ function iniciarGuia(o) {
     indicacionesPie(estado.gps ?? estado.origen, c.recorrido[0]);
   }
   programarAvisos(tramos);
+  seguir(avanzarCamion);
+}
+
+// Desde Camiones cerca: te lleva caminando a la parada con la misma guia; al llegar dice que camiones vienen.
+function iniciarGuiaParada(p, desde) {
+  terminarGuia();
+  viajeEnCurso = true;
+  const parada = { nombre: p.nombre, lat: p.lat, lon: p.lon };
+  const l = p.lineas[0];
+  const camion = { linea: l?.linea ?? "", hacia: l?.hacia ?? "", sale: l?.horas[0] ?? ahoraMin(), llega: l?.horas[0] ?? ahoraMin(), baja: p.nombre, recorrido: [parada, parada] };
+  estado.destino = { nombre: `Parada ${p.nombre}`, lat: p.lat, lon: p.lon };
+  ir("guia");
+  $("comoTeFue").hidden = true;
+  Object.assign(guia, { activa: true, o: null, tramos: [camion], k: 0, camion, fase: "parada", actual: 0, dichos: new Set(), previo: null, velocidad: null, vueltas: 0, push: null,
+    destino: estado.destino, enApp: false, pie: null, soloParada: true, km: 0 });
+  mantenerPantalla();
+  vibrar([60]);
+  $("yaMeSubi").hidden = true;
+  decir(frase("camina_parada", { parada: p.nombre }), l ? `El siguiente camión es la ${l.linea} hacia ${l.hacia}, a las ${hora(l.horas[0])} según el horario.` : "", "Hacia la parada");
+  medirCaminata(desde, parada);
+  indicacionesPie(desde, parada);
   seguir(avanzarCamion);
 }
 
@@ -2848,7 +2885,7 @@ function avanzarCamion(lat, lon, velocidad = 0) {
     }
     // Si ya va por la ruta del camion, lejos de la parada de subida, se subio.
     const masCerca = d.indexOf(Math.min(...d));
-    if (masCerca >= 1 && d[masCerca] < 90 && velocidad >= VELOCIDAD_CAMION) subir(masCerca);
+    if (!guia.soloParada && masCerca >= 1 && d[masCerca] < 90 && velocidad >= VELOCIDAD_CAMION) subir(masCerca);
     else if (guia.fase === "parada" && !guia.enApp) {
       // El rodeo pesa menos conforme te acercas: junto a la parada la linea recta ya es casi el camino
       const rodeo = guia.pie ? 1 + (guia.pie.metros / guia.pie.recta - 1) * Math.min(1, d[0] / guia.pie.recta) : 1;
@@ -2981,6 +3018,7 @@ function terminarGuia() {
   clearInterval(guia.horario);
   guia.wake?.release?.();
   guia.activa = false;
+  viajeEnCurso = false;
   guia.camion = null;
   capas.aqui?.remove();
   capas.aqui = null;
@@ -3373,24 +3411,45 @@ $("camaraVolverGuia").addEventListener("click", () => ir(guia.activa ? "guia" : 
 
 // Describir con IA (Worker grieta-ia): una foto con las caras pixeladas; la respuesta se dice y queda escrita.
 let IA = "";
-const charla = { activa: false, ocupado: false, rec: null, silencios: 0, historial: [] };
-function decirIA(texto, urgente = true) {
-  $("camaraIA").textContent = texto;
-  hablarCamara(texto, urgente);
+const charla = { activa: false, ocupado: false, rec: null, silencios: 0, historial: [], ultimo: "", previa: "" };
+// Solo las descripciones quedan escritas; esperas y errores se dicen y van al lector de pantalla.
+function decirIA(texto, escrito = false) {
+  if (escrito) $("camaraIA").textContent = texto;
+  else if (acc.lector === "si") $("anuncio").textContent = texto;
+  charla.ultimo = texto;
+  hablarCamara(texto, true);
+}
+// En iPhone el detector puede tardar en revisar un cuadro: se espera hasta 6 s a que haya una foto segura.
+async function fotoSegura() {
+  for (let i = 0; i < 24; i++) {
+    const f = CamaraGrieta.foto();
+    if (f) return f;
+    await new Promise((r) => setTimeout(r, 250));
+  }
+  return null;
 }
 async function preguntarIA(pregunta = "") {
   if (charla.ocupado || !IA) return;
-  const f = CamaraGrieta.foto();
-  if (!f) return decirIA("Todavía no veo bien. Espera a que la cámara arranque y vuelve a intentar.");
   charla.ocupado = true;
   $("camaraEnfrente").disabled = true;
-  decirIA("Un momento, estoy viendo.", false);
+  decirIA("Un momento.");
+  const f = await fotoSegura();
+  if (!f) {
+    charla.ocupado = false;
+    $("camaraEnfrente").disabled = false;
+    return decirIA("La cámara sigue arrancando. Intenta otra vez en unos segundos.");
+  }
   try {
     const r = await fetch(`${IA}/describir`, { method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ imagen: f.imagen, pregunta, historial: charla.historial }), signal: AbortSignal.timeout(12000) });
     const d = await r.json().catch(() => ({}));
     if (d.texto) charla.historial = [...charla.historial, { pregunta: pregunta || "¿Qué tengo enfrente?", respuesta: d.texto }].slice(-3);
-    decirIA(d.texto ?? d.error ?? "No pude describir la foto. Intenta otra vez.");
+    if (d.texto) decirIA(d.texto, true);
+    else decirIA(d.error ?? "No pude describir la foto. Intenta otra vez.");
+    // Si la misma respuesta sale dos veces seguidas en la conversacion, algo se trabo: se deja de escuchar.
+    const respuesta = sinAcentos(d.texto ?? d.error ?? "");
+    if (charla.activa && respuesta === charla.previa) terminarCharla("Dejé de escuchar porque se repitió la misma respuesta. Toca Preguntar para seguir.");
+    charla.previa = respuesta;
   } catch {
     decirIA("Sin conexión para describir. Los avisos de la cámara siguen funcionando.");
   } finally {
@@ -3410,6 +3469,8 @@ function terminarCharla(mensaje) {
 function escucharPregunta() {
   if (!charla.activa) return;
   if (speechSynthesis.speaking || speechSynthesis.pending || charla.ocupado) return void setTimeout(escucharPregunta, 300);
+  if (!charla.calladoDesde) { charla.calladoDesde = Date.now(); return void setTimeout(escucharPregunta, 900); }
+  charla.calladoDesde = 0;
   const rec = new Reconocer();
   let oido = false;
   charla.rec = rec;
@@ -3432,6 +3493,9 @@ function escucharPregunta() {
 }
 function atenderPregunta(texto) {
   const n = sinAcentos(texto.toLowerCase());
+  // El microfono a veces oye a la propia Grieta: si lo que llego es parte de lo que acaba de decir, se ignora.
+  const dicho = sinAcentos(charla.ultimo ?? "");
+  if (n.length > 6 && dicho.includes(n.slice(0, 40))) return;
   if (/^(ya|alto|para|basta|termina|deja de escuchar|gracias)\b/.test(n)) return terminarCharla("Listo, dejé de escuchar.");
   const camion = $("camaraBuscarCamion");
   if (/(es mi camion|es el camion|que camion|numero del camion)/.test(n) && !camion.hidden && !camion.disabled) return camion.click();

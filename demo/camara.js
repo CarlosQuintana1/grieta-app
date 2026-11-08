@@ -524,9 +524,9 @@ const CamaraGrieta = (() => {
     botones();
   }
   // Foto para describir con IA: 768 px y la parte alta de cada persona pixelada antes de salir del telefono.
-  // Sin detecciones recientes no se manda nada: no hay forma de saber si sale una cara.
+  // Sin una revision del detector en los ultimos 10 s no se manda nada: no habria forma de saber si sale una cara.
   function foto() {
-    if (!activa || performance.now() - personasEn > 2500) return null;
+    if (!activa || !personasEn || performance.now() - personasEn > 10000) return null;
     const salida = document.createElement('canvas'), pincel = salida.getContext('2d');
     if (!capturar(768, salida, pincel)) return null;
     const chica = document.createElement('canvas'), cp = chica.getContext('2d');
