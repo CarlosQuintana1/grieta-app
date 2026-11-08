@@ -142,6 +142,7 @@ body:has(#encabezado:not([hidden])):not(.con-mapa, .camara-en-uso) .hoja { paddi
 .buscador:focus-within { border-color: var(--ambar); }
 .buscador-campo { flex: 1; min-height: 56px; color: var(--tenue); text-align: left; }
 .buscador-camion { flex: none; color: var(--ambar); pointer-events: none; }
+.buscador .buscador-camion { width: 30px; height: 20px; }
 .buscador input:focus-visible, .buscador-campo:focus-visible { outline: none; }
 .mic { flex: none; height: 48px; display: flex; align-items: center; gap: 6px; padding: 0 12px; color: var(--ambar); font-weight: 700; font-size: 0.85rem;
   border-left: 1px solid var(--linea); border-radius: 0 12px 12px 0; }
