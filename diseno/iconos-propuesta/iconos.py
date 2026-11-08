@@ -231,3 +231,14 @@ if __name__ == "__main__":
     destino = Path(__file__).with_name("nuevos.json")
     destino.write_text(json.dumps(nuevos, ensure_ascii=False, indent=0), encoding="utf-8")
     print(f"{len(L)} de linea y {len(P)} pictogramas en {destino.name}")
+
+
+# Opciones para Trabajo (2026-11-08): no van a nuevos.json hasta que LuXo elija una.
+TRABAJO = {
+    "maletin": suave(R(4, 14, 40, 27, 7)) + solido("M4 21a7 7 0 0 1 7-7h26a7 7 0 0 1 7 7v4.5c-6 3-13 4.5-20 4.5S10 28.5 4 25.5z")
+    + solido("M17 14v-3.5a3.5 3.5 0 0 1 3.5-3.5h7a3.5 3.5 0 0 1 3.5 3.5V14h-4v-3h-6v3z", R(20.5, 25.5, 7, 7.5, 2.5)),
+    "oficina": suave(R(3.5, 20, 13, 23, 3), R(31.5, 14, 13, 29, 3))
+    + solido(R(13, 5, 22, 38, 3.5), *[R(17.2 + c * 8, 10 + f * 6.2, 5.6, 3.6, 1.2) for f in range(4) for c in range(2)], "M20.5 43v-5.5a3.5 3.5 0 0 1 7 0V43z"),
+    "gafete": trazo_suave("M13 3.5l11 12 11-12", 3.6) + solido(R(19.5, 12.5, 9, 6.5, 2.2))
+    + solido(R(9, 17.5, 30, 26, 5.5), C(24, 26.5, 4.3), "M16 39.5a8 6.5 0 0 1 16 0z"),
+}
