@@ -54,6 +54,11 @@ un día y la ruta se frena en 4,500 búsquedas al mes, antes de las 5,000 gratis
 línea) y `GET /api/camiones/avisos?lat=&lon=` trae los de esa parada. Valen media hora y viven en memoria,
 sin tabla.
 
+`GET`, `PUT` y `DELETE /api/respaldos/:id` guardan la copia del progreso de alguien (racha, ahorro, lugares) para
+pasarla a otro teléfono. El id y la llave para descifrar salen de seis palabras en el teléfono; aquí solo llega texto
+cifrado con AES-GCM y un número de versión, para que dos teléfonos no se pisen (409 y el teléfono junta y reintenta).
+Hasta 400 KB por copia y 120 pedidos por hora por persona.
+
 `POST /api/viajes` cuenta un viaje en camión que alguien empezó con la guía. Solo recibe los km; el CO₂
 se calcula aquí con 135.7 g/km (meta de la NOM-163-SEMARNAT-ENER-SCFI-2013 para autos nuevos). No guarda
 lugares, hora, usuario ni IP. `GET /api/impacto` devuelve la suma (viajes, km y kg de CO₂) que muestra el inicio.
