@@ -1073,36 +1073,13 @@ button.impacto-todos { width: 100%; text-align: left; }
 .segmento[hidden] { display: none; }
 .segmento button { min-height: 40px; border-radius: 999px; font-weight: 700; color: var(--tenue); text-align: center; }
 .segmento button[aria-checked="true"] { background: var(--verde); color: var(--fondo); }
-.co2-hero { overflow: hidden; border-radius: 24px; background: var(--superficie); }
-.co2-hero-texto { padding: 20px 20px 0; }
-.co2-quien { margin: 0; color: var(--tenue); font-size: .85rem; font-weight: 600; }
-.co2-cifra { margin: 2px 0 0; }
-.co2-cifra strong { display: block; font-size: 3.2rem; font-weight: 800; line-height: 1; letter-spacing: -0.02em; color: var(--verde); }
-.co2-cifra span { display: block; margin-top: 6px; color: var(--tinta); font-weight: 600; }
-.bosque { display: block; width: calc(100% - 24px); height: auto; margin: 14px 12px 0; border-radius: 16px; }
+.bosque { display: block; width: 100%; height: auto; margin: auto 0; border-radius: 18px; }
+.bosque[hidden] { display: none; }
 .bosque .sobra { fill: #2b2420; font-weight: 800; font-size: 40px; }
-.co2-pie { padding: 12px 20px 16px; background: color-mix(in srgb, var(--verde) 32%, var(--superficie)); }
-.ahorro-hero .co2-cifra strong { color: var(--ambar); }
-.ahorro-hero .co2-pie { background: none; padding: 14px 20px 18px; }
-.ahorro-hero .co2-pie .co2-unidad { display: flex; align-items: center; gap: 12px; color: var(--tinta); font-weight: 700; }
-.ahorro-niveles { flex: none; display: flex; gap: 5px; }
-.ahorro-niveles i { width: 16px; height: 16px; border-radius: 50%; border: 2px solid color-mix(in srgb, var(--ambar) 45%, transparent); }
-.ahorro-niveles i.lleno { border-color: #a8711a; background: radial-gradient(circle at 50% 50%, #f0b445 0 45%, #d99a33 46% 100%); }
-#bosque:not([hidden]) + .co2-pie { margin-top: -1px; }
-.mundo-tl + svg + .co2-pie, .mundo-tl:not([hidden]) ~ .co2-pie { background: none; padding-top: 12px; }
-.co2-unidad { margin: 0; color: var(--tinta); font-size: .9rem; line-height: 1.4; }
 .co2-avance { height: 8px; margin-top: 10px; border-radius: 999px; background: color-mix(in srgb, var(--verde) 18%, var(--linea)); overflow: hidden; }
 .co2-avance[hidden] { display: none; }
 .co2-avance i { display: block; height: 100%; min-width: 8px; border-radius: inherit; background: var(--verde); transition: width .6s ease-out; }
-.mundo-tl { margin: 14px 12px 0; border-radius: 16px; overflow: hidden; }
-.mundo-tl[hidden] { display: none; }
 .escena { display: block; width: 100%; height: auto; }
-.co2-equivale { list-style: none; margin: 10px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.co2-equivale li { display: flex; flex-direction: column; gap: 2px; padding: 12px; border-radius: var(--radio); background: var(--superficie); min-width: 0; }
-.co2-equivale .mini-ficha { width: 34px; height: 34px; margin-bottom: 8px; }
-.co2-equivale .mini-ficha .picto { width: 20px; height: 20px; }
-.co2-equivale strong { font-size: 1.2rem; font-weight: 800; color: var(--tinta); line-height: 1.15; }
-.co2-equivale span:last-child { color: var(--tenue); font-size: .78rem; line-height: 1.3; }
 .co2-semanas-caja { margin-top: 22px; padding: 16px 16px 10px; border-radius: var(--radio); background: var(--superficie); }
 .co2-semanas-cabeza { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 .co2-semanas-cabeza h2 { margin: 0; font-size: 1.05rem; font-weight: 800; color: var(--tinta); text-transform: none; letter-spacing: 0; }
@@ -1124,12 +1101,11 @@ button.impacto-todos { width: 100%; text-align: left; }
 .co2-fuentes[open] summary { border-color: var(--verde); color: var(--verde); }
 .co2-fuentes summary::-webkit-details-marker { display: none; }
 .co2-fuentes p { margin: 12px 0 0; padding: 14px 16px; border-radius: var(--radio); background: var(--superficie); color: var(--tenue); font-size: .88rem; line-height: 1.45; text-align: justify; hyphens: auto; }
-@media (max-width: 360px) { .co2-equivale { grid-template-columns: 1fr; } .co2-cifra strong { font-size: 2.6rem; } }
 
 .bono-titulo { margin-top: 28px; }
 
 /* Camioncito del ahorro: escena de Figma con la moneda que cae en la ranura del techo */
-.alcancia { display: block; width: calc(100% - 24px); height: auto; margin: 14px 12px 0; border-radius: 16px; overflow: hidden; }
+.alcancia { display: block; width: 100%; height: auto; overflow: hidden; }
 .alcancia .moneda-cae { animation: moneda-cae 1.1s .3s ease-in both; }
 @keyframes moneda-cae { 0% { transform: translateY(0); opacity: 1; } 80% { transform: translateY(96px); opacity: 1; } 100% { transform: translateY(112px); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .alcancia .moneda-cae { display: none; } }
@@ -1147,22 +1123,8 @@ html.claro .ahorro-nota { color: var(--tinta); }
 .metas-ahorro .icono { width: 14px; height: 14px; stroke-width: 3; }
 html.claro .metas-ahorro li.hecha { color: #fff; }
 .co2-semanas-caja[hidden] { display: none; }
-.co2-equivale.cuatro { grid-template-columns: repeat(2, 1fr); }
-.co2-equivale .mini-ficha .icono { width: 20px; height: 20px; color: #fff; stroke-width: 2.2; }
 
 /* Camino de etapas del tlacuache */
-.camino-tl { position: relative; display: grid; grid-template-columns: repeat(7, 1fr); margin-top: 14px; }
-.camino-tl[hidden] { display: none; }
-.camino-linea { position: absolute; left: calc(100% / 14); right: calc(100% / 14); top: 11px; height: 3px; border-radius: 2px; background: var(--superficie-2); }
-.camino-linea i { display: block; height: 100%; border-radius: inherit; background: var(--verde); }
-.camino-paso { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: .66rem; font-weight: 700; color: var(--tenue); text-align: center; }
-.camino-paso i { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--superficie-2); }
-.camino-paso .icono { width: 14px; height: 14px; stroke-width: 3.5; color: var(--fondo); }
-.camino-paso.hecho { color: var(--verde); }
-.camino-paso.hecho i { background: var(--verde); }
-.camino-paso.ahora { color: var(--tinta); }
-.camino-paso.ahora i { box-sizing: border-box; background: var(--superficie); border: 3px solid var(--verde); }
-.co2-unidad b { color: var(--verde); white-space: nowrap; }
 
 /* Guardar un lugar: nombre en una sola pantalla */
 .nombrar-lugar { display: flex; gap: 12px; align-items: center; padding: 14px; border-radius: var(--radio); background: var(--superficie); }
@@ -1476,20 +1438,6 @@ html.grande .racha-tienda { grid-template-columns: 1fr; }
 .tienda-muestra { height: 88px; padding: 6px; background: #efe9dd; border-radius: 12px; }
 .precio-tunas { display: inline-flex; align-items: center; justify-content: center; gap: 6px; color: var(--ambar); font-size: .85rem; font-weight: 800; }
 .precio-tunas svg { width: 18px; height: 18px; }
-/* Equivalencias de CO2: una fila por cosa, con su color, la cifra grande y la unidad chica */
-:is(#co2Equivale, #ahorroEquivale) { grid-template-columns: 1fr; gap: 10px; }
-:is(#co2Equivale, #ahorroEquivale) li { --acento: #6fc38a; flex-direction: row; align-items: center; gap: 14px; padding: 14px 16px;
-  background: linear-gradient(110deg, color-mix(in srgb, var(--acento) 20%, var(--superficie)), var(--superficie) 75%); }
-:is(#co2Equivale, #ahorroEquivale) li.eq-gasolina { --acento: #e0a03c; }
-:is(#co2Equivale, #ahorroEquivale) li.eq-hielo { --acento: #7cc3e8; }
-html.claro :is(#co2Equivale, #ahorroEquivale) li { --acento: #1f6b3a; } html.claro :is(#co2Equivale, #ahorroEquivale) li.eq-gasolina { --acento: #8f5300; } html.claro :is(#co2Equivale, #ahorroEquivale) li.eq-hielo { --acento: #145b7d; }
-html.daltonico :is(#co2Equivale, #ahorroEquivale) li.eq-parque { --acento: #a58be0; } html.daltonico.claro :is(#co2Equivale, #ahorroEquivale) li.eq-parque { --acento: #5a408c; }
-:is(#co2Equivale, #ahorroEquivale) .mini-ficha { flex: none; width: 52px; height: 52px; margin: 0; }
-:is(#co2Equivale, #ahorroEquivale) .mini-ficha .picto { width: 28px; height: 28px; }
-:is(#co2Equivale, #ahorroEquivale) .eq-texto { display: grid; gap: 2px; min-width: 0; }
-:is(#co2Equivale, #ahorroEquivale) strong { color: var(--acento); font-size: 1.9rem; font-weight: 800; line-height: 1; }
-:is(#co2Equivale, #ahorroEquivale) strong small { font-size: 1rem; font-weight: 700; }
-:is(#co2Equivale, #ahorroEquivale) .eq-texto > span { color: var(--tinta); opacity: .85; font-size: .88rem; line-height: 1.3; }
 
 /* Arranque: logo y un camioncito que avanza sobre la linea; solo transform y opacity para no cargar el telefono */
 .arranque { position: fixed; inset: 0; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; background: #0b0a09; transition: opacity .3s ease; }
@@ -1624,9 +1572,6 @@ html.daltonico :is(#co2Equivale, #ahorroEquivale) li.eq-parque { --acento: #a58b
 .sentidos-linea em { padding: 1px 8px; border-radius: 999px; background: #1f6b44; color: #fff; font-size: .72rem; font-style: normal; font-weight: 700; line-height: 1.5; }
 .linea-rumbo { margin: 10px 2px 14px; color: var(--tenue); font-size: .9rem; line-height: 1.35; }
 
-/* Equivalencias del ahorro: Qrobus verde, Netflix rojo y gasolina ambar */
-#ahorroEquivale li.eq-qrobus { --acento: #6fc38a; } #ahorroEquivale li.eq-pantalla { --acento: #f07a72; }
-html.claro #ahorroEquivale li.eq-pantalla { --acento: #a3312f; }
 /* Bonos: las dos tarifas chicas y centradas */
 #tarifaBonos { display: flex; justify-content: center; gap: 8px; max-width: none; margin: 12px 0 14px; }
 #tarifaBonos button { min-height: 44px; padding: 0 16px; font-size: .9rem; text-align: center; }
@@ -1821,3 +1766,40 @@ body[data-pantalla="ajuste"] .hoja { padding-bottom: 12px; }
 
 /* El inicio aparece completo de una vez: sin esto las pastillas salen arriba y el tlacuache las empuja */
 html:not(.inicio-listo) #inicioNormal { visibility: hidden; }
+
+/* Ahorro y CO2: la primera vista llena la pantalla con un bloque de color y tres fichas */
+.primera-vista { display: flex; flex-direction: column; gap: 8px; }
+.primera-vista + * { margin-top: 24px; }
+.bloque-hero { flex: 1; display: flex; flex-direction: column; padding: 18px 16px 14px; border-radius: 28px; }
+.bloque-ambar { background: #e0a03c; color: #1c1408; }
+.bloque-verde { background: #1f6b46; color: #fff; }
+.bloque-cifra { margin: 0; }
+.bloque-cifra strong { display: block; font-size: min(19vw, 4.6rem); font-weight: 800; letter-spacing: -.035em; line-height: .95; white-space: nowrap; }
+.bloque-cifra strong.larga { font-size: min(14vw, 3.6rem); }
+.bloque-sub { margin: 4px 0 12px; font-size: 1rem; font-weight: 700; line-height: 1.25; }
+.bloque-escena { margin: auto 0; overflow: hidden; border-radius: 18px; }
+.bloque-escena[hidden] { display: none; }
+.bloque-pie { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 12px 0 0; font-size: .92rem; font-weight: 800; line-height: 1.2; }
+.bloque-pie p { margin: 0; }
+.bloque-pie b, .bloque-pie .leyenda-arbol b { color: inherit; }
+.bloque-puntos { flex: none; display: flex; gap: 6px; }
+.bloque-puntos[hidden] { display: none; }
+.bloque-puntos i { width: 15px; height: 15px; border: 2px solid currentColor; border-radius: 50%; }
+.bloque-puntos i.lleno { background: currentColor; }
+.bloque-puntos.siete { gap: 4px; }
+.bloque-puntos.siete i { width: 12px; height: 12px; }
+.equivale-color { display: flex; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.equivale-color[hidden] { display: none; }
+.equivale-color li { flex: 1 1 0; min-width: 0; display: grid; align-content: start; gap: 3px; padding: 12px 10px; border-radius: 20px; background: #1f6b46; color: #fff; }
+.equivale-color .picto { width: 28px; height: 28px; }
+.equivale-color strong { font-size: 1.5rem; font-weight: 800; letter-spacing: -.02em; line-height: 1; }
+.equivale-color strong small { font-size: .85rem; letter-spacing: 0; }
+.equivale-color span { font-size: .76rem; font-weight: 700; line-height: 1.15; }
+.equivale-color .eq-pantalla { background: #a8362c; }
+.equivale-color .eq-gasolina { background: #7a5a18; }
+.equivale-color .eq-parque { background: #2c7a4f; }
+.equivale-color .eq-hielo { background: #1f6390; }
+html.grande .equivale-color { flex-direction: column; }
+html.grande .equivale-color li { grid-template-columns: auto auto 1fr; align-items: center; gap: 10px; }
+@media (max-width: 360px) { .equivale-color strong { font-size: 1.25rem; } .equivale-color span { font-size: .72rem; } }
+@media (max-height: 640px) { .bloque-escena svg, .bosque { height: 112px; } .bloque-sub { margin-bottom: 8px; } }

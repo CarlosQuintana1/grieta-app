@@ -3511,50 +3511,56 @@ const ETAPAS_TL = [
   [25000, "Tu tlacuache tuvo crías. Su ciudad está sana.", null],
 ];
 const CAMINO_TL = ["Basura", "Bote", "Árbol", "Agua", "Aves", "Tunas", "Crías"];
-function pintarTlacuache(g, viajesPropios) {
+function pintarTlacuache(g) {
   const e = ETAPAS_TL.findLastIndex(([desde]) => g >= desde), [desde, frase_, sigue] = ETAPAS_TL[e], texto = frase_.replace("Tu tlacuache", racha.nombre || "Tu tlacuache");
   document.querySelector('#co2Alcance [data-v="tu"]').textContent = racha.nombre || "Tu tlacuache";
   $("mundoTl").setAttribute("class", `escena e${e}`);
   $("mundoTl").innerHTML = escenaTlacuache(e);
   $("mundoTl").setAttribute("aria-label", `Ilustración: ${texto}`);
-  const siguiente = ETAPAS_TL[e + 1]?.[0], avance = siguiente ? (g - desde) / (siguiente - desde) : 0;
-  // Una fila con las siete etapas; la linea se llena hasta la actual y un poco mas segun lo que va hacia la siguiente.
+  const siguiente = ETAPAS_TL[e + 1]?.[0];
   const camino = $("co2Camino");
   camino.hidden = false;
   camino.setAttribute("aria-label", `Etapa ${e + 1} de ${CAMINO_TL.length}: ${CAMINO_TL[e]}`);
-  camino.querySelectorAll(".camino-paso").forEach((x) => x.remove());
-  camino.insertAdjacentHTML("beforeend", CAMINO_TL.map((t, i) => `<span class="camino-paso${i < e ? " hecho" : i === e ? " ahora" : ""}"><i>${i < e ? ico("palomita") : ""}</i>${t}</span>`).join(""));
-  camino.querySelector(".camino-linea i").style.width = `${((e + avance) / (CAMINO_TL.length - 1)) * 100}%`;
-  if (!siguiente) { $("co2Unidad").textContent = texto; return; }
-  const falta = siguiente - g, porViaje = viajesPropios ? g / viajesPropios : 700;
-  const viajesFaltan = Math.max(1, Math.ceil(falta / porViaje));
-  $("co2Unidad").innerHTML = `${texto} Faltan <b>${kgTexto(falta)}</b>, ${viajesFaltan === 1 ? "un viaje más" : `unos ${viajesFaltan} viajes`} en camión, para ${sigue}.`;
+  camino.innerHTML = CAMINO_TL.map((_, i) => `<i class="${i <= e ? "lleno" : ""}"></i>`).join("");
+  $("co2Unidad").textContent = siguiente ? `Faltan ${kgTexto(siguiente - g)} para ${sigue}` : `${racha.nombre || "Tu tlacuache"} tuvo crías`;
 }
 let alcanceCo2 = "tu";
 const marcarAlcance = radios("co2Alcance", (v) => { alcanceCo2 = v; pintarCo2(); });
+const ponerCifra = (id, texto) => { $(id).textContent = texto; $(id).classList.toggle("larga", texto.length > 6); };
+// La primera vista llega justo a la barra: lo que sigue empieza debajo y ninguna ficha queda partida.
+function llenarPrimeraVista(id) {
+  const caja = $(id).querySelector(".primera-vista"), bloque = caja.querySelector(".bloque-hero"), barra = $("pestanas");
+  caja.style.minHeight = bloque.style.minHeight = "";
+  const limite = barra.hidden ? innerHeight : barra.getBoundingClientRect().top;
+  // La pantalla entra con una animacion que la baja unos pixeles: no debe contar en la medida.
+  const bajada = new DOMMatrix(getComputedStyle($(id)).transform).m42;
+  const espacio = limite - (caja.getBoundingClientRect().top - bajada) - 12;
+  // Si las fichas no caben completas, el bloque llena la pantalla y ellas quedan debajo.
+  if (caja.offsetHeight <= espacio) caja.style.minHeight = `${espacio}px`;
+  else bloque.style.minHeight = `${limite - (bloque.getBoundingClientRect().top - bajada) - 8}px`;
+}
 function pintarCo2() {
   const propio = historial.reduce((s, h) => s + (h.co2 || 0), 0), viajesPropios = historial.filter((h) => h.co2).length;
   const todos = estado.impacto?.g ? estado.impacto : null, deTodos = !!todos && alcanceCo2 === "todos";
   $("co2Alcance").hidden = !todos;
   marcarAlcance(deTodos ? "todos" : "tu");
   const g = deTodos ? todos.g : propio;
-  $("co2Quien").textContent = deTodos ? `${plural(todos.viajes, "viaje", "viajes")} en camión, ${Math.round(todos.km)} km` : propio ? `Tus ${plural(viajesPropios, "viaje", "viajes")} en camión` : "Aún sin viajes en camión";
-  $("co2Total").textContent = g ? kgTexto(g) : "0 kg";
+  $("co2Quien").textContent = deTodos ? `de CO₂ en ${plural(todos.viajes, "viaje", "viajes")} en camión` : propio ? "de CO₂ que no salió de un auto" : "Aún sin viajes en camión";
+  ponerCifra("co2Total", g ? kgTexto(g) : "0 kg");
   $("tituloEquivale").hidden = $("co2Equivale").hidden = g < 50;
   $("bosque").toggleAttribute("hidden", !deTodos);
   $("mundoTlCaja").hidden = deTodos;
-  if (deTodos) { pintarBosque(g); $("co2Camino").hidden = true; } else pintarTlacuache(propio, viajesPropios);
-  // Cada equivalencia con su color: arbol verde, gasolina ambar, hielo azul. La cifra grande y la unidad chica.
-  const tonos = { parque: "tono-hospital", gasolina: "tono-maiz", hielo: "tono-trabajo" };
+  if (deTodos) { pintarBosque(g); $("co2Camino").hidden = true; } else pintarTlacuache(propio);
   $("co2Equivale").innerHTML = equivalencias(g).map(([p, cifra, texto]) => {
     const [numero, ...unidad] = cifra.split(" ");
-    return `<li class="eq-${p}">${miniFicha(tonos[p], picto(p))}<span class="eq-texto"><strong>${numero}${unidad.length ? ` <small>${unidad.join(" ")}</small>` : ""}</strong><span>${texto}</span></span></li>`;
+    return `<li class="eq-${p}">${picto(p)}<strong>${numero}${unidad.length ? ` <small>${unidad.join(" ")}</small>` : ""}</strong><span>${texto}</span></li>`;
   }).join("");
   pintarSemanas(propio, viajesPropios);
 }
 function abrirCo2() {
   pintarCo2();
   ir("co2");
+  llenarPrimeraVista("co2");
 }
 $("impactoTodos").addEventListener("click", abrirCo2);
 $("co2Planear").addEventListener("click", () => abrirBuscar());
@@ -4418,19 +4424,16 @@ function pintarAlcancia(mes) {
   $("alcancia").innerHTML = `${A[horario()]}${A[`nivel${nivel}`]}${cae}<g transform="translate(330 340) scale(${(0.66 / ESCALA_TL).toFixed(3)})">${tlacuache(nivel ? 4 : 3)}</g>`;
   $("alcancia").setAttribute("aria-label", nivel === 5 ? "Camioncito de hojalata lleno de monedas" : nivel ? `Camioncito de hojalata en el nivel ${nivel} de 5` : "Camioncito de hojalata vacío");
   const texto = !nivel ? "Tu primer viaje en camión pone la primera moneda." : siguiente === undefined ? "Camioncito lleno este mes" : `Faltan ${pesos(siguiente - mes)} para el nivel ${nivel + 1}`;
-  $("ahorroPie").innerHTML = `<span class="ahorro-niveles" aria-hidden="true">${[1, 2, 3, 4, 5].map((n) => `<i class="${n <= nivel ? "lleno" : ""}"></i>`).join("")}</span><span>${texto}</span>`;
+  $("ahorroPie").innerHTML = `<span>${texto}</span><span class="bloque-puntos" aria-hidden="true">${[1, 2, 3, 4, 5].map((n) => `<i class="${n <= nivel ? "lleno" : ""}"></i>`).join("")}</span>`;
 }
 // Lo ahorrado contado en cosas de todos los dias, y la gasolina que tu carro habria quemado en esos mismos viajes.
 function cosasAhorro(monto, co2Mes) {
   const gasolina = (co2Mes / CO2_AUTO_G_KM / AUTO_KM_LITRO) * precioGasolina(), viajes = Math.floor(monto / BONOS.normal.viaje), meses = Math.floor(monto / 139);
   return [
-    ["qrobus", "tono-hospital", plural(viajes, "viaje", "viajes"), "en Qrobus"],
-    ["pantalla", "tono-salud", meses >= 1 ? plural(meses, "mes", "meses") : `${Math.round((monto / 139) * 100)}%`, meses >= 1 ? "de suscripción de Netflix" : "de un mes de Netflix"],
-    ["gasolina", "tono-maiz", pesos(gasolina), "de gasolina si ibas en tu carro"],
-  ].filter(([p]) => p !== "gasolina" || acc.gasolina !== "no").map(([p, tono, cifra, texto]) => {
-    const [numero, ...unidad] = cifra.split(" ");
-    return `<li class="eq-${p}">${miniFicha(tono, picto(p))}<span class="eq-texto"><strong>${numero}${unidad.length ? ` <small>${unidad.join(" ")}</small>` : ""}</strong><span>${texto}</span></span></li>`;
-  }).join("");
+    ["qrobus", String(viajes), viajes === 1 ? "viaje en Qrobus" : "viajes en Qrobus"],
+    ["pantalla", meses >= 1 ? String(meses) : `${Math.round((monto / 139) * 100)}%`, meses > 1 ? "meses de Netflix" : meses === 1 ? "mes de Netflix" : "de un mes de Netflix"],
+    ["gasolina", pesos(gasolina), "de gasolina"],
+  ].filter(([p]) => p !== "gasolina" || acc.gasolina !== "no").map(([p, cifra, texto]) => `<li class="eq-${p}">${picto(p)}<strong>${cifra}</strong><span>${texto}</span></li>`).join("");
 }
 // Ahorro por mes desde el primero con ahorro, hasta seis; con uno solo no hay grafica.
 function pintarMeses() {
@@ -4454,8 +4457,8 @@ function pintarMeses() {
 function abrirAhorro() {
   const hoy = new Date(), delMes = historial.filter((h) => { const f = new Date(h.fecha); return f.getFullYear() === hoy.getFullYear() && f.getMonth() === hoy.getMonth() && h.ahorro > 0; });
   const mes = delMes.reduce((s, h) => s + h.ahorro, 0), conAhorro = historial.filter((h) => h.ahorro > 0), total = conAhorro.reduce((s, h) => s + h.ahorro, 0);
-  $("ahorroTotal").textContent = pesos(mes);
-  $("ahorroQuien").textContent = delMes.length ? `${plural(delMes.length, "viaje", "viajes")} en camión este mes` : "Aún sin viajes en camión este mes";
+  ponerCifra("ahorroTotal", pesos(mes));
+  $("ahorroQuien").textContent = delMes.length ? `ahorrados en ${plural(delMes.length, "viaje", "viajes")} este mes` : "Aún sin viajes en camión este mes";
   pintarAlcancia(mes);
   $("tituloEquivaleAhorro").hidden = $("ahorroEquivale").hidden = mes < 1;
   $("ahorroEquivale").innerHTML = cosasAhorro(mes, delMes.reduce((s, h) => s + (h.co2 || 0), 0));
@@ -4463,6 +4466,7 @@ function abrirAhorro() {
   pintarMeses();
   prepararBonos();
   ir("ahorro");
+  llenarPrimeraVista("ahorro");
 }
 function prepararBonos() {
   const deGrieta = viajesDeHistorial();
