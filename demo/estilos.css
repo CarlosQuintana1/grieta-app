@@ -522,6 +522,7 @@ html.claro .interruptor input::after, html.claro .interruptor input:checked::aft
 .recomendacion .simbolo { width: 30px; height: 30px; color: var(--ambar); }
 .recomendacion strong { font-weight: 700; }
 #ultimoCamion { margin: 10px 0 14px; }
+#tarjetas > #ultimoCamion { margin: 0 0 6px; }
 .chofer { position: fixed; inset: 0; z-index: 2000; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;
   padding: max(24px, env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom)); background: #fff; color: #000; }
 /* Centrada, pero con scroll si el nombre de la parada no cabe en la pantalla. */
@@ -761,7 +762,7 @@ html.facil { font-size: 19px; --toque: 56px; }
 html.facil .lugares { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 html.facil #invitaPerfil, html.facil #bloqueViajes, html.facil #rutina,
 html.facil #compararPrecio, html.facil #resumenRuta,
-html.facil #tarjetas > :not(:first-child) { display: none !important; }
+html.facil #tarjetas > :not(:first-child, #ultimoCamion) { display: none !important; }
 
 /* Modo facil: decir a donde vas es el boton principal, grande y arriba */
 html:not(.facil) .dictar-grande { display: none !important; }

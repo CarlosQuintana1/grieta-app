@@ -328,7 +328,9 @@ function evitarCortes() {
       .sort((a, b) => a.top - b.top)[0];
     if (!cortado) break;
     const crecer = cortado.bottom - limite;
-    const cabe = vuelta === 0 && $("mapa").getBoundingClientRect().height - crecer >= innerHeight * 0.3;
+    const queda = $("mapa").getBoundingClientRect().height - crecer;
+    // Si encoger escondería casi media hoja, el mapa cede hasta 20% en vez de dejar la hoja casi vacía.
+    const cabe = vuelta === 0 && (queda >= innerHeight * 0.3 || (queda >= innerHeight * 0.2 && limite - cortado.top > caja.height * 0.4));
     hoja.style.maxHeight = `${caja.height + (cabe ? crecer : cortado.top - limite)}px`;
   }
   mapa.invalidateSize();
@@ -825,6 +827,7 @@ async function trazar() {
 function esqueletoOpciones() {
   $("opciones").setAttribute("aria-busy", "true");
   $("appsRapido").innerHTML = '<span class="esqueleto corto"></span>'.repeat(3);
+  $("tarjetas").before($("ultimoCamion"));
   $("tarjetas").innerHTML = '<span class="esqueleto"></span>'.repeat(2);
   $("llegadaApp").textContent = "Calculando...";
   $("respuestaEspera").textContent = "";
@@ -1385,6 +1388,7 @@ function pintarOpciones(r) {
   avisarCiudad();
   // Contra la app mas barata: cuanto ahorras y cuanto mas tardas yendo en camion.
   const appBarata = [...r.directo.porApp].sort((a, b) => a.precio - b.precio)[0];
+  $("tarjetas").before($("ultimoCamion"));
   $("tarjetas").innerHTML = estado.tarjetas.map(({ o, etiquetas }, i) => {
     const pie = [`Llegas ${hora(llegada(o))}`, `${Math.round(o.minutos)} min`];
     if (caminata(o)) pie.push(`caminas ${caminata(o)} min`);
@@ -1425,6 +1429,8 @@ function pintarOpciones(r) {
   if (camionPrimero) $("enApp").before(...bloqueCamion);
   else $("enApp").after(...bloqueCamion);
   $("opciones").classList.toggle("camion-primero", camionPrimero);
+  // El aviso va debajo de la opcion a la que se refiere; arriba empujaba la tarjeta fuera de la hoja.
+  $("tarjetas").querySelector(".tarjeta")?.after($("ultimoCamion"));
   if (!hayCamion) {
     $("tarjetas").innerHTML += `<div class="aviso cuidado sin-camion">${ico("alerta")}<strong>${r.pasaCerca ? "Ningún Qrobus te lleva directo en la próxima hora." : "En la próxima hora no pasa ningún Qrobus cerca."}</strong></div>`;
   }
