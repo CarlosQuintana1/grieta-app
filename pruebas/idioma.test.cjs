@@ -48,11 +48,10 @@ test('rechaza datos mal formados sin lanzar errores', () => {
 test('el catálogo real contiene los textos provisionales y conserva todas las variables', () => {
   const base = JSON.parse(fs.readFileSync(path.join(raiz, 'idiomas', 'es.json')));
   const c = JSON.parse(fs.readFileSync(path.join(raiz, 'idiomas', 'otq.json')));
-  assert.ok(base.mensajes.length > c.mensajes.length);
-  assert.ok(c.mensajes.length > 500);
+  assert.equal(base.mensajes.length, c.mensajes.length);
   assert.equal(new Set(c.mensajes.map(x => x.clave)).size, c.mensajes.length);
-  assert.equal(c.completa, false);
-  assert.equal(c.parcial, true);
+  assert.equal(c.completa, true);
+  assert.equal(c.parcial, false);
   assert.equal(c.provisional, true);
   assert.equal(c.revision, null);
   assert.ok(c.mensajes.every(x => typeof x.otq === 'string' && x.otq.trim()));

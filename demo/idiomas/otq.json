@@ -2,14 +2,15 @@
   "codigo": "otq",
   "nombre": "Hñöñho (Otomí)",
   "revision": null,
-  "completa": false,
+  "completa": true,
   "provisional": true,
   "fuente": {
     "tipo": "automatica",
     "nombre": "Microsoft Translator, otomí de Querétaro (otq)",
     "url": "https://www.bing.com/translator?from=es&to=otq",
     "fecha": "2026-11-03",
-    "nota": "Traducción automática con adaptaciones breves; pendiente de revisión por hablantes."
+    "nota": "Traducción automática con adaptaciones breves; pendiente de revisión por hablantes.",
+    "actualizado": "2026-11-08"
   },
   "mensajes": [
     {
@@ -4276,6 +4277,3886 @@
       "clave": "texto_c562c42986",
       "es": "Después cambias de camión.",
       "otq": "Gem'bu̲ gí mpa̲ti bo̲jä ma 'me̲t'o."
+    },
+    {
+      "clave": "texto_2573edffaf",
+      "es": "Toca una vez para escuchar. Toca dos veces seguidas el mismo control para activarlo.",
+      "otq": "Toque 'nar pa pa 'mu̲ise̲. Doble toque xkagentho ar control pa ndi activar."
+    },
+    {
+      "clave": "texto_9e0cf6546d",
+      "es": "Practicar los toques",
+      "otq": "Ga japi ar toques"
+    },
+    {
+      "clave": "texto_af63f4cd19",
+      "es": "Describir con la cámara",
+      "otq": "Gi pede ko ar cámara"
+    },
+    {
+      "clave": "texto_52c6982142",
+      "es": "Escucha objetos y texto frente a ti",
+      "otq": "'Mu̲ise̲ objetos ne texto hñandu̲hu̲"
+    },
+    {
+      "clave": "texto_14f7062481",
+      "es": "¿Es el camión que busco?",
+      "otq": "¿Nuna ar dätä bo̲jä di honi?"
+    },
+    {
+      "clave": "texto_2f22e87c16",
+      "es": "Náhuatl pendiente de traducción.",
+      "otq": "Nahuatl pendiente ar traducción."
+    },
+    {
+      "clave": "texto_e345ef4821",
+      "es": "Paso 1 de 3",
+      "otq": "Thogi 1 ar 3"
+    },
+    {
+      "clave": "texto_fae409c2dd",
+      "es": "Saltar tutorial",
+      "otq": "Omitir tutorial"
+    },
+    {
+      "clave": "texto_30d3fdec0a",
+      "es": "Busca a dónde vas",
+      "otq": "Gi hyoni ho gi ma"
+    },
+    {
+      "clave": "texto_63e2bbaf1c",
+      "es": "Continuar",
+      "otq": "Da 'ño"
+    },
+    {
+      "clave": "texto_2afaf363af",
+      "es": "Paso anterior",
+      "otq": "Thogi 'be̲t'o"
+    },
+    {
+      "clave": "texto_2526e513ab",
+      "es": "Repetir explicación",
+      "otq": "Pengi ar explicación"
+    },
+    {
+      "clave": "texto_33dae599c2",
+      "es": "Botón de práctica",
+      "otq": "Botón práctica"
+    },
+    {
+      "clave": "texto_7c53767147",
+      "es": "Puedes practicar las veces que quieras. Este botón no abre la cámara, no pide permisos y no envía nada.",
+      "otq": "Nu'i gí tsa̲ da practicar tantas bes nä'ä gi ne. Nuna ar botón hindi gi xoki ar cámara, hingi bí 'ya̲ni permisos ne hingi pe̲hni otho."
+    },
+    {
+      "clave": "texto_fe38981415",
+      "es": "Terminar práctica",
+      "otq": "Ya wadi ar nt'ot'e"
+    },
+    {
+      "clave": "texto_acf4c2715d",
+      "es": "Volver a practicar",
+      "otq": "Pengi gi tsa̲pi"
+    },
+    {
+      "clave": "texto_b23c2453fd",
+      "es": "Salir de la práctica",
+      "otq": "Práctica salida"
+    },
+    {
+      "clave": "texto_b3268cc6c6",
+      "es": "Apunta al letrero de un camión o de una parada.",
+      "otq": "Señal ar nt'udi 'nar dätä bo̲jä wa 'nar parada ar bo̲jä."
+    },
+    {
+      "clave": "texto_90fad3c019",
+      "es": "¿Qué quieres escuchar?",
+      "otq": "¿Temu̲ gí ne gi 'mu̲ise̲?"
+    },
+    {
+      "clave": "texto_efa2d57f3c",
+      "es": "Todo el entorno",
+      "otq": "Nga̲tho ar nt'uni mbo jar ximha̲i"
+    },
+    {
+      "clave": "texto_9b80ed02a1",
+      "es": "Escaleras y escalones (prueba)",
+      "otq": "Escaleras ne pasos (ntsa̲)"
+    },
+    {
+      "clave": "texto_84be7db4e3",
+      "es": "Puede omitirlos. Activa antes de iniciar; descarga unos 9 MB.",
+      "otq": "Nu'i gí tsa̲ da omitir ya. Activar nu'bu da du'mi; bi dige 9 MB."
+    },
+    {
+      "clave": "texto_7760444613",
+      "es": "Hoyos (prueba)",
+      "otq": "Baches (ntsa̲)"
+    },
+    {
+      "clave": "texto_6e37c0c7a4",
+      "es": "Busca baches visibles. Puede omitir hoyos y alcantarillas abiertas. Activa antes de iniciar; descarga unos 18 MB.",
+      "otq": "Honi baches visibles. Tsa̲ da omitir baches ne abrir alcantarillas. Activar nu'bu da du'mi; bi dige 18 MB."
+    },
+    {
+      "clave": "texto_932d1387ea",
+      "es": "Iniciar cámara",
+      "otq": "Da du'mi cámara"
+    },
+    {
+      "clave": "texto_3b151c79ca",
+      "es": "Detener cámara",
+      "otq": "Cámara parada"
+    },
+    {
+      "clave": "texto_539487886e",
+      "es": "Vista de la cámara trasera",
+      "otq": "Thandi cámara trasera"
+    },
+    {
+      "clave": "texto_0ffa32d7dc",
+      "es": "Escaleras y escalones: desactivado.",
+      "otq": "Escaleras ne escaladas: apagado."
+    },
+    {
+      "clave": "texto_f5d1afeb89",
+      "es": "Hoyos: desactivado.",
+      "otq": "Agujeos: apagado."
+    },
+    {
+      "clave": "texto_6bc09e5d85",
+      "es": "Leer número del camión",
+      "otq": "Lea 'bede ya dätä bo̲jä"
+    },
+    {
+      "clave": "texto_2b84617be1",
+      "es": "Leer letrero ahora",
+      "otq": "Lea nt'udi nu'bya"
+    },
+    {
+      "clave": "texto_31f91a51ab",
+      "es": "Repetir descripción",
+      "otq": "Pengi descripción"
+    },
+    {
+      "clave": "texto_3d080a382b",
+      "es": "Volver a mi viaje",
+      "otq": "Pengi ma 'ñu"
+    },
+    {
+      "clave": "texto_68f0ef4c59",
+      "es": "Ruta que buscas",
+      "otq": "Ruta gi hyoni"
+    },
+    {
+      "clave": "texto_2001f11ce0",
+      "es": "Por ejemplo, C55",
+      "otq": "'Nar nt'udi, C55"
+    },
+    {
+      "clave": "texto_b68bbfb6ba",
+      "es": "Si dejas el campo vacío, uso la ruta del viaje que estás siguiendo.",
+      "otq": "Nu'bu̲ dejas hwähi vacío, utilizo ruta ar viaje nä'ä xi te̲ni."
+    },
+    {
+      "clave": "texto_3b2662ce79",
+      "es": "Sentido (si lo sabes)",
+      "otq": "'Mui (nu'bu̲ gí pädi)"
+    },
+    {
+      "clave": "texto_8b60aafdb9",
+      "es": "Detalle de imagen",
+      "otq": "Detalle ar tsita"
+    },
+    {
+      "clave": "texto_d3c56d44d0",
+      "es": "Más detalle",
+      "otq": "Mäs detalle"
+    },
+    {
+      "clave": "texto_027d6d1276",
+      "es": "Más ligero",
+      "otq": "mäs brillante"
+    },
+    {
+      "clave": "texto_4c737efe14",
+      "es": "Avisos experimentales de vehículos",
+      "otq": "Alertas vehículos experimentales"
+    },
+    {
+      "clave": "texto_0b86b18bef",
+      "es": "Puede fallar, no detecta cruces.",
+      "otq": "To fallar, hingi detecta intersecciones."
+    },
+    {
+      "clave": "texto_818f93f719",
+      "es": "Probar vibración",
+      "otq": "Vibración ntsa̲"
+    },
+    {
+      "clave": "texto_b03bc632d0",
+      "es": "Con avisos activos, activa Leer número del camión o Leer letrero ahora para hacer una lectura.",
+      "otq": "Ko ya alertas activadas, activar da lei 'bede ya dätä bo̲jä wa gi pe̲ts'i nt'udi nu'bya pa gi 'nar da."
+    },
+    {
+      "clave": "texto_f86434b3a2",
+      "es": "Experimental: puede omitir obstáculos y desniveles. No mide altura ni indica cuándo cruzar. Usa tu bastón o acompañamiento.",
+      "otq": "Experimental: pe omitir ya obstáculos ne ya superficies desiguales. Hingi mide altura wa indica Hä'mu̲ cruzar. Utilice ár caña wa acompañamiento."
+    },
+    {
+      "clave": "texto_fdd37ed0a4",
+      "es": "Ver tutorial",
+      "otq": "Ga tutorial"
+    },
+    {
+      "clave": "texto_bc75379702",
+      "es": "Tocar para escuchar",
+      "otq": "Toque pa 'mu̲ise̲"
+    },
+    {
+      "clave": "texto_df3b69d81f",
+      "es": "En modo Voz: un toque describe; dos toques rápidos activan. Con VoiceOver o TalkBack se usan los gestos del teléfono.",
+      "otq": "Ja ar modo hñä: 'nar toque pede; yoho toques rápidos ar activan. Ko ar VoiceOver wa TalkBack ar utilizan ya gestos teléfono."
+    },
+    {
+      "clave": "texto_8f26cb859b",
+      "es": "Cámara que habla",
+      "otq": "Cámara ñä"
+    },
+    {
+      "clave": "texto_d86c32a26c",
+      "es": "el lugar de donde sales",
+      "otq": "Ar lugar gí ma ma"
+    },
+    {
+      "clave": "texto_1d402a2692",
+      "es": "el lugar a donde vas",
+      "otq": "Ar lugar gí ma"
+    },
+    {
+      "clave": "texto_85e1360ced",
+      "es": "Qrobus {v1}",
+      "otq": "Qrobus {v1}"
+    },
+    {
+      "clave": "texto_6a29e09e30",
+      "es": "En app · rango habitual",
+      "otq": "Jar nt'ot'e · gama ar nzäm'bu̲"
+    },
+    {
+      "clave": "texto_2cfc5c71ae",
+      "es": "El precio puede salir de este rango. Confírmalo al abrir la app.",
+      "otq": "Ar precio to caer fuera de nuna ar rango. Confirmar nä'ä ja ar abrir ár nt'ot'e."
+    },
+    {
+      "clave": "texto_42add9c027",
+      "es": "En la parada {v4}, hacia {v5}. Si lo pierdes, {v6} se estima en {v7}.",
+      "otq": "Ja ar parada {v4}, rumbo jar {v5}. Nu'bu̲ bí pierdes, {v6} bí estima jar {v7}."
+    },
+    {
+      "clave": "texto_2fef1efeb7",
+      "es": "Rango habitual",
+      "otq": "Gama ar nzäm'bu̲"
+    },
+    {
+      "clave": "texto_7d0a58b37b",
+      "es": "Parada seleccionada",
+      "otq": "Parada seleccionada"
+    },
+    {
+      "clave": "texto_1a8377d2db",
+      "es": "{v1} · a {v2} caminando",
+      "otq": "{v1} · da {v2} 'yowa"
+    },
+    {
+      "clave": "texto_91897adc4a",
+      "es": "Parada elegida",
+      "otq": "Tope elegido"
+    },
+    {
+      "clave": "texto_fa08d91d38",
+      "es": "Parada más cercana",
+      "otq": "Parada mäs cercana"
+    },
+    {
+      "clave": "texto_0b5dcb1af4",
+      "es": "Buscando paradas cerca de ti…",
+      "otq": "Mí honi paradas cerca de nu'i..."
+    },
+    {
+      "clave": "texto_7e12766a23",
+      "es": "No pude ver tu ubicación. Actívala o elige desde dónde sales.",
+      "otq": "Hindi pude ga ja yá 'mui. Encender nä'ä wa da 'ñets'i ho gi po̲ni ndezu̲."
+    },
+    {
+      "clave": "texto_c53e4a4248",
+      "es": "Elegir desde dónde sales",
+      "otq": "Da 'ñets'i ár ja yá 'mui partida"
+    },
+    {
+      "clave": "texto_40c71a2507",
+      "es": "{v1}: próximo horario",
+      "otq": "{v1}: Xtí horario"
+    },
+    {
+      "clave": "texto_d320868d8c",
+      "es": "Todavía no puedo comparar estas paradas:",
+      "otq": "Tobe hindi tsa̲ ga hye̲ki nuya ya paradas:"
+    },
+    {
+      "clave": "texto_2ff544d64c",
+      "es": "Estimación con el horario oficial; no conocemos la ubicación en tiempo real de los camiones.",
+      "otq": "Estimación basada ar horario xidi mfädi; hindi pähu̲ ar ja yá 'mui jar pa real ya bo̲jä ma 'me̲t'o."
+    },
+    {
+      "clave": "texto_f6242f6155",
+      "es": "Empate en tiempo estimado; se muestra primero la de menos caminata.",
+      "otq": "Atar ar pa estimado; ar gi 'ñudi 'me̲t'o nä'ä ko menos 'yo̲."
+    },
+    {
+      "clave": "texto_c446923f76",
+      "es": "Conviene más {v1}: menos tiempo estimado hasta abordar.",
+      "otq": "{v1} ar mäs mahyoni: menu ar pa estimado asta ar embarque."
+    },
+    {
+      "clave": "texto_779e5686e0",
+      "es": "Caminar {v10} min · esperar {v11} min",
+      "otq": "Walk {v10} min · wait {v11} min"
+    },
+    {
+      "clave": "texto_28f23d4cec",
+      "es": "{v12} min para abordar",
+      "otq": "{v12} min ma board"
+    },
+    {
+      "clave": "texto_5bff59cf9f",
+      "es": "Menor tiempo estimado.",
+      "otq": "Pa estimado mäs hingi maa."
+    },
+    {
+      "clave": "texto_3fddd13ea2",
+      "es": "· Conviene más",
+      "otq": "· Mäs mahyoni"
+    },
+    {
+      "clave": "texto_94a68c2ce3",
+      "es": "Sin comparar: {v1}.",
+      "otq": "'Ñotho comparación: {v1}."
+    },
+    {
+      "clave": "texto_157bed6b51",
+      "es": "A {v1}{v2}",
+      "otq": "To {v1}{v2}"
+    },
+    {
+      "clave": "texto_bf94a1491d",
+      "es": "{v5}Ver cómo llegar a la parada",
+      "otq": "{v5}See Honja zo̲ni ar parada"
+    },
+    {
+      "clave": "texto_0d16203894",
+      "es": "Los reportes son de la comunidad y pueden haber cambiado.",
+      "otq": "Ya mfädi ya jar hnini ne xähmä xi mpa̲ti."
+    },
+    {
+      "clave": "texto_5933e6904c",
+      "es": "Reportar algo en esta parada",
+      "otq": "Gi ungu̲mfädi 'naxtu̲i jar nuna parada"
+    },
+    {
+      "clave": "texto_eebb2fb1fd",
+      "es": "¿Qué parada me conviene?",
+      "otq": "¿Temu̲ parada ar mäs xi hño pa ngeki?"
+    },
+    {
+      "clave": "texto_6c3afb4101",
+      "es": "Calculando caminos a pie y horarios...",
+      "otq": "Cálculo rutas 'ñu ne horarios..."
+    },
+    {
+      "clave": "texto_57bfa9bb94",
+      "es": "Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.",
+      "otq": "Ya tiempos provienen ar horario xidi mfädi Qrobus; ar autobús to zo̲ni ngut'ä wa ya nde nde."
+    },
+    {
+      "clave": "texto_bab35c56e9",
+      "es": "Ver camiones y reportar en {v2}",
+      "otq": "Ga bo̲jä ma 'me̲t'o ne informar jar {v2}"
+    },
+    {
+      "clave": "texto_e0b0fe73aa",
+      "es": "A {v4}{v5}",
+      "otq": "To {v4}{v5}"
+    },
+    {
+      "clave": "texto_3fd6d5039e",
+      "es": "Todavía no hay avisos de esta parada.",
+      "otq": "Tobe otho ya alertas pa nuna ar parada"
+    },
+    {
+      "clave": "texto_161f0e5ed4",
+      "es": "una",
+      "otq": "'na"
+    },
+    {
+      "clave": "texto_c1299854f2",
+      "es": "dos",
+      "otq": "yoho"
+    },
+    {
+      "clave": "texto_ffe6b6e88b",
+      "es": "Para escuchar sin enviar texto, instala una voz en español en los ajustes de tu teléfono. También puedes usar tu lector de pantalla.",
+      "otq": "Pa 'mu̲ise̲ hinda pe̲hni texto, instale 'nar hñä ar hñämfo̲ jar configuración ar teléfono. 'Nehe tsa̲ da utilizar ár lector pantalla."
+    },
+    {
+      "clave": "texto_82d095343b",
+      "es": "2 de 3. ¿Escuchas bien los avisos? Arriba, sí. Abajo, me cuesta escuchar.",
+      "otq": "2 ar 3. ¿Dar tsa̲ 'oír ja ya alertas? Mañä, hä. Abajo, xí hñembi 'mu̲ise̲."
+    },
+    {
+      "clave": "texto_21dc270de1",
+      "es": "3 de 3. ¿Pagas Tarifa Unidos, el pasaje de 2 pesos para estudiantes, mayores de 60 y personas con discapacidad? Arriba, sí. Abajo, no.",
+      "otq": "3 ar 3. ¿Nu'i gí jut'i Tarifa Unidos, tarifa pesos 2 pa ya xa̲di, ya senior dige ar 60 ne ya jä'i ko discapacidades? Ntsuni mañä, hä. Abajo, Hi'nä."
+    },
+    {
+      "clave": "texto_618d3ed8b7",
+      "es": "Traducción automática parcial. Algunos textos siguen en español. El audio sigue en español.",
+      "otq": "Traducción automática parcial. 'Ra ya textos Tobe gi 'bu̲hu̲ jar hñämfo̲. Ar audio te̲ni komongu jar hñämfo̲."
+    },
+    {
+      "clave": "texto_ae72ea3de6",
+      "es": "En Inicio, toca Busca un lugar o Dictar y elige tu destino.",
+      "otq": "Jar Inicio, pulse honi 'nar lugar wa ñä ne da 'ñets'i ár 'mu̲i."
+    },
+    {
+      "clave": "texto_b818adf672",
+      "es": "Compara Qrobus, Uber, DiDi e inDrive. Si eliges camión, toca Empezar viaje con avisos para recibir la guía.",
+      "otq": "Comparar Qrobus, Uber, DiDi ne ar inDrive. Nu'bu̲ eliges 'nar camión, pulse da du'mi trip ko alertas pa ga hä ar guía."
+    },
+    {
+      "clave": "texto_9f9255834b",
+      "es": "Encuentra camiones cerca",
+      "otq": "Tingigi mbo camiones getu'bu̲"
+    },
+    {
+      "clave": "texto_f74f2fcb6b",
+      "es": "El botón del centro, Camiones cerca, busca paradas desde tu ubicación.",
+      "otq": "Botón made, Camiones getu'bu̲, gi hyoni paradas ndezu̲ ár ja yá 'mui."
+    },
+    {
+      "clave": "texto_2faed2d87b",
+      "es": "Elige una parada para consultar rutas y horarios o Reportar algo en esta parada. Los horarios son estimados; no vemos los camiones en tiempo real.",
+      "otq": "Elija 'nar parada pa comprobar rutas ne horarios wa gi mfädi 'naxtu̲i jar nuna ar parada. Ya horarios ar estiman; hingi nthe̲hu̲ ya bo̲jä ma 'me̲t'o jar pa real."
+    },
+    {
+      "clave": "texto_35414a7c78",
+      "es": "Usa la cámara y la voz",
+      "otq": "Utilice ar cámara ne ar hñä"
+    },
+    {
+      "clave": "texto_0abb2a75e2",
+      "es": "En Inicio o Ajustes, abre Describir con la cámara. En Ajustes puedes elegir el modo Voz.",
+      "otq": "Jar Inicio wa Configuración, abrir Gi pede ko ar cámara. Jar Configuración, gí to da 'ñets'i modo ar hñä."
+    },
+    {
+      "clave": "texto_43437b0a67",
+      "es": "La cámara puede describir algunos objetos y leer letreros. Analiza las imágenes en tu teléfono y puede omitir obstáculos; usa tu bastón o acompañamiento.",
+      "otq": "Ar cámara to bädi 'ra ya objetos ne lei signos. Analiza ya imágenes ár teléfono ne tsa̲ da nu'bu ya obstáculos; utilice ár bastón wa 'nar escolta."
+    },
+    {
+      "clave": "texto_9775842c33",
+      "es": "Paso {v1} de {v2}. {v3}. {v4} {v5}",
+      "otq": "Step {v1} ar {v2}. {v3}. {v4} {v5}"
+    },
+    {
+      "clave": "texto_e7aed23a3c",
+      "es": "Empezar a usar Grieta",
+      "otq": "'Bu̲i utilizar Grieta"
+    },
+    {
+      "clave": "texto_3ec6273b30",
+      "es": "Apunta el teléfono frente a ti. Describo algunos objetos y leo letreros en español.",
+      "otq": "Apunte ar teléfono hñandu̲hu̲ gí. Di pede 'ra ya objetos ne lei signos ko ar hñämfo̲."
+    },
+    {
+      "clave": "texto_3f9b54e11a",
+      "es": "Buscas {v1}{v2}.{v3}",
+      "otq": "Gi hyoni {v1}{v2}. {v3}"
+    },
+    {
+      "clave": "texto_2227a73270",
+      "es": "hacia {v1}",
+      "otq": "nu'bu {v1}"
+    },
+    {
+      "clave": "texto_bc33ae2d07",
+      "es": ". Todavía no elegiste el sentido",
+      "otq": ". Tobe hindi xi elegido jar 'mui"
+    },
+    {
+      "clave": "texto_ad8f8142a7",
+      "es": "Ruta escrita por ti.",
+      "otq": "Ruta ko nu'i"
+    },
+    {
+      "clave": "texto_803045a0f0",
+      "es": "Ruta de tu viaje.",
+      "otq": "Ruta ir 'ñu"
+    },
+    {
+      "clave": "texto_4ba4f81ae9",
+      "es": "No encuentro esa ruta en los datos guardados. Revisa el número antes de compararlo.",
+      "otq": "Hindi tsa̲ ga tingigi mbo do ruta ja ya datos guardados. Compruebe ar 'bede 'be̲tho ndi comparar."
+    },
+    {
+      "clave": "texto_3c4cf3b69b",
+      "es": "Puedo leer el número. Para compararlo, sigue un viaje o escribe la ruta que buscas.",
+      "otq": "Ar tsa̲ ga lei ar 'bede. Pa ndi comparar, deni 'nar viaje wa escriba ar ruta gi hyoni."
+    },
+    {
+      "clave": "texto_975be820b3",
+      "es": "No sé el sentido",
+      "otq": "Hindi pädi jar 'ñu"
+    },
+    {
+      "clave": "texto_542336d21a",
+      "es": "Veo varios camiones. Apunta a uno solo para leer su letrero.",
+      "otq": "Di handi 'ra ya dätä bo̲jä. Gi t'adi ho̲ntho 'na pa gi lei ár nt'udi nt'udi."
+    },
+    {
+      "clave": "texto_ea6001b223",
+      "es": "Cámara apagada.",
+      "otq": "Cámara apagado."
+    },
+    {
+      "clave": "texto_f407384e2f",
+      "es": "Cancelado",
+      "otq": "Cancelado"
+    },
+    {
+      "clave": "texto_664c6187b3",
+      "es": "Preparando cámara: {v1} %.",
+      "otq": "Nt'ot'e cámara: {v1} %."
+    },
+    {
+      "clave": "texto_8c8c340a43",
+      "es": "Este navegador no admite la cámara con reconocimiento local. Prueba Safari o Chrome actualizados.",
+      "otq": "Nuna ar navegador hindi soporta ar cámara reconocimiento ja. Pruebe Safari wa Chrome actualizado."
+    },
+    {
+      "clave": "texto_6831d4a2da",
+      "es": "Preparando el reconocimiento en tu teléfono. Puedes detenerlo cuando quieras.",
+      "otq": "Hoki ar reconocimiento ja ir teléfono. Nu'i gí tsa̲ da parar nu'bu̲ gi ne."
+    },
+    {
+      "clave": "texto_55ea0bce07",
+      "es": "La preparación tardó demasiado. Revisa tu conexión y vuelve a intentar.",
+      "otq": "Ar nt'ot'e tardó 'me̲xi. Compruebe ár conexión ne japi ma 'nagi."
+    },
+    {
+      "clave": "texto_e894ec52f1",
+      "es": "Permite usar la cámara para describir lo que apunta el teléfono.",
+      "otq": "Hegi nuna ar Hmunts'i utilizar ar cámara pa da bädi nä'ä ar teléfono xí señalando."
+    },
+    {
+      "clave": "texto_17b7ae1356",
+      "es": "La cámara se desconectó. Puedes volver a iniciarla.",
+      "otq": "Ar cámara desconectada. Pe ndi du'mi ma 'nagi."
+    },
+    {
+      "clave": "texto_487db32675",
+      "es": "No pude analizar la imagen. Detuve la cámara. Vuelve a intentar.",
+      "otq": "Hindi pude analizar ar tsita. Xta detenido ar cámara. Japi ma 'nagi."
+    },
+    {
+      "clave": "texto_0a5ebdb297",
+      "es": "Actualizando la descripción con una imagen reciente.",
+      "otq": "Actualizar ar descripción ko 'nar tsita reciente."
+    },
+    {
+      "clave": "texto_736c5e35c3",
+      "es": "Análisis lento: los avisos de vehículos pueden omitirse. Detén la cámara y elige Más ligero.",
+      "otq": "Análisis lento: alertas vehículo xi da omitidos. Detenga ar cámara ne elija ar encendedor."
+    },
+    {
+      "clave": "texto_63035af067",
+      "es": "Falló el reconocimiento local. Detuve la cámara. Vuelve a intentar.",
+      "otq": "Fracasó ar reconocimiento ja. Xta detenido ar cámara. Japi ma 'nagi."
+    },
+    {
+      "clave": "texto_434848b8f5",
+      "es": "Cámara encendida. {v1}{v2}",
+      "otq": "Cámara encendida. {v1}{v2}"
+    },
+    {
+      "clave": "texto_b8f9ce2935",
+      "es": "Escaleras y escalones: avisos experimentales activos.",
+      "otq": "Escaleras ne escaleras: alertas experimentales activas."
+    },
+    {
+      "clave": "texto_8faa6fa159",
+      "es": "Los avisos de escaleras y escalones están desactivados.",
+      "otq": "Alertas escaleras ne pasos ar desactivan."
+    },
+    {
+      "clave": "texto_f28be04a7d",
+      "es": "Hoyos: avisos experimentales activos.",
+      "otq": "Agujeros: alertas experimentales activas."
+    },
+    {
+      "clave": "texto_cb9ab1e694",
+      "es": "No pude preparar los avisos de hoyos. Revisa la conexión o desactívalos antes de iniciar para usar los otros objetos.",
+      "otq": "Hindi pude hoki ya alertas oki. Compruebe ar conexión wa desactivar ya 'be̲tho 'bu̲i utilizar ya ma'ra objetos."
+    },
+    {
+      "clave": "texto_47b4bbb943",
+      "es": "No pude preparar los avisos de escaleras y escalones. Revisa la conexión o desactívalos antes de iniciar para usar los otros objetos.",
+      "otq": "Hindi himar tsa̲ ndi hoki ya alertas escaleras ne pasos. Compruebe ar conexión wa desactivar ya 'be̲tho ndi ndu̲i ndi utilizar ya ma'ra objetos."
+    },
+    {
+      "clave": "texto_4d3a913406",
+      "es": "No diste permiso para la cámara. Puedes habilitarlo en los permisos del navegador y volver a intentar.",
+      "otq": "Hingi xi mä 'raku̲'be pa ar cámara. Pe habilitar nä'ä ja ya permisos ar navegador ne japi ma 'nagi."
+    },
+    {
+      "clave": "texto_c54e4b489b",
+      "es": "No encontré una cámara en este dispositivo.",
+      "otq": "Hingi tini 'nar cámara jar nuna ar dispositivo."
+    },
+    {
+      "clave": "texto_c6ceb4e8a2",
+      "es": "No hay espacio para guardar los modelos en este navegador. Libera espacio y vuelve a intentar.",
+      "otq": "Otho espacio ku̲ ya modelos nuna ar navegador. Liberar espacio ne japi ma 'nagi."
+    },
+    {
+      "clave": "texto_845f85e112",
+      "es": "No pude preparar la cámara. Revisa la conexión y vuelve a intentar; las imágenes se analizan en tu teléfono.",
+      "otq": "Hingi himar tsa̲ ndi hoki ar cámara. Compruebe ar conexión ne japi ma 'nagi; ya imágenes ar analizan ja yá teléfono."
+    },
+    {
+      "clave": "texto_2c73d6e663",
+      "es": "Mantén esta pantalla abierta; el teléfono puede apagarla.",
+      "otq": "Da zeti nuna ar pantalla xi xogi; ar teléfono ndi hwet'i nä'ä."
+    },
+    {
+      "clave": "texto_b74b89446a",
+      "es": "La imagen está muy oscura. Busca mejor luz si puedes hacerlo con seguridad.",
+      "otq": "Ar tsita ar xki oscura. Tingigi mbo mäs xi hño iluminación nu'bu̲ gí tsa̲ da hoki ko Ntsuni."
+    },
+    {
+      "clave": "texto_8aba346480",
+      "es": "La imagen está demasiado iluminada. Evita apuntar directamente a la luz.",
+      "otq": "Ar tsita ar xki brillante. Evite señalar Hmunts'i jar tsibi."
+    },
+    {
+      "clave": "texto_282045328e",
+      "es": "No hay suficiente detalle en la imagen. Revisa que la lente esté descubierta y limpia.",
+      "otq": "Otho xingu detalle ja ar tsita. Xi hño da ja da ar lente xí descubierta ne limpia."
+    },
+    {
+      "clave": "texto_a347833e23",
+      "es": "Atención: {v1} ocupa más espacio al centro de la imagen. Puede haber movimiento; verifica tu entorno.",
+      "otq": "Ntheti: {v1} ocupa mäs espacio jar made ar tsita. Dar tsa̲ da porke yá 'ñäni; Compruebe ár entorno."
+    },
+    {
+      "clave": "texto_36291abf8f",
+      "es": "La vibración no está disponible ahora. El aviso sigue por voz o lector de pantalla.",
+      "otq": "Ar vibración hingi 'bu̲i disponible gem'bya. Ar alerta Tobe llegará a través de ar hñä wa ya lector pantalla."
+    },
+    {
+      "clave": "texto_ac0b7e459b",
+      "es": "El teléfono tardó demasiado en reconocer la imagen. Detuve la cámara.",
+      "otq": "Ar teléfono tardó xki pa reconocer ar tsita. Xta parado ar cámara."
+    },
+    {
+      "clave": "texto_8066c31d82",
+      "es": "No pude analizar la imagen. Puedes volver a iniciar la cámara.",
+      "otq": "Hindi pude analizar ar tsita. Nu'i gí tsa̲ da reiniciar ar cámara."
+    },
+    {
+      "clave": "texto_077148e6aa",
+      "es": "Parece haber {v1} en la imagen.",
+      "otq": "Mä ja ar {v1} ja ar tsita."
+    },
+    {
+      "clave": "texto_adeffad065",
+      "es": "Busco camiones y letreros para tu viaje.",
+      "otq": "Di honi ya dätä bo̲jä ne ya signos pa ir 'bu̲i"
+    },
+    {
+      "clave": "texto_38262b918c",
+      "es": "No reconozco objetos con suficiente certeza. Eso no significa que el paso esté libre.",
+      "otq": "Hindi tsa̲ ga reconocer ya objetos ko xingu ya certeza. Nä'ä hingi ir bo̲ni ke ar bi thogi xí majwäni."
+    },
+    {
+      "clave": "texto_79418c02b7",
+      "es": "Parece haber {v1}.",
+      "otq": "Mä 'bu̲i {v1}."
+    },
+    {
+      "clave": "texto_2217e0c38a",
+      "es": "Buscando una imagen legible del letrero.",
+      "otq": "Honi 'nar tsita ar nt'udi ar nt'udi"
+    },
+    {
+      "clave": "texto_a124add019",
+      "es": "No pude leer la imagen. Sigue apuntando al letrero para intentar otra lectura.",
+      "otq": "Hindi himar tsa̲ ga lei ar tsita. Seguir señalando ar nt'udi pa probar gi da ."
+    },
+    {
+      "clave": "texto_637b7a1596",
+      "es": "El letrero parece coincidir con la parada {v1} del catálogo.",
+      "otq": "Ar nt'udi gi coincidir ko ar parada {v1} ja ar catálogo."
+    },
+    {
+      "clave": "texto_1f0fd108c1",
+      "es": "El texto parece decir: {v1}.{v2}",
+      "otq": "Ar texto mä mä: {v1}. {v2}"
+    },
+    {
+      "clave": "texto_7b12940288",
+      "es": "Coincide con el nombre {v1} del catálogo; confirma la parada antes de abordar.",
+      "otq": "Coincide ko thuuhu {v1} ja ar catálogo; confirmar ar parada 'be̲tho abordar."
+    },
+    {
+      "clave": "texto_07a36e524b",
+      "es": "No pude leer texto con suficiente claridad. Acércate al letrero si puedes hacerlo con seguridad y vuelve a intentar.",
+      "otq": "Hindi pude lei ar texto xingu. Acercar ar señal nu'bu̲ gí tsa̲ da ntsuni ne japi ma 'nagi."
+    },
+    {
+      "clave": "texto_9b2cfd0172",
+      "es": "Cámara encendida. Puedes leer otro letrero o detenerla.",
+      "otq": "Cámara encendida. Pe lei ma'na nt'udi wa bí detener."
+    },
+    {
+      "clave": "texto_d17ce68558",
+      "es": "No pude leer la imagen. Detuve la cámara. Puedes volver a intentar.",
+      "otq": "Hindi pude lei ar tsita. Xta deparado ar cámara. Dar tsa̲ gi japi ma 'nagi."
+    },
+    {
+      "clave": "texto_7cb360ebe0",
+      "es": "Todavía no identifico un solo camión para leer su número. Apunta a su letrero; también puedes usar Leer letrero ahora.",
+      "otq": "Tobe hindi xta identificado Honto 'nar dätä bo̲jä pa lei ár 'bede. Punto ár nt'udi nt'udi; 'nehe tsa̲ da utilizar ár nt'udi nt'udi nu'bya."
+    },
+    {
+      "clave": "texto_1b357f8e92",
+      "es": "Leyendo el letrero en varias imágenes.",
+      "otq": "Lei ar nt'udi ndunthe ya imágenes."
+    },
+    {
+      "clave": "texto_6df16cfaf4",
+      "es": "Espero una imagen nueva para volver a comparar el camión.",
+      "otq": "Di esperando 'nar 'ra'yo tsita pa comparar ar dätä bo̲jä ma 'nagi."
+    },
+    {
+      "clave": "texto_8fe33abaaa",
+      "es": "La lectura tardó demasiado. Vuelve a apuntar al letrero.",
+      "otq": "Ar da tardó xiñho. Gi japi ar nt'udi ar nt'udi"
+    },
+    {
+      "clave": "texto_4a978e3b37",
+      "es": "La lectura del camión ya no es reciente. Vuelve a apuntar a su letrero.",
+      "otq": "Da ar dätä bo̲jä ya hingi ar reciente. Ar señal ár nt'udi ma 'nagi."
+    },
+    {
+      "clave": "texto_a152d1c1bb",
+      "es": "No pude leer el letrero del camión. Detuve la cámara. Puedes volver a intentar.",
+      "otq": "Hindi himar tsa̲ lei ar nt'udi ar dätä bo̲jä. Xta parado ar cámara. Dar tsa̲ gi japi ma 'nagi."
+    },
+    {
+      "clave": "texto_7af3d135db",
+      "es": "Cámara encendida.",
+      "otq": "Cámara encendida."
+    },
+    {
+      "clave": "texto_c4f1296141",
+      "es": "La vibración depende del teléfono y sus ajustes. Puedes probarla aquí.",
+      "otq": "Ar vibración bi jagu̲ju̲ ár teléfono ne ár configuración. Nu'i gí tsa̲ da probar nuwa."
+    },
+    {
+      "clave": "texto_f883997173",
+      "es": "Este navegador no permite vibrar. Los avisos se muestran y usan tu voz local o lector de pantalla.",
+      "otq": "Nuna ar navegador hindi permite ar vibración. Ya alertas ar muestran ne utilizan ár hñä wa lector pantalla ja."
+    },
+    {
+      "clave": "texto_5f17202ffa",
+      "es": "Se pidió una vibración de prueba. Confirma si la sentiste antes de usar los avisos.",
+      "otq": "Bí solicitó 'nar vibración ntsa̲. Confirmar nu'bu̲ bí sintió 'be̲tho ga alertas."
+    },
+    {
+      "clave": "texto_c020ec2e6f",
+      "es": "El teléfono rechazó la vibración. Los avisos siguen por voz o lector de pantalla.",
+      "otq": "Ar teléfono rechazó ar vibración. Alertas Tobe funcionan a través de lector ar hñä wa ya pantalla."
+    },
+    {
+      "clave": "texto_5e7ce1a20d",
+      "es": "Usa tu lector de pantalla para explorar el botón de práctica y después activarlo con su gesto habitual. Grieta no añade otro doble toque.",
+      "otq": "Utilice ár lector pantalla pa explorar botón práctica ne gem'bu̲ activar nä'ä ko ár gesto habitual. Grieta hingi agrega ma'na doble toque."
+    },
+    {
+      "clave": "texto_33395e561b",
+      "es": "Toca una vez el botón de práctica para escuchar qué hace. Después da dos toques rápidos sobre el mismo botón para activarlo. Puedes escuchar primero y luego dar los dos toques.",
+      "otq": "Pulse botón práctica 'nar pa pa 'mu̲ise̲ nä'ä thogi. Tso̲kwa continuación, doble toque xkagentho ar botón pa ndi activar. Dar tsa̲ 'mu̲ise̲ 'me̲t'o ne gem'bu̲ doble ar golpe."
+    },
+    {
+      "clave": "texto_fd95a087cb",
+      "es": "Paso 1 de 2. Explora el botón de práctica.",
+      "otq": "Thogi 1 ar 2. Explorar botón práctica."
+    },
+    {
+      "clave": "texto_45810b8270",
+      "es": "Paso 2 de 2. Ya escuchaste el botón. Actívalo con dos toques rápidos en el mismo lugar.",
+      "otq": "Thogi 2 ar 2. Ya escuchó ar botón. Bí activar ko 'nar doble toque rápido jar xkagentho ar lugar."
+    },
+    {
+      "clave": "texto_11f055b8b3",
+      "es": "Práctica completada. Activaste el botón sin hacer ninguna acción fuera de esta práctica.",
+      "otq": "Práctica realizada. Activó ar botón hinda 'yo̲t'e otho fuera de nuna ar práctica."
+    },
+    {
+      "clave": "texto_d5e515ad11",
+      "es": "Este botón solo sirve para practicar. No hace acciones fuera de esta pantalla.",
+      "otq": "Nuna ar botón ar ho̲ntho pa ar práctica. Hingi thogi otho fuera de nuna ar pantalla."
+    },
+    {
+      "clave": "texto_d6a65c278c",
+      "es": "Lee varias imágenes del letrero de un solo camión para comparar la ruta.",
+      "otq": "Gi hyandi ndunthe imágenes ar nt'udi nt'u̲di Honto ar dätä dätä bo̲jä pa comparar ar ruta."
+    },
+    {
+      "clave": "texto_f4f23d4a0e",
+      "es": "Escucha tu destino para buscar cómo llegar.",
+      "otq": "'Mu̲ise̲ ár 'mu̲i pa averiguar Temu̲ zo̲ni nu'bu̲."
+    },
+    {
+      "clave": "texto_4487741a63",
+      "es": "Abre la cámara para describir objetos y leer letreros.",
+      "otq": "Abrir ar cámara pa bädi objetos ne lei signos."
+    },
+    {
+      "clave": "texto_589ad60e8b",
+      "es": "Busca paradas y rutas cercanas.",
+      "otq": "Honi ya paradas ne rutas cercanas."
+    },
+    {
+      "clave": "texto_721680a238",
+      "es": "Dice la ubicación detectada.",
+      "otq": "Hmä ar ja yá 'mui detectada."
+    },
+    {
+      "clave": "texto_55b87edc74",
+      "es": "Vuelve a leer el último aviso.",
+      "otq": "Pengi gi lei ar ngäts'i ar aviso"
+    },
+    {
+      "clave": "texto_67f1a019f7",
+      "es": "Pide permiso y enciende la cámara.",
+      "otq": "Pida 'raku̲'be ne encienda ar cámara."
+    },
+    {
+      "clave": "texto_201cb54b79",
+      "es": "Apaga la cámara y el reconocimiento.",
+      "otq": "Apague ar cámara ne ar reconocimiento."
+    },
+    {
+      "clave": "texto_cbb7fb827c",
+      "es": "Busca texto en la imagen y lo lee.",
+      "otq": "Gi hyoni texto ja ar tsita ne bí leia."
+    },
+    {
+      "clave": "texto_27ee06dd03",
+      "es": "Envía el reporte que preparaste.",
+      "otq": "Pe̲hni ar nt'ungu̲mfädi xká hoki"
+    },
+    {
+      "clave": "texto_735efcf9f0",
+      "es": "Inicia la guía del viaje.",
+      "otq": "Gi du'mi jar nt'u̲'mi 'ñu"
+    },
+    {
+      "clave": "texto_32d7e82082",
+      "es": "Control",
+      "otq": "Control"
+    },
+    {
+      "clave": "texto_719b20338e",
+      "es": "Seleccionado.",
+      "otq": "Seleccionado."
+    },
+    {
+      "clave": "texto_60d00c61ce",
+      "es": "No seleccionado.",
+      "otq": "Hingi seleccionado."
+    },
+    {
+      "clave": "texto_418827137c",
+      "es": "Activado.",
+      "otq": "Activado."
+    },
+    {
+      "clave": "texto_74fc8d58d5",
+      "es": "Desactivado.",
+      "otq": "Desactivado."
+    },
+    {
+      "clave": "texto_591761c3c4",
+      "es": "Selector.",
+      "otq": "Ár se̲t'i"
+    },
+    {
+      "clave": "texto_53e7012283",
+      "es": "Adjuntar archivo.",
+      "otq": "Adjuntar archivo."
+    },
+    {
+      "clave": "texto_6f8ad4693d",
+      "es": "Campo de texto.",
+      "otq": "Hwähi texto."
+    },
+    {
+      "clave": "texto_c51416b3d1",
+      "es": "Enlace.",
+      "otq": "Enlace."
+    },
+    {
+      "clave": "texto_b407e3fa91",
+      "es": "Botón.",
+      "otq": "Botón."
+    },
+    {
+      "clave": "texto_72ecf9be1d",
+      "es": "Opción.",
+      "otq": "Opción."
+    },
+    {
+      "clave": "texto_154ca088c8",
+      "es": "Por ahora no está disponible.",
+      "otq": "Hingi disponible nuna t'olo ora."
+    },
+    {
+      "clave": "texto_1a8f09ee97",
+      "es": "Dos toques rápidos para activar.",
+      "otq": "Doble toque pa activar."
+    },
+    {
+      "clave": "texto_88e12ae748",
+      "es": "Solo camión",
+      "otq": "Ho̲ntho bo̲jä ma bo̲jä"
+    },
+    {
+      "clave": "texto_bbcdbc3cd7",
+      "es": "App hasta la parada + camión",
+      "otq": "Nt'ot'e ja ar parada + autobús"
+    },
+    {
+      "clave": "texto_41732ff49f",
+      "es": "Camión + app al final",
+      "otq": "Bus + nt'ot'e ar ngäts'i"
+    },
+    {
+      "clave": "texto_c54adab005",
+      "es": "App + camión + app",
+      "otq": "App + bus + app"
+    },
+    {
+      "clave": "texto_dada8cf163",
+      "es": "línea {v1}: {v2} ({v3}) a {v4}",
+      "otq": "Line {v1}: {v2} ({v3}) to {v4}"
+    },
+    {
+      "clave": "texto_492f4abb39",
+      "es": "Solo app ({v1})",
+      "otq": "Ho̲ntho nt'ot'e ({v1})"
+    },
+    {
+      "clave": "texto_32a7edda34",
+      "es": "con transbordo",
+      "otq": "Ko ar transferencia"
+    },
+    {
+      "clave": "texto_09c2c6f229",
+      "es": "Solo app",
+      "otq": "Honto ya nt'ot'e"
+    },
+    {
+      "clave": "texto_dd6c13f4d0",
+      "es": "El teléfono no vibró. El aviso sigue por voz o lector.",
+      "otq": "Ar teléfono hingi vibró. Ar alerta continúa a través de hñä wa ya lector."
+    },
+    {
+      "clave": "texto_f078e63beb",
+      "es": "Escaleras y escalones: se preparan al iniciar.",
+      "otq": "Escaleras ne escaladas: hoki ar jar ndu̲i."
+    },
+    {
+      "clave": "texto_717bcfdb24",
+      "es": "Preparando los avisos experimentales de escaleras y escalones.",
+      "otq": "Nt'ot'e alertas experimentales escaleras ne pasos"
+    },
+    {
+      "clave": "texto_3063c5f00c",
+      "es": "Escaleras y escalones: reconocimiento experimental activo.",
+      "otq": "Escaleras ne escaladas: reconocimiento experimental activo."
+    },
+    {
+      "clave": "texto_3b79e09cef",
+      "es": "Se detuvieron los avisos de escaleras y escalones. Los otros objetos siguen funcionando. Detén y vuelve a iniciar la cámara para reintentarlo.",
+      "otq": "Alertas escalera ne bi thogi detenidos. Ma 'ra ya objetos siguen mpe̲fi ar 'be̲fi. Detener ne reiniciar ar cámara pa japi ma 'nagi."
+    },
+    {
+      "clave": "texto_c308c81904",
+      "es": "Escaleras y escalones: avisos detenidos.",
+      "otq": "Escaleras ne escaladas: alertas detenidos."
+    },
+    {
+      "clave": "texto_711505cdc1",
+      "es": "Escaleras y escalones: la imagen es poco legible y puede omitirlos.",
+      "otq": "Escaleras ne escaleras: ar tsita xí hñei ar lei ne to da omitir ya."
+    },
+    {
+      "clave": "texto_34cc6eb934",
+      "es": "Escaleras y escalones: espero una imagen nueva de la cámara.",
+      "otq": "Escaleras ne escaladas: esperar 'nar 'ra'yo tsita ar cámara."
+    },
+    {
+      "clave": "texto_190f9c11ee",
+      "es": "El análisis de escaleras y escalones está tardando. Los avisos pueden llegar tarde.",
+      "otq": "Análisis escaleras ne pasos xi tardando xingu ya pa. Ya alertas xi da retrasadas."
+    },
+    {
+      "clave": "texto_17dfe46d37",
+      "es": "Hoyos: se preparan al iniciar.",
+      "otq": "Agujeros: hoki ja ar inicio."
+    },
+    {
+      "clave": "texto_865750ba32",
+      "es": "Preparando los avisos experimentales de hoyos.",
+      "otq": "Nt'ot'e alertas oki experimentales"
+    },
+    {
+      "clave": "texto_5c1a05a395",
+      "es": "Hoyos: reconocimiento experimental activo.",
+      "otq": "Agujeros: reconocimiento experimental activo."
+    },
+    {
+      "clave": "texto_f872afe8f8",
+      "es": "Se detuvieron los avisos de hoyos. Los otros objetos siguen funcionando. Detén y vuelve a iniciar la cámara para reintentarlo.",
+      "otq": "Ya alertas oki detenidos. Ma 'ra ya objetos siguen mpe̲fi ar 'be̲fi. Detener ne reiniciar ar cámara pa japi ma 'nagi."
+    },
+    {
+      "clave": "texto_1b69b6a8a3",
+      "es": "Hoyos: avisos detenidos.",
+      "otq": "Ya aguje: ya alertas bí detu̲ni."
+    },
+    {
+      "clave": "texto_e08d1610f1",
+      "es": "Hoyos: la imagen es poco legible y puede omitirlos.",
+      "otq": "Agujeros: ar tsita xí hñei ar lei ne tsa̲ da omitir ya."
+    },
+    {
+      "clave": "texto_a95c558c1f",
+      "es": "Hoyos: espero una imagen nueva de la cámara.",
+      "otq": "Agujeros: esperar 'nar 'ra'yo tsita ar cámara."
+    },
+    {
+      "clave": "texto_8212eb8b23",
+      "es": "El análisis de hoyos está tardando. Los avisos pueden llegar tarde.",
+      "otq": "Análisis oki xi tardando xingu ya pa. Ya alertas xi retrasar ar ."
+    },
+    {
+      "clave": "texto_a19bfdb412",
+      "es": "una persona",
+      "otq": "'nar jä'i"
+    },
+    {
+      "clave": "texto_52b3ff555c",
+      "es": "personas",
+      "otq": "Ya jä'i"
+    },
+    {
+      "clave": "texto_14b96e1442",
+      "es": "una bicicleta",
+      "otq": "'nar fana̲bi"
+    },
+    {
+      "clave": "texto_d97439b9f2",
+      "es": "bicicletas",
+      "otq": "Ya fani xbi'be̲ntho"
+    },
+    {
+      "clave": "texto_f87c97a1bb",
+      "es": "un auto",
+      "otq": "'nar coche"
+    },
+    {
+      "clave": "texto_dd18a0f5cc",
+      "es": "autos",
+      "otq": "Automóviles"
+    },
+    {
+      "clave": "texto_5b08e2ae0e",
+      "es": "una moto",
+      "otq": "'Nar motocicleta"
+    },
+    {
+      "clave": "texto_045c3b0ad7",
+      "es": "motos",
+      "otq": "Motocicletas"
+    },
+    {
+      "clave": "texto_d582a19e77",
+      "es": "un avión",
+      "otq": "'nar nsa̲ni bo̲jä"
+    },
+    {
+      "clave": "texto_59e55457b7",
+      "es": "aviones",
+      "otq": "Nsa̲ni bo̲jä"
+    },
+    {
+      "clave": "texto_3307d48628",
+      "es": "un camión",
+      "otq": "'nar dätä bo̲jä"
+    },
+    {
+      "clave": "texto_e1b0d4bcb0",
+      "es": "camiones",
+      "otq": "Ya bo̲jä"
+    },
+    {
+      "clave": "texto_bbb12090f5",
+      "es": "un tren",
+      "otq": "'nar nju̲bo̲jä"
+    },
+    {
+      "clave": "texto_ece45dcc46",
+      "es": "trenes",
+      "otq": "Trenes"
+    },
+    {
+      "clave": "texto_612d8ab18f",
+      "es": "un camión de carga",
+      "otq": "'nar dätä bo̲jä"
+    },
+    {
+      "clave": "texto_5768895918",
+      "es": "camiones de carga",
+      "otq": "Ya dätä bo̲jä"
+    },
+    {
+      "clave": "texto_de38a24d58",
+      "es": "una embarcación",
+      "otq": "'nar barko"
+    },
+    {
+      "clave": "texto_1ccc0816b6",
+      "es": "embarcaciones",
+      "otq": "Barkos"
+    },
+    {
+      "clave": "texto_e17cfc9d16",
+      "es": "un semáforo",
+      "otq": "'nar semáforo"
+    },
+    {
+      "clave": "texto_714abde789",
+      "es": "semáforos",
+      "otq": "Semáforo"
+    },
+    {
+      "clave": "texto_91d364cc3b",
+      "es": "un hidrante",
+      "otq": "'Nar hidrante ar tsibi"
+    },
+    {
+      "clave": "texto_3389f34443",
+      "es": "hidrantes",
+      "otq": "Hidrantes ar tsibi"
+    },
+    {
+      "clave": "texto_fc770e563b",
+      "es": "una señal de alto",
+      "otq": "'nar nt'udi stop"
+    },
+    {
+      "clave": "texto_55a9770ff1",
+      "es": "señales de alto",
+      "otq": "Señales ar stop"
+    },
+    {
+      "clave": "texto_2f6831c616",
+      "es": "un parquímetro",
+      "otq": "'Nar parquímetro"
+    },
+    {
+      "clave": "texto_24689d2103",
+      "es": "parquímetros",
+      "otq": "Medidores estacionamiento"
+    },
+    {
+      "clave": "texto_85ac3e81cc",
+      "es": "una banca",
+      "otq": "'nar thuhni"
+    },
+    {
+      "clave": "texto_ef166becc2",
+      "es": "bancas",
+      "otq": "Thuhni"
+    },
+    {
+      "clave": "texto_e5ea503352",
+      "es": "un ave",
+      "otq": "'nar ts'ints'u̲"
+    },
+    {
+      "clave": "texto_f63a5fe50a",
+      "es": "aves",
+      "otq": "Ts'ints'u̲"
+    },
+    {
+      "clave": "texto_5fcac0e5d8",
+      "es": "un gato",
+      "otq": "'nar mixi"
+    },
+    {
+      "clave": "texto_7051fd3b01",
+      "es": "gatos",
+      "otq": "Mixi"
+    },
+    {
+      "clave": "texto_c1bd11f3bb",
+      "es": "un perro",
+      "otq": "'nar 'yo"
+    },
+    {
+      "clave": "texto_2cc8248a5f",
+      "es": "perros",
+      "otq": "Tsat'yo"
+    },
+    {
+      "clave": "texto_0c056ad649",
+      "es": "un caballo",
+      "otq": "'nar fani"
+    },
+    {
+      "clave": "texto_44f7d0ef03",
+      "es": "caballos",
+      "otq": "Ya fani"
+    },
+    {
+      "clave": "texto_a1931356af",
+      "es": "una oveja",
+      "otq": "'nar de̲ti"
+    },
+    {
+      "clave": "texto_61de60d7e2",
+      "es": "ovejas",
+      "otq": "Odi"
+    },
+    {
+      "clave": "texto_cd65749df9",
+      "es": "una vaca",
+      "otq": "'nar baga"
+    },
+    {
+      "clave": "texto_5661c84b77",
+      "es": "vacas",
+      "otq": "Ya baga"
+    },
+    {
+      "clave": "texto_41d0d4967a",
+      "es": "un elefante",
+      "otq": "'nar elefante"
+    },
+    {
+      "clave": "texto_73b286dc94",
+      "es": "elefantes",
+      "otq": "Ya elefantes"
+    },
+    {
+      "clave": "texto_2c1c3f953a",
+      "es": "un oso",
+      "otq": "'nar oso"
+    },
+    {
+      "clave": "texto_68ec5e0c39",
+      "es": "osos",
+      "otq": "Oso"
+    },
+    {
+      "clave": "texto_4308940a4b",
+      "es": "una cebra",
+      "otq": "'nar zebra"
+    },
+    {
+      "clave": "texto_0495da9101",
+      "es": "cebras",
+      "otq": "zebras"
+    },
+    {
+      "clave": "texto_10e65c7a7b",
+      "es": "una jirafa",
+      "otq": "'nar ximafa"
+    },
+    {
+      "clave": "texto_d9d610fb96",
+      "es": "jirafas",
+      "otq": "Ya ximafa"
+    },
+    {
+      "clave": "texto_66534abafa",
+      "es": "una mochila",
+      "otq": "'nar mojsa"
+    },
+    {
+      "clave": "texto_6cdae5e282",
+      "es": "mochilas",
+      "otq": "Mochila"
+    },
+    {
+      "clave": "texto_91b0407119",
+      "es": "un paraguas",
+      "otq": "'nar 'na̲ku̲'ye"
+    },
+    {
+      "clave": "texto_e1534634f2",
+      "es": "paraguas",
+      "otq": "'Na̲ku̲ku̲'ye"
+    },
+    {
+      "clave": "texto_c42768878e",
+      "es": "una bolsa",
+      "otq": "'nar bolso"
+    },
+    {
+      "clave": "texto_539cb1eecc",
+      "es": "bolsas",
+      "otq": "Bolsas"
+    },
+    {
+      "clave": "texto_17f5e6a09f",
+      "es": "una corbata",
+      "otq": "'nar nkät'u̲'ba̲"
+    },
+    {
+      "clave": "texto_4357e87e79",
+      "es": "corbatas",
+      "otq": "Nkät'u̲ni"
+    },
+    {
+      "clave": "texto_154d9fe747",
+      "es": "una maleta",
+      "otq": "'nar maleta"
+    },
+    {
+      "clave": "texto_6eb6456051",
+      "es": "maletas",
+      "otq": "'Ñu mö"
+    },
+    {
+      "clave": "texto_dafc4e9bd2",
+      "es": "un disco de juego",
+      "otq": "'nar disco 'ñeni"
+    },
+    {
+      "clave": "texto_682c7ef87d",
+      "es": "discos de juego",
+      "otq": "Discos 'ñeni"
+    },
+    {
+      "clave": "texto_4d6907f13c",
+      "es": "unos esquís",
+      "otq": "'ra ya tsi"
+    },
+    {
+      "clave": "texto_04e6536c7c",
+      "es": "pares de esquís",
+      "otq": "'Nar pa ya esqui"
+    },
+    {
+      "clave": "texto_0f93d0aa15",
+      "es": "una tabla de nieve",
+      "otq": "'nar tabla roda"
+    },
+    {
+      "clave": "texto_e925885d22",
+      "es": "tablas de nieve",
+      "otq": "Tablones"
+    },
+    {
+      "clave": "texto_6cd76d34e7",
+      "es": "una pelota",
+      "otq": "'nar bola"
+    },
+    {
+      "clave": "texto_c45cbb78d2",
+      "es": "pelotas",
+      "otq": "bolas"
+    },
+    {
+      "clave": "texto_7cac99b2bf",
+      "es": "un papalote",
+      "otq": "'nar nt'ot'e"
+    },
+    {
+      "clave": "texto_1c14a40869",
+      "es": "papalotes",
+      "otq": "Ya milhi"
+    },
+    {
+      "clave": "texto_2df459f45d",
+      "es": "un bate",
+      "otq": "'nar bat"
+    },
+    {
+      "clave": "texto_62de93319e",
+      "es": "bates",
+      "otq": "Bats"
+    },
+    {
+      "clave": "texto_3084eac1d0",
+      "es": "un guante de béisbol",
+      "otq": "'nar guante ar béisbol"
+    },
+    {
+      "clave": "texto_512fc3cf31",
+      "es": "guantes de béisbol",
+      "otq": "Guantes ar béisbol"
+    },
+    {
+      "clave": "texto_5a9c6f4d32",
+      "es": "una patineta",
+      "otq": "'Nar patinete"
+    },
+    {
+      "clave": "texto_7551c830fa",
+      "es": "patinetas",
+      "otq": "Skate'i"
+    },
+    {
+      "clave": "texto_11ba6ec71d",
+      "es": "una tabla de surf",
+      "otq": "'nar tabla 'ba̲i"
+    },
+    {
+      "clave": "texto_e61cc07b64",
+      "es": "tablas de surf",
+      "otq": "Tablas surf"
+    },
+    {
+      "clave": "texto_89c4429c8b",
+      "es": "una raqueta",
+      "otq": "'nar baritho"
+    },
+    {
+      "clave": "texto_faf5edd29b",
+      "es": "raquetas",
+      "otq": "raquetas"
+    },
+    {
+      "clave": "texto_0455bc4add",
+      "es": "una botella",
+      "otq": "'nar xito"
+    },
+    {
+      "clave": "texto_919b75358d",
+      "es": "botellas",
+      "otq": "xito"
+    },
+    {
+      "clave": "texto_f6300fd004",
+      "es": "una copa",
+      "otq": "'nar taza"
+    },
+    {
+      "clave": "texto_33c541a8ab",
+      "es": "copas",
+      "otq": "Copas"
+    },
+    {
+      "clave": "texto_e25043120a",
+      "es": "una taza",
+      "otq": "'nar 'nar 'ñä"
+    },
+    {
+      "clave": "texto_9f6b40d258",
+      "es": "tazas",
+      "otq": "Tazas"
+    },
+    {
+      "clave": "texto_2de07057b4",
+      "es": "un tenedor",
+      "otq": "'nar horquilla"
+    },
+    {
+      "clave": "texto_ab4fc77cbe",
+      "es": "tenedores",
+      "otq": "Horquillas"
+    },
+    {
+      "clave": "texto_25defd2456",
+      "es": "un cuchillo",
+      "otq": "'nar jwai"
+    },
+    {
+      "clave": "texto_3ae67bb979",
+      "es": "cuchillos",
+      "otq": "Ya jwai"
+    },
+    {
+      "clave": "texto_c7496d201d",
+      "es": "una cuchara",
+      "otq": "'Nar bocchita"
+    },
+    {
+      "clave": "texto_d4f97ea95a",
+      "es": "cucharas",
+      "otq": "Cucharithas"
+    },
+    {
+      "clave": "texto_cba5120491",
+      "es": "un tazón",
+      "otq": "'nar 'nar 'be̲fi"
+    },
+    {
+      "clave": "texto_25516c1dd0",
+      "es": "tazones",
+      "otq": "Cuencos"
+    },
+    {
+      "clave": "texto_035d3ceab1",
+      "es": "un plátano",
+      "otq": "'nar däza"
+    },
+    {
+      "clave": "texto_9fa7d0a806",
+      "es": "plátanos",
+      "otq": "Däza"
+    },
+    {
+      "clave": "texto_a5b08f39db",
+      "es": "una manzana",
+      "otq": "'Nar thuhme jo'xi"
+    },
+    {
+      "clave": "texto_a0dcfa5cc3",
+      "es": "manzanas",
+      "otq": "ya thuhme joxi"
+    },
+    {
+      "clave": "texto_03a8067107",
+      "es": "un sándwich",
+      "otq": "'nar bo̲jä"
+    },
+    {
+      "clave": "texto_339a390cfc",
+      "es": "sándwiches",
+      "otq": "Ya bohni"
+    },
+    {
+      "clave": "texto_9041d439ea",
+      "es": "una naranja",
+      "otq": "'nar naranja"
+    },
+    {
+      "clave": "texto_282b826c46",
+      "es": "naranjas",
+      "otq": "Ya nxu̲xi"
+    },
+    {
+      "clave": "texto_b0e2b1669f",
+      "es": "un brócoli",
+      "otq": "Brócoli"
+    },
+    {
+      "clave": "texto_ed91bf696f",
+      "es": "brócolis",
+      "otq": "Zuko̲xi"
+    },
+    {
+      "clave": "texto_0925ddf059",
+      "es": "una zanahoria",
+      "otq": "'nar zanrahoria"
+    },
+    {
+      "clave": "texto_b1ea6042d6",
+      "es": "zanahorias",
+      "otq": "Ya zanrahorias"
+    },
+    {
+      "clave": "texto_40759c4b80",
+      "es": "un hot dog",
+      "otq": "'nar 'yo nt'ot'e"
+    },
+    {
+      "clave": "texto_9d4ca2f900",
+      "es": "hot dogs",
+      "otq": "'Yo ma ma"
+    },
+    {
+      "clave": "texto_73104406d2",
+      "es": "una pizza",
+      "otq": "'Nar pizza"
+    },
+    {
+      "clave": "texto_af5e48b47d",
+      "es": "pizzas",
+      "otq": "Pizzas"
+    },
+    {
+      "clave": "texto_1d8452b1e0",
+      "es": "una dona",
+      "otq": "'nar don'i"
+    },
+    {
+      "clave": "texto_5b3b8ef0d5",
+      "es": "donas",
+      "otq": "'ron̲ni"
+    },
+    {
+      "clave": "texto_aaa594b20c",
+      "es": "un pastel",
+      "otq": "'nar uthuhme"
+    },
+    {
+      "clave": "texto_31a419a0dc",
+      "es": "pasteles",
+      "otq": "Uthuhme"
+    },
+    {
+      "clave": "texto_4ad8b99a77",
+      "es": "una silla",
+      "otq": "'nar thuhni"
+    },
+    {
+      "clave": "texto_95bde96ca4",
+      "es": "sillas",
+      "otq": "Siya siya mar"
+    },
+    {
+      "clave": "texto_57782df922",
+      "es": "un sillón",
+      "otq": "'nar thuhni"
+    },
+    {
+      "clave": "texto_ed3cd05a04",
+      "es": "sillones",
+      "otq": "Ya thuhni"
+    },
+    {
+      "clave": "texto_f69f827507",
+      "es": "una planta",
+      "otq": "'nar planta"
+    },
+    {
+      "clave": "texto_ca605ad1c1",
+      "es": "plantas",
+      "otq": "Ya do̲ni"
+    },
+    {
+      "clave": "texto_5976c98bc3",
+      "es": "una cama",
+      "otq": "'nar nt'ots'i"
+    },
+    {
+      "clave": "texto_857d0b93e3",
+      "es": "camas",
+      "otq": "Nt'ots'i"
+    },
+    {
+      "clave": "texto_3cacfe4f3f",
+      "es": "una mesa",
+      "otq": "'nar mexa"
+    },
+    {
+      "clave": "texto_da21e3a6ab",
+      "es": "mesas",
+      "otq": "Mexa"
+    },
+    {
+      "clave": "texto_8b74c18011",
+      "es": "un sanitario",
+      "otq": "'nar baño'i"
+    },
+    {
+      "clave": "texto_fc79e83310",
+      "es": "sanitarios",
+      "otq": "Ya hreyo"
+    },
+    {
+      "clave": "texto_76268c4b0f",
+      "es": "una televisión",
+      "otq": "'nar televisor"
+    },
+    {
+      "clave": "texto_391c287ed4",
+      "es": "televisiones",
+      "otq": "Ya televisores"
+    },
+    {
+      "clave": "texto_76274fdb4c",
+      "es": "una computadora portátil",
+      "otq": "'nar ordenador portátil"
+    },
+    {
+      "clave": "texto_3dc0633187",
+      "es": "computadoras portátiles",
+      "otq": "Ordenadores portátiles"
+    },
+    {
+      "clave": "texto_e9ccd3d105",
+      "es": "un ratón de computadora",
+      "otq": "'Nar t'u̲ngu ordenador"
+    },
+    {
+      "clave": "texto_b849016e62",
+      "es": "ratones de computadora",
+      "otq": "Ratones computadora"
+    },
+    {
+      "clave": "texto_2c160fee0a",
+      "es": "un control remoto",
+      "otq": "'nar mando distancia"
+    },
+    {
+      "clave": "texto_b7dcefbc8c",
+      "es": "controles remotos",
+      "otq": "Mandos remotos"
+    },
+    {
+      "clave": "texto_cdcc00c1ff",
+      "es": "un teclado",
+      "otq": "'nar teclado"
+    },
+    {
+      "clave": "texto_ac195dc913",
+      "es": "teclados",
+      "otq": "Teclados"
+    },
+    {
+      "clave": "texto_c49111d339",
+      "es": "un teléfono",
+      "otq": "'Nar teléfono"
+    },
+    {
+      "clave": "texto_83a9796084",
+      "es": "teléfonos",
+      "otq": "Teléfonos"
+    },
+    {
+      "clave": "texto_1f38ea6c50",
+      "es": "un microondas",
+      "otq": "'Nar microondas"
+    },
+    {
+      "clave": "texto_52cbf100d9",
+      "es": "microondas",
+      "otq": "Microondas"
+    },
+    {
+      "clave": "texto_02447f06ad",
+      "es": "un horno",
+      "otq": "'nar horno"
+    },
+    {
+      "clave": "texto_09483c166f",
+      "es": "hornos",
+      "otq": "Horno"
+    },
+    {
+      "clave": "texto_21cfc06cad",
+      "es": "un tostador",
+      "otq": "'nar tostador"
+    },
+    {
+      "clave": "texto_ce303ee793",
+      "es": "tostadores",
+      "otq": "Ya tostadores"
+    },
+    {
+      "clave": "texto_4d1fba299a",
+      "es": "un lavabo",
+      "otq": "'nar fredadero"
+    },
+    {
+      "clave": "texto_d251d0caf2",
+      "es": "lavabos",
+      "otq": "Ar fregaderos"
+    },
+    {
+      "clave": "texto_91a157d108",
+      "es": "un refrigerador",
+      "otq": "'nar frigorífico"
+    },
+    {
+      "clave": "texto_e61500ecf0",
+      "es": "refrigeradores",
+      "otq": "Refrigeradores"
+    },
+    {
+      "clave": "texto_2f32b10665",
+      "es": "un libro",
+      "otq": "'nar he̲'mi"
+    },
+    {
+      "clave": "texto_55d30acd51",
+      "es": "libros",
+      "otq": "Libros"
+    },
+    {
+      "clave": "texto_8f218f289a",
+      "es": "un reloj",
+      "otq": "'nar ora"
+    },
+    {
+      "clave": "texto_3bc30c7bb1",
+      "es": "relojes",
+      "otq": "Ya ora"
+    },
+    {
+      "clave": "texto_60ba6df8c6",
+      "es": "un florero",
+      "otq": "'nar 'nar bo̲i"
+    },
+    {
+      "clave": "texto_7bd4ed0d41",
+      "es": "floreros",
+      "otq": "Ya bo̲ya"
+    },
+    {
+      "clave": "texto_e5ff8da36a",
+      "es": "unas tijeras",
+      "otq": "'nar par tijeras"
+    },
+    {
+      "clave": "texto_5f8a30df42",
+      "es": "pares de tijeras",
+      "otq": "'Yani ya tijeras"
+    },
+    {
+      "clave": "texto_16a5abb54d",
+      "es": "un oso de peluche",
+      "otq": "'nar oso peluche"
+    },
+    {
+      "clave": "texto_ac305393dd",
+      "es": "osos de peluche",
+      "otq": "Oso peluche"
+    },
+    {
+      "clave": "texto_82cda0cf96",
+      "es": "una secadora de pelo",
+      "otq": "'Nar secador pelo"
+    },
+    {
+      "clave": "texto_735bdb4904",
+      "es": "secadoras de pelo",
+      "otq": "Secadores ar pelo"
+    },
+    {
+      "clave": "texto_040ab829f3",
+      "es": "un cepillo de dientes",
+      "otq": "'nar 'be̲ti ts'i"
+    },
+    {
+      "clave": "texto_ceec3a2c03",
+      "es": "cepillos de dientes",
+      "otq": "Cepillos ts'i"
+    },
+    {
+      "clave": "texto_c9a14c6519",
+      "es": "a la izquierda",
+      "otq": "Ar izquierda"
+    },
+    {
+      "clave": "texto_251fb720fd",
+      "es": "a la derecha",
+      "otq": "Ar derecha"
+    },
+    {
+      "clave": "texto_d369c721f4",
+      "es": "varias",
+      "otq": "'yani"
+    },
+    {
+      "clave": "texto_866f9445a0",
+      "es": "Aparecen varios códigos. Necesito una lectura de un solo letrero.",
+      "otq": "Aparecen varios códigos. Di ne da 'nar sola señal."
+    },
+    {
+      "clave": "texto_ade80d87d0",
+      "es": "Todavía no hay una lectura.",
+      "otq": "Tobe hinte ar lei"
+    },
+    {
+      "clave": "texto_16b04b889a",
+      "es": "La lectura es poco clara. Necesito otra lectura.",
+      "otq": "Ar da hingi xí hño. Di honi ma'na da"
+    },
+    {
+      "clave": "texto_3706afcaeb",
+      "es": "Todavía no distingo un código completo del catálogo.",
+      "otq": "Tobe hindi tsa̲ ga 'yo̲t'e 'nar código catálogo completo."
+    },
+    {
+      "clave": "texto_1f0c6062c4",
+      "es": "Parece decir {v1}.",
+      "otq": "Mä nä'ä mä {v1}."
+    },
+    {
+      "clave": "texto_0f5739041c",
+      "es": "Parece decir {v1}. Necesito lecturas con tiempo válido para comparar.",
+      "otq": "Mä nä'ä mä {v1}. Di ne ya da pa válido pa comparar."
+    },
+    {
+      "clave": "texto_0d0cfaf93e",
+      "es": "Parece decir {v1}. Necesito otra lectura independiente.",
+      "otq": "Mä nä'ä mä {v1}. Di honi gi da Ndäse̲."
+    },
+    {
+      "clave": "texto_baa7ef8af2",
+      "es": "Parece decir {v1}. El letrero parece indicar {v2}, otro sentido distinto al que buscas.",
+      "otq": "Mä {v1}. Ar nt'udi gi indicar {v2}, 'nar 'mui diferente nä'ä gi hyoni."
+    },
+    {
+      "clave": "texto_4c86a3fe20",
+      "es": "Coincide con la ruta que buscas",
+      "otq": "Coincide ko ar ruta gi hyoni"
+    },
+    {
+      "clave": "texto_9204a4e78f",
+      "es": "No coincide con la ruta que buscas",
+      "otq": "Hingi coincide ko ar ruta nä'ä gi hyoni"
+    },
+    {
+      "clave": "texto_6546243c56",
+      "es": "Parece decir {v1}. {v2}. También coincide el letrero de destino.",
+      "otq": "Mä mä {v1}. {v2}. Ar nt'udi 'mu̲i 'nehe coincide."
+    },
+    {
+      "clave": "texto_aa86993b37",
+      "es": "Parece decir {v1}. {v2}; no pude confirmar el sentido.",
+      "otq": "Mä mä {v1}. {v2}; Hindi pude confirmar jar 'mui."
+    },
+    {
+      "clave": "texto_2a1c32c01e",
+      "es": "Posibles escaleras",
+      "otq": "Ya 'rede xähmä"
+    },
+    {
+      "clave": "texto_d6e3099d1f",
+      "es": "Posible escalón",
+      "otq": "Thogi tsa̲"
+    },
+    {
+      "clave": "texto_9684596b77",
+      "es": "{v1} {v2} de la imagen.",
+      "otq": "{v1} {v2} ar tsita."
+    },
+    {
+      "clave": "texto_2fe4e82d64",
+      "es": "en el centro",
+      "otq": "jar made"
+    },
+    {
+      "clave": "texto_5f0d603548",
+      "es": "Posible hoyo {v1} de la imagen.",
+      "otq": "Tsa̲ parada {v1} ja ar tsita."
+    },
+    {
+      "clave": "camara_objetos_2",
+      "es": "{objeto} {lado}",
+      "otq": "{objeto} {lado}"
+    },
+    {
+      "clave": "camara_objetos_3",
+      "es": "{numero} {objeto} {lado}",
+      "otq": "{numero} {objeto} {lado}"
+    },
+    {
+      "clave": "texto_8f51899ea3",
+      "es": "Activar voz",
+      "otq": "Activar ar hñä"
+    },
+    {
+      "clave": "texto_9fac87c692",
+      "es": "Actualizar ubicación",
+      "otq": "Actualización ja yá 'mui"
+    },
+    {
+      "clave": "texto_6ae0813ecb",
+      "es": "Silenciar Grieta",
+      "otq": "Mute Grieta"
+    },
+    {
+      "clave": "texto_ad0cd2f762",
+      "es": "Sugerida",
+      "otq": "Sugerido"
+    },
+    {
+      "clave": "texto_370c550de8",
+      "es": "Parada sugerida",
+      "otq": "Parada sugerida"
+    },
+    {
+      "clave": "texto_a8e55e146e",
+      "es": "Actualizando tu ubicación…",
+      "otq": "Actualizar ár ja yá 'mui ..."
+    },
+    {
+      "clave": "texto_3d06967152",
+      "es": "Ubicación actualizada.{v1}",
+      "otq": "Ja yá 'mui actualizada. {v1}"
+    },
+    {
+      "clave": "texto_68d4f51e35",
+      "es": "Es aproximada; la parada sugerida puede cambiar.",
+      "otq": "Ar aproximado; ar parada sugerida to mpa̲ti."
+    },
+    {
+      "clave": "texto_06ed27f504",
+      "es": "Paradas desde el punto elegido: {v1}. No pude actualizar tu ubicación.",
+      "otq": "Ar detiene ndezu̲ ar punto elegido: {v1}. Hindi pude actualizar ár ja yá 'mui."
+    },
+    {
+      "clave": "texto_298501385b",
+      "es": "No pude actualizar tu ubicación. Actívala o elige desde dónde sales.",
+      "otq": "Hindi himar tsa̲ ga actualizar ár ja yá 'mui. Bí activar wa da 'ñets'i ho gi 'bu̲hu̲ empezando."
+    },
+    {
+      "clave": "texto_a013c681e5",
+      "es": "No encontré paradas en el catálogo a menos de un kilómetro. Puede haber otras paradas que todavía no aparecen aquí.",
+      "otq": "Hingi encontré paradas jar catálogo mbo ja 'nar kilómetro. Pe porke ma 'ra ya paradas da aún mi hingi aparecen nuwa."
+    },
+    {
+      "clave": "texto_8d94913734",
+      "es": "No hay próximos horarios guardados para esta parada.",
+      "otq": "Otho nuya ya horarios guardados pa nuna ar parada."
+    },
+    {
+      "clave": "texto_b8c4394eec",
+      "es": "Comparamos hasta ocho paradas del catálogo. Puede haber otras paradas que todavía no aparecen aquí.",
+      "otq": "Comparamos asta hñäto paradas ar catálogo. Pe porke ma 'ra ya paradas da aún mi hingi aparecen nuwa."
+    },
+    {
+      "clave": "texto_61dc960794",
+      "es": "Una parada del catálogo es {v1}, {v2}.",
+      "otq": "'Nar parada ar catálogo ar {v1}, {v2}."
+    },
+    {
+      "clave": "texto_104fc8f018",
+      "es": "Espera el tono y di a dónde vas.",
+      "otq": "Espere ar wa ar ñhöñhö ne mä hogem'bu̲ ma."
+    },
+    {
+      "clave": "texto_5edccb813c",
+      "es": "Elegida",
+      "otq": "Elegido"
+    },
+    {
+      "clave": "texto_0127bae13d",
+      "es": "Grieta estima {v1} en {v2}.",
+      "otq": "Grieta estima {v1} in {v2}."
+    },
+    {
+      "clave": "texto_8baec457e5",
+      "es": "que no emitió un auto.",
+      "otq": "nä'ä himbi 'bu̲i 'nar vehículo."
+    },
+    {
+      "clave": "texto_b625b70b6b",
+      "es": "Puede llover a las {v1} ({v2} %).",
+      "otq": "Ar tsa̲ da 'wäi jar {v1} ({v2} %)."
+    },
+    {
+      "clave": "texto_55bbff0f96",
+      "es": "Suele ir lleno a esta hora",
+      "otq": "Nu'bu̲ nu'bu̲ nzäm'bu̲ xi ñuts'i"
+    },
+    {
+      "clave": "texto_97fbd03bed",
+      "es": "Estaciona y sigue en Qrobus: llegas {v1}",
+      "otq": "Park ne da 'ño jar Qrobus: zo̲ni jar {v1}"
+    },
+    {
+      "clave": "texto_79294b65b1",
+      "es": "Guardé {v1} como {v2}.",
+      "otq": "Guardé {v1} komongu ar {v2}."
+    },
+    {
+      "clave": "texto_05574cc7e4",
+      "es": "{v1} menos",
+      "otq": "{v1} minus"
+    },
+    {
+      "clave": "texto_f63ee18b63",
+      "es": "{v1} más",
+      "otq": "{v1} plus"
+    },
+    {
+      "clave": "texto_8e8a1dd486",
+      "es": "Instalar",
+      "otq": "Instalar"
+    },
+    {
+      "clave": "texto_998ce0e374",
+      "es": "Camina por {v1}",
+      "otq": "'Yo a lo largo de {v1}"
+    },
+    {
+      "clave": "texto_d566d9d293",
+      "es": "Sigue derecho por {v1}",
+      "otq": "Ma recto a lo largo de {v1}"
+    },
+    {
+      "clave": "texto_0e405a3257",
+      "es": "Da vuelta de regreso por {v1}",
+      "otq": "Vuelva atrás a lo largo de {v1}"
+    },
+    {
+      "clave": "texto_3c89758b56",
+      "es": "{v1} metros",
+      "otq": "Metros {v1}"
+    },
+    {
+      "clave": "texto_1ae880bd80",
+      "es": "{v1} kilómetros",
+      "otq": "Kilómetros {v1}"
+    },
+    {
+      "clave": "texto_29cb999b0c",
+      "es": "La misma indicación en Lengua de Señas Mexicana",
+      "otq": "Xkagentho ar Nt'uti jar hñä ar nthuts'i M'onda"
+    },
+    {
+      "clave": "texto_d7b1c5986e",
+      "es": "Tu bolsillo lo nota.",
+      "otq": "Ir ora 'ñägi da nu nä'ä."
+    },
+    {
+      "clave": "texto_853ce82e4a",
+      "es": "Ahora mismo",
+      "otq": "Nu'bya"
+    },
+    {
+      "clave": "texto_f60bbe9d39",
+      "es": "Reportar un problema",
+      "otq": "Gi ungu̲mfädi 'nar hñäki"
+    },
+    {
+      "clave": "texto_6ca4188168",
+      "es": "En la calle o la parada",
+      "otq": "Jar dä'ñu wa jar parada"
+    },
+    {
+      "clave": "texto_dbedc0a428",
+      "es": "No hizo la parada",
+      "otq": "himbi wadi"
+    },
+    {
+      "clave": "texto_f9f849b9b8",
+      "es": "Unidad sucia o en mal estado",
+      "otq": "Ar xe̲ni sucia wa mal mantenida"
+    },
+    {
+      "clave": "texto_64e75839dd",
+      "es": "Manejo peligroso",
+      "otq": "Conducción peligrosa"
+    },
+    {
+      "clave": "texto_0ce9ca4c67",
+      "es": "Me cobraron de más",
+      "otq": "Ga 'be̲di"
+    },
+    {
+      "clave": "texto_a2d1b7a382",
+      "es": "Acoso o agresión",
+      "otq": "Nts'o̲t'e wa ya agresiones"
+    },
+    {
+      "clave": "texto_696bfa1942",
+      "es": "Otra cosa del servicio",
+      "otq": "Ma 'nar hñäki hontho"
+    },
+    {
+      "clave": "texto_ec877dc24c",
+      "es": "Si estás en peligro, llama al 911.",
+      "otq": "Nu'bu̲ gí 'bu̲i jar hogu'mu̲i, xekwi 911."
+    },
+    {
+      "clave": "texto_725e00f115",
+      "es": "¿En qué ruta?",
+      "otq": "¿Temu̲ ar 'ñu 'bu̲?"
+    },
+    {
+      "clave": "texto_5c730ac46a",
+      "es": "Otra ruta",
+      "otq": "Ma'na 'ñu"
+    },
+    {
+      "clave": "texto_22c69ed069",
+      "es": "Número de unidad",
+      "otq": "'Bede ya ar xe̲ni"
+    },
+    {
+      "clave": "texto_ffbce249e7",
+      "es": "(si lo viste)",
+      "otq": "(nu'bu̲ xka nú)"
+    },
+    {
+      "clave": "texto_f2a738eaf2",
+      "es": "Ejemplo: C53",
+      "otq": "Ejemplo: C53"
+    },
+    {
+      "clave": "texto_7e78d81596",
+      "es": "Grieta no es un canal oficial. Para que la AMEQ lo atienda, mándalo también por su línea de reportes.",
+      "otq": "Grieta hingi ge 'nar 'ñuu xidi mfädi. Pa da AMEQ bí aborde, 'nehe pe̲hni nä'ä a través de ár 'ñu informes."
+    },
+    {
+      "clave": "texto_7f219625ed",
+      "es": "Mandar por WhatsApp a Qrobus",
+      "otq": "Pe̲hni vía WhatsApp da Qrobus"
+    },
+    {
+      "clave": "texto_e59cc0bb12",
+      "es": "Llamar a Reportes (442) 211 70 00",
+      "otq": "Call Reports (442) 211 70 00"
+    },
+    {
+      "clave": "texto_7a922eeb9f",
+      "es": "Ejemplo: le hice la parada y siguió de largo",
+      "otq": "Ejemplo: Nugu̲ga̲ señalé parada ne bí condució ma'bu̲"
+    },
+    {
+      "clave": "texto_b03d819bbe",
+      "es": "Elige o escribe la ruta del camión.",
+      "otq": "Da 'ñets'i wa escriba ruta ar autobús."
+    },
+    {
+      "clave": "texto_dd4348c4f7",
+      "es": "En los últimos {v1} días, {v2} personas reportaron problemas en la ruta {v3}.",
+      "otq": "Ja ya últimos pa {v1}, ya jä'i {v2} reportaron hñäki jar ruta {v3}."
+    },
+    {
+      "clave": "texto_5ad166b9d9",
+      "es": "Eres la primera persona en reportar la ruta {v1} este mes.",
+      "otq": "Nu'i gar ar ndui jä'i da reportar ruta {v1} nuna ar zänä."
+    },
+    {
+      "clave": "texto_3bf1c01fbe",
+      "es": "Gracias. Tu queja quedó registrada en Grieta.",
+      "otq": "Di jamädi. Ár queja ar xi registrada jar Grieta."
+    },
+    {
+      "clave": "texto_f61f40b6c6",
+      "es": "Voy saliendo. Mi ubicación ahorita:",
+      "otq": "Ga ma po̲ni. Ma ja yá 'mui gem'bya:"
+    },
+    {
+      "clave": "texto_3e914c6058",
+      "es": "¿Qué bono?",
+      "otq": "¿Temu̲ ar bono?"
+    },
+    {
+      "clave": "texto_e398f98efb",
+      "es": "¿Qué bono de Qrobus me conviene?",
+      "otq": "¿Temu̲ ar bono Qrobus ar za̲ pa ngeki?"
+    },
+    {
+      "clave": "texto_8fe91d299a",
+      "es": "¿Qué bono te conviene?",
+      "otq": "¿Temu̲ ar bono funciona pa gí?"
+    },
+    {
+      "clave": "texto_232971468c",
+      "es": "¿Cuántos viajes en camión haces a la semana?",
+      "otq": "¿Tengu ya 'be̲fi bo̲jä ma bo̲jä xí 'be̲fi 'nar su̲mänä?"
+    },
+    {
+      "clave": "texto_4fe1236419",
+      "es": "Un viaje menos",
+      "otq": "'Nar viaje menu"
+    },
+    {
+      "clave": "texto_78f7b753f3",
+      "es": "Un viaje más",
+      "otq": "'Nar viaje mäs"
+    },
+    {
+      "clave": "texto_cfeb017f71",
+      "es": "Tu tarifa",
+      "otq": "Ir nt'ot'e"
+    },
+    {
+      "clave": "texto_b947a68998",
+      "es": "Bonos ilimitados en las rutas de Qrobus. Precios publicados en 2026: viaje $11, semanal $111, quincenal $231, mensual $451; con Tarifa Unidos, viaje $2 y mensual $86. Confírmalos en la app Qrobus antes de recargar. No cuenta transbordos.",
+      "otq": "Bonos ilimitados ja ya rutas Qrobus. Precios publicados jar 2026: $11 viaje, $111 semanal, $231 quincenal, $451 mensual; ko Tarifa Unidos, viaje $2 ne $86 mensual. Confirmar ya jar nt'ot'e Qrobus nu'bu recargar. Transferencias hingi mfa̲ts'i 'bui."
+    },
+    {
+      "clave": "texto_e1a2f396e5",
+      "es": "Pagar cada viaje",
+      "otq": "Gut'i ya viaje"
+    },
+    {
+      "clave": "texto_2af0361ef2",
+      "es": "Bono semanal",
+      "otq": "Bono ar su̲mänä"
+    },
+    {
+      "clave": "texto_0dfb9a13d7",
+      "es": "Bono quincenal",
+      "otq": "Bono quincenal"
+    },
+    {
+      "clave": "texto_d378f3a5b9",
+      "es": "Bono mensual",
+      "otq": "Bono mensual"
+    },
+    {
+      "clave": "texto_a11b84a81a",
+      "es": "{v1} al mes",
+      "otq": "{v1} ya zänä"
+    },
+    {
+      "clave": "texto_216cbd0fb3",
+      "es": "Te conviene pagar cada viaje",
+      "otq": "Vale dá dí ntsa̲ pa gí gut'i ya viaje"
+    },
+    {
+      "clave": "texto_992cb712d7",
+      "es": "El bono mensual conviene desde {v1} viajes al mes.",
+      "otq": "Bono mensual vale dá dí ntsa̲ ar {v1} viajes ya zänä."
+    },
+    {
+      "clave": "texto_e570b6f6f6",
+      "es": "Te conviene el bono semanal",
+      "otq": "Ar bono semanal vale dá dí dí ntsa̲ pa nu'i"
+    },
+    {
+      "clave": "texto_cab36c4d16",
+      "es": "Te conviene el bono quincenal",
+      "otq": "Ar bono quincenal vale dá dí ntsa̲ pa nu'i"
+    },
+    {
+      "clave": "texto_c28c0de9c6",
+      "es": "Te conviene el bono mensual",
+      "otq": "Ar he̲'mi mensual ar za̲ pa nu'i"
+    },
+    {
+      "clave": "texto_cdefd6be61",
+      "es": "Ahorras {v1} al mes contra pagar cada viaje.",
+      "otq": "Ahorras {v1} ya zänä jar comparación ko gut'i ya viaje."
+    },
+    {
+      "clave": "texto_0b4edf54d6",
+      "es": "Según tus viajes con Grieta de las últimas 4 semanas. Ajústalo si viajas sin la app.",
+      "otq": "Basado ir viajes Grieta Nxoge últimos ya su̲mänä 4. Ajustar nä'ä nu'bu̲ viaja hinda ár nt'ot'e."
+    },
+    {
+      "clave": "texto_07cdd3039a",
+      "es": "Puse 10: ida y vuelta 5 días. Ajústalo a lo que viajas.",
+      "otq": "Xta puesto 10: vuelta viaje pa 5. Ajustar nä'ä da Honja viajas."
+    },
+    {
+      "clave": "texto_315749ce04",
+      "es": "Observatorio Grieta",
+      "otq": "Observatorio Grieta"
+    },
+    {
+      "clave": "texto_3ce65a1a71",
+      "es": "Datos abiertos de cómo se mueve Querétaro",
+      "otq": "Datos abiertos dige Honja bí mueve Querétaro"
+    },
+    {
+      "clave": "texto_0d18ccd31a",
+      "es": "Se sentirán {v1} °C en la parada.",
+      "otq": "Sentirá komongu {v1}° C ja ar parada."
+    },
+    {
+      "clave": "texto_365e016b49",
+      "es": "Llega cerca de las {v1}, cuando pasa el camión, y lleva agua.",
+      "otq": "Zo̲ho̲ getu'bu̲ ar {v1}, nu'bu̲ thogi ar bo̲jä, ne ba hä ar dehe."
+    },
+    {
+      "clave": "texto_f81f2c197a",
+      "es": "¿Es mi parada?",
+      "otq": "¿Nuna gehna ma parada?"
+    },
+    {
+      "clave": "texto_4a46f6df76",
+      "es": "Confirmar con la brújula",
+      "otq": "Compruebe ko ar brújula"
+    },
+    {
+      "clave": "texto_47d0679de6",
+      "es": "Revisando dónde estás…",
+      "otq": "Gi hyandi hogem'bu̲ gi 'bu̲i..."
+    },
+    {
+      "clave": "texto_f3d856648a",
+      "es": "Parece la parada de enfrente",
+      "otq": "Mä ár parada ar nthogi ar dä'ñu"
+    },
+    {
+      "clave": "texto_532c2742bd",
+      "es": "Sí, es tu parada: {v1}.",
+      "otq": "Hä, nuna gehna ár parada: {v1}."
+    },
+    {
+      "clave": "texto_3678d52a1b",
+      "es": "Aquí pasa la {v1} hacia {v2}.",
+      "otq": "Nuwa thogi ar {v1} da {v2}."
+    },
+    {
+      "clave": "texto_e7f3d6e9a6",
+      "es": "La de enfrente va hacia {v1}.",
+      "otq": "Nä'ä da 'nanthe̲ da {v1}."
+    },
+    {
+      "clave": "texto_2acf596a4e",
+      "es": "Parece que estás en la parada de enfrente.",
+      "otq": "Gi 'bu̲i jar parada ar xeni 'mu̲i jar dä'ñu."
+    },
+    {
+      "clave": "texto_b7b799e625",
+      "es": "Ahí la {v1} va hacia {v2}.",
+      "otq": "Nu'bu̲ ar {v1} da {v2}."
+    },
+    {
+      "clave": "texto_50bcb90e24",
+      "es": "Tu parada está cruzando la calle, a unos {v1} metros.",
+      "otq": "Ár parada 'bu̲i jar dä'ñu 'ra ra {v1} metros ya'bu̲."
+    },
+    {
+      "clave": "texto_ca04f1cde0",
+      "es": "Todavía no llegas.",
+      "otq": "Hingi tso̲ho̲"
+    },
+    {
+      "clave": "texto_ab78715375",
+      "es": "Tu parada está a unos {v1} metros.",
+      "otq": "Ár parada ge ar metros {v1} ya'bu̲."
+    },
+    {
+      "clave": "texto_7dffb4a31f",
+      "es": "No estoy seguro de qué lado de la calle estás.",
+      "otq": "Hingi pädi xi hño Temu̲ ngehnu̲ jar dä'ñu gi 'bu̲i"
+    },
+    {
+      "clave": "texto_8d96101412",
+      "es": "El GPS tiene un error de {v1} metros y la parada de enfrente está a {v2} metros.",
+      "otq": "Ar GPS pe̲ts'i 'nar error metros {v1} ne ar parada a través de ar dä'ñu xí metros {v2} ya."
+    },
+    {
+      "clave": "texto_d9484bb4bb",
+      "es": "Las dos tienen el mismo nombre en el letrero.",
+      "otq": "Ga̲ yoho pe̲ts'i xkagentho ar thuuhu jar nt'udi"
+    },
+    {
+      "clave": "texto_49e33e9047",
+      "es": "Puedes leer el letrero con la cámara.",
+      "otq": "Dar tsa̲ gi lei ar nt'udi ko ar cámara."
+    },
+    {
+      "clave": "texto_c5979df7d4",
+      "es": "No pude saber dónde estás.",
+      "otq": "Hindi himar tsa̲ ga pwede hogem'bu̲ gi 'bu̲i"
+    },
+    {
+      "clave": "texto_75749d0a71",
+      "es": "Sin permiso para la brújula.",
+      "otq": "Hingi 'raku̲'be ar 'bu̲i"
+    },
+    {
+      "clave": "texto_139dbd442a",
+      "es": "Actívalo en la configuración del navegador.",
+      "otq": "Bí activar jar configuración ar navegador."
+    },
+    {
+      "clave": "texto_eca5bc6a59",
+      "es": "Párate de frente a la calle, con la banqueta a tu espalda, y sostén el teléfono plano frente a ti.",
+      "otq": "Gi 'yo̲t'e hä ar dä'ñu, ko ar acera jár xu̲tha, ne sostenga ar teléfono plano hñandu̲hu̲ gí."
+    },
+    {
+      "clave": "texto_1f22f9e776",
+      "es": "Tu teléfono no dio la brújula.",
+      "otq": "Ir teléfono himbi 'raki ar brúxula."
+    },
+    {
+      "clave": "texto_f27d1b68e7",
+      "es": "Lee el letrero con la cámara o pregunta en la parada.",
+      "otq": "Lea ar nt'udi ko ar cámara wa preguntar jar parada."
+    },
+    {
+      "clave": "texto_a4579a680f",
+      "es": "Según la brújula, estás del lado correcto: de este lado los camiones van hacia {v1}.",
+      "otq": "Nä'ä mä ar brújula, gi jar ngehnu̲ derecho: jar nuna ngehnu̲, ya bo̲jä ma 'me̲t'o nu'bu {v1}."
+    },
+    {
+      "clave": "texto_b75262f62b",
+      "es": "Según la brújula, estás del lado contrario: de este lado van hacia {v1}.",
+      "otq": "Nä'ä mä ar brújula, gi jar ngehnu̲ opuesto: jar nuna ngehnu̲, nu'bu {v1}."
+    },
+    {
+      "clave": "texto_4109d41921",
+      "es": "Tu parada está cruzando la calle.",
+      "otq": "Ir parada 'bu̲i jár 'ñu"
+    },
+    {
+      "clave": "texto_683b7a19b1",
+      "es": "La brújula no fue clara.",
+      "otq": "Ar brúxu himi majwäni."
+    },
+    {
+      "clave": "texto_3d11c5a005",
+      "es": "Gira hasta quedar de frente a la calle e intenta otra vez.",
+      "otq": "Gi pengi asta gi mfädi jar dä'ñu ne gi japi ma'nagi."
+    },
+    {
+      "clave": "texto_06f7e52e6b",
+      "es": "El letrero dice {v1}, igual que la parada de enfrente: no distingue el lado. Usa ¿Es mi parada? con la brújula.",
+      "otq": "Ar nt'uni nt'udi hmä {v1}, ngu ar parada nu'bu̲ jar dä'ñu: hingi distingue ar ngehnu̲. Utilice \"¿Nuna gehna ma parada?\" ko ar brúxula."
+    },
+    {
+      "clave": "texto_56972566ec",
+      "es": "El letrero dice {v1}: es tu parada para la {v2}.",
+      "otq": "Ar nt'udi hmä {v1}: ge ár parada pa ar {v2}."
+    },
+    {
+      "clave": "texto_fd5f3cb02c",
+      "es": "El letrero dice {v1}: es la parada de enfrente, donde la {v2} va hacia {v3}. Tu parada está cruzando la calle.",
+      "otq": "Ar nt'udi hmä {v1}: ge ar parada nu'bu̲ ar dä'ñu, ho ar {v2} da {v3}. Ár parada xi nu'bu̲ jar dä'ñu."
+    },
+    {
+      "clave": "texto_8bcbca79f6",
+      "es": "{v1} en {v2} viajes",
+      "otq": "{v1} ja ya viajes {v2}"
+    },
+    {
+      "clave": "texto_c16886df48",
+      "es": "Etapa {v1} de 7: {v2}",
+      "otq": "Etapa {v1} ar 7: {v2}"
+    },
+    {
+      "clave": "texto_5d4c1b8f4b",
+      "es": "Ilustración: {v1}",
+      "otq": "Ilustración: {v1}"
+    },
+    {
+      "clave": "texto_c26e675a7b",
+      "es": ", unos {v1} viajes en camión, para {v2}.",
+      "otq": ", dige viajes camiones {v1}, pa {v2}."
+    },
+    {
+      "clave": "texto_0b2d37f168",
+      "es": "{v1} días",
+      "otq": "Pa {v1}"
+    },
+    {
+      "clave": "texto_403d80fd36",
+      "es": "{v1} meses",
+      "otq": "{v1} ya zänä"
+    },
+    {
+      "clave": "texto_d588d7dc6c",
+      "es": "{v1} viajes",
+      "otq": "{v1} viajes"
+    },
+    {
+      "clave": "texto_85543a12e0",
+      "es": "Acciones del viaje",
+      "otq": "Acciones trip"
+    },
+    {
+      "clave": "texto_4234613fda",
+      "es": "Bájate en {v1}, {v2} paradas después, a las {v3}.",
+      "otq": "Ar ñäñho jar {v1}, {v2} para mäs ya'bu̲, jar {v3}."
+    },
+    {
+      "clave": "texto_0824590540",
+      "es": "Sal en {v1} minutos",
+      "otq": "Dejar jar t'olo ora {v1}"
+    },
+    {
+      "clave": "texto_532ae2cd5a",
+      "es": "Sal a las {v1}.",
+      "otq": "Po̲ni jar {v1}."
+    },
+    {
+      "clave": "texto_9a5cea8d7a",
+      "es": "Guardaste {v1} como {v2}",
+      "otq": "Guardó {v1} komongu ar {v2}"
+    },
+    {
+      "clave": "texto_c2a36bb358",
+      "es": "Guardar como {v1}",
+      "otq": "Guardar komongu ar {v1}"
+    },
+    {
+      "clave": "texto_8f47456b64",
+      "es": "No, son estimados. Los calcula nuestro modelo predictivo a partir de nuestros registros de cotizaciones reales. Si la app te marca otro, compáralo en \"¿La app ya te dio precio?\".",
+      "otq": "Hi'nä, nuya gehya estimaciones. Ya calculados ja ma modelo predictivo basado HMUNTS'UJE registros cotización reales. Nu'bu̲ ár nt'ot'e gi 'ñudi xka, comparar jar hmä \"Ya bí t'uni ár nt'ot'e 'nar precio?\"."
+    },
+    {
+      "clave": "texto_896a2d4cdf",
+      "es": "Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app.",
+      "otq": "Ya imágenes ya analizadas ár teléfono. Hingi ar guardan wa ar envía. Ar cámara ar apaga nu'bu̲ po̲ni ocultar ár nt'ot'e."
+    },
+    {
+      "clave": "texto_5f695597b7",
+      "es": "Leer los pasos en voz alta",
+      "otq": "Lea ya pasos jar voz alta"
+    },
+    {
+      "clave": "texto_86aa1ed6c2",
+      "es": "Más información",
+      "otq": "Mäs ungumfädi"
+    },
+    {
+      "clave": "texto_6181cd2041",
+      "es": "Vibración",
+      "otq": "Vibración"
+    },
+    {
+      "clave": "texto_2897914018",
+      "es": "Vas a tiempo",
+      "otq": "Gi tso̲ho̲ tso̲ho̲ ya ora"
+    },
+    {
+      "clave": "texto_0c4575bc28",
+      "es": "Apúrate",
+      "otq": "Xo̲ni"
+    },
+    {
+      "clave": "texto_85e2adef7e",
+      "es": "Alto",
+      "otq": "Gi kot'u̲wi"
+    },
+    {
+      "clave": "texto_8abe82c10a",
+      "es": "Apagada",
+      "otq": "Hwet'i"
+    },
+    {
+      "clave": "texto_30c9fb70ac",
+      "es": "Aprende a usar Grieta",
+      "otq": "Meya zu̲di Grieta"
+    },
+    {
+      "clave": "texto_abfdd0022e",
+      "es": "Apágala si tu teléfono ya te lee la pantalla, con VoiceOver o TalkBack.",
+      "otq": "Bí apague nu'bu̲ ár teléfono ya lei ar pantalla pa gí, ko ya VoiceOver wa ya TalkBack."
+    },
+    {
+      "clave": "texto_5173086d3c",
+      "es": "Asistencia con cámara",
+      "otq": "Asistencia ar cámara"
+    },
+    {
+      "clave": "texto_90c716db4f",
+      "es": "Borrar mi copia en línea",
+      "otq": "Da hñäki ma copia jar 'ñu"
+    },
+    {
+      "clave": "texto_192e6fc66f",
+      "es": "Cada viaje en camión te da una tuna",
+      "otq": "Kadu̲ 'nar viaje jar dätä bo̲jä ja ma t'ot'e 'nar axá"
+    },
+    {
+      "clave": "texto_bb9dbb406d",
+      "es": "Cancelar",
+      "otq": "Cancelar"
+    },
+    {
+      "clave": "texto_96ddd46fb0",
+      "es": "Color de tu tlacuache",
+      "otq": "Ár njät'i ri o̲ho̲di"
+    },
+    {
+      "clave": "texto_4cf016e8c7",
+      "es": "Color del mapa",
+      "otq": "Ár njät'i 'me̲ni"
+    },
+    {
+      "clave": "texto_a2e3a4ca3d",
+      "es": "Colores",
+      "otq": "Ya njät'i"
+    },
+    {
+      "clave": "texto_7ef586fffe",
+      "es": "Colores, modo fácil e idioma",
+      "otq": "Njät'i, modo hei ne lenguaje"
+    },
+    {
+      "clave": "texto_54be7b7810",
+      "es": "Come fruta y dispersa las semillas. Que haya tlacuaches es señal de un ambiente sano.",
+      "otq": "Ñuni ma ixi ne da t'uni ya se̲di. Nú ya za̲gi ge 'nar nt'uni 'mu̲i mbo jar ximha̲i sano."
+    },
+    {
+      "clave": "texto_3c38eaa536",
+      "es": "Come garrapatas, cucarachas e insectos que transmiten enfermedades. También come carroña.",
+      "otq": "Tsi ya garrapata, ya 'rupe ne ya ts'oni ya ndo̲ni. 'Nehe tsi ya carroña."
+    },
+    {
+      "clave": "texto_d5e9eac00a",
+      "es": "Compartir",
+      "otq": "T'uni"
+    },
+    {
+      "clave": "texto_0f765b37bf",
+      "es": "Con ellas le compras cosas a",
+      "otq": "Ko nu'u̲, gí ma ya pa"
+    },
+    {
+      "clave": "texto_07dd17a78d",
+      "es": "Conoce a los tlacuaches",
+      "otq": "Gi pädi ya o̲ho̲"
+    },
+    {
+      "clave": "texto_7cfb945aa9",
+      "es": "Contraste",
+      "otq": "Contraste"
+    },
+    {
+      "clave": "texto_39dcf1cbeb",
+      "es": "Copiar",
+      "otq": "Gi kopya"
+    },
+    {
+      "clave": "texto_d2426d97c3",
+      "es": "Crear mi llave",
+      "otq": "Da t'ot'e ma clave"
+    },
+    {
+      "clave": "texto_6231ac00e3",
+      "es": "Cuando sigas un viaje en camión con la guía, aquí aparece cada semana.",
+      "otq": "Nu'bu̲ te̲ni 'nar viaje jar dätä bo̲jä ko ar guía, neki nuwa ya su̲mänä."
+    },
+    {
+      "clave": "texto_8b1806bc25",
+      "es": "Cuesta",
+      "otq": "Ar costo"
+    },
+    {
+      "clave": "texto_b69d12f482",
+      "es": "Cuánto caminas y qué tarifa pagas",
+      "otq": "Tengu gí 'yo ne temu̲ ar 'ñu gí jut'i"
+    },
+    {
+      "clave": "texto_9ebe39ff28",
+      "es": "Cuánto quieres caminar",
+      "otq": "Tengu gí ne gi 'ño'ño"
+    },
+    {
+      "clave": "texto_5396b1a2ab",
+      "es": "Cómo se ve Grieta en tu teléfono",
+      "otq": "Tema gi hyandi Grieta ja ir teléfono"
+    },
+    {
+      "clave": "texto_ca016a6977",
+      "es": "Cómo usar Grieta y preguntas",
+      "otq": "Tema zu̲di Grieta ne ya nt'a̲ni"
+    },
+    {
+      "clave": "texto_1005011f38",
+      "es": "Datos abiertos de Querétaro",
+      "otq": "Datos abiertos Querétaro"
+    },
+    {
+      "clave": "texto_5c80f039fd",
+      "es": "Datos sobre los tlacuaches",
+      "otq": "Datos dige ya zarigüeyas"
+    },
+    {
+      "clave": "texto_f463306cc7",
+      "es": "Detener",
+      "otq": "Gi kot'u̲wi"
+    },
+    {
+      "clave": "texto_c68e6542e9",
+      "es": "Empezar a caminar con guía",
+      "otq": "Gi 'bu̲hu̲ 'yo ko ar guía"
+    },
+    {
+      "clave": "texto_9b08e655ef",
+      "es": "Encenderla y su velocidad",
+      "otq": "Ndi encender ne ár velocidad"
+    },
+    {
+      "clave": "texto_ba09d58063",
+      "es": "Encendida",
+      "otq": "Encendido"
+    },
+    {
+      "clave": "texto_8946314546",
+      "es": "Es un marsupial: sus crías crecen en una bolsa. Muchos salen lastimados porque los confunden con ratas.",
+      "otq": "Ge 'nar marsupial: ja yá le̲le̲ ja 'nar te̲thi. Xingu bí hñuts'i ngetho bí confunden ya t'u̲ngu̲da̲."
+    },
+    {
+      "clave": "texto_39decefb48",
+      "es": "Fuentes: Universidad Veracruzana (2025), Selecciones (2024) y México Desconocido.",
+      "otq": "Ya 'mui mbo: Universidad Veracruzana (2025), selecciones (2024) ne M'onda Desconocido."
+    },
+    {
+      "clave": "texto_45fbe99b10",
+      "es": "Grande",
+      "otq": "Nar dätä hño"
+    },
+    {
+      "clave": "texto_83fe7b21ca",
+      "es": "Grieta calcula según cómo viajas",
+      "otq": "Grieta calcula nä'ä mä Honja viajas"
+    },
+    {
+      "clave": "texto_92276b931d",
+      "es": "Grieta te dice lo importante",
+      "otq": "Grieta gi xifi Temu̲ ar mahyoni"
+    },
+    {
+      "clave": "texto_a2e4bac0dd",
+      "es": "Guárdala donde no la pierdas, por ejemplo en tus notas. Quien la tenga puede ver tu progreso, y sin ella no se puede recuperar.",
+      "otq": "Mantenga nä'ä ho hingi bí perderá, 'nar nt'udi ja yá notas. Nä'ä nä'ä pe̲ts'i tsa̲ da ga ár nte ne hinda nä'ä, hingi ar tsa̲ da recuperar."
+    },
+    {
+      "clave": "texto_07efb99d0b",
+      "es": "Guárdalo con una llave de seis palabras",
+      "otq": "Da zeti ko 'nar tecla 'rato po̲ts'e"
+    },
+    {
+      "clave": "texto_7ae9d41835",
+      "es": "Idioma",
+      "otq": "Ar hñä"
+    },
+    {
+      "clave": "texto_7cd8e053a9",
+      "es": "Las imágenes se analizan en tu teléfono. Solo cuando tocas «¿Qué tengo enfrente?» o haces una pregunta se envía una foto, con las caras pixeladas, para describirla; no se guarda. La cámara se apaga al salir o al ocultar la app.",
+      "otq": "Ya imágenes ar analizan ja yá teléfono. Ho̲ntho nu'bu̲ pulse 'nar ¿Temu̲ dí 'ñehe hñandu̲i?'nar wa 'ya̲ni ge 'nar fotografiya enviada, ko ya caras pixeladas, pa ndi describir; hingi ar guardado. Ar cámara apaga nu'bu̲ po̲ni ocultar ár nt'ot'e."
+    },
+    {
+      "clave": "texto_b7439918dd",
+      "es": "Leer letrero",
+      "otq": "Lea nt'udi nt'udi"
+    },
+    {
+      "clave": "texto_468606364f",
+      "es": "Letra, contraste y daltonismo",
+      "otq": "Daltonismo ar fuente, ar contraste ne ar njät'i"
+    },
+    {
+      "clave": "texto_fc23f72630",
+      "es": "Limpia la ciudad",
+      "otq": "Limpiar ar Dähnini"
+    },
+    {
+      "clave": "texto_b3d2f92c60",
+      "es": "Lo normal",
+      "otq": "Normal"
+    },
+    {
+      "clave": "texto_c760330c47",
+      "es": "Lo que no contaminas",
+      "otq": "Nä'ä hingi contamina"
+    },
+    {
+      "clave": "texto_9a224eac9d",
+      "es": "Lo que pagas en Qrobus",
+      "otq": "Nä'ä pagas jar Qrobus"
+    },
+    {
+      "clave": "texto_b81d99a3c1",
+      "es": "Mapa claro",
+      "otq": "'Me̲ni ar tsibi"
+    },
+    {
+      "clave": "texto_85a82b979f",
+      "es": "Mapa oscuro",
+      "otq": "'Me̲ni nk'a'mi"
+    },
+    {
+      "clave": "texto_471a606817",
+      "es": "Menos de 300 m",
+      "otq": "Menu da 300 m"
+    },
+    {
+      "clave": "texto_643e27846e",
+      "es": "Más lenta",
+      "otq": "Mäs 'me̲ti"
+    },
+    {
+      "clave": "texto_b6faa7d6f4",
+      "es": "Míralo de lejos y déjalo seguir. No le des comida y aleja a tus mascotas. Si está herido, avisa a Profepa.",
+      "otq": "Hyandi ndezu̲ 'nar ya'bu̲ ne dejar da seguir ya'bu̲. Hingi uni nts'i ne da zeti yá me̲ti ya'bu̲. Nu'bu̲ xí dañado, notificar Profepa."
+    },
+    {
+      "clave": "texto_ac4b6974c1",
+      "es": "No es una rata",
+      "otq": "Hinte 'nar tangu"
+    },
+    {
+      "clave": "texto_b72d5c7559",
+      "es": "No tengo carro",
+      "otq": "Nugu̲ga̲ hingi pe̲ts'i 'nar coche"
+    },
+    {
+      "clave": "texto_3d65f204f4",
+      "es": "Nombre o ubicación",
+      "otq": "Thuhuu wa ja yá 'mui"
+    },
+    {
+      "clave": "texto_867e88cc54",
+      "es": "Normales",
+      "otq": "Normal"
+    },
+    {
+      "clave": "texto_29eec9db8b",
+      "es": "Nos trajo el fuego",
+      "otq": "Ga ku̲hu̲ ar tsibi"
+    },
+    {
+      "clave": "texto_b4c49762dc",
+      "es": "Observatorio",
+      "otq": "Ar observatorio"
+    },
+    {
+      "clave": "texto_8b09102ef4",
+      "es": "Pantalla",
+      "otq": "Pantalla"
+    },
+    {
+      "clave": "texto_be835d8dd7",
+      "es": "Para avisarte durante el viaje. Puedes apagarla en Ajustes, en Voz.",
+      "otq": "Pa avisar bí Nxoge ar viaje. Tsa̲ da desactivar nä'ä jar Configuración, jar hñä."
+    },
+    {
+      "clave": "texto_ede8df4897",
+      "es": "Para daltonismo",
+      "otq": "Pa daltonismo"
+    },
+    {
+      "clave": "texto_e669c9e9ca",
+      "es": "Para daltonismo usa azul y naranja en vez de ámbar y rojo.",
+      "otq": "Pa ar daltonismo, utilice k'angi ne naranja en lugar de ámbar ne xí nthe̲ni."
+    },
+    {
+      "clave": "texto_66d5d38f29",
+      "es": "Pocos botones y Grieta te habla",
+      "otq": "Pocos botones ne Grieta ñä ko nu'i"
+    },
+    {
+      "clave": "texto_0342680e73",
+      "es": "Ponle nombre",
+      "otq": "Gi 'raki 'nar thuuhu"
+    },
+    {
+      "clave": "texto_bcb8431f29",
+      "es": "Por qué cuidarlos",
+      "otq": "Yogo'ä gi 'yogo'ä"
+    },
+    {
+      "clave": "texto_8eec3555dd",
+      "es": "Preguntar",
+      "otq": "Gi 'ya̲ni"
+    },
+    {
+      "clave": "texto_089a7f31e8",
+      "es": "Pásalo a otro teléfono",
+      "otq": "Pe̲hni jar ma'na teléfono"
+    },
+    {
+      "clave": "texto_38a9c18f64",
+      "es": "Que todo se vea bien para ti",
+      "otq": "Xi hño da ja da ga̲tho ar gi hyandi xi hño pa gí"
+    },
+    {
+      "clave": "texto_33e8f86346",
+      "es": "Roja",
+      "otq": "Xí nthe̲ni"
+    },
+    {
+      "clave": "texto_e14e056ab9",
+      "es": "Se hace el muerto",
+      "otq": "Gi 'ñeni ar ndu"
+    },
+    {
+      "clave": "texto_73b7a89d00",
+      "es": "Según una leyenda, fue el tlacuache quien trajo el fuego al mundo.",
+      "otq": "Ir nge 'nar leyde, mar o̲za̲ nä'ä bi tsibi jar ximha̲i."
+    },
+    {
+      "clave": "texto_1b2892b974",
+      "es": "Selecciona el lugar en el mapa",
+      "otq": "Seleccione ar ja yá 'mui ar 'me̲ni"
+    },
+    {
+      "clave": "texto_5be2153546",
+      "es": "Sentido de la ruta",
+      "otq": "Jar 'mui ar ruta"
+    },
+    {
+      "clave": "texto_bb88431f87",
+      "es": "Si se asusta, se queda inmóvil y suelta un olor fuerte. Es su forma de defenderse.",
+      "otq": "Nu'bu̲ tsu̲nt'i ntsu, ar congela ne degombra 'nar ñu̲ni xí nze̲di. Ge ár 'na da t'uti."
+    },
+    {
+      "clave": "texto_215a4404cd",
+      "es": "Si te encuentras uno",
+      "otq": "Nu'bu̲ gí nthe̲hu̲ 'na"
+    },
+    {
+      "clave": "texto_a2950c335c",
+      "es": "Siembra plantas",
+      "otq": "Do̲ni ya do̲ni"
+    },
+    {
+      "clave": "texto_f7bf0dc3bc",
+      "es": "Sirve para calcular cuánto gastarías en carro.",
+      "otq": "Útil pa calcular Tengu gastaría ja 'nar coche."
+    },
+    {
+      "clave": "texto_2490e32a8a",
+      "es": "Tamaño de la letra",
+      "otq": "Tamaño fuente"
+    },
+    {
+      "clave": "texto_cd43f6e82b",
+      "es": "Tarda",
+      "otq": "Tsi pa"
+    },
+    {
+      "clave": "texto_49c081725b",
+      "es": "Tienda",
+      "otq": "De̲nda"
+    },
+    {
+      "clave": "texto_69919239c1",
+      "es": "Traer mi progreso",
+      "otq": "Ba hä ma nte"
+    },
+    {
+      "clave": "texto_71de2d22bf",
+      "es": "Tu CO₂",
+      "otq": "Ir CO₂"
+    },
+    {
+      "clave": "texto_5308386997",
+      "es": "Tu llave. Escríbela en otro teléfono, en Ajustes y Tu progreso, para tener ahí tu progreso.",
+      "otq": "Ár clave. 'Yot'i nä'ä jar ma'na teléfono, jar Configuración ne ár nte, pa ga ár nte nu'bu̲."
+    },
+    {
+      "clave": "texto_d150573d90",
+      "es": "Tu progreso",
+      "otq": "Ir nte"
+    },
+    {
+      "clave": "texto_eb45dc576d",
+      "es": "Tu progreso en otro teléfono",
+      "otq": "Ár nte jar ma'na teléfono"
+    },
+    {
+      "clave": "texto_40029409b7",
+      "es": "Tu racha y tus lugares, a salvo",
+      "otq": "Ár maña ne yá xeni, pädi xi hño"
+    },
+    {
+      "clave": "texto_d102085e9a",
+      "es": "Tu racha, tus tunas, tu ahorro y tus lugares se guardan con seis palabras, sin correo ni contraseña. Se cifran en tu teléfono antes de subir: nadie más puede leerlos.",
+      "otq": "Ár racha, yá atúns, yá ahorros ne yá xeni ar guardan ko 'rato ya hñä, hinda correo electrónico wa ya contraseña. Gi 'bu̲hu̲ cifrados jar ár teléfono nu'bu cargar: ni mäs to lei ya."
+    },
+    {
+      "clave": "texto_e6e409d04a",
+      "es": "Unidos es para estudiantes, mayores de 60 y personas con discapacidad. El transbordo es gratis.",
+      "otq": "Mfats'i ar pa ya xa̲di, ya jä'i dige ar 60 ne ya jä'i ko discapacidades. Ar transferencia ar gratuita."
+    },
+    {
+      "clave": "texto_349bd378b6",
+      "es": "VIAJERO DE QUERÉTARO",
+      "otq": "AR VIAJERO NDEZU̲ MAXEI"
+    },
+    {
+      "clave": "texto_a60b5f318d",
+      "es": "Velocidad",
+      "otq": "Velocidad"
+    },
+    {
+      "clave": "texto_40598e1cb1",
+      "es": "Verde",
+      "otq": "Xí"
+    },
+    {
+      "clave": "texto_2fe47d1f3c",
+      "es": "lo que evitamos",
+      "otq": "Nä'ä nu'be nu'u̲"
+    },
+    {
+      "clave": "texto_6c54063bbb",
+      "es": "tu tlacuache",
+      "otq": "Ir o̲ho̲"
+    },
+    {
+      "clave": "texto_0721145db5",
+      "es": "y qué bono te conviene",
+      "otq": "ne Temu̲ ar bonificación gi convenga"
+    },
+    {
+      "clave": "texto_4a53b71e7b",
+      "es": "¡Hola! Yo te acompaño en tus viajes.",
+      "otq": "¡Hadi! Dí ngi 'be'ñe ja ir 'viaje."
+    },
+    {
+      "clave": "texto_11f7ea8cd5",
+      "es": "¿Cómo se llama tu tlacuache?",
+      "otq": "¿Tema ra hu'a ri za̲tho?"
+    },
+    {
+      "clave": "texto_4bc0e301bb",
+      "es": "¿Qué gasolina le pones a tu carro?",
+      "otq": "¿Temu̲ ar klase ar gas gi 'yo̲t'e ja ir coxi?"
+    },
+    {
+      "clave": "texto_804c781901",
+      "es": "¿Qué tengo enfrente?",
+      "otq": "¿Temu̲ 'bu̲i tamu̲ga̲?"
+    },
+    {
+      "clave": "texto_06d456b7d4",
+      "es": "¿Ya tienes llave? Escribe tus seis palabras",
+      "otq": "¿Ya gi pe̲ts'i 'nar clave? Gi 'yot'i 'rato ir hñä"
+    },
+    {
+      "clave": "texto_c087006b29",
+      "es": "Alebrije",
+      "otq": "Alebrije"
+    },
+    {
+      "clave": "texto_7913a179fb",
+      "es": "Blanco",
+      "otq": "Nt'axi"
+    },
+    {
+      "clave": "texto_034b0038d0",
+      "es": "Canela",
+      "otq": "Ar canela"
+    },
+    {
+      "clave": "texto_e8650efbfd",
+      "es": "Gris",
+      "otq": "Nxo̲ge nxo̲ge"
+    },
+    {
+      "clave": "texto_ebfa2d046f",
+      "es": "Avisos",
+      "otq": "Aviso"
+    },
+    {
+      "clave": "texto_73a4ec61e7",
+      "es": "Botones",
+      "otq": "Botones"
+    },
+    {
+      "clave": "texto_b5c9c8e68e",
+      "es": "Caminar",
+      "otq": "Gi 'ño"
+    },
+    {
+      "clave": "texto_45657601a0",
+      "es": "Completos",
+      "otq": "Nxo̲ge"
+    },
+    {
+      "clave": "texto_5192da8be5",
+      "es": "Comprar",
+      "otq": "Ta̲i"
+    },
+    {
+      "clave": "texto_ec0eda49b5",
+      "es": "Estimado",
+      "otq": "Ma tsi"
+    },
+    {
+      "clave": "texto_a0eb54b211",
+      "es": "Lector",
+      "otq": "Lector"
+    },
+    {
+      "clave": "texto_22167ecdc9",
+      "es": "Ponérselo",
+      "otq": "Gi tsa̲pi"
+    },
+    {
+      "clave": "texto_eb94182047",
+      "es": "Quitárselo",
+      "otq": "Ju̲ts'i"
+    },
+    {
+      "clave": "texto_1a266d7d10",
+      "es": "Tarifa",
+      "otq": "Tarifa"
+    },
+    {
+      "clave": "texto_b9d67d1757",
+      "es": "Unidos",
+      "otq": "Unidos"
+    },
+    {
+      "clave": "texto_55cf2b1313",
+      "es": "Bordado como los de Amealco",
+      "otq": "Broda ngu nu'u̲ nu Nsantu̲mu̲riya"
+    },
+    {
+      "clave": "texto_db06e19c66",
+      "es": "La cámara sigue arrancando. Intenta otra vez en unos segundos.",
+      "otq": "Ar cámara te̲ni iniciando. Japi ma 'nagi jar 'ra ya 'na̲te ya 'na̲te ya mfe̲ts'i."
+    },
+    {
+      "clave": "texto_0339dd94dc",
+      "es": "La del Día de Muertos",
+      "otq": "Ar pa ya animä"
+    },
+    {
+      "clave": "texto_5f70f13848",
+      "es": "Lentes de sol",
+      "otq": "Ya hyadi"
+    },
+    {
+      "clave": "texto_af3db5a8bf",
+      "es": "Listo, dejé de escuchar.",
+      "otq": "'Yo̲t'e xta he̲gi ar 'mu̲ise̲"
+    },
+    {
+      "clave": "texto_915fd668cb",
+      "es": "Listo. Guarda tus seis palabras donde no las pierdas.",
+      "otq": "'Bu̲i. Da zeti 'rato yá hñä jar lugar hingi gi perder nu'u̲."
+    },
+    {
+      "clave": "texto_5f70c3913e",
+      "es": "Listo. Puedes volver a escribir tu llave cuando quieras.",
+      "otq": "'Yo̲t'e. Tsa̲ da reescribir ár clave nu'bu̲ gi."
+    },
+    {
+      "clave": "texto_159a6cef2e",
+      "es": "Listo: tu progreso ya está en este teléfono.",
+      "otq": "'Yo̲t'e: ár nte ya 'bu̲i jar nuna ar teléfono."
+    },
+    {
+      "clave": "texto_b21f3b790b",
+      "es": "Listones de colores",
+      "otq": "Xí njät'i ya cintas"
+    },
+    {
+      "clave": "texto_d192186adb",
+      "es": "Los horarios son estimados: no vemos los camiones en tiempo real.",
+      "otq": "Ya horarios ar estima: hingi nthe̲hu̲ ya bo̲jä ma 'me̲t'o jar pa real."
+    },
+    {
+      "clave": "texto_2c45b207b2",
+      "es": "Morral otomí",
+      "otq": "Ar mo̲jsa ñäñho"
+    },
+    {
+      "clave": "texto_07e381abeb",
+      "es": "Muy raro: en México se documentó por primera vez en 2024.",
+      "otq": "Xi raro: jar M'onda 'me̲t'o bí documentado jar 2024."
+    },
+    {
+      "clave": "texto_3b0cb36b41",
+      "es": "Muy raro: en México solo se ha documentado en la Península de Yucatán.",
+      "otq": "Xi raro: jar M'onda ho̲ntho xi documentado jar Peninsula Yucatán."
+    },
+    {
+      "clave": "texto_0a9c06e430",
+      "es": "Necesito permiso del micrófono para escucharte.",
+      "otq": "Di honi 'raku̲'be ar micrófono pa 'mu̲ise̲."
+    },
+    {
+      "clave": "texto_e6f58c5ad7",
+      "es": "No encontré una copia con esas palabras. Revísalas una por una.",
+      "otq": "Hingi dá tini 'nar copia ko ya hñä. Gi hyandi 'natho t'ot'e 'natho."
+    },
+    {
+      "clave": "texto_f5b454ed52",
+      "es": "No pude borrarla. Revisa tu internet e intenta otra vez.",
+      "otq": "Hindi pude da hñäki nä'ä. Compruebe ir internet ne japi ma 'nagi."
+    },
+    {
+      "clave": "texto_ee2c351554",
+      "es": "No pude crear tu llave. Intenta otra vez.",
+      "otq": "Hindi himar tsa̲ da t'ot'e ir clave. Japi ma 'nagi."
+    },
+    {
+      "clave": "texto_517301dd30",
+      "es": "No pude describir la foto. Intenta otra vez.",
+      "otq": "Hindar tsa̲ ndi bädi ar fotografiya. Pengi gi japi"
+    },
+    {
+      "clave": "texto_e30b65a268",
+      "es": "No pude traer tu copia. Revisa tu internet e intenta otra vez.",
+      "otq": "Hindi himar tsa̲ da ir copia. Compruebe ir internet ne japi ma 'nagi."
+    },
+    {
+      "clave": "texto_ffe125f46a",
+      "es": "No te muestro lo que gastarías en carro.",
+      "otq": "Hindi 'beni'i temu̲ ga tho̲di 'nar coxi."
+    },
+    {
+      "clave": "texto_1e9ae4af1c",
+      "es": "Paliacate",
+      "otq": "Bandana"
+    },
+    {
+      "clave": "texto_80874e4f05",
+      "es": "Para el sol de Querétaro",
+      "otq": "Pa ar hyadi Maxei"
+    },
+    {
+      "clave": "texto_82761221fd",
+      "es": "Pasa por tu parada",
+      "otq": "Parada jar ár parada"
+    },
+    {
+      "clave": "texto_6b170675b9",
+      "es": "Ponle nombre a tu tlacuache",
+      "otq": "Gi 'raki 'nar thuuhu ri za̲mäni"
+    },
+    {
+      "clave": "texto_5aba0adfe4",
+      "es": "Primera parada",
+      "otq": "Ndui parada"
+    },
+    {
+      "clave": "texto_2d8ab8c2f6",
+      "es": "Última parada",
+      "otq": "Thuhú parada"
+    },
+    {
+      "clave": "texto_198f1a589a",
+      "es": "Puede omitir obstáculos: usa tu bastón o acompañamiento.",
+      "otq": "Tsa̲ da nu'bu ya obstáculos: utilice ár bastón wa acompañamiento."
+    },
+    {
+      "clave": "texto_5e1963a9e8",
+      "es": "Qué gasolina le pones a tu carro",
+      "otq": "Temu̲ ar gas gi japi ja ir coche"
+    },
+    {
+      "clave": "texto_acda727205",
+      "es": "Rebozo",
+      "otq": "Hx'ó'n"
+    },
+    {
+      "clave": "texto_8977a5c480",
+      "es": "Rojo, con sus puntitos",
+      "otq": "Xí nthe̲ni, ko ya t'olo puntos"
+    },
+    {
+      "clave": "texto_2ebb4816d8",
+      "es": "Se borra tu copia en línea para siempre. Lo de este teléfono se queda. ¿Borrar?",
+      "otq": "Ár copia jar 'ñu ar borra pa zäntho. Nä'ä 'bu̲i jar nuna ar teléfono bí queda. ¿Da hñäki ya?"
+    },
+    {
+      "clave": "texto_d478ac0b22",
+      "es": "Se guarda cuando haya internet",
+      "otq": "Guardado nu'bu̲ 'bu̲i internet"
+    },
+    {
+      "clave": "texto_bf93cd3fa6",
+      "es": "Sin conexión con Grieta. Intenta en un momento.",
+      "otq": "Offline ko Grieta. Japi ma 'nagi ja 'nar t'olo ora."
+    },
+    {
+      "clave": "texto_4094c72c56",
+      "es": "Sin conexión para describir. Los avisos de la cámara siguen funcionando.",
+      "otq": "'Bu̲ hinda conexión pa describir. Tobe funcionan notificaciones ar cámara."
+    },
+    {
+      "clave": "texto_b6090b783f",
+      "es": "Sombrero de charro",
+      "otq": "Fu̲i ar charro"
+    },
+    {
+      "clave": "texto_f2730cf204",
+      "es": "Sombrero de palma",
+      "otq": "Fu̲i ar palme̲t'i"
+    },
+    {
+      "clave": "texto_273df843af",
+      "es": "Te conviene",
+      "otq": "Ar mahyoni pa nu'i"
+    },
+    {
+      "clave": "texto_f40d636d86",
+      "es": "Te escucho. Pregunta lo que quieras de lo que tienes enfrente. Di «ya» para terminar.",
+      "otq": "Di 'mu̲ise̲. Gi 'ya̲ni 'na xka dige nä'ä 'bu̲i nthñandu̲i. Gi mä \"nthu̲ts'i\" pa wadi."
+    },
+    {
+      "clave": "texto_bb4dea700f",
+      "es": "Tejido a mano",
+      "otq": "Tejido tso̲kwa 'ye̲"
+    },
+    {
+      "clave": "texto_247cc397cb",
+      "es": "Tu copia en línea se borró.",
+      "otq": "Ár copia jar 'ñu bí eliminada."
+    },
+    {
+      "clave": "texto_36db2479ec",
+      "es": "Tu primer viaje en camión pone la primera moneda.",
+      "otq": "Ár ndu̲i viaje jar autobús añade ar ndui ar moneda."
+    },
+    {
+      "clave": "texto_748c412469",
+      "es": "Un momento.",
+      "otq": "'Nar t'olo ora"
+    },
+    {
+      "clave": "texto_e9dfb82afc",
+      "es": "Ya no pasan",
+      "otq": "Ya hingi bo̲ni"
+    },
+    {
+      "clave": "texto_01f09c0f98",
+      "es": "Ya no pasan camiones a esta hora.",
+      "otq": "Ya hingi thogi ya bo̲jä ma 'me̲t'o nuna ora."
+    },
+    {
+      "clave": "texto_29ced05ed5",
+      "es": "al mes",
+      "otq": "Ya zänä"
+    },
+    {
+      "clave": "texto_7a3b766d55",
+      "es": "camiones a esta hora",
+      "otq": "Ya bo̲jä ma 'me̲t'o nu'bya ora"
+    },
+    {
+      "clave": "texto_06088d2b2d",
+      "es": "de gasolina",
+      "otq": "Gasolina"
+    },
+    {
+      "clave": "texto_a8578a4a99",
+      "es": "es lo que echaría un auto en este viaje. Caminando no echas nada.",
+      "otq": "Ar nä'ä 'nar coche usaría jar nuna ar viaje. Mpe̲ka̲ hingi njapu'befi otho."
+    },
+    {
+      "clave": "texto_abaaeacf82",
+      "es": "es lo que echaría un auto en este viaje. El camión pasa de todos modos, así que tú casi no sumas.",
+      "otq": "Ar nä'ä 'nar coche usaría nuna ar viaje. Ar dätä xe̲ni gi nga̲tho modos, nja'bu da penä añades otho."
+    },
+    {
+      "clave": "texto_daf2008954",
+      "es": "hace un momento",
+      "otq": "Ma 'nar t'olo ora"
+    },
+    {
+      "clave": "texto_51566124bb",
+      "es": "mes de Netflix",
+      "otq": "Ar zänä Netflix"
+    },
+    {
+      "clave": "texto_0d6c094b5d",
+      "es": "meses de Netflix",
+      "otq": "Ya zänä Netflix"
+    },
+    {
+      "clave": "texto_75186a4ce1",
+      "es": "viaje en Qrobus",
+      "otq": "viaje jar Qrobus"
+    },
+    {
+      "clave": "texto_79e4685a43",
+      "es": "viajes en Qrobus",
+      "otq": "viajes jar Qrobus"
+    },
+    {
+      "clave": "texto_722f9a4a91",
+      "es": "mi destino",
+      "otq": "Ma 'mu̲i"
+    },
+    {
+      "clave": "texto_787ac19418",
+      "es": "tunas para gastar",
+      "otq": "Pa da xa̲di"
+    },
+    {
+      "clave": "texto_27c0dfe6e9",
+      "es": "Cada árbol",
+      "otq": "Kadu̲ 'nar zaa"
+    },
+    {
+      "clave": "texto_c12aaec93b",
+      "es": "es el CO₂ que absorbe uno joven en un año",
+      "otq": "ge ar CO₂ da absorbe 'nar bätsitho ja 'nar je̲ya"
+    },
+    {
+      "clave": "texto_c588080455",
+      "es": "es el CO₂ que absorbe uno joven en un mes",
+      "otq": "ge ar CO₂ da absorbe 'nar bätsitho ja 'nar zänä"
+    },
+    {
+      "clave": "texto_4c2e369a64",
+      "es": "Cuesta lo mismo",
+      "otq": "Ar njut'i xkagentho"
+    },
+    {
+      "clave": "texto_940ea1c904",
+      "es": "La más barata",
+      "otq": "Mäs ngut'ä"
+    },
+    {
+      "clave": "texto_a54f002861",
+      "es": "ahorrados en 1 viaje este mes",
+      "otq": "guardado jar 1 viaje nuna ar zänä"
+    },
+    {
+      "clave": "texto_d15981e271",
+      "es": "de CO₂ en 1 viaje en camión",
+      "otq": "ndezu̲ CO₂ ma viaje ar autobús 1"
+    },
+    {
+      "clave": "texto_142d986e96",
+      "es": "Racha de 1 semana",
+      "otq": "Ar trama ar su̲mänä 1"
+    },
+    {
+      "clave": "texto_900b4c61e3",
+      "es": "Guardado hace un momento",
+      "otq": "Guardado 'nar t'olo ora"
+    },
+    {
+      "clave": "texto_86f58d1181",
+      "es": "Guardado hace 1 minuto",
+      "otq": "Guardado 1 ma t'olo ora"
+    },
+    {
+      "clave": "texto_8d33242a7f",
+      "es": "Guardado hace 1 hora",
+      "otq": "Guardado ar ora 1"
+    },
+    {
+      "clave": "texto_29ed523045",
+      "es": "Guardado hace 1 día",
+      "otq": "Guardado ar pa 1"
+    },
+    {
+      "clave": "texto_65ec06474e",
+      "es": "Horario estimado: Qrobus no publica esta salida.",
+      "otq": "Horario estimado: Qrobus hindi publica nuna ar desviación."
+    },
+    {
+      "clave": "texto_9a45975ddc",
+      "es": "Tu carro usa",
+      "otq": "Ir coche gi japu̲'be̲fi"
+    },
+    {
+      "clave": "texto_5bb1138c3f",
+      "es": "Tu progreso se queda en este teléfono y en tu copia en línea, pero este teléfono ya no se va a guardar. ¿Quitar la llave?",
+      "otq": "Ár nte ar mantiene nuna ar teléfono ne ár copia jar 'ñu, pe nuna ar teléfono ya hingi bí guardará. ¿Da hñäki ya ar tecla?"
+    },
+    {
+      "clave": "texto_eedea434e7",
+      "es": "más estacionamiento",
+      "otq": "Mäs aparcamiento"
+    },
+    {
+      "clave": "texto_5444c2d1a2",
+      "es": "Comprar por {v1} tunas",
+      "otq": "Ta̲i pa atunes {v1}"
+    },
+    {
+      "clave": "texto_35c24e2265",
+      "es": "Te faltan {v1}",
+      "otq": "Gi 'be̲di {v1}"
+    },
+    {
+      "clave": "texto_bc4aca0e5d",
+      "es": "Faltan {v1} para el nivel {v2}",
+      "otq": "Be̲di {v1} pa alcanzar za̲ ár nthe̲ {v2}"
+    },
+    {
+      "clave": "texto_87a57cabdd",
+      "es": "Faltan {v1} para recoger la basura",
+      "otq": "Be̲di {v1} pa recoger ar basura"
+    },
+    {
+      "clave": "texto_2b387be4b5",
+      "es": "Faltan {v1} para que crezca un árbol",
+      "otq": "{v1} Be̲di pa 'nar zaa da crecer"
+    },
+    {
+      "clave": "texto_afc8bbc283",
+      "es": "Faltan {v1} para limpiar la fuente y el aire",
+      "otq": "{v1} 'be̲di pa limpiar ar fuente ne ar ndähi"
+    },
+    {
+      "clave": "texto_015ed7ac59",
+      "es": "Faltan {v1} para que lleguen los pájaros",
+      "otq": "Be̲di {v1} pa ndi zo̲ni ya ts'ints'u̲"
+    },
+    {
+      "clave": "texto_c935c326f5",
+      "es": "Faltan {v1} para que el nopal dé tunas",
+      "otq": "Be̲di {v1} pa da t'uni ár fruto ar tupa espinosa"
+    },
+    {
+      "clave": "texto_6f6b605d01",
+      "es": "Faltan {v1} para que tenga crías",
+      "otq": "Be̲di {v1} pa ga descendencia"
+    },
+    {
+      "clave": "texto_2d5b4e1c4e",
+      "es": "{v1} tuvo crías",
+      "otq": "{v1} pe̲ts'i ya descendencia"
+    },
+    {
+      "clave": "texto_80203f6342",
+      "es": "ahorrados en {v1} viajes este mes",
+      "otq": "guardado ja ya viajes {v1} nuna ar zänä"
+    },
+    {
+      "clave": "texto_185ff88576",
+      "es": "de CO₂ en {v1} viajes en camión",
+      "otq": "ar CO₂ 'bu̲ ya viajes {v1} ya dätä bo̲jä"
+    },
+    {
+      "clave": "texto_ad485117e2",
+      "es": "Racha de {v1} semanas",
+      "otq": "Serie ya su̲mänä {v1}"
+    },
+    {
+      "clave": "texto_118c7c5827",
+      "es": "Guardado hace {v1} minutos",
+      "otq": "Guardado ya t'olo ora {v1}"
+    },
+    {
+      "clave": "texto_3ac0bc5b01",
+      "es": "Guardado hace {v1} horas",
+      "otq": "Guardado ya ora {v1}"
+    },
+    {
+      "clave": "texto_6938204a9f",
+      "es": "Guardado hace {v1} días",
+      "otq": "Guardados ya pa {v1}"
+    },
+    {
+      "clave": "texto_0afd6f3d64",
+      "es": "Tu llave tiene {v1} palabras y escribiste {v2}.",
+      "otq": "Ár clave pe̲ts'i hñä {v1} ne escribiste {v2}."
+    },
+    {
+      "clave": "texto_f8ebeaf651",
+      "es": "No reconozco \"{v1}\". Revisa cómo la escribiste.",
+      "otq": "Hindi reconozco 'nar {v1} 'nar. Compruebe Honja gá kot'i."
+    },
+    {
+      "clave": "texto_9513bd5ded",
+      "es": "Camioncito de hojalata en el nivel {v1} de 5",
+      "otq": "Bo̲i hojalata za̲ ár nthe̲ {v1} ar 5"
+    },
+    {
+      "clave": "texto_98e10d0b18",
+      "es": "{v1} y termina en {v2}",
+      "otq": "{v1} ne termina jar {v2}"
+    },
+    {
+      "clave": "texto_432f9245c4",
+      "es": "Un árbol joven tarda {v1} en limpiar eso del aire.",
+      "otq": "'Nar zaa bätsitho tsi {v1} pa limpiar nä'ä ar ndähi."
+    },
+    {
+      "clave": "texto_7338f50462",
+      "es": "{v1} por calles, {v2}",
+      "otq": "{v1} a lo largo de ya dä'ye, {v2}"
+    },
+    {
+      "clave": "texto_2ffe58c66b",
+      "es": "de subida, {v1} m",
+      "otq": "mañä, {v1} m"
+    },
+    {
+      "clave": "texto_0cfd800720",
+      "es": "de bajada, {v1} m",
+      "otq": "Downhill, {v1} m"
+    },
+    {
+      "clave": "texto_2fe4ab87f1",
+      "es": "sube {v1} m y baja {v2} m",
+      "otq": "sube {v1} m ne desciende {v2} m"
+    },
+    {
+      "clave": "texto_ecddda6d67",
+      "es": "Camino {v1}",
+      "otq": "Ruta {v1}"
+    },
+    {
+      "clave": "texto_ed45d16c65",
+      "es": "{v1}. Cambiar el nombre de tu tlacuache",
+      "otq": "{v1}. Mpa̲ti thuuhu ár za̲giothea"
+    },
+    {
+      "clave": "texto_91ecfc9534",
+      "es": "Esta semana: {v1} de {v2} viajes en camión.",
+      "otq": "Nuna ar su̲mänä: {v1} viajes camiones {v2}."
+    },
+    {
+      "clave": "texto_d1f2a8fed9",
+      "es": "{v1} más al mes",
+      "otq": "{v1} mäs ya zänä"
+    },
+    {
+      "clave": "texto_4b89c55ca3",
+      "es": "Buscando camiones para ti",
+      "otq": "Di hyoni ya dätä bo̲jä pa nu'i"
+    },
+    {
+      "clave": "texto_6ea36b0aa2",
+      "es": "Buscando tu copia...",
+      "otq": "Mí honi ár copy..."
+    },
+    {
+      "clave": "texto_a421e26354",
+      "es": "Calculo el gasto de tu carro con gasolina roja.",
+      "otq": "Calculo ar gasto ir coche ko ar gasolina xí nthe̲ni."
+    },
+    {
+      "clave": "texto_5f2bf202d5",
+      "es": "Calculo el gasto de tu carro con gasolina verde.",
+      "otq": "Calculo ar gasto ir coche ko ar gasolina xí."
+    },
+    {
+      "clave": "texto_80e58e43ef",
+      "es": "Camioncito de hojalata lleno de monedas",
+      "otq": "Tsi dätä bo̲jä hoyataña lleno ya bojä"
+    },
+    {
+      "clave": "texto_3fe64aff3b",
+      "es": "Camioncito de hojalata vacío",
+      "otq": "Pequeño bo̲i hojalata vacío"
+    },
+    {
+      "clave": "texto_d85b24064f",
+      "es": "Camioncito lleno este mes",
+      "otq": "Nar dätä hño bo̲jä lleno nuna ar zänä"
+    },
+    {
+      "clave": "texto_a7b7cfce91",
+      "es": "Como los de la muñeca Lele de Amealco",
+      "otq": "Ngu nu'u̲ ár dänxu Lele ar Nsantu̲mu̲riya"
+    },
+    {
+      "clave": "texto_9e99d3d10a",
+      "es": "Común en México.",
+      "otq": "Hne ngatho M'onda"
+    },
+    {
+      "clave": "texto_d06069dbda",
+      "es": "Conviene más",
+      "otq": "Mäs xi hño nkohi"
+    },
+    {
+      "clave": "texto_5882dc9e1a",
+      "es": "Copiada. Pégala en tus notas.",
+      "otq": "Copia. Pega ja ir notas."
+    },
+    {
+      "clave": "texto_303811fe10",
+      "es": "De rayas, con su fleco",
+      "otq": "Ko 'ñuras ko ya franjas"
+    },
+    {
+      "clave": "texto_e8da39e035",
+      "es": "Dejar de preguntar",
+      "otq": "Deje gi 'ya̲ni"
+    },
+    {
+      "clave": "texto_31bde80f5a",
+      "es": "Dejé de escuchar porque se repitió la misma respuesta. Toca Preguntar para seguir.",
+      "otq": "Dejé di 'mu̲ise̲ ngetho xkagentho ar respuesta bí repite. Pulse preguntar pa da 'ño."
+    },
+    {
+      "clave": "texto_b183b50d15",
+      "es": "Dejé de escuchar. Toca Preguntar para seguir.",
+      "otq": "Xta hegi ar 'mu̲ise̲. Pulse 'ya̲ni pa da 'ño."
+    },
+    {
+      "clave": "texto_c8e7a53b47",
+      "es": "El de gala, con galón dorado",
+      "otq": "Ar nza̲tho, ko 'nar k'axt'i ar galón"
+    },
+    {
+      "clave": "texto_c2dd10829b",
+      "es": "El más común.",
+      "otq": "Ar mäs hne ngatho"
+    },
+    {
+      "clave": "texto_8cde3ff619",
+      "es": "Empieza tu racha",
+      "otq": "Comience ir racha"
+    },
+    {
+      "clave": "texto_45bf229069",
+      "es": "En Inicio o Ajustes, abre Describir con la cámara. En Ajustes, en Pantalla, puedes elegir el modo Voz.",
+      "otq": "Jar Inicio wa configuración, abrir pede ko ar cámara. Jar configuración, jár Display, to da 'ñets'i modo ar hñä."
+    },
+    {
+      "clave": "texto_cfedd3ca69",
+      "es": "Ese nombre no se vale. Elige otro.",
+      "otq": "Nunu̲ ar thuhuu hingi hegi nuna ar he̲di. Gi jwahni ma'na."
+    },
+    {
+      "clave": "texto_3b222d9b85",
+      "es": "Este no existe en la naturaleza: es puro arte mexicano.",
+      "otq": "'Me̲hna hingi nuna ar dängo jar 'mui: ge ar puro arte M'onda."
+    },
+    {
+      "clave": "texto_6966b8dd21",
+      "es": "Flor de cempasúchil",
+      "otq": "Ar do̲ni mexaspeña"
+    },
+    {
+      "clave": "texto_fba55d347d",
+      "es": "Gasolina roja",
+      "otq": "Gasolina nthe̲ni"
+    },
+    {
+      "clave": "texto_705bd06d5f",
+      "es": "Gasolina verde",
+      "otq": "Gasolina xí"
+    },
+    {
+      "clave": "texto_059c3fa760",
+      "es": "Gasolina",
+      "otq": "Gasolina"
+    },
+    {
+      "clave": "texto_2516b0202a",
+      "es": "Guardando tu progreso...",
+      "otq": "Guardar ir progress..."
+    },
+    {
+      "clave": "texto_9c87b0d127",
+      "es": "ahorrados este mes",
+      "otq": "Guardado nuna ar zänä"
+    },
+    {
+      "clave": "texto_d691e5fc71",
+      "es": "Tus viajes",
+      "otq": "Ir 'be̲fi"
+    },
+    {
+      "clave": "texto_a0ca8cf00d",
+      "es": "meses",
+      "otq": "Ya zänä"
+    },
+    {
+      "clave": "texto_5926c98937",
+      "es": "Quitar de tus lugares",
+      "otq": "Pats'u̲ga̲ ja yá xeni"
+    },
+    {
+      "clave": "texto_00f7332f3b",
+      "es": "{v1} min de viaje, {v2} min más que en app",
+      "otq": "{v1} min ar viajes, {v2} min mäs da jar nt'ot'e"
     }
   ],
   "adaptaciones": [
@@ -4685,5 +8566,5 @@
       "criterio": "La sección de Voz quedó arriba de Ayuda; se quita la palabra «abajo» de la traducción anterior en lugar de volver a traducir."
     }
   ],
-  "parcial": true
+  "parcial": false
 }

@@ -4,12 +4,14 @@ La interfaz usa catálogos estáticos del teléfono. No manda ubicaciones, repor
 fotos ni texto de cámara a un traductor. La voz continúa en español y recupera los textos
 originales con `Interfaz.original`.
 
-- `demo/idiomas/es.json`: 1,377 textos fuente, contexto, variables y selectores.
-- `demo/idiomas/otq.json`: 852 traducciones automáticas de otomí (Bing Translator), sin revisión
-  lingüística. Es parcial; los mensajes faltantes siguen en español.
-- `demo/idiomas/nhe.json`: 1,377 textos de náhuatl de la Huasteca oriental, obtenidos en
-  Google Traductor el 4 y el 7 de noviembre de 2026. Traducción automática provisional,
-  sin revisión de hablantes. Algunas palabras conservan la salida española del proveedor.
+- `demo/idiomas/es.json`: 1,629 textos fuente, contexto, variables y selectores.
+- `demo/idiomas/otq.json`: 1,629 traducciones automáticas de otomí de Querétaro (Bing
+  Translator), obtenidas del 3 al 8 de noviembre de 2026, sin revisión de hablantes.
+- `demo/idiomas/nhe.json`: 1,629 textos de náhuatl de la Huasteca oriental, obtenidos en
+  Google Traductor el 4, 7 y 8 de noviembre de 2026. Traducción automática provisional,
+  sin revisión de hablantes.
+
+En ambos catálogos algunas palabras conservan la salida española del proveedor.
 
 El perfil permite cambiar entre Español, Hñöñho (Otomí) y Náhuatl. La elección persiste y
 los botones de lengua conservan sus nombres para poder regresar. El aviso provisional
@@ -17,8 +19,8 @@ permanece visible; seleccionar náhuatl no activa voz en esa lengua.
 
 ## Procedencia y actualización
 
-Se usó la interfaz web de https://translate.google.com/?sl=es&tl=nhe&op=translate,
-en diez bloques de textos públicos de la app. Se protegieron variables, números y marcas
+Se usaron las interfaces web de https://translate.google.com/?sl=es&tl=nhe&op=translate
+y https://www.bing.com/translator?from=es&to=otq, por bloques de textos públicos de la app. Se protegieron variables, números y marcas
 antes de traducir y se restauraron exactamente después. No se usaron datos de personas.
 Los nombres de calles, rutas, horas y campos escritos siguen siendo variables protegidas.
 

@@ -1,6 +1,6 @@
 const Interfaz = (() => {
   const atributos = ["aria-label", "aria-valuetext", "aria-description", "placeholder", "title", "alt"];
-  const omitir = "script, style, svg, [translate='no'], #mapa, #medidas, #chofer, #perfilLengua, #filaLengua .respuesta-perfil";
+  const omitir = "script, style, svg, [translate='no'], #mapa, #medidas, #chofer, #perfilLengua, #ajusteIdioma, #filaLengua .respuesta-perfil";
   const textos = new WeakMap();
   const propiedades = new WeakMap();
   const lenguas = { oto: "otq", nah: "nhe" };
