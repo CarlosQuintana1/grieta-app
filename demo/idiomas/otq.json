@@ -8297,6 +8297,146 @@
       "clave": "texto_96a199714e",
       "es": "Camioncito al {v1}% del camino a tu meta",
       "otq": "Pequeño dätä bo̲jä jar {v1}% ar 'ñu ja ár meta"
+    },
+    {
+      "clave": "texto_2119c4ade5",
+      "es": "Ver 1 opción más",
+      "otq": "Ga mäs opción 1"
+    },
+    {
+      "clave": "texto_11a505b1d8",
+      "es": "Ver {v1} opciones más",
+      "otq": "Ga mäs opciones {v1}"
+    },
+    {
+      "clave": "texto_6b86f2b42c",
+      "es": "Modo seguro",
+      "otq": "Modo pädi xi hño"
+    },
+    {
+      "clave": "texto_77a7247de7",
+      "es": "Modo seguro en este viaje",
+      "otq": "Modo pädi xi hño nuna ar viaje"
+    },
+    {
+      "clave": "texto_41079baecd",
+      "es": "Apagado en este viaje",
+      "otq": "'Bu̲ nuna ar viaje"
+    },
+    {
+      "clave": "texto_80d11bea95",
+      "es": "No hay paradas a menos de 5 min",
+      "otq": "'Ñotho ar paradas mbo 5 min"
+    },
+    {
+      "clave": "texto_4a8d72f8e2",
+      "es": "Es de noche: te muestro menos caminata",
+      "otq": "Bi nxui: di mu̲i menu 'yo"
+    },
+    {
+      "clave": "texto_3e5c2ebc42",
+      "es": "Te muestro menos caminata",
+      "otq": "Di mu̲'i menu 'yo"
+    },
+    {
+      "clave": "texto_049cbb5978",
+      "es": "Mejor para esta hora",
+      "otq": "Mäs xi hño pa nuna ar pa"
+    },
+    {
+      "clave": "texto_ea6582b8de",
+      "es": "Caminas solo {v1} min hasta la parada",
+      "otq": "Gi 'yo ho̲ntho {v1} min asta ar parada"
+    },
+    {
+      "clave": "texto_0afee30782",
+      "es": "Sin caminar hasta la parada",
+      "otq": "Hindi 'yo asta ar parada"
+    },
+    {
+      "clave": "texto_2d34b75114",
+      "es": "Parada sobre avenida",
+      "otq": "Parada ja 'nar avenida"
+    },
+    {
+      "clave": "texto_25e3d7ddc5",
+      "es": "Verlas",
+      "otq": "Nu'u̲"
+    },
+    {
+      "clave": "texto_11671cc894",
+      "es": "Te oculté 1 ruta que camina {v1} min hasta la parada.",
+      "otq": "Oculté ruta 1 nu'i da 'yo {v1} min asta ar parada."
+    },
+    {
+      "clave": "texto_83a34534a6",
+      "es": "Te oculté {v1} rutas que caminan hasta {v2} min a la parada.",
+      "otq": "Oculté rutas {v1} nu'i da 'yo asta {v2} min asta ar parada."
+    },
+    {
+      "clave": "texto_fcce013de3",
+      "es": "Te cuida al caminar a la parada",
+      "otq": "Mi ta̲ni nu'i nu'bu̲ nu'bu̲ 'ño asta ar parada"
+    },
+    {
+      "clave": "texto_9ed43925ca",
+      "es": "Cuándo usarlo",
+      "otq": "Hä'mu̲ utilizar nä'ä"
+    },
+    {
+      "clave": "texto_24c65e9ddc",
+      "es": "De noche",
+      "otq": "'BU̲ nxuia"
+    },
+    {
+      "clave": "texto_9b5259e6a4",
+      "es": "Siempre",
+      "otq": "Nzäm'bu̲"
+    },
+    {
+      "clave": "texto_12fcd0c7b7",
+      "es": "Nunca",
+      "otq": "Nunka"
+    },
+    {
+      "clave": "texto_9ac3b8345b",
+      "es": "Qué hace",
+      "otq": "Temu̲ o̲t'e"
+    },
+    {
+      "clave": "texto_18221f5299",
+      "es": "Camina menos",
+      "otq": "'yo menu"
+    },
+    {
+      "clave": "texto_6c060df0f1",
+      "es": "Rutas con máximo 5 min hasta la parada",
+      "otq": "Rutas ko 'nar máximo 5 min asta ar parada"
+    },
+    {
+      "clave": "texto_27628f4746",
+      "es": "Prefiere paradas sobre avenida",
+      "otq": "Prefiere ya parada ja ya 'ñu"
+    },
+    {
+      "clave": "texto_0e80ce042e",
+      "es": "Si hay otra opción parecida en una calle chica",
+      "otq": "Nu'bu̲ 'bu̲i 'nar opción similar ja 'nar t'olo dä'ñu"
+    },
+    {
+      "clave": "texto_33e0810567",
+      "es": "Te avisa lo que reporta la gente",
+      "otq": "Gi xifi temu̲ ya jä'i mfädi"
+    },
+    {
+      "clave": "texto_11f316afcf",
+      "es": "Problemas reportados en tu parada",
+      "otq": "Ar hñäki reportados jar ár parada"
+    },
+    {
+      "clave": "texto_84098227ab",
+      "es": "Es una recomendación: no garantiza que un lugar sea seguro.",
+      "otq": "Ge 'nar recomendacion: hingi garantiza ke 'nar lugar ar pädi xi hño."
     }
   ],
   "adaptaciones": [

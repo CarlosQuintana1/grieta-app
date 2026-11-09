@@ -8298,6 +8298,146 @@
       "clave": "texto_96a199714e",
       "es": "Camioncito al {v1}% del camino a tu meta",
       "nhe": "Nopa pilcamión {v1}% ipan ojtli kampa tijneki tias"
+    },
+    {
+      "clave": "texto_2119c4ade5",
+      "es": "Ver 1 opción más",
+      "nhe": "Xikita 1 opción más"
+    },
+    {
+      "clave": "texto_11a505b1d8",
+      "es": "Ver {v1} opciones más",
+      "nhe": "Xikita {v1} tlapejpenalmej más"
+    },
+    {
+      "clave": "texto_6b86f2b42c",
+      "es": "Modo seguro",
+      "nhe": "Modo seguro"
+    },
+    {
+      "clave": "texto_77a7247de7",
+      "es": "Modo seguro en este viaje",
+      "nhe": "Modo seguro ipan ni viaje"
+    },
+    {
+      "clave": "texto_41079baecd",
+      "es": "Apagado en este viaje",
+      "nhe": "Xikisa ipan ni paxalojketl"
+    },
+    {
+      "clave": "texto_80d11bea95",
+      "es": "No hay paradas a menos de 5 min",
+      "nhe": "Ax onka tlatsakuili tlen 5 min"
+    },
+    {
+      "clave": "texto_4a8d72f8e2",
+      "es": "Es de noche: te muestro menos caminata",
+      "nhe": "Ya tlayoua: nimitsnextilia ax tlauel tinejnemi"
+    },
+    {
+      "clave": "texto_3e5c2ebc42",
+      "es": "Te muestro menos caminata",
+      "nhe": "nimitsnextilia ax tlauel tinejnemi"
+    },
+    {
+      "clave": "texto_049cbb5978",
+      "es": "Mejor para esta hora",
+      "nhe": "Más kuali para ni tonali"
+    },
+    {
+      "clave": "texto_ea6582b8de",
+      "es": "Caminas solo {v1} min hasta la parada",
+      "nhe": "Tinejnemi moselti {v1} min hasta kampa timoketsa"
+    },
+    {
+      "clave": "texto_0afee30782",
+      "es": "Sin caminar hasta la parada",
+      "nhe": "Ax tinejnemi hasta kampa timoketsa"
+    },
+    {
+      "clave": "texto_2d34b75114",
+      "es": "Parada sobre avenida",
+      "nhe": "Ximoketsa ipan ojtli"
+    },
+    {
+      "clave": "texto_25e3d7ddc5",
+      "es": "Verlas",
+      "nhe": "Xikinita"
+    },
+    {
+      "clave": "texto_11671cc894",
+      "es": "Te oculté 1 ruta que camina {v1} min hasta la parada.",
+      "nhe": "Nimechtlati 1 nopa ojtli tlen nejnemi {v1} min hasta kampa moketsa."
+    },
+    {
+      "clave": "texto_83a34534a6",
+      "es": "Te oculté {v1} rutas que caminan hasta {v2} min a la parada.",
+      "nhe": "Ni kintlati {v1} ojtli tlen nejnemi hasta {v2} min hasta kampa moketsa."
+    },
+    {
+      "clave": "texto_fcce013de3",
+      "es": "Te cuida al caminar a la parada",
+      "nhe": "Ximomokuitlaui kemaj tias kampa timoketsas"
+    },
+    {
+      "clave": "texto_9ed43925ca",
+      "es": "Cuándo usarlo",
+      "nhe": "Kemaj tijtekiuis"
+    },
+    {
+      "clave": "texto_24c65e9ddc",
+      "es": "De noche",
+      "nhe": "ika tlayoua"
+    },
+    {
+      "clave": "texto_9b5259e6a4",
+      "es": "Siempre",
+      "nhe": "nochipa"
+    },
+    {
+      "clave": "texto_12fcd0c7b7",
+      "es": "Nunca",
+      "nhe": "Axkema"
+    },
+    {
+      "clave": "texto_9ac3b8345b",
+      "es": "Qué hace",
+      "nhe": "tlachke kichijtok"
+    },
+    {
+      "clave": "texto_18221f5299",
+      "es": "Camina menos",
+      "nhe": "amo tlauel xinejnemi"
+    },
+    {
+      "clave": "texto_6c060df0f1",
+      "es": "Rutas con máximo 5 min hasta la parada",
+      "nhe": "Ojti ika 5 min hasta tlami"
+    },
+    {
+      "clave": "texto_27628f4746",
+      "es": "Prefiere paradas sobre avenida",
+      "nhe": "Kipaktia moketsas ipan ojtli"
+    },
+    {
+      "clave": "texto_0e80ce042e",
+      "es": "Si hay otra opción parecida en una calle chica",
+      "nhe": "Tlaj onka seyok tlamantli tlen sanse ipan se pilcalle"
+    },
+    {
+      "clave": "texto_33e0810567",
+      "es": "Te avisa lo que reporta la gente",
+      "nhe": "Mitsiljuia tlen maseualmej kiijtouaj"
+    },
+    {
+      "clave": "texto_11f316afcf",
+      "es": "Problemas reportados en tu parada",
+      "nhe": "Tlaouijkayotl tlen ki ijtokej kampa timoketsa"
+    },
+    {
+      "clave": "texto_84098227ab",
+      "es": "Es una recomendación: no garantiza que un lugar sea seguro.",
+      "nhe": "Elij se tlajtolpaleuilistli: ax kiijtosneki se tlali kuali eltok."
     }
   ],
   "adaptaciones": [

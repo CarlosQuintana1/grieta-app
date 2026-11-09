@@ -251,6 +251,7 @@ function mostrar(nombre) {
     // En modo Voz la forma de usar los toques se dice en voz alta una vez, no se muestra.
     if (acc.modoVoz && !$("ayudaToques").hidden && !ayudaToquesDicha) { ayudaToquesDicha = true; setTimeout(() => hablar($("ayudaToques").textContent, true), 600); }
     estado.guardando = null;
+    estado.seguroApagado = estado.seguroVerTodas = false;
     limpiarRuta();
     pintarViajes();
     pintarRutina();
@@ -329,7 +330,9 @@ function evitarCortes() {
   if (!pantalla || !document.body.classList.contains("con-mapa") || document.body.classList.contains("guia-mapa") || !$("mapa").offsetHeight) return;
   for (let vuelta = 0; vuelta < 3; vuelta++) {
     const caja = hoja.getBoundingClientRect(), fija = pantalla.querySelector(".acciones-fijas");
-    const limite = fija?.offsetHeight ? Math.min(caja.bottom, fija.getBoundingClientRect().top) : caja.bottom;
+    // En opciones el boton "Ver mas" flota abajo: la primera tarjeta debe caber completa arriba de el.
+    const reserva = pantalla.id === "opciones" && !acc.modoVoz && pantalla.querySelectorAll("#tarjetas .tarjeta, #enApp").length > 1 ? 74 : 0;
+    const limite = (fija?.offsetHeight ? Math.min(caja.bottom, fija.getBoundingClientRect().top) : caja.bottom) - reserva;
     const cortado = [...pantalla.querySelectorAll(BLOQUES)]
       .filter((e) => e.offsetParent && !fija?.contains(e))
       .map((e) => e.getBoundingClientRect())
@@ -340,10 +343,30 @@ function evitarCortes() {
     const queda = $("mapa").getBoundingClientRect().height - crecer;
     // Si encoger escondería casi media hoja, el mapa cede hasta 20% en vez de dejar la hoja casi vacía.
     const cabe = vuelta === 0 && (queda >= innerHeight * 0.3 || (queda >= innerHeight * 0.2 && limite - cortado.top > caja.height * 0.4));
+    // En opciones nunca se esconde la tarjeta: el mapa cede hasta 20% y el boton avisa que hay mas.
+    const primera = pantalla.id === "opciones" ? $("tarjetas").querySelector(".tarjeta")?.getBoundingClientRect() : null;
+    if (!cabe && primera && cortado.top <= primera.top + 1) {
+      hoja.style.maxHeight = `${caja.height + Math.max(0, $("mapa").getBoundingClientRect().height - innerHeight * 0.2)}px`;
+      break;
+    }
     hoja.style.maxHeight = `${caja.height + (cabe ? crecer : cortado.top - limite)}px`;
   }
   mapa.invalidateSize();
+  pintarVerMas();
 }
+function pintarVerMas() {
+  const caja = $("verMasCaja"), hoja = $("hoja");
+  if (document.body.dataset.pantalla !== "opciones" || acc.modoVoz) return void (caja.hidden = true);
+  const fin = hoja.getBoundingClientRect().bottom - 8;
+  const pendientes = [...$("tarjetas").querySelectorAll(".tarjeta"), $("enApp")].filter((x) => x.offsetHeight && x.getBoundingClientRect().bottom > fin);
+  caja.hidden = !pendientes.length;
+  if (!pendientes.length) return;
+  $("verMasTexto").textContent = pendientes.length === 1 ? "Ver 1 opción más" : `Ver ${pendientes.length} opciones más`;
+  caja.style.bottom = `${innerHeight - hoja.getBoundingClientRect().bottom}px`;
+  estado.siguienteOpcion = pendientes[0];
+}
+$("hoja").addEventListener("scroll", pintarVerMas, { passive: true });
+$("verMas").addEventListener("click", () => estado.siguienteOpcion?.scrollIntoView({ behavior: suave() ? "smooth" : "auto", block: "start" }));
 let revisionCortes = 0, segundaRevision = 0;
 // Se revisa al siguiente cuadro y otra vez cuando la pantalla ya se acomodo.
 const pedirCortes = () => {
@@ -1178,9 +1201,22 @@ const fichaOpcion = (o) => {
 const valorOpcion = (o) => o.costo + 1.5 * o.minutos + 1.5 * caminata(o);
 const masEconomica = (a, b) => a.costo - b.costo || (a.minutos + 1.5 * caminata(a)) - (b.minutos + 1.5 * caminata(b));
 const menor = (ops, f) => ops.reduce((a, b) => (f(b) < f(a) ? b : a));
+// Modo seguro: de noche o siempre, menos caminata hasta la parada y paradas sobre avenida. No sabe si una zona es segura.
+const SEGURO_PIE_MIN = 5, MARCA_SEGURA = "Mejor para esta hora";
+const modoSeguro = () => acc.seguro ?? "noche";
+const seguroAplica = (r) => modoSeguro() === "siempre" || (modoSeguro() === "noche" && (r.ctx.minuto % 1440 >= 1200 || r.ctx.minuto % 1440 < 360));
+const accesoPie = (o) => (o.pasos?.[0]?.tipo === "caminar" ? Math.round(o.pasos[0].min) : 0);
+const paradaEnAvenida = (o) => /^(av\b|avenida|blvd|boulevard|carr\b|carretera|prol\b|prolongaci|anillo|paseo|calz)/i.test(Grieta.qrobus.paradas[o.paradas.sube][2]);
+const pesoSeguro = (o) => o.minutos + 2 * caminata(o) + (paradaEnAvenida(o) ? 0 : 15) + 6 * (o.transbordos ?? 0) + (o.tipo === "caminando+caminando" ? 0 : 20);
 function elegirTarjetas(r) {
   // Un camion que no llega antes que caminando no se ofrece: caminar es gratis.
-  const ops = r.opciones.filter((o) => o.tipo !== "app" && !(estado.minAPie && o.minutos >= estado.minAPie));
+  let ops = r.opciones.filter((o) => o.tipo !== "app" && !(estado.minAPie && o.minutos >= estado.minAPie));
+  estado.seguro = null;
+  if (seguroAplica(r) && !estado.seguroApagado && ops.length) {
+    const cerca = ops.filter((o) => accesoPie(o) <= SEGURO_PIE_MIN), lejos = ops.filter((o) => accesoPie(o) > SEGURO_PIE_MIN);
+    estado.seguro = { sinCerca: !cerca.length, ocultas: cerca.length && !estado.seguroVerTodas ? lejos.length : 0, minutos: lejos.length ? Math.max(...lejos.map(accesoPie)) : 0 };
+    if (estado.seguro.ocultas) ops = cerca;
+  }
   if (!ops.length) return [];
   const lista = [];
   const agregar = (o, etiqueta) => {
@@ -1222,7 +1258,13 @@ function elegirTarjetas(r) {
     const comodas = soloCamion.filter((o) => !listadas.includes(o) && caminata(o) <= menosPie - 4 && o.minutos <= masTarde);
     if (comodas.length) agregar(menor(comodas, valorOpcion), "Caminas menos");
   }
-  return lista;
+  if (estado.seguro && !estado.seguro.sinCerca) {
+    const segura = menor(ops, pesoSeguro), i = lista.findIndex((x) => x.o === segura);
+    if (i >= 0) lista.splice(i, 1);
+    lista.unshift({ o: segura, etiquetas: [MARCA_SEGURA] });
+  }
+  // Dos caminos con los mismos camiones se ven como la misma tarjeta: se queda el primero.
+  return lista.filter((x, i) => lista.findIndex((y) => tituloOpcion(y.o) === tituloOpcion(x.o)) === i);
 }
 
 const llegada = (o) => estado.r.ctx.minuto + o.minutos;
@@ -1377,6 +1419,16 @@ async function avisarCiudad() {
   caja.innerHTML = `${ico("alerta")}<span class="fila-texto"><strong>${escapar(aviso.titulo)}</strong><small>${escapar(aviso.detalle)} Fuente: ${escapar(aviso.fuente)}.</small></span>`;
   caja.hidden = false;
 }
+function pintarSeguro(r) {
+  const aplica = seguroAplica(r) && r.opciones.some((o) => o.tipo !== "app"), s = estado.seguro;
+  $("seguroBanda").hidden = !aplica;
+  $("seguroSwitch").setAttribute("aria-checked", String(!estado.seguroApagado));
+  $("seguroTexto").textContent = estado.seguroApagado ? "Apagado en este viaje" : s?.sinCerca ? "No hay paradas a menos de 5 min" : modoSeguro() === "noche" ? "Es de noche: te muestro menos caminata" : "Te muestro menos caminata";
+  $("seguroOcultas").hidden = !s?.ocultas;
+  if (s?.ocultas) $("seguroOcultasTexto").textContent = s.ocultas === 1 ? `Te oculté 1 ruta que camina ${s.minutos} min hasta la parada.` : `Te oculté ${s.ocultas} rutas que caminan hasta ${s.minutos} min a la parada.`;
+}
+$("seguroSwitch").addEventListener("click", () => { estado.seguroApagado = !estado.seguroApagado; estado.seguroVerTodas = false; calcular(); });
+$("seguroVer").addEventListener("click", () => { estado.seguroVerTodas = true; calcular(); });
 function pintarOpciones(r) {
   titulos.opciones = `A ${estado.destino.nombre}`;
   if (document.body.dataset.pantalla === "opciones") $("tituloPantalla").textContent = titulos.opciones;
@@ -1423,13 +1475,15 @@ function pintarOpciones(r) {
     const datos = [["Llegas", hora(llegada(o)), ""], ahorro >= 5 && ["Ahorras", pesos(ahorro), " dato-ahorro"], caminata(o) && ["Caminas", `${caminata(o)} min`, ""]].filter(Boolean);
     const duracion = [`${Math.round(o.minutos)} min de viaje`, mas > 0 && `${mas} min más que en app`].filter(Boolean).join(", ");
     const rango = rangoOpcion(o);
-    return `<button type="button" class="tarjeta tarjeta-camion${etiquetas.includes("Recomendado") ? " principal" : ""}" data-i="${i}"
+    const segura = etiquetas.includes(MARCA_SEGURA);
+    const razones = segura ? [accesoPie(o) ? `Caminas solo ${accesoPie(o)} min hasta la parada` : "Sin caminar hasta la parada", paradaEnAvenida(o) && "Parada sobre avenida", `Llegas ${hora(llegada(o))}`].filter(Boolean) : [];
+    return `<button type="button" class="tarjeta tarjeta-camion${etiquetas.includes("Recomendado") ? " principal" : ""}${segura ? " tarjeta-segura" : ""}" data-i="${i}"
       aria-label="${escapar(`${etiquetas.join(" y ")}. ${tituloOpcion(o)}. ${pie.join(". ")}. ${precioOpcionVoz(o)}. ${co2 ? `${co2}. ` : ""}${ahorroTexto}`)}">
       <span class="tarjeta-cabeza">${fichaOpcion(o)}
         <span class="fila-texto">${etiquetas.length ? `<span class="etiqueta">${etiquetas.join(", ")}</span>` : ""}<strong>${escapar(tituloOpcion(o))}</strong></span>
         <span class="precio${rango ? " precio-rango" : " precio-camion"}">${rango ? `<small class="precio-nota">Aprox.</small>${partesRango(rango)}` : pesos(o.costo)}</span>${ico("chevron", "chevron")}</span>
-      <span class="datos-viaje" aria-hidden="true">${datos.map(([nombre, valor, clase]) => `<span class="dato${clase}"><small>${nombre}</small><b>${valor}</b></span>`).join("")}</span>
-      <span class="duracion" aria-hidden="true">${duracion}</span>
+      ${segura ? `<span class="razones-seguras" aria-hidden="true">${razones.map((t) => `<span>${ico("palomita")}${t}</span>`).join("")}</span>` : `<span class="datos-viaje" aria-hidden="true">${datos.map(([nombre, valor, clase]) => `<span class="dato${clase}"><small>${nombre}</small><b>${valor}</b></span>`).join("")}</span>
+      <span class="duracion" aria-hidden="true">${duracion}</span>`}
       ${co2 ? `<span class="co2" aria-hidden="true">${ico("planta")}<span>${co2}</span></span>` : ""}
     </button>`;
   }).join("");
@@ -1448,7 +1502,8 @@ function pintarOpciones(r) {
   if (hayCamion && !estado.tarjetas.length) $("tarjetas").innerHTML = `<p class="nota">Caminando llegas antes que en cualquier Qrobus.</p>`;
   // El camion va primero: Grieta busca que se use menos el auto.
   const camionPrimero = estado.tarjetas.length > 0;
-  const bloqueCamion = ["tituloCamion", "ultimoCamion", "avisoLluvia", "avisoCiudad", "tarjetas"].map($);
+  pintarSeguro(r);
+  const bloqueCamion = ["seguroBanda", "tituloCamion", "ultimoCamion", "avisoLluvia", "avisoCiudad", "tarjetas", "seguroOcultas"].map($);
   if (camionPrimero) $("enApp").before(...bloqueCamion);
   else $("enApp").after(...bloqueCamion);
   $("opciones").classList.toggle("camion-primero", camionPrimero);
@@ -4743,7 +4798,10 @@ function pintarCredencial() {
   $("credencialNombre").classList.toggle("largo", nombre.length > 9);
 }
 // Cada ficha de Ajustes abre su panel en una pantalla con flecha de regreso.
-const TITULOS_AJUSTE = { pantalla: "Pantalla", accesibilidad: "Accesibilidad", voz: "Voz", viajes: "Tus viajes", progreso: "Tu progreso", ayuda: "Ayuda" };
+const TITULOS_AJUSTE = { pantalla: "Pantalla", accesibilidad: "Accesibilidad", voz: "Voz", viajes: "Tus viajes", progreso: "Tu progreso", ayuda: "Ayuda", seguro: "Modo seguro" };
+const NOMBRES_SEGURO = { noche: "De noche", siempre: "Siempre", nunca: "Nunca" };
+const marcarSeguro = radios("optSeguro", (v) => { acc.seguro = v; guardarAcc(); estado.seguroApagado = false; $("seguroResumen").textContent = NOMBRES_SEGURO[v]; });
+$("abrirSeguro").addEventListener("click", () => abrirAjuste("seguro"));
 // Cada opcion de si o no se elige con dos tarjetas; el checkbox sigue guardando el dato.
 const marcarPares = [...document.querySelectorAll("[data-par]")].map((grupo) => {
   const caja = $(grupo.dataset.par);
@@ -4757,6 +4815,8 @@ const marcarPares = [...document.querySelectorAll("[data-par]")].map((grupo) => 
 function abrirAjuste(panel) {
   for (const d of document.querySelectorAll("[data-ajuste-panel]")) d.hidden = d.dataset.ajustePanel !== panel;
   marcarPares.forEach((f) => f());
+  marcarSeguro(modoSeguro());
+  $("seguroResumen").textContent = NOMBRES_SEGURO[modoSeguro()];
   titulos.ajuste = TITULOS_AJUSTE[panel];
   ir("ajuste");
 }
