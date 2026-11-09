@@ -2513,8 +2513,25 @@ function cancelarDictado() {
   revisionDictado++; respuestaDictado = null;
   if (dictadoActual) terminarDictado(dictadoActual);
 }
+const FRASE_DESTINO = /\b(?:llev\w*|ir(?:me|nos)?|voy|vamos|vete|llegar(?:me|nos)?|llego|llegamos|llega|va|van|pasa|deja|dejan|tomo|tomar|agarro|agarrar)(?:\s+(?:me|nos|el|la|un|una|camion|ruta))*\s+(?:rumbo\s+a|a|al|hacia|hasta|para|por|en)\s+/;
+const FRASE_SIN_A = /\b(?:llev\w*|voy|vamos|ir|donde\s+(?:queda|esta)|busca(?:me|r)?|encuentra(?:me)?|muestrame|ensename|como\s+llego)(?:\s+(?:me|nos))?\s+/;
+const COLA_DICHA = /\s+(?:gracias|ahora|ahorita|ya|rapido|hoy|grieta|en\s+(?:camion|autobus|qrobus|bus|uber|didi|taxi|carro|coche)|(?:a|para)\s+las?\s+\d.*)$/;
+// Saca el lugar de frases como "llévame a Antea" o "quiero ir al centro".
+function lugarDicho(texto) {
+  let t = texto.normalize("NFC").replace(/\b(?:por\s*favor|porfa|porfis)\b/gi, " ").replace(/[.,;:!?¡¿]+/g, " ").replace(/\s+/g, " ").trim();
+  const quitar = (re) => { const m = re.exec(sinAcentos(t)); if (m) t = t.slice(m.index + m[0].length); return Boolean(m); };
+  let frase = false;
+  for (let i = 0; i < 3 && quitar(FRASE_DESTINO); i++) frase = true;
+  if (!frase) frase = quitar(FRASE_SIN_A);
+  if (quitar(/^(?:de|desde)\s+.+?\s+(?:a|al|hasta|hacia)\s+/)) frase = true;
+  if (quitar(/^(?:rumbo\s+a|a|al|hacia|hasta|para)\s+/)) frase = true;
+  quitar(frase ? /^(?:la|las|los|el|mi|mis)\s+/ : /^(?:mi|mis)\s+/);
+  for (let i = 0; i < 3; i++) { const m = COLA_DICHA.exec(sinAcentos(t)); if (!m) break; t = t.slice(0, m.index); }
+  return t.trim();
+}
 function procesarDictado(texto, revision) {
-  const dicho = sinAcentos(texto).replace(/^(a|al|a la|hacia|llevame a|ir a)\s+/, "");
+  texto = lugarDicho(texto);
+  const dicho = sinAcentos(texto);
   const guardado = guardados.find(g => sinAcentos(g.nombre) === dicho);
   if (guardado) {
     estado.editando = "hacia";
@@ -4166,7 +4183,7 @@ function llegarDesdeOpciones() {
 }
 
 // Mi horario: a que hora entras cada dia, para decirte cuando salir sin buscar el viaje.
-let miHorario = leer("grieta-horario", null), editandoHorario = null, calculoHorario = null;
+let miHorario = leer("grieta-horario", null), editandoHorario = null, calculoHorario = null, diaElegido = null;
 const horaCorta = (m) => hora(m).replace(/\s*[ap]\.?\s?m\.?$/i, "");
 const FLECHA_ABAJO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 function proximoHorario(h = miHorario) {
@@ -4176,6 +4193,12 @@ function proximoHorario(h = miHorario) {
     return { d, meta, dia: diaDeOffset(d) };
   }
   return null;
+}
+function diaHorario() {
+  const meta = diaElegido === null ? null : miHorario.horas[diaElegido];
+  if (meta === null || meta === undefined) return proximoHorario();
+  const d = (diaElegido - hoyDia() + 7) % 7 || (meta <= ahoraMin() + 5 ? 7 : 0);
+  return { d, meta, dia: diaElegido };
 }
 const nombreLugarHtml = (l, vacio) => (l ? `<span translate="no">${escapar(l.nombre)}</span>` : `<span>${vacio}</span>`);
 function pintarHorario() {
@@ -4189,12 +4212,12 @@ function pintarHorario() {
   pintarTarjetaHorario();
 }
 function pintarTarjetaHorario() {
-  const caja = $("horarioCaja"), p = proximoHorario();
+  const caja = $("horarioCaja"), p = diaHorario();
   if (!p) { miHorario = null; escribir("grieta-horario", null); return pintarHorario(); }
   const origen = miHorario.origen ?? estado.gps ?? estado.origen ?? null;
   const clave = JSON.stringify([miHorario, p, origen?.lat, origen?.lon, new Date().toDateString(), Math.floor(ahoraMin() / 10)]);
   const titulo = `${textoDia(p.d)} a ${escapar(miHorario.destino.nombre)}, sal a las`;
-  const tiras = `<div class="hr-dias">${miHorario.horas.map((m, i) => `<span class="${m === null ? "" : "tiene"}${i === p.dia ? " sel" : ""}"><b>${DIAS[i][0].toUpperCase()}</b><small>${m === null ? "Libre" : horaCorta(m)}</small></span>`).join("")}</div>`;
+  const tiras = `<div class="hr-dias">${miHorario.horas.map((m, i) => `<button type="button" data-h-elige="${i}" aria-pressed="${i === p.dia}" aria-label="${DIAS[i]}, ${m === null ? "libre" : hora(m)}" class="${m === null ? "" : "tiene"}${i === p.dia ? " sel" : ""}"><b>${DIAS[i][0].toUpperCase()}</b><small>${m === null ? "Libre" : horaCorta(m)}</small></button>`).join("")}</div>`;
   const pinta = (r) => {
     const sobra = r?.camion ? Math.round(p.meta - (r.camion.t + r.camion.o.minutos)) : null;
     const avisos = "Notification" in window && Notification.permission === "granted";
@@ -4203,7 +4226,8 @@ function pintarTarjetaHorario() {
   };
   if (!origen) { pinta(null); ubicar((ok) => { if (ok && document.body.dataset.pantalla === "inicio") pintarHorario(); }); return; }
   if (calculoHorario?.clave === clave) return pinta(calculoHorario.r);
-  pinta(undefined);
+  // Al cambiar de día la ficha actual se queda hasta tener el nuevo cálculo, sin brincar.
+  if (!caja.querySelector(".hr-dias")) pinta(undefined);
   if (!Grieta.qrobus) return;
   setTimeout(() => {
     if (document.body.dataset.pantalla !== "inicio" || !miHorario || editandoHorario) return;
@@ -4308,8 +4332,15 @@ $("horarioCaja").addEventListener("click", (ev) => {
   const b = ev.target.closest("button");
   if (!b) return;
   if (b.hasAttribute("data-h-configurar")) return empezarEdicionHorario();
+  if (b.hasAttribute("data-h-elige")) {
+    const i = Number(b.dataset.hElige);
+    if (miHorario.horas[i] === null) { empezarEdicionHorario(); editandoHorario.dia = i; return pintarHorario(); }
+    diaElegido = i;
+    for (const o of b.parentElement.children) { o.classList.toggle("sel", o === b); o.setAttribute("aria-pressed", String(o === b)); }
+    return pintarTarjetaHorario();
+  }
   if (b.hasAttribute("data-h-ver")) {
-    const p = proximoHorario(), origen = miHorario.origen ?? estado.gps ?? estado.origen;
+    const p = diaHorario(), origen = miHorario.origen ?? estado.gps ?? estado.origen;
     if (p && origen) abrirLlegarHora({ origen, destino: miHorario.destino, kmCalle: miHorario.km ?? null, caminatas: undefined, offset: p.d, meta: p.meta });
     return;
   }

@@ -2341,11 +2341,13 @@ html.modo-voz #miHorario { display: none; }
 .hr-previa .hv-banda { justify-content: space-between; }
 .hr-chev { flex: none; width: 18px; height: 18px; color: inherit; }
 .hr-dias { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; margin-top: 8px; }
-.hr-dias span { display: grid; justify-items: center; gap: 1px; padding: 7px 0 6px; border-radius: 11px; background: var(--superficie); border: 1.5px solid var(--linea); color: var(--tenue); }
+.hr-dias button { display: grid; justify-items: center; gap: 1px; min-width: 0; min-height: 48px; padding: 7px 0 6px; border-radius: 11px; background: var(--superficie); border: 1.5px solid var(--linea); color: var(--tenue); }
 .hr-dias b { font-size: .84rem; font-weight: 800; }
 .hr-dias small { font-size: .64rem; font-weight: 700; }
 .hr-dias .tiene { color: var(--tinta); background: var(--superficie-2); }
 .hr-dias .sel { background: var(--ambar); border-color: var(--ambar); color: var(--sobre-ambar); }
+html.claro .ver-tutorial .mini-ficha .icono { color: var(--ambar); }
+html.claro #textoPerfil { --sobre-ambar: #0b0a09; --ambar: #e0a03c; }
 .hr-editor { display: grid; gap: 10px; }
 .hr-ruta .hv-partido { min-height: 78px; }
 .hr-ruta .hr-l { display: grid; align-content: center; padding-top: 10px; padding-bottom: 10px; }
