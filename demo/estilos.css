@@ -126,7 +126,7 @@ body:has(#encabezado:not([hidden])):not(.con-mapa, .camara-en-uso) .hoja { paddi
 .boton:disabled { opacity: 0.6; cursor: default; }
 .boton-chico { flex: none; min-height: 40px; padding: 0 18px; border-radius: 999px; background: var(--superficie); border: 1px solid var(--linea);
   color: var(--tinta); font-weight: 700; font-size: .9rem; }
-.enlace { color: var(--ambar); font-weight: 600; min-height: var(--toque); text-decoration: underline; text-underline-offset: 3px; }
+.enlace { display: inline-flex; align-items: center; justify-content: center; min-height: var(--toque); padding: 0 16px; border-radius: 999px; background: color-mix(in srgb, var(--ambar) 16%, transparent); color: var(--ambar); font-weight: 700; text-decoration: none; }
 .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
 .chip {
   display: inline-flex; align-items: center; gap: 8px; min-height: var(--toque); padding: 0 18px;
@@ -860,7 +860,7 @@ html.daltonico .app-didi { --tono: #174e8a; } html.daltonico .app-indrive { --to
 #bienvenida.bienvenida { min-height: 100%; gap: 24px; }
 .bienvenida-cabecera { flex: none; display: grid; grid-template-columns: 1fr auto; grid-template-rows: 40px 6px; align-items: center; column-gap: 12px; row-gap: 12px; }
 .bienvenida-marca { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--ambar); color: var(--sobre-ambar); font-size: 1.45rem; font-weight: 800; }
-.bienvenida-cabecera .enlace { min-height: 44px; padding: 0 8px; }
+.bienvenida-cabecera .enlace { flex: none; min-height: 44px; padding: 0 16px; }
 .bienvenida-progreso { grid-column: 1 / -1; height: 6px; border-radius: 99px; overflow: hidden; background: var(--linea); }
 .bienvenida-progreso span { display: block; height: 100%; border-radius: inherit; background: var(--ambar); transition: width 180ms ease-out; }
 #bienvenida .paso { flex: 1; min-height: 0; }
@@ -1996,7 +1996,7 @@ html.claro { --seguro-acento: #5a2bb0; }
 .razones-seguras > span { display: flex; align-items: center; gap: 9px; font-size: .95rem; font-weight: 600; }
 .razones-seguras .icono { flex: none; width: 24px; height: 24px; padding: 5px; border-radius: 50%; background: var(--seguro); color: #fff; stroke-width: 3.4; }
 .seguro-ocultas { margin: 8px 3px 0; color: var(--tenue); font-size: .9rem; font-weight: 600; line-height: 1.3; }
-.seguro-ocultas .enlace { min-height: 0; padding: 0; font: inherit; color: var(--seguro-acento); text-decoration: underline; }
+.seguro-ocultas .enlace { display: inline; min-height: 0; padding: 0; background: none; font: inherit; color: var(--seguro-acento); font-weight: 700; }
 .fila-seguro { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 72px; margin-top: 12px; padding: 10px 14px; border-radius: 20px; background: var(--seguro); color: #fff; text-align: left; }
 .fila-seguro .picto { flex: none; width: 36px; height: 36px; }
 .fila-seguro strong { display: block; font-size: 1.04rem; font-weight: 800; }
@@ -2118,4 +2118,6 @@ html.grande .ayuda-tareas, html.modo-voz .ayuda-tareas { grid-template-columns: 
 .hoja-ayuda h2 { margin: 0 0 16px; color: var(--tinta); font-size: 1.5rem; font-weight: 800; line-height: 1.15; letter-spacing: -.01em; text-transform: none; }
 .hoja-ayuda .linea-tiempo { margin: 0; padding: 0; list-style: none; }
 .hoja-ayuda .boton { width: 100%; margin-top: 6px; }
-.hoja-ayuda .enlace { display: block; margin: 6px auto 0; }
+.hoja-x { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: color-mix(in srgb, var(--tinta) 12%, transparent); color: var(--tinta); }
+.hoja-x .icono { width: 20px; height: 20px; }
+.hoja-ayuda h2 { padding-right: 48px; }
