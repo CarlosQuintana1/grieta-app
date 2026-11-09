@@ -1313,16 +1313,18 @@ function pintarCarro(r) {
   const km = r.directo.km;
   const centro = Grieta.metros(estado.destino.lat, estado.destino.lon, ...CENTRO_HISTORICO) < 1200;
   $("enCarro").hidden = !(km > 0) || acc.gasolina === "no";
-  $("enCarro").innerHTML = `<div class="carro-fila"><span class="carro-info"><span class="carro-t">${picto("app")}<b>En tu carro</b></span><small id="carroDetalle" hidden></small></span>
-    <span class="carro-precio"><small>Al menos</small><b>${pesos((km / AUTO_KM_LITRO) * precioGasolina())}</b><small>de gasolina${centro ? " más estacionamiento" : ""}</small></span></div>
-    ${co2Auto(km) >= 50 ? `<div class="carro-banda">${ico("planta")}<span>En auto emitiría ${kgTexto(co2Auto(km))} de CO₂</span></div>` : ""}`;
+  $("enCarro").innerHTML = `<div class="hv-caja"><div class="hv-partido">${PLACAS_VIAJE}
+    <div class="hv-lado"><span class="hv-top">${picto("app")}</span><span class="hv-nombre">En tu carro, al menos</span><span class="hv-precio pq carro-tag">${pesos((km / AUTO_KM_LITRO) * precioGasolina())}</span><span class="hv-dato"><span>de gasolina${centro ? " más estacionamiento" : ""}</span></span></div>
+    <div class="hv-lado der"><span class="hv-top carro-reloj">${ico("reloj")}</span><span class="hv-nombre">Tarda</span><span id="carroMinutos" class="hv-precio">${numeroUnidad(Math.round(r.directo.minutos), "min")}</span><span class="hv-dato"><span id="carroDetalle">Estimado</span></span></div>
+    </div>${co2Auto(km) >= 50 ? `<div class="carro-banda">${ico("planta")}<span>En auto emitiría ${kgTexto(co2Auto(km))} de CO₂</span></div>` : ""}</div>`;
   // Saliendo ahorita, cuanto tarda en auto con el trafico real (Azure Maps, desde la API)
   if (estado.momento !== 0) return;
   const { origen: o, destino: d } = estado;
-  llamar(`/auto?olat=${o.lat}&olon=${o.lon}&dlat=${d.lat}&dlon=${d.lon}`).then(({ minutos, retraso }) => {
+  llamar(`/auto?olat=${o.lat}&olon=${o.lon}&dlat=${d.lat}&dlon=${d.lon}`).then(({ minutos }) => {
     if (estado.r !== r || !$("carroDetalle")) return;
-    $("carroDetalle").textContent = `${minutos} min en auto con el tráfico de ahorita${retraso >= 2 ? ` (${retraso} por tráfico)` : ""}.`;
-    $("carroDetalle").hidden = false;
+    $("carroMinutos").innerHTML = numeroUnidad(minutos, "min");
+    $("carroDetalle").textContent = "con el tráfico de ahorita";
+    ajustarCifras();
   }).catch(() => {});
 }
 // Pronostico por hora de Open-Meteo para el lugar de salida: lluvia o calor durante el viaje, y si alguien reporto

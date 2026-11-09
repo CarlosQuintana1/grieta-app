@@ -17063,6 +17063,20 @@
       "contextos": [
         "demo/app.js"
       ]
+    },
+    {
+      "clave": "texto_d0b6dfe99c",
+      "es": "En tu carro, al menos",
+      "contextos": [
+        "demo/app.js · pintarCarro"
+      ]
+    },
+    {
+      "clave": "texto_3b7e2630d3",
+      "es": "con el tráfico de ahorita",
+      "contextos": [
+        "demo/app.js · pintarCarro"
+      ]
     }
   ]
 }

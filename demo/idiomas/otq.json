@@ -10032,6 +10032,16 @@
       "clave": "texto_ecba281b48",
       "es": "Sal de donde estás",
       "otq": "Po̲ni ho gi 'bu̲i"
+    },
+    {
+      "clave": "texto_d0b6dfe99c",
+      "es": "En tu carro, al menos",
+      "otq": "Ja ir coche, 'Me̲t'o menu"
+    },
+    {
+      "clave": "texto_3b7e2630d3",
+      "es": "con el tráfico de ahorita",
+      "otq": "ko ar tráfico nu'bya"
     }
   ],
   "adaptaciones": [
@@ -10494,6 +10504,11 @@
       "clave": "texto_44eefeab22",
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "Traducción automática de «Hora en que entras»."
+    },
+    {
+      "clave": "texto_d0b6dfe99c",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Compone las traducciones automáticas de «En tu carro» y «Al menos»."
     }
   ],
   "parcial": false

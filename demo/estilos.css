@@ -2283,18 +2283,15 @@ body.mapa-grande #mapa { min-height: 0 !important; }
 .horas-riel span { font-size: .76rem; font-weight: 800; }
 .horas-riel small { font-size: .68rem; font-weight: 700; color: var(--tenue); }
 .otra-tarjeta .otra { margin-top: 10px; }
-.carro-placa { overflow: hidden; margin-top: 14px; border-radius: 20px; background: #592a52; color: #fff; }
+.carro-placa { margin-top: 14px; }
 .carro-placa[hidden] { display: none; }
-.carro-fila { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 13px 14px; }
-.carro-info { display: grid; gap: 5px; min-width: 0; }
-.carro-t { display: inline-flex; align-items: center; gap: 8px; }
-.carro-t .picto { width: 26px; height: 26px; }
-.carro-t b { font-size: 1.2rem; font-weight: 800; }
-.carro-info small { font-size: .76rem; font-weight: 600; line-height: 1.25; }
-.carro-precio { flex: none; display: grid; justify-items: end; max-width: 45%; text-align: right; }
-.carro-precio small { font-size: .68rem; font-weight: 700; }
-.carro-precio b { padding: 1px 10px 2px; border-radius: 10px; background: #fff; color: #592a52; font-size: 1.7rem; font-weight: 800; }
-.carro-banda { display: flex; align-items: center; gap: 6px; min-height: 42px; padding: 6px 14px; background: #47203f; font-size: .84rem; font-weight: 800; }
+.carro-placa .hv-verde { fill: #6b3262; }
+.carro-placa .hv-azul { fill: #47203f; }
+.carro-placa .hv-lado { cursor: default; }
+.carro-placa .hv-top > .picto, .carro-placa .hv-top > .icono { width: 26px; height: 26px; }
+.carro-reloj { justify-content: flex-end; }
+.carro-placa .hv-precio.pq { color: #592a52; }
+.carro-banda { display: flex; align-items: center; gap: 6px; min-height: 42px; padding: 6px 14px; background: #33172e; color: #fff; font-size: .84rem; font-weight: 800; }
 .carro-banda .icono { flex: none; width: 18px; height: 18px; color: inherit; }
 #llegarHora { display: grid; gap: 12px; }
 #llegarHora[hidden] { display: none; }
