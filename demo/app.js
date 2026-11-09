@@ -203,6 +203,7 @@ const PANTALLAS = {
   inicio: { tab: "inicio" },
   buscar: { tab: "inicio", encabezado: true },
   nombrar: { tab: "inicio", encabezado: true },
+  llegarHora: { tab: "inicio", encabezado: true },
   elegirMapa: { tab: "inicio", mapa: true, encabezado: true },
   opciones: { tab: "inicio", mapa: true, encabezado: true },
   detalle: { tab: "inicio", mapa: true, encabezado: true },
@@ -221,7 +222,7 @@ const PANTALLAS = {
   perfil: { tab: "ajustes", encabezado: true },
   ajuste: { tab: "ajustes", encabezado: true },
 };
-const titulos = { cuenta: "Tu cuenta", reporte: "Reportar", racha: "Tu tlacuache", nombrar: "Guardar un lugar", co2: "Lo que evitamos", ahorro: "Tu ahorro", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
+const titulos = { llegarHora: "Llegar a tiempo", cuenta: "Tu cuenta", reporte: "Reportar", racha: "Tu tlacuache", nombrar: "Guardar un lugar", co2: "Lo que evitamos", ahorro: "Tu ahorro", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
 
 function actualizarVozEncabezado() {
   const boton = $("vozEncabezado"), enCamara = document.body.dataset.pantalla === "camara";
@@ -237,6 +238,7 @@ function actualizarVozEncabezado() {
 let ayudaToquesDicha = false;
 function mostrar(nombre) {
   if (dictadoActual) cancelarDictado();
+  if (nombre !== "opciones") quitarMapaGrande();
   if (nombre !== "racha") pelajeVista = null;
   // Lo que se estaba leyendo de otra pantalla se calla al salir de ella; la guia y su camara siguen hablando.
   const antes = document.body.dataset.pantalla;
@@ -262,6 +264,7 @@ function mostrar(nombre) {
     pintarRachaInicio();
     pintarImpacto();
     pintarSalida();
+    pintarHorario();
     $("invitaPerfil").hidden = acc.modoVoz || leer("grieta-perfil", false) || leer("grieta-invita-cerrada", false);
   }
   if ($("hojaPerfil").open) $("hojaPerfil").close();
@@ -326,6 +329,8 @@ function reencuadrar(nombre) {
 // La hoja crece para mostrarlo entero si el mapa conserva 30 % de la pantalla; si no, se corta justo antes.
 const BLOQUES = "button, li, label, h2, p, .co2-comparar, .tarjeta, .parada-cerca, .a-pie, .aviso, .tl-dormido";
 function evitarCortes() {
+  ajustarCifras();
+  if (document.body.classList.contains("mapa-grande")) return;
   const hoja = $("hoja"), pantalla = $(document.body.dataset.pantalla ?? "");
   if (hoja.scrollTop > 0) return;
   hoja.style.maxHeight = "";
@@ -343,11 +348,12 @@ function evitarCortes() {
     const queda = $("mapa").getBoundingClientRect().height - crecer;
     // Si encoger escondería casi media hoja, el mapa cede hasta 20% en vez de dejar la hoja casi vacía.
     const cabe = vuelta === 0 && (queda >= innerHeight * 0.3 || (queda >= innerHeight * 0.2 && limite - cortado.top > caja.height * 0.4));
-    // En opciones nunca se esconde el recuadro del viaje: el mapa cede hasta 14 % para que quepa con su boton.
+    // En opciones nunca se esconde el recuadro del viaje: el mapa cede hasta 11.5 % para que quepan el boton y la hora de llegada.
     const empezar = pantalla.id === "opciones" ? $("tarjetas").querySelector(".hv-empezar")?.getBoundingClientRect() : null;
-    if (!cabe && empezar && cortado.top <= empezar.top + 1) {
-      const falta = empezar.bottom - limite, cede = Math.max(0, $("mapa").getBoundingClientRect().height - innerHeight * 0.14);
-      hoja.style.maxHeight = `${caja.height + (falta <= cede ? falta : cortado.top === empezar.top ? cortado.top - limite : cede)}px`;
+    const ultimo = pantalla.id === "opciones" ? $("tarjetas").querySelector(".boleto-hora")?.getBoundingClientRect() : null;
+    if (!cabe && empezar && ultimo && cortado.top <= ultimo.top + 1) {
+      const falta = ultimo.bottom - limite, cede = Math.max(0, $("mapa").getBoundingClientRect().height - innerHeight * 0.115);
+      hoja.style.maxHeight = `${caja.height + (falta <= cede ? falta : cortado.top >= empezar.top - 1 ? cortado.top - limite : cede)}px`;
       break;
     }
     hoja.style.maxHeight = `${caja.height + (cabe ? crecer : cortado.top - limite)}px`;
@@ -376,7 +382,7 @@ addEventListener("popstate", (e) => {
   if (pantalla === "camiones" && (estado.gps ?? estado.origen)) cargarCamiones(estado.gps ?? estado.origen, false);
   if (pantalla === "ubicacion" && estado.gps) ponerYo();
 });
-$("atras").addEventListener("click", () => (history.state && history.length > 1 ? history.back() : ir("inicio", true)));
+$("atras").addEventListener("click", () => { if (!cerrarMapaGrande()) history.state && history.length > 1 ? history.back() : ir("inicio", true); });
 // En la app instalada de iPhone no hay gesto para regresar: deslizar desde la orilla izquierda hace lo mismo que la flecha,
 // que queda lejos del pulgar. No aplica sobre el mapa ni en la guia, que no tiene encabezado.
 let deslizar = null;
@@ -815,8 +821,10 @@ mapa.on("click", async ({ latlng }) => {
 async function trazar() {
   const { origen: o, destino: d } = estado;
   limpiarRuta(true);
-  estado.momento = 0;
-  estado.otra = null;
+  const pendiente = estado.salidaPendiente;
+  estado.salidaPendiente = null;
+  estado.momento = pendiente ? ESPERAS.length : 0;
+  estado.otra = pendiente ?? null;
   estado.caminatas = { sube: new Map(), baja: new Map(), pedidas: new Set(), relieve: new Map() };
   titulos.opciones = `A ${d.nombre}`;
   // Se pasa de una vez a Como llegar, con la forma de las tarjetas, mientras se pide la ruta por calles.
@@ -1265,18 +1273,18 @@ const rangoTexto = (x) => `${pesos(x.bajo)}–${Math.round(x.alto)}`;
 const rangoFrase = (x) => `de ${pesos(x.bajo)} a ${pesos(x.alto)}`;
 const rangoVoz = (x) => `entre ${Math.round(x.bajo)} y ${Math.round(x.alto)} pesos`;
 const partesRango = (x) => `<span>${pesos(x.bajo)}</span><wbr><span>–${Math.round(x.alto)}</span>`;
-function rangoTramo(o, p) {
+function rangoTramo(o, p, ctx = estado.r.ctx) {
   const tramo = p.hacia ? o.trazo.acceso : o.trazo.salida;
-  return Grieta.cotizar({ origen: tramo.puntos[0], destino: tramo.puntos[1], dia: estado.r.ctx.dia, minuto: estado.r.ctx.minuto }).porApp.find((x) => x.app === p.app);
+  return Grieta.cotizar({ origen: tramo.puntos[0], destino: tramo.puntos[1], dia: ctx.dia, minuto: ctx.minuto }).porApp.find((x) => x.app === p.app);
 }
-function rangoOpcion(o) {
+function rangoOpcion(o, ctx) {
   if (o.tipo === "app") return limitesPrecio(estado.r.directo.mejor);
   const apps = (o.pasos ?? []).filter((p) => p.tipo === "app");
   if (!apps.length) return null;
   // El total del motor ya viene redondeado; la tarifa del camion se suma antes de redondear el rango.
   const pasaje = acc.unidos ? 2 : Grieta.qrobus.pasaje;
   const fijo = pasaje + (acc.unidos ? 0 : pasaje / 2) * (o.transbordos ?? 0);
-  const rangos = apps.map((p) => rangoDePrecio(rangoTramo(o, p)));
+  const rangos = apps.map((p) => rangoDePrecio(rangoTramo(o, p, ctx)));
   return limitesPrecio({ bajo: fijo + rangos.reduce((s, x) => s + x.bajo, 0), alto: fijo + rangos.reduce((s, x) => s + x.alto, 0) });
 }
 function criteriosViaje(r) {
@@ -1305,10 +1313,9 @@ function pintarCarro(r) {
   const km = r.directo.km;
   const centro = Grieta.metros(estado.destino.lat, estado.destino.lon, ...CENTRO_HISTORICO) < 1200;
   $("enCarro").hidden = !(km > 0) || acc.gasolina === "no";
-  $("enCarro").innerHTML = `${miniFicha("tono-obsidiana", picto("app"))}<span class="fila-texto">
-    <strong>En tu carro: al menos ${pesos((km / AUTO_KM_LITRO) * precioGasolina())} de gasolina${centro ? " más estacionamiento" : ""}</strong>
-    ${co2Auto(km) >= 50 ? `<small class="carro-co2">En auto emitiría ${kgTexto(co2Auto(km))} de CO₂</small>` : ""}
-    <small id="carroDetalle" hidden></small></span>`;
+  $("enCarro").innerHTML = `<div class="carro-fila"><span class="carro-info"><span class="carro-t">${picto("app")}<b>En tu carro</b></span><small id="carroDetalle" hidden></small></span>
+    <span class="carro-precio"><small>Al menos</small><b>${pesos((km / AUTO_KM_LITRO) * precioGasolina())}</b><small>de gasolina${centro ? " más estacionamiento" : ""}</small></span></div>
+    ${co2Auto(km) >= 50 ? `<div class="carro-banda">${ico("planta")}<span>En auto emitiría ${kgTexto(co2Auto(km))} de CO₂</span></div>` : ""}`;
   // Saliendo ahorita, cuanto tarda en auto con el trafico real (Azure Maps, desde la API)
   if (estado.momento !== 0) return;
   const { origen: o, destino: d } = estado;
@@ -1448,6 +1455,19 @@ function rielViaje(o) {
   const conducidos = pasos.filter((p) => p.tipo !== "caminar").length;
   return `<span class="riel${conducidos > 2 ? " denso" : ""}${conducidos > 3 ? " sin-letrero" : ""}">${tramos}</span>`;
 }
+const VER_RUTA = '<span class="hv-ver">Ver ruta<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>';
+const numeroUnidad = (n, u) => `${n}<small class="hv-u">${u}</small>`;
+const BOLETO_HORA = () => `<button type="button" class="boleto-hora" data-llegar><svg class="boleto-fondo" viewBox="0 0 358 46" preserveAspectRatio="none" aria-hidden="true"><path class="boleto-a" d="M0 0H46L40 12 50 24 42 36 46 46H0Z"/><path class="boleto-b" d="M358 0H52L46 12 56 24 48 36 52 46H358Z"/></svg><span class="boleto-ic">${ico("reloj")}</span><span class="boleto-tx">¿Tienes que llegar a una hora?</span>${ico("chevron", "boleto-chev")}</button>`;
+// La cifra grande se achica sola si no cabe en su placa, para que nunca toque la grieta.
+function ajustarCifras() {
+  for (const l of document.querySelectorAll(".pantalla:not([hidden]) .hv-lado")) {
+    const p = l.querySelector(".hv-precio");
+    if (!p || !l.clientWidth) continue;
+    p.style.fontSize = "";
+    const cs = getComputedStyle(l), max = l.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    for (let f = parseFloat(getComputedStyle(p).fontSize); p.getBoundingClientRect().width > max && f > 14; f--) p.style.fontSize = `${f - 1}px`;
+  }
+}
 function pintarOpciones(r) {
   titulos.opciones = `A ${estado.destino.nombre}`;
   if (document.body.dataset.pantalla === "opciones") $("tituloPantalla").textContent = titulos.opciones;
@@ -1462,9 +1482,9 @@ function pintarOpciones(r) {
   $("resumenRuta").hidden = !cuando;
   // Los precios de las apps, a la vista sin tener que entrar a una opcion.
   const apps = [...r.directo.porApp].sort((a, b) => a.precio - b.precio);
-  $("appsRapido").innerHTML = apps.map((x, i) => `<button type="button" class="app-rapida${i ? "" : " barata"}" data-app="${x.app}"
+  $("appsRapido").innerHTML = apps.map((x, i) => `<button type="button" class="app-p" data-app="${x.app}"
       aria-label="Abrir ${Grieta.nombreApp(x.app)}, precio estimado ${rangoVoz(limitesPrecio(x))}${i ? "" : ", la app más económica"}">
-      <span class="app-cabeza">${fichaApp(x.app)}<span>${Grieta.nombreApp(x.app)}</span></span><strong class="precio-rango">${partesRango(limitesPrecio(x))}</strong><small${i ? ' class="vacio"' : ""}>Menor precio</small></button>`).join("");
+      ${fichaApp(x.app)}<span class="app-n">${Grieta.nombreApp(x.app)}</span><strong class="${i ? "" : "gana"}">${rangoTexto(limitesPrecio(x))}</strong><small>${i ? "" : "Menor precio"}</small></button>`).join("");
   $("avisoRapido").textContent = "El costo es aproximado, confírmalo en la app.";
   const enApp = r.opciones.find((o) => o.tipo === "app");
   $("compararPrecio").hidden = !enApp;
@@ -1474,8 +1494,7 @@ function pintarOpciones(r) {
   // En masculino: se refiere al viaje en app, no a una "opción" como las tarjetas de camión.
   const etiquetasApp = barata && rapida ? ["Más económico y más rápido"] : [barata && "Más económico", rapida && "Más rápido"].filter(Boolean);
   // La hora de llegada es lo primero que se lee; la duración y si es la más rápida van abajo, más chicas.
-  $("llegadaApp").innerHTML = enApp ? `<strong>Llegas ${hora(llegada(enApp))}</strong>
-    <span>${Math.round(enApp.minutos)} min de viaje</span>${etiquetasApp.map((t) => `<span class="marca-app">${t}</span>`).join("")}` : "";
+  $("llegadaApp").innerHTML = enApp ? `<span>Llegas ${hora(llegada(enApp))}, ${Math.round(enApp.minutos)} min</span>${etiquetasApp.map((t) => `<i class="marca-app">${t}</i>`).join("")}` : "";
   pintarCarro(r);
   estacionaYSigue(r);
   avisarLluvia(r);
@@ -1498,21 +1517,62 @@ function pintarOpciones(r) {
   const conSegura = estado.tarjetas[0]?.etiquetas.includes(MARCA_SEGURA);
   const orden = ordenes.find((x) => x.id === estado.ordenViaje) ?? (conSegura ? null : ordenes[0]);
   const iHero = orden ? ops.indexOf(orden.o) : 0;
+  estado.iHero = iHero;
   const pestanas = ops.length > 1 ? `<div class="seg-viaje" role="group" aria-label="Elige cómo viajar">${ordenes.map((x) => `<button type="button" class="tab-viaje" data-orden="${x.id}" aria-pressed="${x === orden}">${x.icono()}<span>${x.texto}</span></button>`).join("")}</div>` : "";
-  const heroViaje = ({ o, etiquetas }, i) => {
-    const rango = rangoOpcion(o), ahorro = appBarata.precio - o.costo, evita = sinAuto(o);
-    const appMin = enApp?.minutos ?? r.directo.minutos;
-    const icono = rango ? `<span class="hv-iconos">${picto("qrobus")}${picto("app")}</span>` : picto("qrobus");
-    const banda = [ahorro >= 5 && `<span>${rango ? "Ahorras unos" : "Ahorras"} ${pesos(ahorro)}</span>`, evita && `<span class="hv-co2">${ico("planta")}<span>Evitas ${kgAuto} de CO₂</span></span>`].filter(Boolean).join("");
-    return `<button type="button" class="tarjeta hero-viaje" data-i="${i}" aria-label="${vozOpcion(o, etiquetas)}">
-      <span class="hv-caja"><span class="hv-partido">${PLACAS_VIAJE}
-        <span class="hv-lado">${icono}<span class="hv-nombre">${rango ? "Combinado, aprox." : "Qrobus"}</span><span class="hv-precio pq${rango ? " rango" : ""}">${rango ? rangoTexto(rango) : pesos(o.costo)}</span>${datoViaje(picto("flag"), `Llegas ${hora(llegada(o))}`)}${datoViaje(ico("reloj"), `${Math.round(o.minutos)} min de viaje`)}</span>
-        <span class="hv-lado der">${picto("app")}<span class="hv-nombre">${Grieta.nombreApp(appBarata.app)}, aprox.</span><span class="hv-precio">${pesos(appBarata.precio)}</span>${datoViaje(picto("flag"), `Llegas ${hora(r.ctx.minuto + appMin)}`)}${datoViaje(ico("reloj"), `${Math.round(appMin)} min de viaje`)}</span>
-      </span>${banda ? `<span class="hv-banda">${banda}</span>` : ""}</span>
-      <span class="caja-riel">${rielViaje(o)}</span>
-      ${etiquetas.includes(MARCA_SEGURA) ? razonesSeguras(o) : ""}
-    </button>
-    <button type="button" class="boton hv-empezar" data-empezar="${i}">Empezar viaje con avisos</button>`;
+  const appMin = enApp?.minutos ?? r.directo.minutos, llegaApp = hora(r.ctx.minuto + appMin);
+  const limitesApp = limitesPrecio(appBarata), rangoApp = rangoTexto(limitesApp), nApp = Grieta.nombreApp(appBarata.app);
+  const vozApp = escapar(`${nApp}, precio estimado ${rangoVoz(limitesApp)}. Llegas ${llegaApp}, ${Math.round(appMin)} min. Ver ruta en app`);
+  // Lo que separa a la app de la opcion: un rango, porque el precio de la app no es exacto. Si casi no cambia, una sola cifra.
+  const diferencia = (o) => {
+    const g = rangoOpcion(o) ?? { bajo: o.costo, alto: o.costo };
+    const a = Math.round(limitesApp.bajo - g.bajo), b = Math.round(limitesApp.alto - g.alto), m = Math.min(a, b), M = Math.max(a, b);
+    if (m < 5) return null;
+    return M - m <= 3 ? pesos(m) : `${pesos(m)}–${M}`;
+  };
+  const lleg = (t) => [picto("flag"), `Llegas ${t}`], plata = (t) => [picto("monedas"), t], deViaje = (m) => [ico("reloj"), `${Math.round(m)} min de viaje`];
+  const aPie = (o) => [picto("caminar"), caminata(o) ? `Caminas ${caminata(o)} min` : "Sin caminar"];
+  const ladoViaje = ({ der, attrs, voz, icono, nombre, cifra, tag, azul, chica, datos }) => `<button type="button" class="hv-lado${der ? " der" : ""}" ${attrs} aria-label="${voz}">
+    <span class="hv-top">${der ? VER_RUTA + icono : icono + VER_RUTA}</span><span class="hv-nombre">${nombre}</span>
+    <span class="hv-precio${tag ? " pq" : ""}${tag && azul ? " azul" : ""}${chica ? " chica" : ""}">${cifra}</span>${datos.map(([i, t]) => datoViaje(i, t)).join("")}</button>`;
+  const heroViaje = (id, { o, etiquetas }, i) => {
+    const rango = rangoOpcion(o), precio = rango ? rangoTexto(rango) : pesos(o.costo), dif = diferencia(o);
+    const iz = { attrs: `data-i="${i}"`, voz: vozOpcion(o, etiquetas), icono: rango ? `<span class="hv-iconos">${picto("qrobus")}${picto("app")}</span>` : picto("qrobus"), nombre: rango ? "Combinado, aprox." : "Qrobus" };
+    const de = { der: true, attrs: "data-abrir-app", voz: vozApp, icono: picto("app"), nombre: `${nApp}, aprox.` };
+    const evita = sinAuto(o) && `<span class="hv-co2">${ico("planta")}<span>Evitas ${kgAuto} de CO₂</span></span>`;
+    const llegaO = lleg(hora(llegada(o)));
+    let izq, der, banda, clase = "", oculta = null;
+    let cta = `<button type="button" class="boton hv-empezar" data-empezar="${i}">Empezar viaje con avisos</button>`;
+    if (id === "rapido") {
+      const ganaApp = appMin < o.minutos;
+      izq = { ...iz, cifra: numeroUnidad(Math.round(o.minutos), "min"), tag: !ganaApp, datos: [llegaO, plata(precio)] };
+      der = { ...de, cifra: numeroUnidad(Math.round(appMin), "min"), tag: ganaApp, azul: true, datos: [lleg(llegaApp), plata(rangoApp)] };
+      banda = dif ? [ganaApp ? `Pagas ${dif} más` : `Ahorras ${dif}`] : [];
+      if (ganaApp) cta = `<button type="button" class="boton hv-empezar hv-boton-app" data-app="${appBarata.app}">Abrir ${nApp}</button>`;
+    } else if (id === "pie") {
+      const peor = Math.max(...ops.map(caminata)), menos = peor - caminata(o);
+      izq = caminata(o) ? { ...iz, cifra: numeroUnidad(caminata(o), "min a pie"), tag: true, datos: [llegaO, plata(precio)] } : { ...iz, cifra: "Sin caminar", chica: true, tag: true, datos: [llegaO, plata(precio)] };
+      der = { ...de, cifra: "Sin caminar", chica: true, datos: [lleg(llegaApp), plata(rangoApp)] };
+      banda = menos > 0 ? [menos === 1 ? "Caminas 1 minuto menos" : `Caminas ${menos} minutos menos`] : [];
+    } else if (id === "camion") {
+      const otra = estado.tarjetas.map((x, j) => ({ ...x, j })).filter((x) => x.j !== i && x.o.tipo === "caminando+caminando").sort((a, b) => valorOpcion(a.o) - valorOpcion(b.o))[0];
+      const lineas = (x) => escapar(tituloOpcion(x).replace("Qrobus ", ""));
+      izq = { ...iz, icono: picto("qrobus"), nombre: lineas(o), cifra: pesos(o.costo), tag: true, datos: [llegaO, aPie(o)] };
+      der = otra ? { der: true, attrs: `data-i="${otra.j}"`, voz: vozOpcion(otra.o, otra.etiquetas), icono: picto("qrobus"), nombre: `Otra, ${lineas(otra.o)}`, cifra: pesos(otra.o.costo), datos: [lleg(hora(llegada(otra.o))), aPie(otra.o)] } : null;
+      banda = [evita].filter(Boolean);
+      clase = " dos-verdes";
+      oculta = otra?.j ?? null;
+    } else {
+      izq = { ...iz, cifra: precio, tag: true, datos: [llegaO, deViaje(o.minutos)] };
+      der = { ...de, cifra: rangoApp, datos: [lleg(llegaApp), deViaje(appMin)] };
+      banda = [dif && `<span>${rango ? "Ahorras unos" : "Ahorras"} ${dif}</span>`, evita].filter(Boolean);
+    }
+    const bandaHtml = banda.length ? `<div class="hv-banda">${banda.map((t) => (t.startsWith("<") ? t : `<span>${t}</span>`)).join("")}</div>` : "";
+    return {
+      oculta,
+      html: `<div class="hero-viaje"><div class="hv-caja"><div class="hv-partido${clase}${der ? "" : " solo"}">${der ? PLACAS_VIAJE : ""}${ladoViaje(izq)}${der ? ladoViaje(der) : ""}</div>${bandaHtml}</div>
+        <button type="button" class="caja-riel" data-i="${i}" aria-label="${iz.voz}">${rielViaje(o)}</button>
+        ${etiquetas.includes(MARCA_SEGURA) ? razonesSeguras(o) : ""}</div>${cta}`,
+    };
   };
   const otraForma = ({ o, etiquetas }, i) => {
     const rango = rangoOpcion(o), segura = etiquetas.includes(MARCA_SEGURA);
@@ -1526,9 +1586,11 @@ function pintarOpciones(r) {
       ${sinAuto(o) ? `<span class="co2" aria-hidden="true">${ico("planta")}<span>En auto emitiría ${kgAuto} de CO₂</span></span>` : ""}
     </button>`;
   };
-  const otras = estado.tarjetas.map((x, i) => (i === iHero ? "" : otraForma(x, i))).join("");
-  $("tarjetas").innerHTML = ops.length ? `${pestanas}${heroViaje(estado.tarjetas[iHero], iHero)}${otras ? `<h2 class="otras-formas">Otras formas de llegar</h2>${otras}` : ""}` : "";
+  const hero = ops.length ? heroViaje(orden?.id ?? "barato", estado.tarjetas[iHero], iHero) : null;
+  const otras = estado.tarjetas.map((x, i) => (i === iHero || i === hero?.oculta ? "" : otraForma(x, i))).join("");
+  $("tarjetas").innerHTML = `${pestanas}${hero?.html ?? ""}${BOLETO_HORA()}${otras ? `<h2 class="otras-formas">Otras formas de llegar</h2>${otras}` : ""}`;
   for (const t of $("tarjetas").querySelectorAll("[data-flex]")) t.style.flex = t.dataset.flex;
+  ajustarCifras();
   const hayCamion = r.opciones.some((o) => o.tipo !== "app");
   $("tituloCamion").hidden = estado.tarjetas.length > 0 || (!hayCamion && !r.pasaCerca);
   // Si el camion de la mejor opcion es de los ultimos del dia, se avisa a que hora pasa el ultimo.
@@ -1541,7 +1603,7 @@ function pintarOpciones(r) {
     $("ultimoCamion").innerHTML = `${ico("alerta")}<span class="fila-texto"><strong>Último ${escapar(c.linea)}: ${hora(c.ultima)} según el horario</strong>
       <small>En la parada ${escapar(cruce(c.recorrido[0].nombre))}, hacia ${escapar(c.hacia)}. Si lo pierdes, ${Grieta.nombreApp(app.app)} se estima en ${rangoTexto(limitesPrecio(app))}.</small></span>`;
   }
-  if (hayCamion && !estado.tarjetas.length) $("tarjetas").innerHTML = `<p class="nota">Caminando llegas antes que en cualquier Qrobus.</p>`;
+  if (hayCamion && !estado.tarjetas.length) $("tarjetas").innerHTML += `<p class="nota">Caminando llegas antes que en cualquier Qrobus.</p>`;
   // El camion va primero: Grieta busca que se use menos el auto.
   const camionPrimero = estado.tarjetas.length > 0;
   pintarSeguro(r);
@@ -1557,7 +1619,20 @@ function pintarOpciones(r) {
     $("tarjetas").innerHTML += `<div class="aviso cuidado sin-camion">${ico("alerta")}<strong>${r.pasaCerca ? "Ningún Qrobus te lleva directo en la próxima hora." : "En la próxima hora no pasa ningún Qrobus cerca."}</strong></div>`;
   }
 }
+function abrirViajeApp() {
+  const o = estado.r.opciones.find((x) => x.tipo === "app");
+  if (!o) return null;
+  estado.elegida = o;
+  estado.etiquetaElegida = "En app";
+  titulos.detalle = tituloOpcion(o);
+  ir("detalle");
+  pintarDetalle();
+  return o;
+}
 $("tarjetas").addEventListener("click", (e) => {
+  if (e.target.closest("[data-llegar]")) return llegarDesdeOpciones();
+  if (e.target.closest("[data-abrir-app]")) return void abrirViajeApp();
+  if (e.target.closest("[data-app]")) return void abrirApp(e);
   const orden = e.target.closest("[data-orden]")?.dataset.orden;
   if (orden) {
     estado.ordenViaje = orden;
@@ -1572,7 +1647,7 @@ $("tarjetas").addEventListener("click", (e) => {
     titulos.detalle = tituloOpcion(o);
     return iniciarGuia(o);
   }
-  const t = e.target.closest(".tarjeta");
+  const t = e.target.closest("[data-i]");
   if (t) abrirOpcion(t.dataset.i);
 });
 function abrirOpcion(i) {
@@ -1594,13 +1669,7 @@ function leerDetalle() {
 
 // Comparar lo que marca la app: lleva directo al detalle del viaje en app, con el campo del precio listo.
 $("compararPrecio").addEventListener("click", () => {
-  const o = estado.r.opciones.find((x) => x.tipo === "app");
-  if (!o) return;
-  estado.elegida = o;
-  estado.etiquetaElegida = "En app";
-  titulos.detalle = tituloOpcion(o);
-  ir("detalle");
-  pintarDetalle();
+  if (!abrirViajeApp()) return;
   if (!estado.app) {
     estado.app = [...estado.r.directo.porApp].sort((a, b) => a.precio - b.precio)[0].app;
     for (const x of $("appVista").children) x.setAttribute("aria-pressed", String(x.dataset.v === estado.app));
@@ -1613,7 +1682,6 @@ $("compararPrecio").addEventListener("click", () => {
 const inicioFranja = (minuto) => Math.max(...Grieta.CORTES.filter((c) => c * 60 <= minuto % 1440)) * 60;
 
 function pintarEspera(lista, precios, base) {
-  if (!$("horaLlegada").value) $("horaLlegada").value = Grieta.hhmm(Math.ceil((ahoraMin() + 60) / 5) * 5);
   if (!estado.otra) {
     const m = normalizar(lista.at(-1));
     $("dia").value = String(m.dia);
@@ -1628,8 +1696,8 @@ function pintarEspera(lista, precios, base) {
     const tipo = i === 0 ? "" : d <= -3 ? "baja" : d >= 3 ? "sube" : "igual";
     const nota = i === 0 ? "Aprox." : tipo === "baja" ? `${pesos(-d)} menos` : tipo === "sube" ? `${pesos(d)} más` : "Igual";
     return `<button type="button" data-i="${i}" aria-pressed="${i === estado.momento}" class="${tipo}"
-      aria-label="${m.etiqueta}, precio aproximado ${Math.round(precios[i].mejor.precio)} pesos">
-      <span>${m.corta ?? m.etiqueta}</span><strong>${pesos(precios[i].mejor.precio)}</strong><small class="precio-nota">${nota}</small>
+      aria-label="${m.etiqueta}, precio estimado ${rangoVoz(limitesPrecio(precios[i].mejor))}">
+      <strong>${rangoTexto(limitesPrecio(precios[i].mejor))}</strong><i aria-hidden="true"></i><span>${m.corta ?? m.etiqueta}</span><small>${nota}</small>
     </button>`;
   }).join("");
   // Lo que cambia es la franja de 3 horas del modelo, no el trafico de este momento.
@@ -1648,68 +1716,16 @@ function pintarEspera(lista, precios, base) {
   for (let i = 0; i < Grieta.CORTES.length - 1; i++) {
     const [a, b] = [Grieta.CORTES[i] * 60, Grieta.CORTES[i + 1] * 60];
     if (b <= hoy.minuto) continue;
-    tramos.push({ a, b, p: Grieta.cotizar({ ...base, dia: hoy.dia, minuto: Math.max(a, hoy.minuto) }).mejor.precio });
+    const mejor = Grieta.cotizar({ ...base, dia: hoy.dia, minuto: Math.max(a, hoy.minuto) }).mejor;
+    tramos.push({ a, b, p: mejor.precio, rango: limitesPrecio(mejor) });
   }
   const barata = tramos.reduce((x, y) => (y.p < x.p ? y : x), tramos[0]);
   // Solo si mas tarde sale mas barato; si ya es la hora mas barata, el titulo lo dice.
-  $("mejorHora").textContent = barata && barata.a > hoy.minuto ? `Lo más barato hoy es de ${hora(barata.a)} a ${hora(barata.b)}: unos ${pesos(barata.p)}.` : "";
+  $("mejorHora").textContent = barata && barata.a > hoy.minuto ? `Lo más barato hoy es de ${hora(barata.a)} a ${hora(barata.b)}: unos ${rangoTexto(barata.rango)}.` : "";
   $("mejorHora").hidden = !$("mejorHora").textContent;
 }
 // "A que hora salgo": se prueba salir cada 5 minutos desde ahora (hasta 4 horas antes) y se queda la salida
 // mas tarde que todavia llega a tiempo, en camion y en app.
-function calcularSalida() {
-  const [h, m] = ($("horaLlegada").value || "").split(":").map(Number);
-  if (!Number.isFinite(h)) return void ($("salida").innerHTML = `<p class="nota">Elige a qué hora tienes que llegar.</p>`);
-  const ahora = ahoraMin();
-  const meta = h * 60 + m;
-  if (meta <= ahora + 5) return void ($("salida").innerHTML = `<p class="nota">Esa hora ya pasó o no da tiempo de llegar. Elige una más tarde.</p>`);
-  const base = {
-    origen: [estado.origen.lat, estado.origen.lon], destino: [estado.destino.lat, estado.destino.lon], kmCalle: estado.kmCalle,
-    dia: hoyDia(), caminarMax: acc.camino ? 300 : undefined, tarifa: acc.unidos ? { pasaje: 2, transbordo: 0 } : undefined,
-    caminatas: estado.caminatas, camiones: 2,
-  };
-  const aTiempo = [];
-  const probar = (t) => {
-    for (const o of Grieta.evaluar({ ...base, minuto: t }).opciones) {
-      if (t + o.minutos <= meta) aTiempo.push({ t, o, conApp: o.tipo !== "app" && o.pasos.some((p) => p.tipo === "app") });
-    }
-  };
-  // Primero cada 10 minutos; luego se prueba 5 minutos despues de la ultima salida que funciono, en camion y en app.
-  for (let t = Math.max(ahora, meta - 240); t <= meta; t += 10) probar(t);
-  const ultima = (enApp) => Math.max(-1, ...aTiempo.filter((x) => (x.o.tipo === "app") === enApp).map((x) => x.t));
-  for (const t of new Set([ultima(false), ultima(true)])) if (t >= 0 && t + 5 <= meta) probar(t + 5);
-  // En camion: primero los que no usan app; entre esos, el que deja salir mas tarde y luego el mas barato.
-  const camion = aTiempo.filter((x) => x.o.tipo !== "app").sort((a, b) => a.conApp - b.conApp || b.t - a.t || a.o.costo - b.o.costo)[0];
-  const app = aTiempo.filter((x) => x.o.tipo === "app").sort((a, b) => b.t - a.t)[0];
-  if (!camion && !app) return void ($("salida").innerHTML = `<p class="nota">No encontré cómo llegar a esa hora desde ahora. Prueba una hora más tarde.</p>`);
-  const bloque = (titulo, x, detalle) => `<div class="salida-opcion"><div class="salida-cabeza">${fichaOpcion(x.o)}
-    <div><p class="etiqueta">${titulo}</p><p class="hora-salida">Sal a las ${hora(x.t)}</p></div></div><p>${detalle}</p>
-    ${x.o.tipo === "app" ? "" : `<button type="button" class="boton oscuro" data-avisar="${x.t}" data-que="${escapar(tituloOpcion(x.o))}">Avísame cuándo salir</button>`}
-    <button type="button" class="boton oscuro" data-salir="${x.t}">Ver esta ruta</button></div>`;
-  $("salida").innerHTML =
-    (camion ? bloque("En Qrobus", camion, `${escapar(tituloOpcion(camion.o))}, ${camion.conApp ? "unos " : ""}${pesos(camion.o.costo)}. Llegas a las ${hora(camion.t + camion.o.minutos)}.`) : "") +
-    (app ? bloque("En app", app, `Pide ${escapar(tituloOpcion(app.o))}, unos ${pesos(app.o.costo)}. Llegas a las ${hora(app.t + app.o.minutos)}.`) : "");
-  hablar([camion && `En camión, sal a las ${hora(camion.t)} y toma ${tituloOpcion(camion.o)}.`, app && `En app, pídela a las ${hora(app.t)}.`].filter(Boolean).join(" "), false, true);
-}
-$("calcularSalida").addEventListener("click", () => {
-  $("salida").innerHTML = `<p class="nota">Calculando...</p>`;
-  setTimeout(calcularSalida, 30);
-});
-// "Ver esta ruta" pone las opciones a esa hora de salida, igual que elegir otra hora en Conviene esperar.
-$("salida").addEventListener("click", (e) => {
-  const aviso = e.target.closest("[data-avisar]");
-  if (aviso) return programarSalida(Number(aviso.dataset.avisar), aviso.dataset.que, aviso);
-  const b = e.target.closest("[data-salir]");
-  if (!b) return;
-  const t = Number(b.dataset.salir);
-  $("dia").value = String(hoyDia());
-  $("hora").value = Grieta.hhmm(t);
-  estado.otra = { dia: hoyDia(), minuto: t };
-  estado.momento = ESPERAS.length;
-  calcular();
-  $("hoja").scrollTop = 0;
-});
-
 $("horas").addEventListener("click", (e) => {
   const b = e.target.closest("button");
   if (!b) return;
@@ -1766,7 +1782,7 @@ function pasosDe(o) {
 function pintarDetalle(sinMapa) {
   const o = estado.elegida;
   const esApp = o.tipo === "app";
-  $("tituloPantalla").textContent = titulos.detalle = esApp ? "Comparar precio" : tituloOpcion(o);
+  $("tituloPantalla").textContent = titulos.detalle = esApp ? "En app" : tituloOpcion(o);
   $("bloqueCamion").hidden = esApp;
   $("bloqueApp").hidden = !esApp;
   if (esApp) {
@@ -2887,7 +2903,7 @@ $("aPieIr").addEventListener("click", () => iniciarGuiaCaminando(estado.destino,
 
 // Avisos con la pantalla bloqueada: la API los manda por push a su hora. Hace falta la app instalada y el permiso;
 // si algo falta, la guia sigue igual con voz y vibracion mientras la pantalla este encendida.
-const cuando = (min) => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setMinutes(min); return d.toISOString(); };
+const cuando = (min, dias = 0) => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + dias); d.setMinutes(min); return d.toISOString(); };
 async function suscripcionPush() {
   if (!API || !("PushManager" in window) || !("Notification" in window)) return null;
   const permiso = Notification.permission === "default" ? await Notification.requestPermission() : Notification.permission;
@@ -2917,9 +2933,11 @@ function cancelarAvisos() {
 
 // "Sal a tiempo": avisa 10 minutos antes y a la hora de salir para tomar el camion sin esperar de mas.
 // Con la app instalada y el permiso llega por push aunque Grieta este cerrada; si no, la cuenta regresiva vive en el inicio.
-async function programarSalida(t, que, boton) {
-  const destino = estado.destino?.nombre ?? "tu destino";
-  escribir("grieta-salida", { t, que, destino, dia: new Date().toDateString() });
+async function programarSalida(t, que, boton, dias = 0, nombreDestino = null) {
+  const destino = nombreDestino ?? estado.destino?.nombre ?? "tu destino";
+  const fecha = new Date();
+  fecha.setDate(fecha.getDate() + dias);
+  escribir("grieta-salida", { t, que, destino, dia: fecha.toDateString() });
   pintarSalida();
   boton.disabled = true;
   boton.textContent = "Listo, te aviso";
@@ -2927,13 +2945,15 @@ async function programarSalida(t, que, boton) {
   try {
     const suscripcion = await suscripcionPush();
     const avisos = [[t - 10, `En 10 minutos sales a ${destino}`, `${que}. Sal a las ${hora(t)}.`], [t, `Ya es hora de salir a ${destino}`, `${que}. Sal ahora para no esperar de más.`]]
-      .filter(([m]) => m > ahoraMin()).map(([m, titulo, texto]) => ({ cuando: cuando(m), titulo, texto }));
+      .filter(([m]) => dias > 0 || m > ahoraMin()).map(([m, titulo, texto]) => ({ cuando: cuando(m, dias), titulo, texto }));
     if (suscripcion && avisos.length) {
       await llamar("/notificaciones", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ suscripcion: suscripcion.toJSON(), avisos }) });
       push = true;
     }
   } catch {}
-  const mensaje = push ? `Te aviso a las ${hora(Math.max(ahoraMin(), t - 10))} y a las ${hora(t)}, aunque cierres Grieta.` : `Te aviso a las ${hora(t)} mientras Grieta esté abierta.`;
+  const mensaje = dias > 0
+    ? (push ? `${textoDia(dias)} te aviso a las ${hora(t - 10)} y a las ${hora(t)}, aunque cierres Grieta.` : "Para avisarte otro día necesito permiso de notificaciones.")
+    : push ? `Te aviso a las ${hora(Math.max(ahoraMin(), t - 10))} y a las ${hora(t)}, aunque cierres Grieta.` : `Te aviso a las ${hora(t)} mientras Grieta esté abierta.`;
   boton.insertAdjacentHTML("afterend", `<p class="nota">${mensaje}</p>`);
   hablar(mensaje, false, false);
 }
@@ -3967,6 +3987,339 @@ $("guardados").addEventListener("click", (e) => {
 $("deshacerInicio").addEventListener("click", (e) => {
   if (e.target.closest("[data-deshacer-nuevo]")) return deshacerNuevo();
   if (e.target.closest("[data-deshacer]")) deshacerLugar();
+});
+
+// El mapa de Como llegar crece al tocarlo, con la ruta completa del viaje del recuadro.
+function abrirMapaGrande() {
+  if (document.body.dataset.pantalla !== "opciones" || document.body.classList.contains("mapa-grande") || acc.modoVoz) return;
+  const o = estado.tarjetas?.[estado.iHero]?.o;
+  document.body.classList.add("mapa-grande");
+  $("hoja").style.maxHeight = "";
+  $("hoja").scrollTop = 0;
+  $("miniMapa").innerHTML = o ? `<span class="mini-mapa-fila">${picto("qrobus")}<span class="mini-mapa-tx"><b>${escapar(tituloOpcion(o))}</b><small>Llegas ${hora(llegada(o))}, ${Math.round(o.minutos)} min de viaje</small></span><strong>${rangoOpcion(o) ? rangoTexto(rangoOpcion(o)) : pesos(o.costo)}</strong></span><button type="button" class="boton hv-empezar" data-mini-empezar>Empezar viaje con avisos</button>` : "";
+  $("miniMapa").hidden = !o;
+  $("cerrarMapa").hidden = false;
+  requestAnimationFrame(() => {
+    $("cerrarMapa").style.top = `${$("mapa").getBoundingClientRect().top + 10}px`;
+    mapa.invalidateSize();
+    if (o) dibujar(o);
+    else reencuadrar("opciones");
+  });
+}
+function quitarMapaGrande() {
+  document.body.classList.remove("mapa-grande");
+  $("miniMapa").hidden = true;
+  $("cerrarMapa").hidden = true;
+}
+function cerrarMapaGrande() {
+  if (!document.body.classList.contains("mapa-grande")) return false;
+  quitarMapaGrande();
+  quitarTrazo();
+  requestAnimationFrame(() => { mapa.invalidateSize(); pedirCortes(); setTimeout(() => reencuadrar("opciones"), 150); });
+  return true;
+}
+mapa.on("click", abrirMapaGrande);
+$("cerrarMapa").addEventListener("click", cerrarMapaGrande);
+$("miniMapa").addEventListener("click", (e) => {
+  if (!e.target.closest("[data-mini-empezar]")) return;
+  const x = estado.tarjetas[estado.iHero];
+  estado.elegida = x.o;
+  estado.etiquetaElegida = x.etiquetas.join(", ");
+  titulos.detalle = tituloOpcion(x.o);
+  iniciarGuia(x.o);
+});
+
+// Llegar a una hora: de tu hora de entrada hacia atras, cada paso con su hora.
+const llegarEstado = { origen: null, destino: null, kmCalle: null, caminatas: undefined, offset: 0, meta: 480 };
+const diaDeOffset = (d) => (hoyDia() + d) % 7;
+const textoDia = (d) => (d === 0 ? "Hoy" : d === 1 ? "Mañana" : `El ${DIAS[diaDeOffset(d)]}`);
+function salidasParaLlegar({ origen, destino, kmCalle, caminatas, offset, meta }) {
+  const desde = offset === 0 ? ahoraMin() : 0;
+  const base = { origen: [origen.lat, origen.lon], destino: [destino.lat, destino.lon], kmCalle, dia: diaDeOffset(offset), caminarMax: acc.camino ? 300 : undefined, tarifa: acc.unidos ? { pasaje: 2, transbordo: 0 } : undefined, caminatas, camiones: 2 };
+  const aTiempo = [];
+  const probar = (t) => {
+    for (const o of Grieta.evaluar({ ...base, minuto: t }).opciones) if (t + o.minutos <= meta) aTiempo.push({ t, o, conApp: o.tipo !== "app" && o.pasos.some((p) => p.tipo === "app") });
+  };
+  // Primero cada 10 minutos; luego se prueba 5 minutos despues de la ultima salida que funciono.
+  for (let t = Math.max(desde, meta - 240); t <= meta; t += 10) probar(t);
+  const ultima = (enApp) => Math.max(-1, ...aTiempo.filter((x) => (x.o.tipo === "app") === enApp).map((x) => x.t));
+  for (const t of new Set([ultima(false), ultima(true)])) if (t >= 0 && t + 5 <= meta) probar(t + 5);
+  const camion = aTiempo.filter((x) => x.o.tipo !== "app").sort((a, b) => a.conApp - b.conApp || b.t - a.t || a.o.costo - b.o.costo)[0];
+  const app = aTiempo.filter((x) => x.o.tipo === "app").sort((a, b) => b.t - a.t)[0];
+  return { camion, app, base };
+}
+const rangoAppEn = (base, t) => Grieta.cotizar({ origen: base.origen, destino: base.destino, kmCalle: base.kmCalle, dia: base.dia, minuto: t }).mejor;
+function abrirLlegarHora({ origen, destino, kmCalle, caminatas, offset, meta }) {
+  Object.assign(llegarEstado, { origen, destino, kmCalle, caminatas, offset, meta });
+  titulos.llegarHora = `A ${destino.nombre}`;
+  ir("llegarHora");
+  pintarLlegarCabeza();
+  calcularLlegar();
+}
+function pintarLlegarCabeza() {
+  const c = llegarEstado;
+  $("caHoraTexto").textContent = hora(c.meta);
+  $("caHora").value = Grieta.hhmm(c.meta);
+  for (const b of $("caDias").children) b.setAttribute("aria-pressed", String(b.dataset.d === "otro" ? c.offset > 1 : Number(b.dataset.d) === c.offset));
+  $("caOtro").hidden = c.offset < 2;
+  $("caOtro").innerHTML = [2, 3, 4, 5, 6].map((d) => `<option value="${d}"${d === c.offset ? " selected" : ""}>${textoDia(d)}</option>`).join("");
+}
+let esperaLlegar;
+function calcularLlegar(demora = 0) {
+  clearTimeout(esperaLlegar);
+  $("caResultado").innerHTML = '<p class="nota">Calculando...</p>';
+  esperaLlegar = setTimeout(pintarLlegar, demora + 30);
+}
+function pasosConHora({ t, o }, inicio) {
+  let cur = t, color = 0;
+  const pasos = o.pasos;
+  return pasos.map((p, i) => {
+    if (p.tipo === "caminar") {
+      const medio = i > 0 && i < pasos.length - 1, h = cur;
+      cur += p.min;
+      return { h, t: i === 0 ? inicio : medio ? "Transbordas" : "Te bajas y caminas", s: `${Math.max(1, Math.round(p.min))} min a pie`, k: medio ? "cam" : "apie", ic: picto("caminar") };
+    }
+    if (p.tipo === "camion") { cur = p.llega; return { h: p.sale, t: `Súbete a la ${escapar(p.linea)}`, s: `${Math.round(p.llega - p.sale)} min de viaje`, k: `c${color++ % 2}`, ic: picto("qrobus") }; }
+    const h = cur;
+    cur += p.min;
+    return { h, t: `Pide ${Grieta.nombreApp(p.app)}`, s: `${Math.round(p.min)} min de viaje`, k: "cam", ic: picto("app") };
+  });
+}
+function pintarLlegar() {
+  const c = llegarEstado, caja = $("caResultado");
+  if (c.offset === 0 && c.meta <= ahoraMin() + 5) return void (caja.innerHTML = '<p class="nota">Esa hora ya pasó o no da tiempo de llegar. Elige una más tarde.</p>');
+  const { camion: k, app: a, base } = salidasParaLlegar(c);
+  if (!k && !a) return void (caja.innerHTML = '<p class="nota">No encontré cómo llegar a esa hora. Prueba una hora más tarde.</p>');
+  const enCasa = c.origen.nombre === "Casa";
+  const ladoCamion = k && `<button type="button" class="hv-lado ca-l" data-ca-ver="${k.t}" aria-label="${escapar(`Sal a las ${hora(k.t)}. ${tituloOpcion(k.o)}. Ver esta ruta`)}"><span class="hv-nombre">${enCasa ? "Sal de tu casa a las" : "Sal a las"}</span><span class="hv-precio pq">${hora(k.t)}</span>${datoViaje(picto("qrobus"), escapar(tituloOpcion(k.o).replace("Qrobus ", "")))}</button>`;
+  const mejor = a && rangoAppEn(base, a.t);
+  const ladoApp = a && `<button type="button" class="hv-lado${k ? " der" : ""} ca-l" data-ca-ver="${a.t}" aria-label="${escapar(`Pide ${Grieta.nombreApp(mejor.app)} a las ${hora(a.t)}, precio estimado ${rangoVoz(limitesPrecio(mejor))}. Ver esta ruta`)}"><span class="hv-nombre">${k ? `O pide ${Grieta.nombreApp(mejor.app)} a las` : `Pide ${Grieta.nombreApp(mejor.app)} a las`}</span><span class="hv-precio${k ? "" : " pq azul"}">${hora(a.t)}</span>${datoViaje("", `Aprox. ${rangoTexto(limitesPrecio(mejor))}`)}</button>`;
+  const base2 = { dia: base.dia, minuto: k?.t ?? 0 };
+  const precioK = k ? (k.conApp ? `Aprox. ${rangoOpcion(k.o, base2) ? rangoTexto(rangoOpcion(k.o, base2)) : pesos(k.o.costo)}` : `${pesos(k.o.costo)} en Qrobus`) : "";
+  const sobra = k ? Math.round(c.meta - (k.t + k.o.minutos)) : Math.round(c.meta - (a.t + a.o.minutos));
+  const textoSobra = sobra > 0 ? `Te sobran ${sobra} min` : "Llegas justo a tiempo";
+  const lista = k ? [...pasosConHora(k, enCasa ? "Sal de tu casa" : "Sal de donde estás"), { h: k.t + k.o.minutos, t: "Llegas", s: textoSobra, k: "fin", ic: picto("flag") }] : [];
+  caja.innerHTML = `<div class="hv-caja"><div class="hv-partido${k && a ? "" : k ? " solo" : " solo solo-app"}">${k && a ? PLACAS_VIAJE : ""}${ladoCamion || ""}${ladoApp || ""}</div><div class="hv-banda"><span>${textoSobra}</span>${precioK ? `<span>${precioK}</span>` : ""}</div></div>
+    ${lista.length ? `<ol class="ca-lista">${lista.map((x) => `<li class="ca-i ${x.k}"><time>${hora(x.h)}</time><span class="ca-n">${x.ic}</span><span class="ca-tx"><b>${x.t}</b><small>${x.s}</small></span></li>`).join("")}</ol>` : ""}
+    ${k ? `<button type="button" class="boton hv-empezar" data-ca-avisa="${k.t}" data-que="${escapar(tituloOpcion(k.o))}">Avísame cuándo salir</button>` : ""}`;
+  ajustarCifras();
+  hablar([k && `En camión, sal a las ${hora(k.t)} y toma ${tituloOpcion(k.o)}.`, a && `En app, pídela a las ${hora(a.t)}.`].filter(Boolean).join(" "), false, true);
+}
+function verRutaLlegar(t) {
+  const c = llegarEstado, salir = { dia: diaDeOffset(c.offset), minuto: t };
+  $("dia").value = String(salir.dia);
+  $("hora").value = Grieta.hhmm(t);
+  if (estado.origen === c.origen && estado.destino === c.destino && capas.linea) {
+    estado.otra = salir;
+    estado.momento = ESPERAS.length;
+    calcular();
+    ir("opciones", true);
+    return;
+  }
+  estado.salidaPendiente = salir;
+  estado.origen = c.origen;
+  irA(c.destino);
+}
+$("caHora").addEventListener("input", (e) => {
+  const [h, m] = e.target.value.split(":").map(Number);
+  if (!Number.isFinite(h)) return;
+  llegarEstado.meta = h * 60 + m;
+  $("caHoraTexto").textContent = hora(llegarEstado.meta);
+  calcularLlegar(300);
+});
+$("caDias").addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  llegarEstado.offset = b.dataset.d === "otro" ? Math.max(2, llegarEstado.offset) : Number(b.dataset.d);
+  pintarLlegarCabeza();
+  calcularLlegar();
+});
+$("caOtro").addEventListener("change", (e) => { llegarEstado.offset = Number(e.target.value); pintarLlegarCabeza(); calcularLlegar(); });
+$("caResultado").addEventListener("click", (e) => {
+  const aviso = e.target.closest("[data-ca-avisa]");
+  if (aviso) return programarSalida(Number(aviso.dataset.caAvisa), aviso.dataset.que, aviso, llegarEstado.offset, llegarEstado.destino.nombre);
+  const b = e.target.closest("[data-ca-ver]");
+  if (b) verRutaLlegar(Number(b.dataset.caVer));
+});
+function llegarDesdeOpciones() {
+  let meta = Math.ceil((ahoraMin() + 60) / 5) * 5, offset = 0;
+  if (meta >= 1440) { meta = 420; offset = 1; }
+  abrirLlegarHora({ origen: estado.origen, destino: estado.destino, kmCalle: estado.kmCalle, caminatas: estado.caminatas, offset, meta });
+}
+
+// Mi horario: a que hora entras cada dia, para decirte cuando salir sin buscar el viaje.
+let miHorario = leer("grieta-horario", null), editandoHorario = null, calculoHorario = null;
+const horaCorta = (m) => hora(m).replace(/\s*[ap]\.?\s?m\.?$/i, "");
+const FLECHA_ABAJO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+function proximoHorario(h = miHorario) {
+  for (let d = 0; d < 8; d++) {
+    const meta = h.horas[diaDeOffset(d)];
+    if (meta === null || meta === undefined || (d === 0 && meta <= ahoraMin() + 5)) continue;
+    return { d, meta, dia: diaDeOffset(d) };
+  }
+  return null;
+}
+const nombreLugarHtml = (l, vacio) => (l ? `<span translate="no">${escapar(l.nombre)}</span>` : `<span>${vacio}</span>`);
+function pintarHorario() {
+  const caja = $("horarioCaja");
+  $("horarioEditar").hidden = !miHorario || Boolean(editandoHorario);
+  if (editandoHorario) return pintarEditorHorario();
+  if (!miHorario) {
+    caja.innerHTML = `<button type="button" class="hr-boton" data-h-configurar aria-label="Configura tu horario y te digo cuándo salir cada día"><span class="hv-caja hr-previa"><span class="hv-partido">${PLACAS_VIAJE}<span class="hv-lado hr-l"><span class="hv-nombre">Sal a las</span><span class="hv-precio pq hr-vacio">--:--</span><span class="hv-dato"><span>Yo te digo</span></span></span><span class="hv-lado der hr-l"><span class="hv-nombre">Entras a las</span><span class="hv-precio hr-tenue">--:--</span><span class="hv-dato"><span>Tú me dices</span></span></span></span><span class="hv-banda"><span>Configura tu horario</span>${ico("chevron", "hr-chev")}</span></span></button>`;
+    return;
+  }
+  pintarTarjetaHorario();
+}
+function pintarTarjetaHorario() {
+  const caja = $("horarioCaja"), p = proximoHorario();
+  if (!p) { miHorario = null; escribir("grieta-horario", null); return pintarHorario(); }
+  const origen = miHorario.origen ?? estado.gps ?? estado.origen ?? null;
+  const clave = JSON.stringify([miHorario, p, origen?.lat, origen?.lon, new Date().toDateString(), Math.floor(ahoraMin() / 10)]);
+  const titulo = `${textoDia(p.d)} a ${escapar(miHorario.destino.nombre)}, sal a las`;
+  const tiras = `<div class="hr-dias">${miHorario.horas.map((m, i) => `<span class="${m === null ? "" : "tiene"}${i === p.dia ? " sel" : ""}"><b>${DIAS[i][0].toUpperCase()}</b><small>${m === null ? "Libre" : horaCorta(m)}</small></span>`).join("")}</div>`;
+  const pinta = (r) => {
+    const sobra = r?.camion ? Math.round(p.meta - (r.camion.t + r.camion.o.minutos)) : null;
+    const avisos = "Notification" in window && Notification.permission === "granted";
+    caja.innerHTML = `<button type="button" class="hr-boton" data-h-ver aria-label="${escapar(`${textoDia(p.d)} a ${miHorario.destino.nombre}. ${r?.camion ? `Sal a las ${hora(r.camion.t)}` : "Calculando"}. Entras a las ${hora(p.meta)}`)}"><span class="hv-caja hr-previa"><span class="hv-partido">${PLACAS_VIAJE}<span class="hv-lado hr-l"><span class="hv-nombre">${titulo}</span><span class="hv-precio pq">${r?.camion ? hora(r.camion.t) : "--:--"}</span>${r?.camion ? datoViaje(picto("qrobus"), escapar(tituloOpcion(r.camion.o).replace("Qrobus ", ""))) : ""}</span><span class="hv-lado der hr-l"><span class="hv-nombre">Entras a las</span><span class="hv-precio">${hora(p.meta)}</span>${r?.camion ? datoViaje(picto("flag"), `Llegas ${hora(r.camion.t + r.camion.o.minutos)}`) : ""}</span></span>${r === undefined ? "" : `<span class="hv-banda"><span>${!origen ? "Necesito saber de dónde sales" : !r?.camion ? "No encontré camión a esa hora" : sobra > 0 ? `Te sobran ${sobra} min` : "Llegas justo a tiempo"}</span>${r?.camion && avisos ? "<span>Te aviso 10 min antes</span>" : ""}</span>`}</span></button>${tiras}`;
+    ajustarCifras();
+  };
+  if (!origen) { pinta(null); ubicar((ok) => { if (ok && document.body.dataset.pantalla === "inicio") pintarHorario(); }); return; }
+  if (calculoHorario?.clave === clave) return pinta(calculoHorario.r);
+  pinta(undefined);
+  if (!Grieta.qrobus) return;
+  setTimeout(() => {
+    if (document.body.dataset.pantalla !== "inicio" || !miHorario || editandoHorario) return;
+    const r = salidasParaLlegar({ origen, destino: miHorario.destino, kmCalle: miHorario.km ?? null, caminatas: undefined, offset: p.d, meta: p.meta });
+    calculoHorario = { clave, r };
+    pinta(r);
+    programarHorario(false);
+  }, 60);
+}
+function pintarEditorHorario() {
+  const e = editandoHorario, h = e.horas[e.dia], lista = e.abierta;
+  const elegido = lista === "origen" ? e.origen : e.destino;
+  const lugares = lista ? `<div class="hr-lista" role="group" aria-label="${lista === "origen" ? "Salgo de" : "Voy a"}">${guardados.map((g, i) => `<button type="button" data-h-lugar="${i}" aria-pressed="${elegido?.nombre === g.nombre}" translate="no">${escapar(g.nombre)}</button>`).join("")}${lista === "origen" ? `<button type="button" data-h-gps aria-pressed="${!e.origen}">Donde esté</button>` : ""}${guardados.length < MAX_LUGARES ? '<button type="button" data-h-nuevo>Otro lugar</button>' : ""}</div>` : "";
+  const hora_ = h === null
+    ? `<div class="hr-hora"><span>El ${DIAS[e.dia]} estás libre</span><button type="button" class="hr-poner" data-h-poner>Poner hora</button></div>`
+    : `<div class="hr-hora"><span>El ${DIAS[e.dia]} entras a las</span><div class="hr-t"><button type="button" data-h-menos aria-label="Cinco minutos menos">−</button><span class="hr-reloj"><b id="hHoraTexto">${hora(h)}</b><input id="hHora" type="time" value="${Grieta.hhmm(h)}" aria-label="Hora de entrada"></span><button type="button" data-h-mas aria-label="Cinco minutos más">+</button></div></div>`;
+  $("horarioCaja").innerHTML = `<div class="hr-editor">
+    <div class="hv-caja hr-ruta"><div class="hv-partido">${PLACAS_VIAJE}<button type="button" class="hv-lado hr-l" data-h-lista="origen" aria-expanded="${lista === "origen"}"><small>Salgo de</small><b>${e.origen ? nombreLugarHtml(e.origen) : "<span>Donde esté</span>"}${FLECHA_ABAJO}</b></button><button type="button" class="hv-lado der hr-l" data-h-lista="destino" aria-expanded="${lista === "destino"}"><small>Voy a</small><b>${nombreLugarHtml(e.destino, "Elige")}${FLECHA_ABAJO}</b></button></div></div>
+    ${lugares}${hora_}
+    <div class="hr-riel" role="group" aria-label="Días de la semana">${e.horas.map((m, i) => `<button type="button" data-h-dia="${i}" class="${m === null ? "" : "tiene"}${i === e.dia ? " sel" : ""}" aria-pressed="${i === e.dia}" aria-label="${DIAS[i]}, ${m === null ? "libre" : hora(m)}"><b>${DIAS[i][0].toUpperCase()}</b><i></i><small data-h-corta="${i}">${m === null ? "Libre" : horaCorta(m)}</small></button>`).join("")}</div>
+    ${h === null ? "" : `<div class="hr-pills"><button type="button" data-h-toda>Usar <span id="hTodaTexto">${hora(h)}</span> toda la semana</button><button type="button" data-h-libre>Este día libre</button></div>`}
+    <p id="hError" class="nota" role="alert" hidden></p>
+    <button type="button" class="boton hr-guardar" data-h-guardar>Guardar mi horario</button>
+    <div class="hr-pills"><button type="button" data-h-cancelar>Cancelar</button>${miHorario ? '<button type="button" data-h-quitar>Quitar mi horario</button>' : ""}</div>
+  </div>`;
+  ajustarCifras();
+}
+function empezarEdicionHorario() {
+  const casa = guardados.find((g) => g.nombre === "Casa");
+  editandoHorario = miHorario ? { ...miHorario, horas: [...miHorario.horas], dia: proximoHorario()?.dia ?? 0, abierta: null } : { origen: casa ?? null, destino: guardados.find((g) => g.nombre !== "Casa") ?? null, horas: [420, 420, 420, 420, 420, null, null], dia: 0, abierta: null };
+  pintarHorario();
+}
+function cambiarHoraEditor(delta) {
+  const e = editandoHorario;
+  e.horas[e.dia] = (e.horas[e.dia] + delta + 1440) % 1440;
+  $("hHoraTexto").textContent = hora(e.horas[e.dia]);
+  $("hHora").value = Grieta.hhmm(e.horas[e.dia]);
+  $("hTodaTexto").textContent = hora(e.horas[e.dia]);
+  document.querySelector(`[data-h-corta="${e.dia}"]`).textContent = horaCorta(e.horas[e.dia]);
+}
+async function guardarHorario() {
+  const e = editandoHorario, error = $("hError");
+  const falta = !e.destino ? "Elige a dónde vas." : !e.horas.some((m) => m !== null) ? "Pon la hora de al menos un día." : e.origen && e.origen.nombre === e.destino.nombre ? "Elige lugares distintos." : "";
+  if (falta) { error.textContent = falta; error.hidden = false; return; }
+  miHorario = { origen: e.origen, destino: e.destino, horas: e.horas, km: null };
+  escribir("grieta-horario", miHorario);
+  editandoHorario = null;
+  calculoHorario = null;
+  localStorage.removeItem("grieta-horario-programado");
+  pintarHorario();
+  programarHorario(true);
+  const o = miHorario.origen ?? estado.gps;
+  if (!o) return;
+  try {
+    const r = await (await fetch(`https://router.project-osrm.org/route/v1/driving/${o.lon},${o.lat};${e.destino.lon},${e.destino.lat}?overview=false`, { signal: AbortSignal.timeout(6000) })).json();
+    miHorario.km = r.routes[0].distance / 1000;
+    escribir("grieta-horario", miHorario);
+    calculoHorario = null;
+    if (document.body.dataset.pantalla === "inicio" && !editandoHorario) pintarHorario();
+  } catch {}
+}
+// Se programan los proximos tres dias con clase; el servidor guarda un solo juego por telefono, asi que se renueva al abrir la app cada dia.
+async function programarHorario(conPermiso) {
+  if (!miHorario || !API || !("Notification" in window) || !Grieta.qrobus) return;
+  if (!conPermiso && (Notification.permission !== "granted" || leer("grieta-horario-programado", "") === new Date().toDateString())) return;
+  const pendiente = leer("grieta-salida", null);
+  if (!conPermiso && (guia.activa || (pendiente && pendiente.dia === new Date().toDateString() && ahoraMin() <= pendiente.t))) return;
+  const origen = miHorario.origen ?? estado.gps;
+  if (!origen) return;
+  try {
+    const suscripcion = await suscripcionPush();
+    if (!suscripcion) return;
+    const avisos = [], destino = miHorario.destino.nombre;
+    for (let d = 0, n = 0; d < 8 && n < 3; d++) {
+      const meta = miHorario.horas[diaDeOffset(d)];
+      if (meta === null || meta === undefined) continue;
+      const { camion: k } = salidasParaLlegar({ origen, destino: miHorario.destino, kmCalle: miHorario.km ?? null, caminatas: undefined, offset: d, meta });
+      if (!k) continue;
+      const fecha = cuando(k.t, d), previa = cuando(k.t - 10, d), que = tituloOpcion(k.o);
+      if (Date.parse(fecha) <= Date.now()) continue;
+      n++;
+      if (Date.parse(previa) > Date.now()) avisos.push({ cuando: previa, titulo: `En 10 minutos sales a ${destino}`, texto: `${que}. Sal a las ${hora(k.t)}.` });
+      avisos.push({ cuando: fecha, titulo: `Ya es hora de salir a ${destino}`, texto: `${que}. Sal ahora para llegar a tiempo.` });
+    }
+    if (!avisos.length) return;
+    await llamar("/notificaciones", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ suscripcion: suscripcion.toJSON(), avisos }) });
+    escribir("grieta-horario-programado", new Date().toDateString());
+    if (document.body.dataset.pantalla === "inicio" && !editandoHorario && calculoHorario) pintarHorario();
+  } catch {}
+}
+$("horarioEditar").addEventListener("click", empezarEdicionHorario);
+$("horarioCaja").addEventListener("input", (ev) => {
+  if (ev.target.id !== "hHora" || !ev.target.value) return;
+  const [h, m] = ev.target.value.split(":").map(Number);
+  const e = editandoHorario;
+  e.horas[e.dia] = h * 60 + m;
+  $("hHoraTexto").textContent = hora(e.horas[e.dia]);
+  $("hTodaTexto").textContent = hora(e.horas[e.dia]);
+  document.querySelector(`[data-h-corta="${e.dia}"]`).textContent = horaCorta(e.horas[e.dia]);
+});
+$("horarioCaja").addEventListener("click", (ev) => {
+  const b = ev.target.closest("button");
+  if (!b) return;
+  if (b.hasAttribute("data-h-configurar")) return empezarEdicionHorario();
+  if (b.hasAttribute("data-h-ver")) {
+    const p = proximoHorario(), origen = miHorario.origen ?? estado.gps ?? estado.origen;
+    if (p && origen) abrirLlegarHora({ origen, destino: miHorario.destino, kmCalle: miHorario.km ?? null, caminatas: undefined, offset: p.d, meta: p.meta });
+    return;
+  }
+  const e = editandoHorario;
+  if (!e) return;
+  if (b.hasAttribute("data-h-mas")) return cambiarHoraEditor(5);
+  if (b.hasAttribute("data-h-menos")) return cambiarHoraEditor(-5);
+  if (b.hasAttribute("data-h-guardar")) return void guardarHorario();
+  if (b.hasAttribute("data-h-cancelar")) { editandoHorario = null; return pintarHorario(); }
+  if (b.hasAttribute("data-h-quitar")) { miHorario = null; editandoHorario = null; escribir("grieta-horario", null); localStorage.removeItem("grieta-horario-programado"); return pintarHorario(); }
+  if (b.hasAttribute("data-h-nuevo")) {
+    estado.guardando = { nombre: "" };
+    abrirBuscar("hacia");
+    $("filaDesde").hidden = true;
+    $("campoBuscar").placeholder = "Busca el lugar que quieres guardar";
+    titulos.buscar = $("tituloPantalla").textContent = "Guardar un lugar";
+    return;
+  }
+  if (b.dataset.hLista) e.abierta = e.abierta === b.dataset.hLista ? null : b.dataset.hLista;
+  else if (b.dataset.hLugar !== undefined) { e[e.abierta] = guardados[b.dataset.hLugar]; e.abierta = null; }
+  else if (b.hasAttribute("data-h-gps")) { e.origen = null; e.abierta = null; }
+  else if (b.dataset.hDia !== undefined) e.dia = Number(b.dataset.hDia);
+  else if (b.hasAttribute("data-h-poner")) e.horas[e.dia] = e.horas.find((m) => m !== null) ?? 420;
+  else if (b.hasAttribute("data-h-libre")) e.horas[e.dia] = null;
+  else if (b.hasAttribute("data-h-toda")) { const h = e.horas[e.dia]; e.horas = e.horas.map((m, i) => (i < 5 || m !== null ? h : m)); }
+  const clave = [...b.attributes].find((a) => a.name.startsWith("data-h-"));
+  pintarHorario();
+  if (clave) document.querySelector(`#horarioCaja [${clave.name}${clave.value ? `="${clave.value}"` : ""}]`)?.focus({ preventScroll: true });
 });
 
 const dialogoLugar = $("dialogoLugar");
@@ -5177,6 +5530,7 @@ Promise.all([
   pintarImpacto();
   quitarArranque();
   pintarGuardados();
+  if (document.body.dataset.pantalla === "inicio") pintarHorario();
   avisoConexion();
   sincronizarRespaldo();
   if (!primeraVez) ubicar();

@@ -2,14 +2,14 @@
   "codigo": "otq",
   "nombre": "Hñöñho (Otomí)",
   "revision": null,
-  "completa": true,
+  "completa": false,
   "provisional": true,
   "fuente": {
     "tipo": "automatica",
     "nombre": "Microsoft Translator, otomí de Querétaro (otq)",
     "url": "https://www.bing.com/translator?from=es&to=otq",
     "fecha": "2026-11-03",
-    "nota": "Traducción automática con adaptaciones breves; pendiente de revisión por hablantes.",
+    "nota": "Traducción automática con adaptaciones breves; pendiente de revisión por hablantes. Parcial: faltan los textos nuevos de la versión 241 porque el traductor alcanzó su límite.",
     "actualizado": "2026-11-09"
   },
   "mensajes": [
@@ -10091,5 +10091,5 @@
       "criterio": "Misma traducción automática de «Ahorras {v1}»."
     }
   ],
-  "parcial": false
+  "parcial": true
 }

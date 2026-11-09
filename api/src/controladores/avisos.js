@@ -77,7 +77,7 @@ export const camiones = {
 
 // Avisos con la pantalla bloqueada: la app pide uno para cierta hora y el servidor lo manda por push.
 // Las llaves VAPID viven solo en el servidor; sin ellas la ruta responde 503 y la app sigue sin push.
-const PLAZO_MAXIMO_MS = 3 * 60 * 60 * 1000;
+const PLAZO_MAXIMO_MS = 8 * 24 * 60 * 60 * 1000;
 const programados = new Map();
 
 function configurado() {

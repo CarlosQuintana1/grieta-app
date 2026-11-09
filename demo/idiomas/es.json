@@ -16445,6 +16445,624 @@
           "expresion": "interfaz"
         }
       }
+    },
+    {
+      "clave": "texto_74ae2ba95b",
+      "es": "Cerrar mapa",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_73d60c5680",
+      "es": "Mi horario",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_c08c3c4608",
+      "es": "¿A qué hora entras?",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_63d2779423",
+      "es": "Mañana",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_55133d4e6e",
+      "es": "Hoy",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_26e740c079",
+      "es": "Otro día",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_692eeaf507",
+      "es": "Te digo si conviene y Grieta aprende",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_4507bfec65",
+      "es": "Llegar a tiempo",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_bfb1b73d7a",
+      "es": "Ver ruta",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_395e3e15f7",
+      "es": "Ver ruta en app",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_0c3814207a",
+      "es": "Sin caminar",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_edbf71fc65",
+      "es": "Pagas {v1} más",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_5a8192dc9a",
+      "es": "Caminas {v1} minutos menos",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_f2cf55ecc2",
+      "es": "Caminas 1 minuto menos",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_a670bad08d",
+      "es": "min a pie",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_e3008d2904",
+      "es": "Para avisarte otro día necesito permiso de notificaciones.",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_6398362a35",
+      "es": "Te bajas y caminas",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_8ee8896a1d",
+      "es": "{v1} min a pie",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_964094210f",
+      "es": "Súbete a la {v1}",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_daf3d7e5fd",
+      "es": "No encontré cómo llegar a esa hora. Prueba una hora más tarde.",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_6c18993d9a",
+      "es": "O pide {v1} a las",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_99d9f4097b",
+      "es": "Pide {v1} a las",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_2a1515acc6",
+      "es": "{v1} en Qrobus",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_4bae9f0fa3",
+      "es": "Sal de tu casa",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_9548d4f789",
+      "es": "Sal de tu casa a las",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_d9eb34b75a",
+      "es": "Sal a las",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_20927db150",
+      "es": "Sal a las {v1}",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_b87a5086d7",
+      "es": "Yo te digo",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_fa8f3adcfc",
+      "es": "Entras a las",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_30b8cafed0",
+      "es": "Entras a las {v1}",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_12f484cd9f",
+      "es": "Tú me dices",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_216f597d7e",
+      "es": "Configura tu horario",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_a2e63ff8aa",
+      "es": "{v1} a {v2}, sal a las",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "traducir": true
+        },
+        "v2": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_162d92c98a",
+      "es": "Libre",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_32aad8bfdf",
+      "es": "Calculando",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_74a9597b42",
+      "es": "Necesito saber de dónde sales",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_81ae1db367",
+      "es": "No encontré camión a esa hora",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_1503e3d7fe",
+      "es": "Otro lugar",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_031c1df252",
+      "es": "El {v1} estás libre",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_9db909742a",
+      "es": "Poner hora",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_6e4c9e1d03",
+      "es": "El {v1} entras a las",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_3a35bcb33e",
+      "es": "Donde esté",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_a7c630c978",
+      "es": "Elige",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_91f8d706e1",
+      "es": "Días de la semana",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_820eaa6af7",
+      "es": "Usar",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_24e4ff2be1",
+      "es": "toda la semana",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_5737c01cae",
+      "es": "Este día libre",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_f6013b3ae4",
+      "es": "Elige a dónde vas.",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_a0b456ef6b",
+      "es": "Pon la hora de al menos un día.",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_b810d8b8ea",
+      "es": "Elige lugares distintos.",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_39fc6e3af9",
+      "es": "{v1}. Sal ahora para llegar a tiempo.",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_06bca500eb",
+      "es": "Llegas {v1}, {v2} min",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        },
+        "v2": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_aeed406563",
+      "es": "Otra, {v1}",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_0d03a4d912",
+      "es": "Aprox. {v1}",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_1b1b177ceb",
+      "es": "Te sobran {v1} min",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_5ea25ccb52",
+      "es": "Llegas justo a tiempo",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_eb99a7b139",
+      "es": "Te aviso 10 min antes",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_a58e09c486",
+      "es": "Cinco minutos menos",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_7b0d37c621",
+      "es": "Cinco minutos más",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_44eefeab22",
+      "es": "Hora de entrada",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_ff12aa658d",
+      "es": "Salgo de",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_02136aab15",
+      "es": "Voy a",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_6691d69fc4",
+      "es": "Guardar mi horario",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_02ad931711",
+      "es": "Quitar mi horario",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_cf9718d840",
+      "es": "Al menos",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_e735306207",
+      "es": "de gasolina más estacionamiento",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_8ccd8dfc71",
+      "es": "En tu carro",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_78314d3e1b",
+      "es": "Elige otro día",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_823f4896fa",
+      "es": "{v1} te aviso a las {v2} y a las {v3}, aunque cierres Grieta.",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "traducir": true
+        },
+        "v2": {
+          "expresion": "interfaz"
+        },
+        "v3": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_2608109169",
+      "es": "Configura tu horario y te digo cuándo salir cada día",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_c462b381a7",
+      "es": "{v1}, precio estimado {v2}",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        },
+        "v2": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_ecba281b48",
+      "es": "Sal de donde estás",
+      "contextos": [
+        "demo/app.js"
+      ]
     }
   ]
 }

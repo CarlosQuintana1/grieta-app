@@ -9673,6 +9673,366 @@
       "clave": "texto_ea06f1a98b",
       "es": "Caminas {v1} min",
       "nhe": "Tinejnemi {v1} min"
+    },
+    {
+      "clave": "texto_74ae2ba95b",
+      "es": "Cerrar mapa",
+      "nhe": "Xijtsakuili mapa"
+    },
+    {
+      "clave": "texto_73d60c5680",
+      "es": "Mi horario",
+      "nhe": "No horario"
+    },
+    {
+      "clave": "texto_c08c3c4608",
+      "es": "¿A qué hora entras?",
+      "nhe": "¿Kech hora tikalakis?"
+    },
+    {
+      "clave": "texto_63d2779423",
+      "es": "Mañana",
+      "nhe": "Mostla"
+    },
+    {
+      "clave": "texto_55133d4e6e",
+      "es": "Hoy",
+      "nhe": "Axkan"
+    },
+    {
+      "clave": "texto_26e740c079",
+      "es": "Otro día",
+      "nhe": "Seyok tonali"
+    },
+    {
+      "clave": "texto_692eeaf507",
+      "es": "Te digo si conviene y Grieta aprende",
+      "nhe": "Nimits ilhuis tla kinamiki uan Grieta momachtis"
+    },
+    {
+      "clave": "texto_4507bfec65",
+      "es": "Llegar a tiempo",
+      "nhe": "Ajsi ipan nopa tonali"
+    },
+    {
+      "clave": "texto_bfb1b73d7a",
+      "es": "Ver ruta",
+      "nhe": "Xikita ojtli"
+    },
+    {
+      "clave": "texto_395e3e15f7",
+      "es": "Ver ruta en app",
+      "nhe": "Xikita ojtli ipan app"
+    },
+    {
+      "clave": "texto_0c3814207a",
+      "es": "Sin caminar",
+      "nhe": "Amo nejnemi"
+    },
+    {
+      "clave": "texto_edbf71fc65",
+      "es": "Pagas {v1} más",
+      "nhe": "Ti tlaxtlauis {v1} más"
+    },
+    {
+      "clave": "texto_5a8192dc9a",
+      "es": "Caminas {v1} minutos menos",
+      "nhe": "Tinejnemi {v1} minutos achitzin"
+    },
+    {
+      "clave": "texto_f2cf55ecc2",
+      "es": "Caminas 1 minuto menos",
+      "nhe": "Tinejnemi 1 se minuto axpano"
+    },
+    {
+      "clave": "texto_a670bad08d",
+      "es": "min a pie",
+      "nhe": "min nejnemi"
+    },
+    {
+      "clave": "texto_e3008d2904",
+      "es": "Para avisarte otro día necesito permiso de notificaciones.",
+      "nhe": "Para nimits ilhuis seyok tonali moneki se tlajtoli tlen mits ilhuis."
+    },
+    {
+      "clave": "texto_6398362a35",
+      "es": "Te bajas y caminas",
+      "nhe": "Xitemo uan xinejnemi"
+    },
+    {
+      "clave": "texto_8ee8896a1d",
+      "es": "{v1} min a pie",
+      "nhe": "{v1} min nejnemi"
+    },
+    {
+      "clave": "texto_964094210f",
+      "es": "Súbete a la {v1}",
+      "nhe": "Xikalaki ipan {v1}"
+    },
+    {
+      "clave": "texto_daf3d7e5fd",
+      "es": "No encontré cómo llegar a esa hora. Prueba una hora más tarde.",
+      "nhe": "Ax nijpanti kenijkatsa niajsiti nepa ipan nopa tonali. Xijyejyeko se hora teipa."
+    },
+    {
+      "clave": "texto_6c18993d9a",
+      "es": "O pide {v1} a las",
+      "nhe": "O xijtlajtlani {v1} ipan"
+    },
+    {
+      "clave": "texto_99d9f4097b",
+      "es": "Pide {v1} a las",
+      "nhe": "Xijtlajtlani {v1} ipan"
+    },
+    {
+      "clave": "texto_2a1515acc6",
+      "es": "{v1} en Qrobus",
+      "nhe": "{v1} ipan Qrobus"
+    },
+    {
+      "clave": "texto_4bae9f0fa3",
+      "es": "Sal de tu casa",
+      "nhe": "Xiquisa tlen mochaj"
+    },
+    {
+      "clave": "texto_9548d4f789",
+      "es": "Sal de tu casa a las",
+      "nhe": "Xikisa mochaj ipan"
+    },
+    {
+      "clave": "texto_d9eb34b75a",
+      "es": "Sal a las",
+      "nhe": "Xikisa ipan"
+    },
+    {
+      "clave": "texto_20927db150",
+      "es": "Sal a las {v1}",
+      "nhe": "Xikisa ipan {v1}"
+    },
+    {
+      "clave": "texto_b87a5086d7",
+      "es": "Yo te digo",
+      "nhe": "Nimitsiljuia"
+    },
+    {
+      "clave": "texto_fa8f3adcfc",
+      "es": "Entras a las",
+      "nhe": "Tikalakis ipan"
+    },
+    {
+      "clave": "texto_30b8cafed0",
+      "es": "Entras a las {v1}",
+      "nhe": "Tikalakis ipan {v1}"
+    },
+    {
+      "clave": "texto_12f484cd9f",
+      "es": "Tú me dices",
+      "nhe": "Tinech iluia"
+    },
+    {
+      "clave": "texto_216f597d7e",
+      "es": "Configura tu horario",
+      "nhe": "Xijtlali mo horario"
+    },
+    {
+      "clave": "texto_a2e63ff8aa",
+      "es": "{v1} a {v2}, sal a las",
+      "nhe": "{v1} para {v2}, xikisa ipan"
+    },
+    {
+      "clave": "texto_162d92c98a",
+      "es": "Libre",
+      "nhe": "Timoseuia"
+    },
+    {
+      "clave": "texto_32aad8bfdf",
+      "es": "Calculando",
+      "nhe": "Tlapoualistli"
+    },
+    {
+      "clave": "texto_74a9597b42",
+      "es": "Necesito saber de dónde sales",
+      "nhe": "Moneki nijmatis kanke tiuala"
+    },
+    {
+      "clave": "texto_81ae1db367",
+      "es": "No encontré camión a esa hora",
+      "nhe": "Ax nijpantik se camión ipan nopa tonali"
+    },
+    {
+      "clave": "texto_1503e3d7fe",
+      "es": "Otro lugar",
+      "nhe": "Seyok tlali"
+    },
+    {
+      "clave": "texto_031c1df252",
+      "es": "El {v1} estás libre",
+      "nhe": "Nopa {v1} ta ti tlapojpoljui"
+    },
+    {
+      "clave": "texto_9db909742a",
+      "es": "Poner hora",
+      "nhe": "Xijtlali tonali"
+    },
+    {
+      "clave": "texto_6e4c9e1d03",
+      "es": "El {v1} entras a las",
+      "nhe": "Nopa {v1} tlen tijtlalis ipan"
+    },
+    {
+      "clave": "texto_3a35bcb33e",
+      "es": "Donde esté",
+      "nhe": "Kanke eltok"
+    },
+    {
+      "clave": "texto_a7c630c978",
+      "es": "Elige",
+      "nhe": "Xijtlapejpeni"
+    },
+    {
+      "clave": "texto_91f8d706e1",
+      "es": "Días de la semana",
+      "nhe": "Tonali tlen semana"
+    },
+    {
+      "clave": "texto_820eaa6af7",
+      "es": "Usar",
+      "nhe": "Xitekiui"
+    },
+    {
+      "clave": "texto_24e4ff2be1",
+      "es": "toda la semana",
+      "nhe": "nochi semana"
+    },
+    {
+      "clave": "texto_5737c01cae",
+      "es": "Este día libre",
+      "nhe": "Ni tonali tlen timoseuis"
+    },
+    {
+      "clave": "texto_f6013b3ae4",
+      "es": "Elige a dónde vas.",
+      "nhe": "Xijtlapejpeni canque tiyas."
+    },
+    {
+      "clave": "texto_a0b456ef6b",
+      "es": "Pon la hora de al menos un día.",
+      "nhe": "Xijtlali nopa hora para se tonali."
+    },
+    {
+      "clave": "texto_b810d8b8ea",
+      "es": "Elige lugares distintos.",
+      "nhe": "Xijtlapejpeni sekinok tlali."
+    },
+    {
+      "clave": "texto_39fc6e3af9",
+      "es": "{v1}. Sal ahora para llegar a tiempo.",
+      "nhe": "{v1}. Xikisa amantsi para tiajsiti ipan nopa hora."
+    },
+    {
+      "clave": "texto_06bca500eb",
+      "es": "Llegas {v1}, {v2} min",
+      "nhe": "Tiajsiti {v1}, {v2} min"
+    },
+    {
+      "clave": "texto_aeed406563",
+      "es": "Otra, {v1}",
+      "nhe": "Seyok, {v1}"
+    },
+    {
+      "clave": "texto_0d03a4d912",
+      "es": "Aprox. {v1}",
+      "nhe": "Kej nopa. {v1}"
+    },
+    {
+      "clave": "texto_1b1b177ceb",
+      "es": "Te sobran {v1} min",
+      "nhe": "Tijpia miak {v1} min"
+    },
+    {
+      "clave": "texto_5ea25ccb52",
+      "es": "Llegas justo a tiempo",
+      "nhe": "Tiajsi ipan nopa tonali"
+    },
+    {
+      "clave": "texto_eb99a7b139",
+      "es": "Te aviso 10 min antes",
+      "nhe": "Nimits ilhuis 10 se kentsi achtoui"
+    },
+    {
+      "clave": "texto_a58e09c486",
+      "es": "Cinco minutos menos",
+      "nhe": "Makuili minutos axpano"
+    },
+    {
+      "clave": "texto_7b0d37c621",
+      "es": "Cinco minutos más",
+      "nhe": "Makuili minutos más"
+    },
+    {
+      "clave": "texto_44eefeab22",
+      "es": "Hora de entrada",
+      "nhe": "Kema timokalakis"
+    },
+    {
+      "clave": "texto_ff12aa658d",
+      "es": "Salgo de",
+      "nhe": "Nikisas"
+    },
+    {
+      "clave": "texto_02136aab15",
+      "es": "Voy a",
+      "nhe": "Niyas"
+    },
+    {
+      "clave": "texto_6691d69fc4",
+      "es": "Guardar mi horario",
+      "nhe": "Xij tlaati no horario"
+    },
+    {
+      "clave": "texto_02ad931711",
+      "es": "Quitar mi horario",
+      "nhe": "Xikixti no horario"
+    },
+    {
+      "clave": "texto_cf9718d840",
+      "es": "Al menos",
+      "nhe": "Maske"
+    },
+    {
+      "clave": "texto_e735306207",
+      "es": "de gasolina más estacionamiento",
+      "nhe": "gasolina uan kampa timoketsas"
+    },
+    {
+      "clave": "texto_8ccd8dfc71",
+      "es": "En tu carro",
+      "nhe": "Ipan mocarro"
+    },
+    {
+      "clave": "texto_78314d3e1b",
+      "es": "Elige otro día",
+      "nhe": "Xijtlapejpeni seyok tonali"
+    },
+    {
+      "clave": "texto_823f4896fa",
+      "es": "{v1} te aviso a las {v2} y a las {v3}, aunque cierres Grieta.",
+      "nhe": "{v1} mits ilhuis ipan {v2} uan {v3}, maske tij tlatsakuiltis Grieta."
+    },
+    {
+      "clave": "texto_2608109169",
+      "es": "Configura tu horario y te digo cuándo salir cada día",
+      "nhe": "Xijtlali mo horario uan na nimits ilhuis kemaj ti kisas sejse tonali"
+    },
+    {
+      "clave": "texto_c462b381a7",
+      "es": "{v1}, precio estimado {v2}",
+      "nhe": "{v1}, tlaxtlauili tlen mosentlalijtok {v2}"
+    },
+    {
+      "clave": "texto_ecba281b48",
+      "es": "Sal de donde estás",
+      "nhe": "Xiquisa campa tiitztoc"
     }
   ],
   "adaptaciones": [
@@ -10005,6 +10365,16 @@
       "clave": "texto_f05b9efbf1",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe",
       "criterio": "Mayúscula inicial como en el texto fuente."
+    },
+    {
+      "clave": "texto_162d92c98a",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe",
+      "criterio": "Traducción automática de «Descansas», porque «Libre» salió como gratis."
+    },
+    {
+      "clave": "texto_0d03a4d912",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe",
+      "criterio": "Reusa la traducción automática de «Aprox.»."
     }
   ]
 }

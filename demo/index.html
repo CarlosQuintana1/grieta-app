@@ -153,6 +153,7 @@
 
   <div id="mapa" aria-hidden="true"></div>
 
+    <button id="cerrarMapa" type="button" class="cerrar-mapa" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Cerrar mapa</span></button>
   <main id="hoja" class="hoja">
     <p id="estado" class="estado" role="status"></p>
 
@@ -317,6 +318,10 @@
           <span class="lugar-icono"><svg class="picto"><use href="#p-camara"/></svg></span><span class="lugar-nombre">Describir</span>
         </button>
       </div>
+      <section id="miHorario" aria-labelledby="tituloHorario">
+        <div class="hr-cab"><h2 id="tituloHorario" class="seccion">Mi horario</h2><button id="horarioEditar" type="button" class="hr-editar" hidden>Editar</button></div>
+        <div id="horarioCaja"></div>
+      </section>
       <div id="invitaPerfil" class="invita-perfil" hidden>
         <strong>¿Te cuesta caminar o pagas Tarifa Unidos?</strong>
         <div class="invita-acciones">
@@ -380,7 +385,18 @@
       <button id="usarPunto" type="button" class="boton" hidden></button>
     </section>
 
+    <section id="llegarHora" class="pantalla" aria-labelledby="tituloPantalla" hidden>
+      <div class="ca-cab">
+        <label for="caHora">¿A qué hora entras?</label>
+        <div class="ca-reloj"><span id="caHoraTexto"></span><input id="caHora" type="time"></div>
+        <div id="caDias" class="ca-dias" role="group" aria-label="Día"><button type="button" data-d="1" aria-pressed="false">Mañana</button><button type="button" data-d="0" aria-pressed="false">Hoy</button><button type="button" data-d="otro" aria-pressed="false">Otro día</button></div>
+        <select id="caOtro" class="ca-otro" aria-label="Otro día" hidden></select>
+      </div>
+      <div id="caResultado" aria-live="polite"></div>
+    </section>
+
     <section id="opciones" class="pantalla" aria-labelledby="tituloPantalla" hidden>
+      <div id="miniMapa" class="mini-mapa" hidden></div>
       <p class="resumen-ruta" id="resumenRuta"></p>
       <div id="aPie" class="a-pie" hidden>
         <svg class="icono"><use href="#i-caminar"/></svg>
@@ -388,34 +404,36 @@
         <button id="aPieIr" type="button" class="a-pie-ir" aria-label="Empezar a caminar con guía"><svg aria-hidden="true"><use href="#i-play"/></svg></button>
       </div>
       <div id="enApp" class="en-app">
-        <h2 id="tituloEnApp" class="titulo-medio tono-anil"><span class="mini-ficha" aria-hidden="true"><svg class="picto"><use href="#p-app"/></svg></span>En app</h2>
-        <p id="llegadaApp" class="llegada-app"></p>
-        <div id="appsRapido" class="apps-rapido" role="group" aria-labelledby="tituloEnApp"></div>
-        <p id="avisoRapido" class="nota" role="status"></p>
-        <button id="compararPrecio" type="button" class="comparar-precio">
-          <span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-app"/></svg></span>
-          <span class="fila-texto"><strong>¿La app ya te dio precio?</strong><small><span>Te digo si conviene.</span><span>Con tu precio, Grieta aprende.</span></small></span>
-          <svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
-        </button>
-        <section class="seccion-viaje" aria-labelledby="tituloEspera">
+        <section class="app-partido" aria-labelledby="tituloEnApp">
+          <div class="app-cab"><h2 id="tituloEnApp"><svg class="picto" aria-hidden="true"><use href="#p-app"/></svg>En app</h2><p id="llegadaApp" class="app-llega"></p></div>
+          <div class="app-tres">
+            <svg class="app-grietas" viewBox="0 0 358 150" preserveAspectRatio="none" aria-hidden="true"><path class="app-g1" d="M0 0H117L111 37 123 75 113 112 119 150H0Z"/><path class="app-g2" d="M123 0H236L230 37 242 75 232 112 238 150H125L119 112 129 75 117 37Z"/><path class="app-g2" d="M242 0H358V150H244L238 112 248 75 236 37Z"/></svg>
+            <div id="appsRapido" class="apps-tres" role="group" aria-labelledby="tituloEnApp"></div>
+          </div>
+          <p id="avisoRapido" class="app-nota" role="status"></p>
+          <button id="compararPrecio" type="button" class="app-banda"><span><b>¿La app ya te dio precio?</b><small>Te digo si conviene y Grieta aprende</small></span><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+        </section>
+        <section class="seccion-viaje espera-riel" aria-labelledby="tituloEspera">
           <h2 id="tituloEspera">¿Conviene esperar?</h2>
           <p id="respuestaEspera" class="respuesta-espera"></p>
           <div id="espera">
-            <div id="horas" class="horas" role="group" aria-label="Precio en app según la hora de salida"></div>
-            <p class="otra-titulo"><svg class="icono" aria-hidden="true"><use href="#i-reloj"/></svg>¿Otro día u hora?</p>
-            <div id="otraHora" class="otra">
-              <label>Día
-                <select id="dia">
-                  <option value="0">Lunes</option><option value="1">Martes</option><option value="2">Miércoles</option>
-                  <option value="3">Jueves</option><option value="4">Viernes</option><option value="5">Sábado</option>
-                  <option value="6">Domingo</option>
-                </select>
-              </label>
-              <label>Hora <input id="hora" type="time"></label>
-            </div>
+            <div id="horas" class="horas-riel" role="group" aria-label="Precio en app según la hora de salida"></div>
             <p id="mejorHora" class="nota"></p>
           </div>
-    </section>
+        </section>
+        <section class="seccion-viaje otra-tarjeta" aria-labelledby="tituloOtraHora">
+          <h2 id="tituloOtraHora">¿Otro día u hora?</h2>
+          <div id="otraHora" class="otra">
+            <label>Día
+              <select id="dia">
+                <option value="0">Lunes</option><option value="1">Martes</option><option value="2">Miércoles</option>
+                <option value="3">Jueves</option><option value="4">Viernes</option><option value="5">Sábado</option>
+                <option value="6">Domingo</option>
+              </select>
+            </label>
+            <label>Hora <input id="hora" type="time"></label>
+          </div>
+        </section>
       </div>
       <div id="seguroBanda" class="seguro-banda" hidden>
         <svg class="picto" aria-hidden="true"><use href="#p-escudo"/></svg>
@@ -429,16 +447,7 @@
       <div id="tarjetas" class="tarjetas" role="group" aria-labelledby="tituloCamion"></div>
       <p id="seguroOcultas" class="seguro-ocultas" hidden><span id="seguroOcultasTexto"></span> <button id="seguroVer" type="button" class="enlace">Verlas</button></p>
 
-      <section class="seccion-viaje" aria-labelledby="tituloLlegar">
-        <h2 id="tituloLlegar">¿Tienes que llegar a una hora?</h2>
-        <div id="llegar" class="llegar">
-          <label class="campo"><span>Tengo que llegar a las</span><input id="horaLlegada" type="time"></label>
-          <button id="calcularSalida" type="button" class="boton">¿A qué hora salgo?</button>
-          <div id="salida" aria-live="polite"></div>
-        </div>
-      </section>
-
-      <div id="enCarro" class="en-carro tono-ciruela" hidden></div>
+      <div id="enCarro" class="carro-placa" hidden></div>
       <div id="estacionaSigue" class="en-carro" hidden></div>
 
       <div class="guardar">

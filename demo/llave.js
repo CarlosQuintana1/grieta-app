@@ -1,6 +1,6 @@
 // Llave de Grieta: seis palabras que guardan una copia cifrada del progreso para pasarlo a otro telefono.
 // Sin correo ni contrasena. Se cifra aqui con AES-GCM; el servidor solo guarda texto que no puede leer.
-const CLAVES_RESPALDO = ["grieta-racha", "grieta-historial", "grieta-viajes", "grieta-lugares", "grieta-recientes", "grieta-perfil", "grieta-acc", "grieta-meta-co2", "grieta-meta-ahorro"];
+const CLAVES_RESPALDO = ["grieta-racha", "grieta-historial", "grieta-viajes", "grieta-lugares", "grieta-recientes", "grieta-perfil", "grieta-acc", "grieta-meta-co2", "grieta-meta-ahorro", "grieta-horario"];
 const PALABRAS_LLAVE = 6;
 const respaldo = { palabras: leer("grieta-llave", null), version: leer("grieta-llave-version", 0), guardada: leer("grieta-llave-guardada", 0), cambios: leer("grieta-cambios", {}), derivada: null, lista: null, ocupado: false, otraVez: false, espera: 0 };
 
@@ -119,8 +119,9 @@ function aplicarRespaldo(doc) {
   viajes = leer("grieta-viajes", []);
   guardados = leer("grieta-lugares", []);
   recientes = leer("grieta-recientes", []);
+  miHorario = leer("grieta-horario", null);
   aplicarAcc();
-  if (document.body.dataset.pantalla === "inicio") { pintarGuardados(); pintarViajes(); pintarRutina(); pintarRachaInicio(); }
+  if (document.body.dataset.pantalla === "inicio") { pintarGuardados(); pintarViajes(); pintarRutina(); pintarRachaInicio(); pintarHorario(); }
   return true;
 }
 

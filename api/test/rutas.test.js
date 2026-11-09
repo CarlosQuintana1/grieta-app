@@ -326,10 +326,10 @@ describe("Avisos con la pantalla bloqueada", () => {
     const clave = await publico().get("/api/notificaciones/clave").expect(200);
     assert.equal(clave.body.clave, llaves.publicKey);
     const ok = await publico().post("/api/notificaciones")
-      .send({ suscripcion, avisos: [{ cuando: dentroDe(30), titulo: "La C69 pasa en 5 minutos" }] }).expect(201);
+      .send({ suscripcion, avisos: [{ cuando: dentroDe(60 * 24), titulo: "La C69 pasa en 5 minutos" }] }).expect(201);
     assert.equal(ok.body.programados, 1);
     await publico().post("/api/notificaciones")
-      .send({ suscripcion, avisos: [{ cuando: dentroDe(600), titulo: "Demasiado lejos" }] }).expect(400);
+      .send({ suscripcion, avisos: [{ cuando: dentroDe(60 * 24 * 9), titulo: "Demasiado lejos" }] }).expect(400);
     await publico().post("/api/notificaciones/cancelar").send({ endpoint: suscripcion.endpoint }).expect(204);
     delete process.env.VAPID_PUBLICO;
     delete process.env.VAPID_PRIVADO;
