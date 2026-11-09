@@ -3494,15 +3494,17 @@ const marcarAlcance = radios("co2Alcance", (v) => { alcanceCo2 = v; pintarCo2();
 const ponerCifra = (id, texto) => { $(id).textContent = texto; $(id).classList.toggle("larga", texto.length > 6); };
 // La primera vista llega justo a la barra: lo que sigue empieza debajo y ninguna ficha queda partida.
 function llenarPrimeraVista(id) {
-  const caja = $(id).querySelector(".primera-vista"), bloque = caja.querySelector(".bloque-hero"), barra = $("pestanas");
+  const caja = $(id).querySelector(".primera-vista"), barra = $("pestanas");
+  const bloque = [...caja.querySelectorAll(".bloque-hero")].find((b) => b.offsetParent);
   const escena = bloque.querySelector(".bloque-escena:not([hidden]) svg, .bosque:not([hidden])");
-  caja.style.minHeight = bloque.style.minHeight = escena.style.height = "";
+  caja.style.minHeight = bloque.style.minHeight = "";
+  if (escena) escena.style.height = "";
   const limite = barra.hidden ? innerHeight : barra.getBoundingClientRect().top;
   // La pantalla entra con una animacion que la baja unos pixeles: no debe contar en la medida.
   const bajada = new DOMMatrix(getComputedStyle($(id)).transform).m42;
   const espacio = limite - (caja.getBoundingClientRect().top - bajada) - 12;
   // Si faltan pocos pixeles cede la escena, recortando cielo, para que las fichas sigan a la vista.
-  const exceso = caja.offsetHeight - espacio, altoEscena = escena.getBoundingClientRect().height;
+  const exceso = caja.offsetHeight - espacio, altoEscena = escena?.getBoundingClientRect().height ?? 0;
   if (exceso > 0 && altoEscena - exceso >= 120) escena.style.height = `${altoEscena - exceso}px`;
   // Si las fichas aun asi no caben completas, el bloque llena la pantalla y ellas quedan debajo.
   if (caja.offsetHeight <= espacio) caja.style.minHeight = `${espacio}px`;
@@ -4435,9 +4437,80 @@ function abrirAhorro() {
   $("ahorroHistorico").textContent = `${pesos(total)} en total`;
   pintarMeses();
   prepararBonos();
+  pintarVistaAhorro();
   ir("ahorro");
   llenarPrimeraVista("ahorro");
 }
+// Mi meta: lo ahorrado desde el inicio del mes en que se eligio, con el camioncito rumbo a la bandera.
+const leerMeta = () => leer("grieta-meta-ahorro", null);
+let vistaAhorro = "mes";
+function pintarVistaAhorro() {
+  $("ahorroVistaMes").hidden = vistaAhorro !== "mes";
+  $("ahorroVistaMeta").hidden = vistaAhorro !== "meta";
+  if (vistaAhorro === "meta") pintarMeta();
+}
+radios("ahorroVista", (v) => { vistaAhorro = v; pintarVistaAhorro(); llenarPrimeraVista("ahorro"); });
+function cuandoLlegas(dias) {
+  if (dias <= 1) return "mañana";
+  if (dias < 14) return `en unos ${dias} días`;
+  return dias < 60 ? `en unas ${Math.round(dias / 7)} semanas` : `en unos ${Math.round(dias / 30)} meses`;
+}
+function pintarMeta() {
+  const meta = leerMeta();
+  $("metaElegir").hidden = Boolean(meta);
+  $("metaAvance").hidden = !meta;
+  if (!meta) return;
+  const creada = new Date(meta.desde), inicio = new Date(creada.getFullYear(), creada.getMonth(), 1);
+  const conAhorro = historial.filter((h) => h.ahorro > 0);
+  const lleva = Math.round(conAhorro.filter((h) => new Date(h.fecha) >= inicio).reduce((s, h) => s + h.ahorro, 0));
+  const recientes = conAhorro.filter((h) => Date.now() - new Date(h.fecha) < 28 * 864e5);
+  const suma = recientes.reduce((s, h) => s + h.ahorro, 0), porViaje = recientes.length ? suma / recientes.length : 0;
+  const falta = Math.max(0, meta.monto - lleva), avance = Math.min(1, lleva / meta.monto), lista = falta === 0;
+  ponerCifra("metaLleva", pesos(lleva));
+  $("metaPara").textContent = lista ? `Ya te alcanza para ${meta.nombre}` : `de ${pesos(meta.monto)} para ${meta.nombre}`;
+  $("metaCambiar").textContent = lista ? "Elegir otra" : "Cambiar";
+  const texto = lista ? "Meta cumplida" : suma > 0 ? `A tu ritmo llegas ${cuandoLlegas(Math.ceil(falta / (suma / 28)))}` : "Cada viaje en camión te acerca";
+  $("metaPie").innerHTML = `<span>${texto}</span><b class="meta-pct">${Math.floor(avance * 100)}%</b>`;
+  const A = ARTE_ESC.ahorro, escala = 0.55, izquierda = 6 + avance * 372;
+  const bandera = `<g transform="translate(574 194)"><rect x="-3" y="-96" width="6" height="96" fill="#3a2f22"/><path d="M3-96h54l-12 17 12 17H3z" fill="#d9483b"/></g>`;
+  $("metaEscena").innerHTML = `${A[horario()]}${bandera}<g transform="translate(${(izquierda - escala * 158).toFixed(1)} ${(194 * (1 - escala)).toFixed(1)}) scale(${escala})">${A[`nivel${Math.min(5, Math.ceil(avance * 5))}`]}</g><g transform="translate(330 340) scale(${(0.66 / ESCALA_TL).toFixed(3)})">${tlacuache(lista ? 5 : 4)}</g>`;
+  $("metaEscena").setAttribute("aria-label", `Camioncito al ${Math.floor(avance * 100)}% del camino a tu meta`);
+  const viajes = porViaje ? Math.ceil(falta / porViaje) : 0;
+  const fichas = lista ? [] : [["pantalla", "monedas", pesos(falta), "te faltan"], viajes && ["qrobus", "qrobus", String(viajes), viajes === 1 ? "viaje más" : "viajes más"], porViaje && ["gasolina", "monedas", pesos(porViaje), "ahorras por viaje"]].filter(Boolean);
+  $("metaFichas").hidden = !fichas.length;
+  $("metaFichas").innerHTML = fichas.map(([c, p, cifra, t]) => `<li class="eq-${c}">${picto(p)}<strong>${cifra}</strong><span>${t}</span></li>`).join("");
+}
+function guardarMeta(nombre, monto) {
+  escribir("grieta-meta-ahorro", { nombre, monto, desde: new Date().toISOString() });
+  pintarMeta();
+  llenarPrimeraVista("ahorro");
+}
+$("metaOpciones").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-meta]");
+  if (b) guardarMeta(b.dataset.meta, Number(b.dataset.monto));
+});
+$("metaOtra").addEventListener("click", () => {
+  $("metaOpciones").hidden = $("metaOtra").hidden = true;
+  $("metaForma").hidden = false;
+  $("metaNombre").focus();
+});
+$("metaForma").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const nombre = $("metaNombre").value.trim().replace(/\s+/g, " "), monto = Math.round(Number($("metaMonto").value));
+  if (!nombre) return void ($("metaError").textContent = "Escribe qué quieres.");
+  if (!nombrePermitido(nombre)) return void ($("metaError").textContent = "Ese nombre no se vale. Elige otro.");
+  if (!(monto >= 50 && monto <= 100000)) return void ($("metaError").textContent = "Escribe una cantidad entre $50 y $100000.");
+  guardarMeta(nombre, monto);
+});
+$("metaCambiar").addEventListener("click", () => {
+  escribir("grieta-meta-ahorro", null);
+  $("metaForma").reset();
+  $("metaError").textContent = "";
+  $("metaForma").hidden = true;
+  $("metaOpciones").hidden = $("metaOtra").hidden = false;
+  pintarMeta();
+  llenarPrimeraVista("ahorro");
+});
 function prepararBonos() {
   const deGrieta = viajesDeHistorial();
   bono.semana = deGrieta || 10;
@@ -4652,8 +4725,11 @@ function pintarResumenPerfil() {
   // Tres iconos a la vista; el lector de pantalla escucha la frase completa.
   const frasePerfil = [vista, movimiento, tarifa].map(([, t], i) => (i ? t.charAt(0).toLowerCase() + t.slice(1) : t)).join(", ");
   $("textoPerfil").innerHTML = [acc.modoVoz ? "altavoz" : vista[0], movimiento[0], tarifa[0]].map((i) => `<i aria-hidden="true">${ico(i)}</i>`).join("") + `<span class="oculto">${escapar(frasePerfil)}</span>`;
-  $("credencialIconos").innerHTML = [acc.modoVoz ? "decir" : "ojo", movimiento[0] === "silla" ? "silla" : "caminar", "qrobus"].map((p) => `<i>${picto(p)}</i>`).join("");
   const elegida = acc.gasolina ?? "magna";
+  // Solo quien tiene carro lleva el icono, en el color de su gasolina.
+  const iconoGasolina = acc.modoVoz || elegida === "no" ? "" : `<i class="gas-${elegida}">${picto("gasolina")}</i>`;
+  $("textoPerfil").insertAdjacentHTML("beforeend", iconoGasolina);
+  $("credencialIconos").innerHTML = [acc.modoVoz ? "decir" : "ojo", movimiento[0] === "silla" ? "silla" : "caminar", "qrobus"].map((p) => `<i>${picto(p)}</i>`).join("") + iconoGasolina;
   const gasolina = acc.modoVoz ? "" : `<div class="perfil-ficha ancha tono-salud">${picto("gasolina")}<span class="perfil-ficha-texto"><small>Tu carro usa</small><b>Gasolina</b></span>
     <span class="perfil-gasolina" role="group" aria-label="Qué gasolina le pones a tu carro">${[["magna", "Verde", "Gasolina verde"], ["premium", "Roja", "Gasolina roja"], ["no", "No", "No tengo carro"]].map(([v, t, nombre]) => `<button type="button" data-gasolina="${v}" aria-pressed="${v === elegida}" aria-label="${nombre}">${t}</button>`).join("")}</span></div>`;
   $("perfilFichas").innerHTML = fichasPerfil().map(([grupo, tono, icono, etiqueta, valor, nombrePropio]) =>
@@ -4852,6 +4928,10 @@ function abrirPerfil() {
   marcarForma(acc.facil ? "facil" : "completa");
   actualizarFilasPerfil();
   ir("perfil");
+  // Las fichas llegan hasta la barra de abajo, sin contar los pixeles de la animacion de entrada.
+  const fichas = $("perfilFichas"), barra = $("pestanas");
+  fichas.style.minHeight = "";
+  fichas.style.minHeight = `${Math.max(0, (barra.hidden ? innerHeight : barra.getBoundingClientRect().top) - (fichas.getBoundingClientRect().top - new DOMMatrix(getComputedStyle($("perfil")).transform).m42) - 12)}px`;
 }
 $("abrirPerfil").addEventListener("click", abrirPerfil);
 $("resumenPerfil").addEventListener("click", abrirPerfil);

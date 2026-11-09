@@ -547,6 +547,11 @@
 
     <section id="ahorro" class="pantalla" aria-labelledby="tituloPantalla" hidden>
       <div class="primera-vista">
+        <div id="ahorroVista" class="segmento" role="radiogroup" aria-label="Qué quieres ver de tu ahorro">
+          <button type="button" role="radio" aria-checked="true" data-v="mes">Este mes</button>
+          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-v="meta">Mi meta</button>
+        </div>
+        <div id="ahorroVistaMes" class="vista-ahorro">
         <div class="bloque-hero bloque-ambar">
           <p class="bloque-cifra"><strong id="ahorroTotal"></strong></p>
           <p id="ahorroQuien" class="bloque-sub"></p>
@@ -555,6 +560,33 @@
         </div>
         <h2 id="tituloEquivaleAhorro" class="oculto">Eso equivale a</h2>
         <ul id="ahorroEquivale" class="equivale-color"></ul>
+        </div>
+        <div id="ahorroVistaMeta" class="vista-ahorro" hidden>
+          <div id="metaElegir" class="vista-ahorro" hidden>
+            <div class="bloque-hero bloque-ambar">
+              <p class="bloque-cifra meta-pregunta"><strong>¿Para qué ahorras?</strong></p>
+              <p class="bloque-sub">Elige una meta y tu camioncito avanza con cada viaje.</p>
+              <div id="metaOpciones" class="meta-opciones"><button type="button" class="meta-opcion m-verde" data-meta="un antojo" data-monto="150"><svg class="picto" aria-hidden="true"><use href="#p-cafe"/></svg><span><b>Un antojo</b><small>$150</small></span></button><button type="button" class="meta-opcion m-rojo" data-meta="una salida" data-monto="500"><svg class="picto" aria-hidden="true"><use href="#p-plaza"/></svg><span><b>Una salida</b><small>$500</small></span></button><button type="button" class="meta-opcion m-cafe" data-meta="la despensa" data-monto="1200"><svg class="picto" aria-hidden="true"><use href="#p-super"/></svg><span><b>La despensa</b><small>$1200</small></span></button><button type="button" class="meta-opcion m-anil" data-meta="un celular" data-monto="5000"><svg class="picto" aria-hidden="true"><use href="#p-celular"/></svg><span><b>Un celular</b><small>$5000</small></span></button></div>
+              <button id="metaOtra" type="button" class="meta-otra">Otra cosa</button>
+              <form id="metaForma" class="meta-forma" hidden>
+                <label class="campo"><span>¿Qué quieres?</span><input id="metaNombre" type="text" maxlength="24" autocomplete="off" enterkeyhint="next"></label>
+                <label class="campo"><span>¿Cuánto cuesta?</span><input id="metaMonto" type="number" inputmode="numeric" min="50" max="100000" enterkeyhint="done"></label>
+                <button type="submit" class="meta-otra">Guardar meta</button>
+                <p id="metaError" class="meta-error" role="status"></p>
+              </form>
+            </div>
+          </div>
+          <div id="metaAvance" class="vista-ahorro" hidden>
+            <div class="bloque-hero bloque-ambar">
+              <button id="metaCambiar" type="button" class="meta-cambiar">Cambiar</button>
+              <p class="bloque-cifra"><strong id="metaLleva"></strong></p>
+              <p id="metaPara" class="bloque-sub"></p>
+              <div class="bloque-escena"><svg id="metaEscena" viewBox="0 0 640 360" preserveAspectRatio="xMidYMax slice" role="img"></svg></div>
+              <p id="metaPie" class="bloque-pie"></p>
+            </div>
+            <ul id="metaFichas" class="equivale-color"></ul>
+          </div>
+        </div>
       </div>
       <div id="ahorroMesesCaja" class="co2-semanas-caja">
         <div class="co2-semanas-cabeza"><h2>Tus meses</h2><span id="ahorroHistorico"></span></div>

@@ -8158,6 +8158,146 @@
       "clave": "texto_00f7332f3b",
       "es": "{v1} min de viaje, {v2} min más que en app",
       "nhe": "{v1} min viaje, {v2} min más que en app"
+    },
+    {
+      "clave": "texto_86083d8cff",
+      "es": "Este mes",
+      "nhe": "Ni metstli"
+    },
+    {
+      "clave": "texto_b460a45311",
+      "es": "Mi meta",
+      "nhe": "notlanekilis"
+    },
+    {
+      "clave": "texto_dfa36237b8",
+      "es": "Qué quieres ver de tu ahorro",
+      "nhe": "¿Tlake tijneki tikitas tlen tijsentilijtok?"
+    },
+    {
+      "clave": "texto_1ef74d3dcc",
+      "es": "¿Para qué ahorras?",
+      "nhe": "¿Tlake tijsentilia?"
+    },
+    {
+      "clave": "texto_3ebea3ad1e",
+      "es": "Elige una meta y tu camioncito avanza con cada viaje.",
+      "nhe": "Xijtlapejpeni se meta uan mo pilcamión yas tlayakapan ika sejse viaje."
+    },
+    {
+      "clave": "texto_04f83a00a4",
+      "es": "Un antojo",
+      "nhe": "se tlanekilis"
+    },
+    {
+      "clave": "texto_b1f1cdd102",
+      "es": "Una salida",
+      "nhe": "se kisalistli"
+    },
+    {
+      "clave": "texto_fb849cd97b",
+      "es": "La despensa",
+      "nhe": "Nopa tlakualchijchiuali"
+    },
+    {
+      "clave": "texto_f664abbfea",
+      "es": "Un celular",
+      "nhe": "se celular"
+    },
+    {
+      "clave": "texto_14fe4ea784",
+      "es": "¿Qué quieres?",
+      "nhe": "¿Tlaque tijnequi?"
+    },
+    {
+      "clave": "texto_b07d9f263b",
+      "es": "¿Cuánto cuesta?",
+      "nhe": "¿Quesqui ipati?"
+    },
+    {
+      "clave": "texto_3d2b76f0ea",
+      "es": "Guardar meta",
+      "nhe": "Xij tlaati meta"
+    },
+    {
+      "clave": "texto_fe950480af",
+      "es": "Elegir otra",
+      "nhe": "Xijtlapejpeni seyok"
+    },
+    {
+      "clave": "texto_ffac4c4035",
+      "es": "Meta cumplida",
+      "nhe": "Tlajtlanili tlen tlami"
+    },
+    {
+      "clave": "texto_b410c144d9",
+      "es": "A tu ritmo llegas mañana",
+      "nhe": "Ika tlen ta tijneki tias mostla"
+    },
+    {
+      "clave": "texto_5c93435d58",
+      "es": "Cada viaje en camión te acerca",
+      "nhe": "Nochi tlauilankayotl ipan camión mitsnechkauia"
+    },
+    {
+      "clave": "texto_fb4578ec3a",
+      "es": "te faltan",
+      "nhe": "ti poliui"
+    },
+    {
+      "clave": "texto_646014a075",
+      "es": "viajes más",
+      "nhe": "más viajes"
+    },
+    {
+      "clave": "texto_7aac117af1",
+      "es": "viaje más",
+      "nhe": "xinejnemi más"
+    },
+    {
+      "clave": "texto_b4bbb76dd6",
+      "es": "ahorras por viaje",
+      "nhe": "tijtlaatijtok sejse viaje"
+    },
+    {
+      "clave": "texto_fa44039a65",
+      "es": "Escribe qué quieres.",
+      "nhe": "Xikijkuilo tlen tijneki."
+    },
+    {
+      "clave": "texto_52fb0f3f46",
+      "es": "Escribe una cantidad entre $50 y $100000.",
+      "nhe": "Xikijkuilo se tomij tlen eltok tlatlajko tlen $50 uan $100000."
+    },
+    {
+      "clave": "texto_a5fbf5c3e3",
+      "es": "de {v1} para {v2}",
+      "nhe": "tlen {v1} hasta {v2}"
+    },
+    {
+      "clave": "texto_088a55f1d1",
+      "es": "Ya te alcanza para {v1}",
+      "nhe": "Ya tijpixtok tlen moneki para {v1}"
+    },
+    {
+      "clave": "texto_e4c17a4034",
+      "es": "A tu ritmo llegas en unos {v1} días",
+      "nhe": "Ika mo ritmo tiajsiti ipan se keski tonali {v1}"
+    },
+    {
+      "clave": "texto_32a74a18f9",
+      "es": "A tu ritmo llegas en unas {v1} semanas",
+      "nhe": "Ika mo ritmo tiajsiti ipan se keski semanas {v1}"
+    },
+    {
+      "clave": "texto_707c7506cf",
+      "es": "A tu ritmo llegas en unos {v1} meses",
+      "nhe": "Tiajsiti ipan mo ritmo ipan kanaj {v1} metstli"
+    },
+    {
+      "clave": "texto_96a199714e",
+      "es": "Camioncito al {v1}% del camino a tu meta",
+      "nhe": "Nopa pilcamión {v1}% ipan ojtli kampa tijneki tias"
     }
   ],
   "adaptaciones": [

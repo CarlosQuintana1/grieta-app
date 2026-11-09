@@ -14054,6 +14054,240 @@
           "formato": "numero"
         }
       }
+    },
+    {
+      "clave": "texto_86083d8cff",
+      "es": "Este mes",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_b460a45311",
+      "es": "Mi meta",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_dfa36237b8",
+      "es": "Qué quieres ver de tu ahorro",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_1ef74d3dcc",
+      "es": "¿Para qué ahorras?",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_3ebea3ad1e",
+      "es": "Elige una meta y tu camioncito avanza con cada viaje.",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_04f83a00a4",
+      "es": "Un antojo",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_b1f1cdd102",
+      "es": "Una salida",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_fb849cd97b",
+      "es": "La despensa",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_f664abbfea",
+      "es": "Un celular",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_14fe4ea784",
+      "es": "¿Qué quieres?",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_b07d9f263b",
+      "es": "¿Cuánto cuesta?",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_3d2b76f0ea",
+      "es": "Guardar meta",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_fe950480af",
+      "es": "Elegir otra",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_ffac4c4035",
+      "es": "Meta cumplida",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_b410c144d9",
+      "es": "A tu ritmo llegas mañana",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_5c93435d58",
+      "es": "Cada viaje en camión te acerca",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_fb4578ec3a",
+      "es": "te faltan",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_646014a075",
+      "es": "viajes más",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_7aac117af1",
+      "es": "viaje más",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_b4bbb76dd6",
+      "es": "ahorras por viaje",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_fa44039a65",
+      "es": "Escribe qué quieres.",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_52fb0f3f46",
+      "es": "Escribe una cantidad entre $50 y $100000.",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_a5fbf5c3e3",
+      "es": "de {v1} para {v2}",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "importe"
+        },
+        "v2": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_088a55f1d1",
+      "es": "Ya te alcanza para {v1}",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_e4c17a4034",
+      "es": "A tu ritmo llegas en unos {v1} días",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_32a74a18f9",
+      "es": "A tu ritmo llegas en unas {v1} semanas",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_707c7506cf",
+      "es": "A tu ritmo llegas en unos {v1} meses",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_96a199714e",
+      "es": "Camioncito al {v1}% del camino a tu meta",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
     }
   ]
 }

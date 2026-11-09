@@ -8157,6 +8157,146 @@
       "clave": "texto_00f7332f3b",
       "es": "{v1} min de viaje, {v2} min más que en app",
       "otq": "{v1} min ar viajes, {v2} min mäs da jar nt'ot'e"
+    },
+    {
+      "clave": "texto_86083d8cff",
+      "es": "Este mes",
+      "otq": "Nuna ar zänä"
+    },
+    {
+      "clave": "texto_b460a45311",
+      "es": "Mi meta",
+      "otq": "Ma objetivo"
+    },
+    {
+      "clave": "texto_dfa36237b8",
+      "es": "Qué quieres ver de tu ahorro",
+      "otq": "¿Temu̲ gí ne ga ja ir t'o̲t'e?"
+    },
+    {
+      "clave": "texto_1ef74d3dcc",
+      "es": "¿Para qué ahorras?",
+      "otq": "¿Temu̲ gi kwati?"
+    },
+    {
+      "clave": "texto_3ebea3ad1e",
+      "es": "Elige una meta y tu camioncito avanza con cada viaje.",
+      "otq": "Da 'ñets'i 'nar objetivo ne ár pequeño bo̲jä avanza ko ya viaje."
+    },
+    {
+      "clave": "texto_04f83a00a4",
+      "es": "Un antojo",
+      "otq": "'Nar nts'o̲t'e"
+    },
+    {
+      "clave": "texto_b1f1cdd102",
+      "es": "Una salida",
+      "otq": "'Nar 'ñeni"
+    },
+    {
+      "clave": "texto_fb849cd97b",
+      "es": "La despensa",
+      "otq": "Ya 'ña̲i"
+    },
+    {
+      "clave": "texto_f664abbfea",
+      "es": "Un celular",
+      "otq": "'Nar teléfono celular"
+    },
+    {
+      "clave": "texto_14fe4ea784",
+      "es": "¿Qué quieres?",
+      "otq": "¿Temu̲ gi ne?"
+    },
+    {
+      "clave": "texto_b07d9f263b",
+      "es": "¿Cuánto cuesta?",
+      "otq": "¿Tengu ar njut'i?"
+    },
+    {
+      "clave": "texto_3d2b76f0ea",
+      "es": "Guardar meta",
+      "otq": "Guardar objetivo"
+    },
+    {
+      "clave": "texto_fe950480af",
+      "es": "Elegir otra",
+      "otq": "Gi jwahni ma'na"
+    },
+    {
+      "clave": "texto_ffac4c4035",
+      "es": "Meta cumplida",
+      "otq": "Objetivo alcanzado"
+    },
+    {
+      "clave": "texto_b410c144d9",
+      "es": "A tu ritmo llegas mañana",
+      "otq": "Ir 'me̲i gí zo̲ni ar xudi"
+    },
+    {
+      "clave": "texto_5c93435d58",
+      "es": "Cada viaje en camión te acerca",
+      "otq": "Kadu̲ 'nar viaje ar camión gi acercamos ar mäs getu'bu̲"
+    },
+    {
+      "clave": "texto_fb4578ec3a",
+      "es": "te faltan",
+      "otq": "Nu'i gí t'ot'e"
+    },
+    {
+      "clave": "texto_646014a075",
+      "es": "viajes más",
+      "otq": "Mäs viajes"
+    },
+    {
+      "clave": "texto_7aac117af1",
+      "es": "viaje más",
+      "otq": "'nar viaje ma'na"
+    },
+    {
+      "clave": "texto_b4bbb76dd6",
+      "es": "ahorras por viaje",
+      "otq": "Ahorras ya viaje"
+    },
+    {
+      "clave": "texto_fa44039a65",
+      "es": "Escribe qué quieres.",
+      "otq": "Gi 'yot'i nä'ä gi ne gi ne"
+    },
+    {
+      "clave": "texto_52fb0f3f46",
+      "es": "Escribe una cantidad entre $50 y $100000.",
+      "otq": "Gi 'yot'i 'nar yá 'bede $50 ne $100000"
+    },
+    {
+      "clave": "texto_a5fbf5c3e3",
+      "es": "de {v1} para {v2}",
+      "otq": "ar {v1} da {v2}"
+    },
+    {
+      "clave": "texto_088a55f1d1",
+      "es": "Ya te alcanza para {v1}",
+      "otq": "Ya tsa̲ da zo̲ni jar {v1}"
+    },
+    {
+      "clave": "texto_e4c17a4034",
+      "es": "A tu ritmo llegas en unos {v1} días",
+      "otq": "Ja ir 'me̲i, llegará jar 'ra pa {v1}"
+    },
+    {
+      "clave": "texto_32a74a18f9",
+      "es": "A tu ritmo llegas en unas {v1} semanas",
+      "otq": "Ja ir 'me̲i, llegará jar 'ra ya su̲mänä {v1}"
+    },
+    {
+      "clave": "texto_707c7506cf",
+      "es": "A tu ritmo llegas en unos {v1} meses",
+      "otq": "Ja ir 'me̲i, llegará jar aproximadamente {v1} ya zänä"
+    },
+    {
+      "clave": "texto_96a199714e",
+      "es": "Camioncito al {v1}% del camino a tu meta",
+      "otq": "Pequeño dätä bo̲jä jar {v1}% ar 'ñu ja ár meta"
     }
   ],
   "adaptaciones": [

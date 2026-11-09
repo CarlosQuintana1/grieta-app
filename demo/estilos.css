@@ -1884,7 +1884,8 @@ html.grande .equivale-color li { grid-template-columns: auto auto 1fr; align-ite
 .credencial-iconos { display: flex; gap: 7px; margin-top: 6px; }
 .credencial-iconos i { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; background: #1c1408; color: #e0a03c; }
 .credencial-iconos .picto { width: 22px; height: 22px; }
-.perfil-fichas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
+#perfil:not([hidden]) { display: flex; flex-direction: column; min-height: 100%; }
+.perfil-fichas { flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(92px, 1fr); gap: 10px; margin-top: 10px; }
 .perfil-ficha { position: relative; display: grid; align-content: space-between; justify-items: start; min-height: 92px; padding: 11px 12px; overflow: hidden; border-radius: 22px; background: var(--tono); color: #fff; text-align: left; }
 .perfil-ficha > .picto { width: 30px; height: 30px; }
 .perfil-ficha > .chevron { position: absolute; top: 13px; right: 12px; width: 18px; height: 18px; opacity: .7; stroke-width: 2.6; }
@@ -1895,7 +1896,7 @@ html.grande .equivale-color li { grid-template-columns: auto auto 1fr; align-ite
 .perfil-gasolina { display: flex; gap: 5px; }
 .perfil-gasolina button { min-width: 44px; height: 44px; padding: 0 10px; border-radius: 999px; background: rgb(255 255 255 / 16%); color: #fff; font-size: .78rem; font-weight: 800; }
 .perfil-gasolina button[aria-pressed="true"] { background: #fff; color: var(--tono); }
-html.grande .perfil-fichas { grid-template-columns: 1fr; }
+html.grande .perfil-fichas { flex: none; grid-template-columns: 1fr; grid-auto-rows: auto; }
 html.grande .perfil-ficha.ancha { grid-template-columns: auto 1fr; }
 html.grande .perfil-gasolina { grid-column: 1 / -1; justify-content: stretch; }
 html.grande .perfil-gasolina button { flex: 1; }
@@ -1918,4 +1919,32 @@ html.grande .perfil-gasolina button { flex: 1; }
   .hoja-perfil[open] { animation: subir-hoja .26s cubic-bezier(.2, .9, .3, 1); }
   @keyframes subir-hoja { from { transform: translateY(100%); } }
 }
-@media (max-height: 640px) { .credencial { padding: 10px 14px; } .credencial-foto { width: 76px; height: 76px; border-radius: 20px; } .credencial strong { font-size: 1.9rem; } .perfil-ficha { min-height: 70px; padding: 8px 10px; } .perfil-ficha > .picto { width: 24px; height: 24px; } .perfil-ficha.ancha { min-height: 58px; } }
+@media (max-height: 640px) { .credencial { padding: 10px 14px; } .credencial-foto { width: 76px; height: 76px; border-radius: 20px; } .credencial strong { font-size: 1.9rem; } .perfil-ficha { min-height: 70px; padding: 8px 10px; } .perfil-ficha > .picto { width: 24px; height: 24px; } .perfil-ficha.ancha { min-height: 58px; } .perfil-fichas { grid-auto-rows: minmax(70px, 1fr); gap: 8px; } }
+
+/* Icono de gasolina en el color que eligio la persona */
+:is(.credencial-iconos, #textoPerfil) i.gas-magna { color: #5fc98c; }
+:is(.credencial-iconos, #textoPerfil) i.gas-premium { color: #f0766b; }
+#textoPerfil .picto { width: 19px; height: 19px; }
+
+/* Tu ahorro: dos pestanas como en CO2; Mi meta lleva al camioncito rumbo a la bandera */
+.vista-ahorro:not([hidden]) { display: contents; }
+#ahorroVista button[aria-checked="true"] { background: #e0a03c; color: #1c1408; }
+.bloque-hero { position: relative; }
+.meta-cambiar { position: absolute; top: 14px; right: 14px; z-index: 1; min-height: 40px; padding: 0 15px; border-radius: 999px; background: #1c1408; color: #e0a03c; font-size: .84rem; font-weight: 800; }
+.meta-pct { flex: none; font-size: 1.3rem; font-weight: 800; letter-spacing: -.02em; }
+.meta-pregunta strong { font-size: min(9.4vw, 2.3rem); letter-spacing: -.03em; line-height: 1.05; white-space: normal; }
+.meta-opciones { flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(86px, 1fr); gap: 8px; }
+.meta-opciones[hidden], .meta-otra[hidden], .meta-forma[hidden] { display: none; }
+.meta-opcion { display: grid; align-content: space-between; justify-items: start; padding: 11px 12px; border-radius: 20px; color: #fff; text-align: left; }
+.meta-opcion .picto { width: 30px; height: 30px; }
+.meta-opcion b { display: block; font-size: 1.1rem; font-weight: 800; line-height: 1.1; }
+.meta-opcion small { display: block; font-size: .86rem; font-weight: 700; opacity: .92; }
+.m-verde { background: #1f6b46; } .m-rojo { background: #a8362c; } .m-cafe { background: #7a5a18; } .m-anil { background: #434f8c; }
+.meta-otra { width: 100%; min-height: 54px; margin-top: 8px; border-radius: 18px; background: #1c1408; color: #e0a03c; font-weight: 800; text-align: center; }
+#metaLleva { font-size: min(14vw, 3.4rem); }
+.meta-forma { display: grid; gap: 8px; }
+.meta-forma .campo { margin: 0; background: #1c1408; color: #f6f2ea; }
+.meta-forma .campo input { color: #f6f2ea; }
+.meta-error { margin: 0; font-size: .9rem; font-weight: 800; }
+.meta-error:empty { display: none; }
+@media (max-height: 640px) { .meta-pregunta strong { font-size: 1.5rem; } #metaElegir .bloque-sub { display: none; } .meta-opciones { margin-top: 8px; grid-auto-rows: minmax(62px, 1fr); } .meta-opcion { padding: 8px 10px; } .meta-opcion .picto { width: 22px; height: 22px; } .meta-otra { min-height: 46px; } }
