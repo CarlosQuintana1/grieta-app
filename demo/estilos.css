@@ -407,7 +407,9 @@ body.alerta :focus-visible { outline-color: #0b0a09; }
 .hora-camion small { color: var(--tenue); font-size: 0.75rem; }
 .avisos { display: grid; gap: 10px; }
 .otras { margin-top: 22px; }
-.parada-alternativa { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 10px 0; color: var(--tinta); text-align: left; border-bottom: 1px solid var(--linea); }
+.parada-alternativa { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 10px 0; color: var(--tinta); text-align: left; }
+/* La raya separa una parada de otra y nunca toca las fichas de camion. */
+.otras .fichas-linea + .parada-alternativa, .otras .nota + .parada-alternativa { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--linea); }
 .parada-alternativa strong { color: var(--ambar); font-weight: 650; }
 .parada-alternativa .tenue { flex: none; color: var(--tenue); font-size: 0.85rem; }
 .comparacion-paradas { margin-top: 24px; }
@@ -684,6 +686,11 @@ button:active, .boton:active, .chip:active, .tarjeta:active, .app-fila:active, .
 .sugerencia .mini-ficha { width: 48px; height: 48px; }
 .en-carro { display: flex; align-items: center; gap: 12px; margin-top: 18px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
 .en-carro .fila-texto strong { font-weight: 700; }
+#enCarro { --carro: #c62828; background: var(--carro); color: #fff; }
+html.daltonico #enCarro { --carro: #8a2c5a; }
+html.contraste #enCarro { --carro: #9c1d16; }
+#enCarro .fila-texto small { color: #fff; }
+#enCarro .mini-ficha { background: #fff; color: var(--carro); }
 #estacionaSigue { margin-top: 10px; }
 .instalar { display: flex; align-items: center; gap: 12px; margin-top: 22px; padding: 12px 10px 12px 14px; border-radius: var(--radio); background: var(--superficie); }
 .instalar img { flex: none; border-radius: 12px; }
@@ -1727,6 +1734,11 @@ body[data-pantalla="ajuste"] .hoja { padding-bottom: 12px; }
 .par-nota { margin: 8px 3px 0; color: var(--tenue); font-size: .82rem; line-height: 1.3; }
 #ajuste .opciones-toques { margin-top: 16px; }
 .ayuda-tutorial { margin-top: 12px; }
+.ver-tutorial { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 72px; margin-top: 14px; padding: 12px 14px; text-align: left; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); color: var(--tinta); }
+.ver-tutorial .mini-ficha { --tono: var(--ambar); color: var(--sobre-ambar); }
+.ver-tutorial .mini-ficha .icono { fill: currentColor; }
+.ver-tutorial .fila-texto strong { font-weight: 700; }
+.ver-tutorial .chevron { flex: none; color: var(--tenue); }
 .linea-tiempo { gap: 0; }
 .linea-tiempo li { position: relative; padding: 0 2px 18px; background: none; border-radius: 0; }
 .linea-tiempo li:last-child { padding-bottom: 2px; }

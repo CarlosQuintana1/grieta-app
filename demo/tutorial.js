@@ -90,6 +90,7 @@ const TutorialGrieta = (() => {
   function iniciar(config) {
     opciones = config;
     $('abrirTutorial').addEventListener('click', () => abrir('ajustes'));
+    $('verTutorial').addEventListener('click', () => abrir('inicio'));
     $('tutorialContinuar').addEventListener('click', () => {
       if (paso === pasos.length - 1) return terminar(true);
       paso++; entrar();
