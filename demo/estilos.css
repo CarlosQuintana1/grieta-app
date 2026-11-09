@@ -686,10 +686,6 @@ button:active, .boton:active, .chip:active, .tarjeta:active, .app-fila:active, .
 .sugerencia .mini-ficha { width: 48px; height: 48px; }
 .en-carro { display: flex; align-items: center; gap: 12px; margin-top: 18px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
 .en-carro .fila-texto strong { font-weight: 700; }
-#enCarro { --carro: var(--tono); background: var(--carro); color: #fff; }
-#enCarro .fila-texto small { color: #fff; }
-#enCarro .carro-co2 { font-weight: 700; }
-#enCarro .mini-ficha { background: #fff; color: var(--carro); }
 #estacionaSigue { margin-top: 10px; }
 .instalar { display: flex; align-items: center; gap: 12px; margin-top: 22px; padding: 12px 10px 12px 14px; border-radius: var(--radio); background: var(--superficie); }
 .instalar img { flex: none; border-radius: 12px; }
