@@ -262,6 +262,8 @@ function mostrar(nombre) {
     pintarSalida();
     $("invitaPerfil").hidden = acc.modoVoz || leer("grieta-perfil", false) || leer("grieta-invita-cerrada", false);
   }
+  if ($("hojaPerfil").open) $("hojaPerfil").close();
+  if (nombre === "perfil") pintarCredencial();
   if (nombre === "ajustes") $("perfilTlacuache").innerHTML = tlacuache(3, racha.puestos, false);
   if (nombre === "opciones") {
     quitarTrazo();
@@ -4620,14 +4622,13 @@ function vistaActual() {
 function fichasPerfil() {
   const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
   return [
-    ["perfilVista", "anil", "ojo", { vista: "Veo bien", poco: "Veo poco", voz: "Grieta me habla" }[vistaActual()]],
-    ["perfilLengua", "hospital", "idioma", { es: "Español", oto: "Hñöñho", nah: "Náhuatl" }[acc.idioma] ?? "Español", true],
-    acc.modoVoz && ["perfilLectorOpciones", "ciruela", "decir", acc.lector === "si" ? "Uso lector" : "Grieta me lee"],
-    !acc.modoVoz && ["perfilForma", "obsidiana", "letra", acc.facil ? "Lo esencial" : "Todo completo"],
-    ["perfilMovilidad", "maiz", movilidad === "silla" ? "silla" : "caminar", { normal: "Camino bien", poco: "Camino poco", silla: "Silla o andadera" }[movilidad]],
-    ["perfilOido", "ciruela", "decir", acc.oido === "poco" ? "Escucho poco" : "Escucho bien"],
-    ["perfilTarifa", "anil", "qrobus", acc.unidos ? "Tarifa Unidos" : "Tarifa normal"],
-    !acc.modoVoz && ["perfilGasolina", "salud", "gasolina", { magna: "Gasolina verde", premium: "Gasolina roja", no: "No tengo carro" }[acc.gasolina ?? "magna"]],
+    ["perfilVista", "anil", "ojo", "Pantalla", { vista: "Veo bien", poco: "Veo poco", voz: "Grieta me habla" }[vistaActual()]],
+    ["perfilLengua", "hospital", `lengua-${acc.idioma ?? "es"}`, "Idioma", { es: "Español", oto: "Hñöñho", nah: "Náhuatl" }[acc.idioma] ?? "Español", true],
+    acc.modoVoz && ["perfilLectorOpciones", "ciruela", "decir", "Lector", acc.lector === "si" ? "Uso lector" : "Grieta me lee"],
+    !acc.modoVoz && ["perfilForma", "obsidiana", "letra", "Botones", acc.facil ? "Lo esencial" : "Completos"],
+    ["perfilMovilidad", "maiz", movilidad === "silla" ? "silla" : "caminar", "Caminar", { normal: "Camino bien", poco: "Camino poco", silla: "Silla o andadera" }[movilidad]],
+    ["perfilOido", "ciruela", "decir", "Avisos", acc.oido === "poco" ? "Escucho poco" : "Escucho bien"],
+    ["perfilTarifa", "hospital", "qrobus", "Tarifa", acc.unidos ? "Unidos" : "Normal"],
   ].filter(Boolean);
 }
 function resumenCortoPerfil() {
@@ -4647,9 +4648,19 @@ function pintarResumenPerfil() {
   // Tres iconos a la vista; el lector de pantalla escucha la frase completa.
   const frasePerfil = [vista, movimiento, tarifa].map(([, t], i) => (i ? t.charAt(0).toLowerCase() + t.slice(1) : t)).join(", ");
   $("textoPerfil").innerHTML = [acc.modoVoz ? "altavoz" : vista[0], movimiento[0], tarifa[0]].map((i) => `<i aria-hidden="true">${ico(i)}</i>`).join("") + `<span class="oculto">${escapar(frasePerfil)}</span>`;
-  $("perfilFichas").innerHTML = fichasPerfil().map(([grupo, tono, picto, texto, nombrePropio]) =>
-    `<button type="button" class="perfil-ficha" data-ir-perfil="${grupo}">
-      <span class="mini-ficha tono-${tono}" aria-hidden="true"><svg class="picto"><use href="#p-${picto}"/></svg></span><span${nombrePropio ? ' translate="no"' : ""}>${escapar(texto)}</span></button>`).join("");
+  $("credencialIconos").innerHTML = [acc.modoVoz ? "decir" : "ojo", movimiento[0] === "silla" ? "silla" : "caminar", "qrobus"].map((p) => `<i>${picto(p)}</i>`).join("");
+  const elegida = acc.gasolina ?? "magna";
+  const gasolina = acc.modoVoz ? "" : `<div class="perfil-ficha ancha tono-salud">${picto("gasolina")}<span class="perfil-ficha-texto"><small>Tu carro usa</small><b>Gasolina</b></span>
+    <span class="perfil-gasolina" role="group" aria-label="Qué gasolina le pones a tu carro">${[["magna", "Verde", "Gasolina verde"], ["premium", "Roja", "Gasolina roja"], ["no", "No", "No tengo carro"]].map(([v, t, nombre]) => `<button type="button" data-gasolina="${v}" aria-pressed="${v === elegida}" aria-label="${nombre}">${t}</button>`).join("")}</span></div>`;
+  $("perfilFichas").innerHTML = fichasPerfil().map(([grupo, tono, icono, etiqueta, valor, nombrePropio]) =>
+    `<button type="button" class="perfil-ficha tono-${tono}" data-ir-perfil="${grupo}" aria-haspopup="dialog">${picto(icono)}${ico("chevron", "chevron")}<span class="perfil-ficha-texto"><small>${etiqueta}</small><b${nombrePropio ? ' translate="no"' : ""}>${escapar(valor)}</b></span></button>`).join("") + gasolina;
+}
+// La foto y el nombre se pintan al entrar: al arrancar la racha todavia no existe.
+function pintarCredencial() {
+  const nombre = racha.nombre || "Tu tlacuache";
+  $("credencialFoto").innerHTML = `<g transform="translate(76 134) scale(${(0.38 / ESCALA_TL).toFixed(3)})">${tlacuache(4, racha.puestos, false)}</g>`;
+  $("credencialNombre").textContent = nombre;
+  $("credencialNombre").classList.toggle("largo", nombre.length > 9);
 }
 // Cada ficha de Ajustes abre su panel en una pantalla con flecha de regreso.
 const TITULOS_AJUSTE = { pantalla: "Pantalla", accesibilidad: "Accesibilidad", voz: "Voz", viajes: "Tus viajes", progreso: "Tu progreso", ayuda: "Ayuda" };
@@ -4673,12 +4684,43 @@ $("ajustesFichas").addEventListener("click", (e) => {
   const b = e.target.closest("[data-ajuste]");
   if (b) abrirAjuste(b.dataset.ajuste);
 });
-$("perfilFichas").addEventListener("click", (e) => {
-  const b = e.target.closest("[data-ir-perfil]");
-  if (!b) return;
-  const item = document.querySelector(`[data-grupo-perfil="${b.dataset.irPerfil}"]`);
-  item.scrollIntoView({ behavior: suave() ? "smooth" : "auto", block: "start" });
+const hojaPerfil = $("hojaPerfil");
+let cierreHoja = 0;
+function abrirHojaPerfil(grupo) {
+  clearTimeout(cierreHoja);
+  for (const item of hojaPerfil.querySelectorAll(".item-perfil")) item.classList.toggle("actual", item.dataset.grupoPerfil === grupo);
+  const item = hojaPerfil.querySelector(".item-perfil.actual");
+  hojaPerfil.setAttribute("aria-labelledby", item.querySelector("h3").id);
+  hojaPerfil.dataset.grupo = grupo;
+  hojaPerfil.showModal();
+  hojaPerfil.scrollTop = 0;
   item.querySelector('[aria-checked="true"]')?.focus({ preventScroll: true });
+}
+const cerrarHojaPerfil = () => { if (hojaPerfil.open) hojaPerfil.close(); };
+hojaPerfil.addEventListener("close", () => $("perfilFichas").querySelector(`[data-ir-perfil="${hojaPerfil.dataset.grupo}"]`)?.focus({ preventScroll: true }));
+hojaPerfil.addEventListener("click", (e) => {
+  if (e.target === hojaPerfil && e.clientY < hojaPerfil.getBoundingClientRect().top) return cerrarHojaPerfil();
+  // Con el dedo se cierra al elegir; con flechas o lector se queda abierta para seguir probando.
+  if (e.target.closest(".item-perfil [role=radio]:not(:disabled)")) {
+    escribir("grieta-perfil", true);
+    if (e.detail) cierreHoja = setTimeout(cerrarHojaPerfil, 260);
+  }
+});
+$("cerrarHojaPerfil").addEventListener("click", cerrarHojaPerfil);
+let inicioHoja = null;
+hojaPerfil.addEventListener("touchstart", (e) => { inicioHoja = hojaPerfil.scrollTop > 0 ? null : e.touches[0].clientY; }, { passive: true });
+hojaPerfil.addEventListener("touchend", (e) => {
+  if (inicioHoja !== null && e.changedTouches[0].clientY - inicioHoja > 70) cerrarHojaPerfil();
+  inicioHoja = null;
+});
+$("perfilFichas").addEventListener("click", (e) => {
+  const gasolina = e.target.closest("[data-gasolina]");
+  if (gasolina) {
+    escribir("grieta-perfil", true);
+    return $("perfilGasolina").querySelector(`[data-v="${gasolina.dataset.gasolina}"]`).click();
+  }
+  const b = e.target.closest("[data-ir-perfil]");
+  if (b) abrirHojaPerfil(b.dataset.irPerfil);
 });
 // Lo que cambia cada respuesta, abajo de su pregunta
 const EFECTOS = {
@@ -4692,6 +4734,10 @@ const EFECTOS = {
   perfilLengua: { es: "La interfaz está en español. El audio sigue en español.", oto: "La traducción de la interfaz todavía no está disponible. El audio sigue en español.", nah: "La traducción de la interfaz todavía no está disponible. El audio sigue en español." },
 };
 const efecto = (grupo, v) => { $(`${grupo}Efecto`).textContent = EFECTOS[grupo][v] ?? ""; };
+// En la hoja cada opcion dice lo que hace; el idioma no, porque su efecto depende de la traduccion.
+for (const grupo of Object.keys(EFECTOS).filter((g) => g !== "perfilLengua")) {
+  for (const b of $(grupo).querySelectorAll("[data-v]")) b.querySelector("span").insertAdjacentHTML("beforeend", `<small>${EFECTOS[grupo][b.dataset.v]}</small>`);
+}
 const RESPUESTAS_PERFIL = {
   perfilVista: { vista: "Veo bien", poco: "Veo poco", voz: "Quiero que Grieta me hable" },
   perfilLectorOpciones: { si: "Uso lector de pantalla", no: "Quiero que Grieta me hable" },
@@ -4806,11 +4852,6 @@ function abrirPerfil() {
 $("abrirPerfil").addEventListener("click", abrirPerfil);
 $("resumenPerfil").addEventListener("click", abrirPerfil);
 $("completarPerfil").addEventListener("click", abrirPerfil);
-$("perfilListo").addEventListener("click", () => {
-  escribir("grieta-perfil", true);
-  hablar("Listo, guardé tu perfil.", false, true);
-  history.back();
-});
 $("cerrarInvita").addEventListener("click", () => {
   escribir("grieta-invita-cerrada", true);
   $("invitaPerfil").hidden = true;

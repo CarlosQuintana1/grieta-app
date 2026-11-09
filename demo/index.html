@@ -715,8 +715,13 @@
     </section>
 
     <section id="perfil" class="pantalla" aria-labelledby="tituloPantalla" hidden>
+      <div class="credencial">
+        <div class="credencial-foto"><svg id="credencialFoto" viewBox="0 0 150 150" aria-hidden="true"></svg></div>
+        <div class="credencial-datos"><small>VIAJERO DE QUERÉTARO</small><strong id="credencialNombre"></strong><div id="credencialIconos" class="credencial-iconos" aria-hidden="true"></div></div>
+      </div>
       <div id="perfilFichas" class="perfil-fichas" role="group" aria-label="Tu perfil de viaje"></div>
-      <h2 class="perfil-subtitulo">Tu forma de viajar</h2>
+      <dialog id="hojaPerfil" class="hoja-perfil">
+      <div class="hoja-asa" aria-hidden="true"></div>
       <div class="perfil-preguntas">
         <div class="item-perfil" data-grupo-perfil="perfilVista">
           <div class="fila-perfil">
@@ -743,8 +748,8 @@
               <button type="button" role="radio" aria-checked="false" data-v="nah" tabindex="-1" class="ficha" disabled aria-describedby="nahuatlPendiente"><span>Náhuatl (Huasteca oriental)</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
             </div>
           </div>
+          <p id="nahuatlPendiente" class="nota" role="status">Náhuatl pendiente de traducción.</p>
         </div>
-        <p id="nahuatlPendiente" class="nota" role="status">Náhuatl pendiente de traducción.</p>
         <div id="perfilLector" class="item-perfil" data-grupo-perfil="perfilLectorOpciones" hidden>
           <div class="fila-perfil">
             <span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-decir"/></svg></span>
@@ -820,7 +825,8 @@
           </div>
         </div>
       </div>
-      <div class="acciones-fijas"><button id="perfilListo" type="button" class="boton">Listo</button></div>
+      <button id="cerrarHojaPerfil" type="button" class="oculto">Cerrar</button>
+      </dialog>
     </section>
 
     <section id="tutorial" class="pantalla tutorial" aria-labelledby="tutorialTitulo" hidden>

@@ -602,17 +602,8 @@ html.claro .boton-perfil .avatar { background: #0b0a09; color: #e0a03c; }
 .invita-acciones { display: flex; align-items: center; gap: 14px; margin-top: 10px; }
 .invita-acciones .boton { width: auto; min-height: var(--toque); margin-top: 0; padding: 8px 16px; }
 .filas-opcion .fila-texto strong { font-weight: inherit; }
-#perfil .acciones-fijas { margin-top: 20px; }
-#perfil .acciones-fijas .boton { margin-top: 0; }
 
 /* Perfil: resumen del viaje y preguntas que se abren al elegirlas */
-.perfil-fichas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.perfil-ficha { display: flex; align-items: center; gap: 10px; min-height: 60px; padding: 8px 10px; border-radius: var(--radio);
-  background: var(--superficie); border: 1px solid var(--linea); text-align: left; font-weight: 700; font-size: 1rem; line-height: 1.2; }
-.perfil-ficha .mini-ficha { width: 40px; height: 40px; flex: none; }
-.perfil-ficha .mini-ficha .picto { width: 22px; height: 22px; }
-.perfil-ficha span:last-child { min-width: 0; overflow-wrap: anywhere; }
-html.grande .perfil-fichas { grid-template-columns: 1fr; }
 .avatar { flex: none; width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--ambar); color: var(--sobre-ambar); }
 .avatar .icono { width: 36px; height: 36px; }
 .avatar.chico { width: 44px; height: 44px; }
@@ -620,9 +611,6 @@ html.grande .perfil-fichas { grid-template-columns: 1fr; }
 .perfil-titulo { margin: 0; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ambar); }
 .perfil-frase { margin: 4px 0 0; font-size: 1.1rem; font-weight: 700; line-height: 1.35; overflow-wrap: anywhere; }
 .perfil-nota { margin: 12px 2px 0; color: var(--tenue); font-size: 0.9rem; }
-.perfil-subtitulo { margin-top: 24px; }
-.perfil-preguntas { overflow: hidden; border: 1px solid var(--linea); border-radius: var(--radio); background: var(--superficie); }
-.item-perfil:not(:last-child) { border-bottom: 1px solid var(--linea); }
 .fila-perfil { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 72px; padding: 10px 12px; text-align: left; }
 .fila-perfil .mini-ficha { width: 48px; height: 48px; }
 .fila-perfil .mini-ficha .picto { width: 26px; height: 26px; }
@@ -1883,3 +1871,51 @@ html.grande .equivale-color li { grid-template-columns: auto auto 1fr; align-ite
 .bono-opciones strong { flex: none; font-size: 1.2rem; font-weight: 800; }
 .bono-opciones li.mejor strong, .bono-opciones li.mejor small { color: var(--verde); }
 @media (max-height: 620px) { .tutorial-escena { min-height: 130px; } .tutorial-cuerpo { min-height: 0; } .tutorial h1 { font-size: 1.6rem; } }
+
+/* Tu perfil: credencial con tu tlacuache, fichas de color y una hoja con las opciones */
+.credencial { position: relative; display: flex; align-items: center; gap: 14px; padding: 14px; overflow: hidden; border-radius: 28px; background: #e0a03c; color: #1c1408; }
+.credencial::after { content: ""; position: absolute; top: -46px; right: -46px; width: 150px; height: 150px; border-radius: 50%; background: #ecb95f; opacity: .55; }
+.credencial-foto { position: relative; z-index: 1; flex: none; width: 104px; height: 104px; overflow: hidden; border-radius: 24px; background: #f6f2ea; }
+.credencial-foto svg { display: block; width: 100%; height: 100%; }
+.credencial-datos { position: relative; z-index: 1; min-width: 0; }
+.credencial small { display: block; font-size: .72rem; font-weight: 800; letter-spacing: .1em; }
+.credencial strong { display: block; font-size: 2.5rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; overflow-wrap: anywhere; }
+.credencial strong.largo { font-size: 1.6rem; line-height: 1.12; }
+.credencial-iconos { display: flex; gap: 7px; margin-top: 6px; }
+.credencial-iconos i { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; background: #1c1408; color: #e0a03c; }
+.credencial-iconos .picto { width: 22px; height: 22px; }
+.perfil-fichas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
+.perfil-ficha { position: relative; display: grid; align-content: space-between; justify-items: start; min-height: 92px; padding: 11px 12px; overflow: hidden; border-radius: 22px; background: var(--tono); color: #fff; text-align: left; }
+.perfil-ficha > .picto { width: 30px; height: 30px; }
+.perfil-ficha > .chevron { position: absolute; top: 13px; right: 12px; width: 18px; height: 18px; opacity: .7; stroke-width: 2.6; }
+.perfil-ficha-texto { display: block; min-width: 0; }
+.perfil-ficha small { display: block; font-size: .76rem; font-weight: 700; opacity: .9; }
+.perfil-ficha b { display: block; font-size: 1.14rem; font-weight: 800; letter-spacing: -.01em; line-height: 1.1; overflow-wrap: anywhere; }
+.perfil-ficha.ancha { grid-column: 1 / -1; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; min-height: 72px; }
+.perfil-gasolina { display: flex; gap: 5px; }
+.perfil-gasolina button { min-width: 44px; height: 44px; padding: 0 10px; border-radius: 999px; background: rgb(255 255 255 / 16%); color: #fff; font-size: .78rem; font-weight: 800; }
+.perfil-gasolina button[aria-pressed="true"] { background: #fff; color: var(--tono); }
+html.grande .perfil-fichas { grid-template-columns: 1fr; }
+html.grande .perfil-ficha.ancha { grid-template-columns: auto 1fr; }
+html.grande .perfil-gasolina { grid-column: 1 / -1; justify-content: stretch; }
+html.grande .perfil-gasolina button { flex: 1; }
+.hoja-perfil { position: fixed; inset: auto 0 0; width: 100%; max-width: 560px; max-height: 86vh; margin: 0 auto; padding: 10px 16px calc(24px + env(safe-area-inset-bottom)); overflow-y: auto; border: 0; border-radius: 30px 30px 0 0; background: var(--superficie); color: var(--tinta); }
+.hoja-perfil::backdrop { background: rgb(0 0 0 / 62%); }
+.hoja-asa { width: 44px; height: 5px; margin: 0 auto 14px; border-radius: 3px; background: var(--linea); }
+.item-perfil { display: none; }
+.item-perfil.actual:not([hidden]) { display: block; }
+.hoja-perfil .fila-perfil { min-height: 0; padding: 0 0 14px; }
+.hoja-perfil .fila-perfil h3 { margin: 0; font-size: 1.3rem; font-weight: 800; letter-spacing: -.01em; line-height: 1.15; }
+.hoja-perfil .respuesta-perfil, .hoja-perfil .fila-perfil-efecto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.hoja-perfil .fichas, .hoja-perfil .fichas.dos { grid-template-columns: 1fr; gap: 8px; }
+.hoja-perfil .ficha { min-height: 74px; border-radius: 20px; }
+.hoja-perfil .ficha span { font-size: 1.04rem; font-weight: 800; }
+.hoja-perfil .ficha small { display: block; margin-top: 1px; color: var(--tenue); font-size: .8rem; font-weight: 600; line-height: 1.2; }
+.hoja-perfil .ficha[aria-checked="true"] small { color: inherit; opacity: .8; }
+.hoja-perfil .nota { margin: 10px 0 0; text-align: center; }
+#filaLengua .fila-perfil-efecto { position: static; width: auto; height: auto; overflow: visible; clip-path: none; margin-top: 8px; text-align: center; }
+@media (prefers-reduced-motion: no-preference) {
+  .hoja-perfil[open] { animation: subir-hoja .26s cubic-bezier(.2, .9, .3, 1); }
+  @keyframes subir-hoja { from { transform: translateY(100%); } }
+}
+@media (max-height: 640px) { .credencial { padding: 10px 14px; } .credencial-foto { width: 76px; height: 76px; border-radius: 20px; } .credencial strong { font-size: 1.9rem; } .perfil-ficha { min-height: 70px; padding: 8px 10px; } .perfil-ficha > .picto { width: 24px; height: 24px; } .perfil-ficha.ancha { min-height: 58px; } }

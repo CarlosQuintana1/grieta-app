@@ -85,6 +85,7 @@ const assert = require('node:assert/strict');
     assert(await pagina.locator('#hoja').evaluate((e, antes) => e.scrollTop > antes, antesScroll));
     console.log('Desplazar la pantalla desde un botón no activa la acción');
     await pagina.locator('#resumenPerfil').tap(); await pagina.locator('#resumenPerfil').tap();
+    await pagina.locator('[data-ir-perfil=perfilLectorOpciones]').tap(); await pagina.locator('[data-ir-perfil=perfilLectorOpciones]').tap();
     await pagina.locator('#perfilLectorOpciones [data-v="si"]').tap();
     assert.equal(await pagina.evaluate(() => acc.lector), 'si'); assert.equal(await pagina.evaluate(() => acc.voz), false);
     await pagina.locator('[data-tab="inicio"]').tap(); assert.equal(await pagina.locator('body').getAttribute('data-pantalla'), 'inicio');
