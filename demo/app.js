@@ -2794,6 +2794,7 @@ function textoPasoPie(s, parada) {
 }
 async function indicacionesPie(desde, parada) {
   if (!desde) return;
+  guia.metaPie = parada;
   try {
     const url = `https://routing.openstreetmap.de/routed-foot/route/v1/driving/${desde.lon},${desde.lat};${parada.lon},${parada.lat}?steps=true&overview=full&geometries=geojson`;
     const r = await fetch(url, { signal: AbortSignal.timeout(6000) }).then((x) => x.json());
@@ -2809,11 +2810,46 @@ async function indicacionesPie(desde, parada) {
     if (!guia.activa || guia.fase !== "parada") return;
     guia.pasosPie = pasos.slice(0, 10).map((p) => ({ ...p, ...textoPasoPie(p.s, parada.nombre) }));
     if (refs.length) guia.pasosPie.at(-1).referencia = refs[0].descripcion;
-    guia.pasoPie = 0;
+    Object.assign(guia, { pasoPie: 0, rutaPie: (guia.rutaPie ?? 0) + 1, mejorPie: Infinity, centenaPie: null, fueraPie: 0 });
     guia.trazoPie = r.routes[0].geometry.coordinates.map(([lo, la]) => [la, lo]);
     pintarPasosPie();
     entrarMapaPie();
-  } catch {}
+    const inicio = guia.pasosPie[0];
+    hablar(`${inicio.texto}${inicio.tramo ? `, ${inicio.tramo}` : ""}. Te aviso antes de cada vuelta.`, true);
+  } catch {
+    if (acc.modoVoz && guia.activa && guia.fase === "parada" && !guia.pasosPie) hablar("No pude trazar las vueltas. Te aviso cuando estés cerca de la parada.", true);
+  }
+}
+function metrosALinea(lat, lon, linea) {
+  const k = Math.cos(lat * Math.PI / 180), m = 111320;
+  let mejor = Infinity;
+  for (let i = 1; i < linea.length; i++) {
+    const ay = (linea[i - 1][0] - lat) * m, ax = (linea[i - 1][1] - lon) * m * k, by = (linea[i][0] - lat) * m, bx = (linea[i][1] - lon) * m * k;
+    const dx = bx - ax, dy = by - ay, u = Math.max(0, Math.min(1, -(ax * dx + ay * dy) / (dx * dx + dy * dy || 1)));
+    mejor = Math.min(mejor, Math.hypot(ax + u * dx, ay + u * dy));
+  }
+  return mejor;
+}
+// Si caminas al revés te lo dice; si te sales del camino traza otro desde donde estás.
+function revisarCaminoPie(lat, lon, falta) {
+  if (!guia.trazoPie) return false;
+  const ahora = Date.now();
+  guia.mejorPie = Math.min(guia.mejorPie, falta);
+  if ((guia.avisoPie ?? 0) + 25000 > ahora) return false;
+  if (guia.pasoPie === 0 && Number.isFinite(falta) && falta > guia.mejorPie + 30) {
+    Object.assign(guia, { avisoPie: ahora, mejorPie: falta, fueraPie: 0 });
+    vibrar([400, 120, 400]);
+    hablar("Vas en sentido contrario. Da la vuelta.");
+    return true;
+  }
+  const fuera = metrosALinea(lat, lon, guia.trazoPie) > Math.max(40, (guia.precision ?? 0) * 1.5);
+  guia.fueraPie = fuera ? guia.fueraPie + 1 : 0;
+  if (guia.fueraPie < 2) return false;
+  Object.assign(guia, { avisoPie: ahora, fueraPie: 0 });
+  vibrar([400, 120, 400]);
+  hablar("Te saliste del camino. Te busco otra ruta.");
+  indicacionesPie({ lat, lon }, guia.metaPie);
+  return true;
 }
 function pintarPasosPie() {
   const lista = $("pasosPie");
@@ -2827,15 +2863,20 @@ function avanzarPie(lat, lon) {
   const sig = pasos[guia.pasoPie + 1];
   const falta = sig ? Grieta.metros(lat, lon, sig.lat, sig.lon) : Infinity;
   pintarVueltaPie(lat, lon, falta);
-  if (!sig) return;
+  if (revisarCaminoPie(lat, lon, falta) || !sig) return;
+  if (acc.modoVoz && falta >= 60) {
+    const centena = Math.ceil(falta / 100);
+    if (guia.centenaPie !== null && centena < guia.centenaPie) hablar(`Vas bien. Faltan ${distanciaTexto(Math.round(falta / 10) * 10)}.`, true);
+    guia.centenaPie = centena;
+  }
   // Unos 35 m antes de la vuelta: izquierda dos pulsos, derecha tres; derecho o llegada, uno largo.
-  if (falta <= 35) unaVez(`vuelta-${guia.k}-${guia.pasoPie + 1}`, () => {
+  if (falta <= 35) unaVez(`vuelta-${guia.k}-${guia.rutaPie}-${guia.pasoPie + 1}`, () => {
     const giro = sig.s.maneuver.modifier ?? "";
     vibrar(/left/.test(giro) ? [150, 100, 150] : /right/.test(giro) ? [150, 100, 150, 100, 150] : [400]);
     hablar([sig.texto, sig.referencia ? `. ${sig.referencia}` : ""].join(""));
   });
   if (falta > 20) return;
-  guia.pasoPie++;
+  Object.assign(guia, { pasoPie: guia.pasoPie + 1, mejorPie: Infinity, centenaPie: null });
   pintarPasosPie();
 }
 // Navegacion a pie sobre el mapa: tarjeta de la siguiente vuelta y tu flecha siguiendote.
@@ -3274,7 +3315,7 @@ function terminarGuia() {
   guia.pasosPie = null;
   salirMapaPie();
   capas.flecha?.remove(); capas.flecha = null;
-  guia.ultimo = null; guia.rumbo = null; guia.trazoPie = null;
+  guia.ultimo = null; guia.rumbo = null; guia.trazoPie = null; guia.avisoPie = 0;
   $("pasosPie").hidden = true;
   cancelarAvisos();
   restaurarTerminar();
