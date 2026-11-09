@@ -10043,6 +10043,16 @@
       "clave": "texto_3b7e2630d3",
       "es": "con el tráfico de ahorita",
       "nhe": "ika nopa tlauilankayotl amantsi"
+    },
+    {
+      "clave": "texto_f625ba2aad",
+      "es": "Pide tu viaje",
+      "nhe": "Xijtlajtlanili mo viaje"
+    },
+    {
+      "clave": "texto_da5e7234b3",
+      "es": "{v1} km en auto",
+      "nhe": "{v1} km ika carro"
     }
   ],
   "adaptaciones": [

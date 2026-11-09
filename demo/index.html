@@ -494,6 +494,26 @@
         </div>
       </div>
 
+      <div id="bloqueRutaApp" hidden>
+        <div class="cabeza-detalle">
+          <p id="rutaAppEtiqueta" class="etiqueta"></p>
+          <dl class="datos-detalle">
+            <div class="dato tiempo"><dt>Tarda</dt><dd id="rutaAppMin"></dd></div>
+            <div class="dato precio"><dt>Estimado</dt><dd id="rutaAppPrecio"></dd></div>
+            <div class="dato llegada"><dt>Llegas</dt><dd id="rutaAppHora"></dd></div>
+          </dl>
+        </div>
+        <ol id="rutaAppPasos" class="pasos"></ol>
+        <h2 id="tituloPedirRuta">Pedir en app</h2>
+        <div id="abrirAppsRuta" class="abrir-apps" role="group" aria-labelledby="tituloPedirRuta"></div>
+        <p id="rutaAppAviso" class="nota" role="status"></p>
+        <button id="rutaComparar" type="button" class="comparar-precio">
+          <span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-app"/></svg></span>
+          <span class="fila-texto"><strong>¿La app ya te dio precio?</strong><small>Te digo si conviene y Grieta aprende</small></span>
+          <svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </button>
+      </div>
+
       <div id="bloqueApp" hidden>
         <p class="paso-comparar" id="tituloComparar"><span class="numero" aria-hidden="true">1</span>¿Qué app abriste?</p>
         <div id="appVista" class="elegir-app" role="group" aria-labelledby="tituloComparar">

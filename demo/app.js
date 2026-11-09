@@ -1621,9 +1621,10 @@ function pintarOpciones(r) {
     $("tarjetas").innerHTML += `<div class="aviso cuidado sin-camion">${ico("alerta")}<strong>${r.pasaCerca ? "Ningún Qrobus te lleva directo en la próxima hora." : "En la próxima hora no pasa ningún Qrobus cerca."}</strong></div>`;
   }
 }
-function abrirViajeApp() {
+function abrirViajeApp(modo) {
   const o = estado.r.opciones.find((x) => x.tipo === "app");
   if (!o) return null;
+  estado.modoApp = modo;
   estado.elegida = o;
   estado.etiquetaElegida = "En app";
   titulos.detalle = tituloOpcion(o);
@@ -1633,7 +1634,7 @@ function abrirViajeApp() {
 }
 $("tarjetas").addEventListener("click", (e) => {
   if (e.target.closest("[data-llegar]")) return llegarDesdeOpciones();
-  if (e.target.closest("[data-abrir-app]")) return void abrirViajeApp();
+  if (e.target.closest("[data-abrir-app]")) { abrirViajeApp("ruta"); if (acc.modoVoz) leerDetalle(); return; }
   if (e.target.closest("[data-app]")) return void abrirApp(e);
   const orden = e.target.closest("[data-orden]")?.dataset.orden;
   if (orden) {
@@ -1671,7 +1672,7 @@ function leerDetalle() {
 
 // Comparar lo que marca la app: lleva directo al detalle del viaje en app, con el campo del precio listo.
 $("compararPrecio").addEventListener("click", () => {
-  if (!abrirViajeApp()) return;
+  if (!abrirViajeApp("comparar")) return;
   if (!estado.app) {
     estado.app = [...estado.r.directo.porApp].sort((a, b) => a.precio - b.precio)[0].app;
     for (const x of $("appVista").children) x.setAttribute("aria-pressed", String(x.dataset.v === estado.app));
@@ -1781,15 +1782,28 @@ function pasosDe(o) {
   });
 }
 
+const azulRutaApp = () => (document.documentElement.classList.contains("claro") ? "#424d88" : "#6a7ae0");
+function pintarRutaApp(o) {
+  const r = estado.r, barata = [...r.directo.porApp].sort((a, b) => a.precio - b.precio)[0], c = criteriosViaje(r);
+  $("rutaAppEtiqueta").textContent = c.rapida === o && c.economica === o ? "Más económico y más rápido" : c.rapida === o ? "Más rápido" : c.economica === o ? "Más económico" : "En app";
+  $("rutaAppMin").textContent = `${Math.round(o.minutos)} min`;
+  $("rutaAppPrecio").textContent = rangoTexto(limitesPrecio(barata));
+  $("rutaAppHora").textContent = hora(llegada(o));
+  $("rutaAppPasos").innerHTML = `<li>${miniFicha("tono-anil", picto("app"))}<span class="fila-texto"><strong>Pide tu viaje</strong><small>Desde ${escapar(cruce(estado.origen.nombre))}</small></span><span class="hora">${hora(r.ctx.minuto)}</span></li>
+    <li>${miniFicha("tono-hospital", picto("flag"))}<span class="fila-texto"><strong>Llegas a ${escapar(cruce(estado.destino.nombre))}</strong><small>${r.directo.km.toFixed(1)} km en auto</small></span><span class="hora">${hora(llegada(o))}</span></li>`;
+}
 function pintarDetalle(sinMapa) {
   const o = estado.elegida;
   const esApp = o.tipo === "app";
-  $("tituloPantalla").textContent = titulos.detalle = esApp ? "En app" : tituloOpcion(o);
+  const rutaApp = esApp && estado.modoApp === "ruta";
+  $("tituloPantalla").textContent = titulos.detalle = rutaApp ? "En app" : esApp ? "Comparar precio" : tituloOpcion(o);
   $("bloqueCamion").hidden = esApp;
-  $("bloqueApp").hidden = !esApp;
+  $("bloqueApp").hidden = !esApp || rutaApp;
+  $("bloqueRutaApp").hidden = !rutaApp;
   if (esApp) {
     pintarApps(o);
-    if (!sinMapa) { quitarTrazo(); if (capas.linea) setTimeout(() => encuadrar(capas.linea.getBounds()), 120); }
+    if (rutaApp) pintarRutaApp(o);
+    if (!sinMapa) { quitarTrazo(); capas.linea?.setStyle?.({ color: azulRutaApp() }); if (capas.linea) setTimeout(() => encuadrar(capas.linea.getBounds()), 120); }
     return;
   }
   const etiqueta = estado.etiquetaElegida ?? "Recomendado";
@@ -1842,11 +1856,11 @@ function pintarApps(o) {
   const orden = [...r.directo.porApp].sort((a, b) => a.precio - b.precio);
   pintarEstimado();
   // Una fila por app que tambien la abre, la mas barata primero.
-  $("abrirApps").innerHTML = orden.map((x, i) => `<button type="button" class="app-fila${i ? "" : " barata"}" data-app="${x.app}"
+  $("abrirApps").innerHTML = $("abrirAppsRuta").innerHTML = orden.map((x, i) => `<button type="button" class="app-fila${i ? "" : " barata"}" data-app="${x.app}"
       aria-label="Abrir ${Grieta.nombreApp(x.app)}, precio estimado ${rangoVoz(limitesPrecio(x))}${i ? "" : ", la app más económica"}">
       ${fichaApp(x.app)}<span class="fila-texto"><strong>Abrir ${Grieta.nombreApp(x.app)}</strong><small>${i ? "Precio estimado" : "Menor precio en app"}</small></span>
       <span class="precio precio-rango">${partesRango(limitesPrecio(x))}</span>${ico("chevron", "chevron")}</button>`).join("");
-  $("appAviso").textContent = "";
+  $("appAviso").textContent = $("rutaAppAviso").textContent = "";
 }
 
 $("empezar").addEventListener("click", () => iniciarGuia(estado.elegida));
@@ -1946,7 +1960,7 @@ async function abrirApp(e) {
   // DiDi e inDrive se abren desde su pagina en la tienda: ahi aparece el boton Abrir si ya estan instaladas.
   const aviso = (copiado ? `Copié "${destino}". ` : "") + `Te llevo a ${Grieta.nombreApp(app)}: en la tienda toca Abrir y ` +
     (copiado ? "pega el destino." : `escribe como destino ${destino}.`);
-  for (const id of ["appAviso", "avisoRapido"]) $(id).textContent = aviso;
+  for (const id of ["appAviso", "rutaAppAviso", "avisoRapido"]) $(id).textContent = aviso;
   hablar(aviso, false, true);
   const t = TIENDAS[app];
   // En Android se abre la app si esta instalada y si no, su pagina en Play; en iPhone, su pagina en la App Store tiene el boton Abrir.
@@ -1956,12 +1970,14 @@ async function abrirApp(e) {
   setTimeout(() => { location.href = destinoApp; }, 1500);
 }
 $("abrirApps").addEventListener("click", abrirApp);
+$("abrirAppsRuta").addEventListener("click", abrirApp);
+$("rutaComparar").addEventListener("click", () => $("compararPrecio").click());
 $("appsRapido").addEventListener("click", abrirApp);
 
 function quitarTrazo() {
   capas.camion?.remove();
   capas.camion = null;
-  capas.linea?.setStyle?.({ opacity: 0.95 });
+  capas.linea?.setStyle?.({ opacity: 0.95, color: tono("--ambar") });
 }
 
 // Camino con camion en el mapa: caminata punteada, app en linea delgada y el camion por sus paradas.
@@ -1969,8 +1985,8 @@ function dibujar(o) {
   quitarTrazo();
   const tinta = tono("--tinta");
   const ambar = tono("--ambar");
-  // En app el tramo va en verde (el color de las apps) y por calles, como el auto lo haria.
-  const estilo = (modo) => (modo === "caminando" ? { color: tinta, weight: 3, dashArray: "1 7", lineCap: "round" } : { color: tono("--verde"), weight: 4, opacity: 0.9, app: true });
+  // En app el tramo va en azul, el color de las apps, y por calles como el auto lo haria.
+  const estilo = (modo) => (modo === "caminando" ? { color: tinta, weight: 3, dashArray: "1 7", lineCap: "round" } : { color: azulRutaApp(), weight: 4, opacity: 0.9, app: true });
   capas.linea?.setStyle?.({ opacity: 0.15 });
   const camiones = o.trazo.camiones;
   const lineas = o.pasos.filter((p) => p.tipo === "camion").map((p) => p.linea);

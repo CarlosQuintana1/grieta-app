@@ -792,7 +792,7 @@ html.claro body::before { background: #0b0a09; }
 .ficha-combinada > span { display: grid; place-items: center; width: 38px; background: var(--tono); }
 .ficha-combinada > span + span { border-left: 2px solid rgb(0 0 0 / .25); }
 .ficha-combinada .picto { width: 24px; height: 24px; }
-#appAviso:empty { display: none; }
+#appAviso:empty, #rutaAppAviso:empty { display: none; }
 .pasos .fila-texto { padding-top: 2px; }
 .pasos .hora { padding-top: 4px; }
 .app-rapida .mini-ficha { width: 34px; height: 34px; margin-bottom: 6px; }

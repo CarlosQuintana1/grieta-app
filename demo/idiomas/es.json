@@ -17077,6 +17077,25 @@
       "contextos": [
         "demo/app.js · pintarCarro"
       ]
+    },
+    {
+      "clave": "texto_f625ba2aad",
+      "es": "Pide tu viaje",
+      "contextos": [
+        "demo/app.js · pintarRutaApp"
+      ]
+    },
+    {
+      "clave": "texto_da5e7234b3",
+      "es": "{v1} km en auto",
+      "contextos": [
+        "demo/app.js · pintarRutaApp"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
     }
   ]
 }
