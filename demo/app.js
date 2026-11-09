@@ -332,9 +332,7 @@ function evitarCortes() {
   if (!pantalla || !document.body.classList.contains("con-mapa") || document.body.classList.contains("guia-mapa") || !$("mapa").offsetHeight) return;
   for (let vuelta = 0; vuelta < 3; vuelta++) {
     const caja = hoja.getBoundingClientRect(), fija = pantalla.querySelector(".acciones-fijas");
-    // En opciones el boton "Ver mas" flota abajo: la primera tarjeta debe caber completa arriba de el.
-    const reserva = pantalla.id === "opciones" && !acc.modoVoz && pantalla.querySelectorAll("#tarjetas .tarjeta, #enApp").length > 1 ? 74 : 0;
-    const limite = (fija?.offsetHeight ? Math.min(caja.bottom, fija.getBoundingClientRect().top) : caja.bottom) - reserva;
+    const limite = (fija?.offsetHeight ? Math.min(caja.bottom, fija.getBoundingClientRect().top) : caja.bottom);
     const cortado = [...pantalla.querySelectorAll(BLOQUES)]
       .filter((e) => e.offsetParent && !fija?.contains(e))
       .map((e) => e.getBoundingClientRect())
@@ -345,30 +343,17 @@ function evitarCortes() {
     const queda = $("mapa").getBoundingClientRect().height - crecer;
     // Si encoger escondería casi media hoja, el mapa cede hasta 20% en vez de dejar la hoja casi vacía.
     const cabe = vuelta === 0 && (queda >= innerHeight * 0.3 || (queda >= innerHeight * 0.2 && limite - cortado.top > caja.height * 0.4));
-    // En opciones nunca se esconde la tarjeta: el mapa cede hasta 20% y el boton avisa que hay mas.
-    const primera = pantalla.id === "opciones" ? $("tarjetas").querySelector(".tarjeta")?.getBoundingClientRect() : null;
-    if (!cabe && primera && cortado.top <= primera.top + 1) {
-      hoja.style.maxHeight = `${caja.height + Math.max(0, $("mapa").getBoundingClientRect().height - innerHeight * 0.2)}px`;
+    // En opciones nunca se esconde el recuadro del viaje: el mapa cede hasta 14 % para que quepa con su boton.
+    const empezar = pantalla.id === "opciones" ? $("tarjetas").querySelector(".hv-empezar")?.getBoundingClientRect() : null;
+    if (!cabe && empezar && cortado.top <= empezar.top + 1) {
+      const falta = empezar.bottom - limite, cede = Math.max(0, $("mapa").getBoundingClientRect().height - innerHeight * 0.14);
+      hoja.style.maxHeight = `${caja.height + (falta <= cede ? falta : cortado.top === empezar.top ? cortado.top - limite : cede)}px`;
       break;
     }
     hoja.style.maxHeight = `${caja.height + (cabe ? crecer : cortado.top - limite)}px`;
   }
   mapa.invalidateSize();
-  pintarVerMas();
 }
-function pintarVerMas() {
-  const caja = $("verMasCaja"), hoja = $("hoja");
-  if (document.body.dataset.pantalla !== "opciones" || acc.modoVoz) return void (caja.hidden = true);
-  const fin = hoja.getBoundingClientRect().bottom - 8;
-  const pendientes = [...$("tarjetas").querySelectorAll(".tarjeta"), $("enApp")].filter((x) => x.offsetHeight && x.getBoundingClientRect().bottom > fin);
-  caja.hidden = !pendientes.length;
-  if (!pendientes.length) return;
-  $("verMasTexto").textContent = pendientes.length === 1 ? "Ver 1 opción más" : `Ver ${pendientes.length} opciones más`;
-  caja.style.bottom = `${innerHeight - hoja.getBoundingClientRect().bottom}px`;
-  estado.siguienteOpcion = pendientes[0];
-}
-$("hoja").addEventListener("scroll", pintarVerMas, { passive: true });
-$("verMas").addEventListener("click", () => estado.siguienteOpcion?.scrollIntoView({ behavior: suave() ? "smooth" : "auto", block: "start" }));
 let revisionCortes = 0, segundaRevision = 0;
 // Se revisa al siguiente cuadro y otra vez cuando la pantalla ya se acomodo.
 const pedirCortes = () => {
@@ -1432,6 +1417,37 @@ function pintarSeguro(r) {
 }
 $("seguroSwitch").addEventListener("click", () => { estado.seguroApagado = !estado.seguroApagado; estado.seguroVerTodas = false; calcular(); });
 $("seguroVer").addEventListener("click", () => { estado.seguroVerTodas = true; calcular(); });
+// Las pestañas deciden qué viaje va en el recuadro partido; los demás bajan a Otras formas de llegar.
+const ORDENES_VIAJE = [
+  { id: "barato", texto: "Barato", icono: () => picto("monedas"), elige: (ops) => [...ops].sort(masEconomica)[0] },
+  { id: "rapido", texto: "Rápido", icono: () => ico("reloj"), elige: (ops) => menor(ops, (o) => o.minutos) },
+  { id: "pie", texto: "Caminar menos", icono: () => picto("caminar"), elige: (ops) => [...ops].sort((a, b) => caminata(a) - caminata(b) || a.minutos - b.minutos)[0] },
+  { id: "camion", texto: "Solo camión", icono: () => picto("qrobus"), elige: (ops) => { const solo = ops.filter((o) => o.tipo === "caminando+caminando"); return solo.length ? menor(solo, valorOpcion) : null; } },
+];
+const ICONO_CAMBIO = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4 2.5 8.5 7 13v-3h9V7H7zM17 11v3H8v3h9v3l4.5-4.5z"/></svg>';
+const PLACAS_VIAJE = '<svg class="hv-placas" viewBox="0 0 358 178" preserveAspectRatio="none" aria-hidden="true"><path class="hv-verde" d="M0 0L175.5 0L167.5 27L183.5 53L170.5 80L187.5 110L172.5 142L181.5 178L0 178Z"/><path class="hv-azul" d="M358 0L182.5 0L174.5 27L190.5 53L177.5 80L194.5 110L179.5 142L188.5 178L358 178Z"/></svg>';
+const datoViaje = (icono, texto) => `<span class="hv-dato">${icono}<span>${texto}</span></span>`;
+// Riel continuo del viaje: cada tramo pega con el siguiente y el ancho del camion sigue a sus minutos.
+function rielViaje(o) {
+  const pasos = o.pasos ?? [];
+  const esApp = (p) => p?.tipo === "app";
+  const cambio = (texto, icono) => `<span class="riel-tr apie cambio${texto === "Transbordas" ? " transborda" : ""}"><span class="riel-nodo">${icono}</span><em>${texto}</em></span>`;
+  let color = 0;
+  const tramos = pasos.map((p, i) => {
+    const antes = pasos[i - 1];
+    if (p.tipo !== "caminar") {
+      const minutos = Math.round(p.tipo === "camion" ? (p.llega - p.sale) || p.min || 0 : p.min ?? 0);
+      const union = antes && antes.tipo !== "caminar" ? cambio(esApp(antes) || esApp(p) ? "Cambias" : "Transbordas", ICONO_CAMBIO) : "";
+      const nombre = esApp(p) ? Grieta.nombreApp(p.app) : p.linea;
+      return `${union}<span class="riel-tr bus c${color++ % 2}${nombre.length > 4 ? " largo" : ""}" data-flex="${Math.max(minutos, 14)} 1 0"><b translate="no">${escapar(nombre)}</b><em>${minutos} min</em></span>`;
+    }
+    const previo = pasos.slice(0, i).reverse().find((x) => x.tipo !== "caminar"), sigue = pasos.slice(i + 1).find((x) => x.tipo !== "caminar");
+    if (previo && sigue) return cambio(esApp(previo) || esApp(sigue) ? "Cambias" : "Transbordas", picto("caminar"));
+    return `<span class="riel-tr apie"><span class="riel-nodo">${picto("caminar")}</span><em>${Math.max(1, Math.round(p.min))} min</em></span>`;
+  }).join("");
+  const conducidos = pasos.filter((p) => p.tipo !== "caminar").length;
+  return `<span class="riel${conducidos > 2 ? " denso" : ""}${conducidos > 3 ? " sin-letrero" : ""}">${tramos}</span>`;
+}
 function pintarOpciones(r) {
   titulos.opciones = `A ${estado.destino.nombre}`;
   if (document.body.dataset.pantalla === "opciones") $("tituloPantalla").textContent = titulos.opciones;
@@ -1464,34 +1480,57 @@ function pintarOpciones(r) {
   estacionaYSigue(r);
   avisarLluvia(r);
   avisarCiudad();
-  // Contra la app mas barata: cuanto ahorras y cuanto mas tardas yendo en camion.
   const appBarata = [...r.directo.porApp].sort((a, b) => a.precio - b.precio)[0];
   $("tarjetas").before($("ultimoCamion"));
-  $("tarjetas").innerHTML = estado.tarjetas.map(({ o, etiquetas }, i) => {
+  const kgAuto = kgTexto(co2Auto(r.directo.km));
+  const vozOpcion = (o, etiquetas) => {
     const pie = [`Llegas ${hora(llegada(o))}`, `${Math.round(o.minutos)} min`];
     if (caminata(o)) pie.push(`caminas ${caminata(o)} min`);
     const ahorro = appBarata.precio - o.costo;
     const mas = enApp ? Math.round(o.minutos - enApp.minutos) : 0;
     const ahorroTexto = ahorro >= 5 ? `Ahorras unos ${pesos(ahorro)}${mas > 0 ? `, tardas ${mas} min más que en app` : ""}` : "";
-    const co2 = sinAuto(o) ? `En auto emitiría ${kgTexto(co2Auto(r.directo.km))} de CO₂` : "";
-    // Tres datos grandes con su nombre arriba: se leen de un vistazo sin armar una oración.
-    const datos = [["Llegas", hora(llegada(o)), ""], ahorro >= 5 && ["Ahorras", pesos(ahorro), " dato-ahorro"], caminata(o) && ["Caminas", `${caminata(o)} min`, ""]].filter(Boolean);
-    const duracion = [`${Math.round(o.minutos)} min de viaje`, mas > 0 && `${mas} min más que en app`].filter(Boolean).join(", ");
-    const rango = rangoOpcion(o);
-    const segura = etiquetas.includes(MARCA_SEGURA);
-    const razones = segura ? [accesoPie(o) ? `Caminas solo ${accesoPie(o)} min hasta la parada` : "Sin caminar hasta la parada", paradaEnAvenida(o) && "Parada sobre avenida", `Llegas ${hora(llegada(o))}`].filter(Boolean) : [];
-    return `<button type="button" class="tarjeta tarjeta-camion${etiquetas.includes("Recomendado") ? " principal" : ""}${segura ? " tarjeta-segura" : ""}" data-i="${i}"
-      aria-label="${escapar(`${etiquetas.join(" y ")}. ${tituloOpcion(o)}. ${pie.join(". ")}. ${precioOpcionVoz(o)}. ${co2 ? `${co2}. ` : ""}${ahorroTexto}`)}">
+    const co2 = sinAuto(o) ? `En auto emitiría ${kgAuto} de CO₂` : "";
+    return escapar(`${etiquetas.join(" y ")}. ${tituloOpcion(o)}. ${pie.join(". ")}. ${precioOpcionVoz(o)}. ${co2 ? `${co2}. ` : ""}${ahorroTexto}`);
+  };
+  const razonesSeguras = (o) => `<span class="razones-seguras" aria-hidden="true">${[accesoPie(o) ? `Caminas solo ${accesoPie(o)} min hasta la parada` : "Sin caminar hasta la parada", paradaEnAvenida(o) && "Parada sobre avenida"].filter(Boolean).map((t) => `<span>${ico("palomita")}${t}</span>`).join("")}</span>`;
+  const ops = estado.tarjetas.map(({ o }) => o);
+  const ordenes = ops.length ? ORDENES_VIAJE.map((x) => ({ ...x, o: x.elige(ops) })).filter((x) => x.o) : [];
+  const conSegura = estado.tarjetas[0]?.etiquetas.includes(MARCA_SEGURA);
+  const orden = ordenes.find((x) => x.id === estado.ordenViaje) ?? (conSegura ? null : ordenes[0]);
+  const iHero = orden ? ops.indexOf(orden.o) : 0;
+  const pestanas = ops.length > 1 ? `<div class="seg-viaje" role="group" aria-label="Elige cómo viajar">${ordenes.map((x) => `<button type="button" class="tab-viaje" data-orden="${x.id}" aria-pressed="${x === orden}">${x.icono()}<span>${x.texto}</span></button>`).join("")}</div>` : "";
+  const heroViaje = ({ o, etiquetas }, i) => {
+    const rango = rangoOpcion(o), ahorro = appBarata.precio - o.costo, evita = sinAuto(o);
+    const appMin = enApp?.minutos ?? r.directo.minutos;
+    const icono = rango ? `<span class="hv-iconos">${picto("qrobus")}${picto("app")}</span>` : picto("qrobus");
+    const banda = [ahorro >= 5 && `<span>${rango ? "Ahorras unos" : "Ahorras"} ${pesos(ahorro)}</span>`, evita && `<span class="hv-co2">${ico("planta")}<span>Evitas ${kgAuto} de CO₂</span></span>`].filter(Boolean).join("");
+    return `<button type="button" class="tarjeta hero-viaje" data-i="${i}" aria-label="${vozOpcion(o, etiquetas)}">
+      <span class="hv-caja"><span class="hv-partido">${PLACAS_VIAJE}
+        <span class="hv-lado">${icono}<span class="hv-nombre">${rango ? "Combinado, aprox." : "Qrobus"}</span><span class="hv-precio pq${rango ? " rango" : ""}">${rango ? rangoTexto(rango) : pesos(o.costo)}</span>${datoViaje(picto("flag"), `Llegas ${hora(llegada(o))}`)}${datoViaje(ico("reloj"), `${Math.round(o.minutos)} min de viaje`)}</span>
+        <span class="hv-lado der">${picto("app")}<span class="hv-nombre">${Grieta.nombreApp(appBarata.app)}, aprox.</span><span class="hv-precio">${pesos(appBarata.precio)}</span>${datoViaje(picto("flag"), `Llegas ${hora(r.ctx.minuto + appMin)}`)}${datoViaje(ico("reloj"), `${Math.round(appMin)} min de viaje`)}</span>
+      </span>${banda ? `<span class="hv-banda">${banda}</span>` : ""}</span>
+      <span class="caja-riel">${rielViaje(o)}</span>
+      ${etiquetas.includes(MARCA_SEGURA) ? razonesSeguras(o) : ""}
+    </button>
+    <button type="button" class="boton hv-empezar" data-empezar="${i}">Empezar viaje con avisos</button>`;
+  };
+  const otraForma = ({ o, etiquetas }, i) => {
+    const rango = rangoOpcion(o), segura = etiquetas.includes(MARCA_SEGURA);
+    const datos = [datoViaje(picto("flag"), `Llegas ${hora(llegada(o))}`), datoViaje(ico("reloj"), `${Math.round(o.minutos)} min de viaje`), caminata(o) && datoViaje(picto("caminar"), `Caminas ${caminata(o)} min`)].filter(Boolean).join("");
+    return `<button type="button" class="tarjeta tarjeta-camion otra-forma${segura ? " tarjeta-segura" : ""}" data-i="${i}" aria-label="${vozOpcion(o, etiquetas)}">
       <span class="tarjeta-cabeza">${fichaOpcion(o)}
-        <span class="fila-texto">${etiquetas.length ? `<span class="etiqueta">${etiquetas.join(", ")}</span>` : ""}<strong>${escapar(tituloOpcion(o))}</strong></span>
-        <span class="precio${rango ? " precio-rango" : " precio-camion"}">${rango ? `<small class="precio-nota">Aprox.</small>${partesRango(rango)}` : pesos(o.costo)}</span>${ico("chevron", "chevron")}</span>
-      ${segura ? `<span class="razones-seguras" aria-hidden="true">${razones.map((t) => `<span>${ico("palomita")}${t}</span>`).join("")}</span>` : `<span class="datos-viaje" aria-hidden="true">${datos.map(([nombre, valor, clase]) => `<span class="dato${clase}"><small>${nombre}</small><b>${valor}</b></span>`).join("")}</span>
-      <span class="duracion" aria-hidden="true">${duracion}</span>`}
-      ${co2 ? `<span class="co2" aria-hidden="true">${ico("planta")}<span>${co2}</span></span>` : ""}
+        <span class="fila-texto">${etiquetas.length ? `<span class="etiqueta">${etiquetas.join(", ")}</span>` : ""}<strong>${escapar(tituloOpcion(o).replace("Qrobus ", ""))}</strong></span>
+        <span class="precio${rango ? " precio-rango" : " precio-camion"}">${rango ? `<small class="precio-nota">Aprox.</small>${partesRango(rango)}` : pesos(o.costo)}</span></span>
+      ${segura ? razonesSeguras(o) : ""}<span class="of-datos" aria-hidden="true">${datos}</span>
+      ${rielViaje(o)}
+      ${sinAuto(o) ? `<span class="co2" aria-hidden="true">${ico("planta")}<span>En auto emitiría ${kgAuto} de CO₂</span></span>` : ""}
     </button>`;
-  }).join("");
+  };
+  const otras = estado.tarjetas.map((x, i) => (i === iHero ? "" : otraForma(x, i))).join("");
+  $("tarjetas").innerHTML = ops.length ? `${pestanas}${heroViaje(estado.tarjetas[iHero], iHero)}${otras ? `<h2 class="otras-formas">Otras formas de llegar</h2>${otras}` : ""}` : "";
+  for (const t of $("tarjetas").querySelectorAll("[data-flex]")) t.style.flex = t.dataset.flex;
   const hayCamion = r.opciones.some((o) => o.tipo !== "app");
-  $("tituloCamion").hidden = !hayCamion && !r.pasaCerca;
+  $("tituloCamion").hidden = estado.tarjetas.length > 0 || (!hayCamion && !r.pasaCerca);
   // Si el camion de la mejor opcion es de los ultimos del dia, se avisa a que hora pasa el ultimo.
   const conCamion = estado.tarjetas.map(({ o }) => o).find((o) => o.tipo !== "app");
   const c = conCamion?.pasos.find((p) => p.tipo === "camion");
@@ -1511,7 +1550,7 @@ function pintarOpciones(r) {
   else $("enApp").after(...bloqueCamion);
   $("opciones").classList.toggle("camion-primero", camionPrimero);
   // El aviso va debajo de la opcion a la que se refiere; arriba empujaba la tarjeta fuera de la hoja.
-  $("tarjetas").querySelector(".tarjeta")?.after($("ultimoCamion"));
+  $("tarjetas").querySelector(".hv-empezar")?.after($("ultimoCamion"));
   if (!hayCamion && yaNoPasan(r.ctx.minuto)) {
     $("tarjetas").innerHTML += tlacuacheDormido("Ya no pasan<br>camiones a esta hora");
   } else if (!hayCamion) {
@@ -1519,6 +1558,20 @@ function pintarOpciones(r) {
   }
 }
 $("tarjetas").addEventListener("click", (e) => {
+  const orden = e.target.closest("[data-orden]")?.dataset.orden;
+  if (orden) {
+    estado.ordenViaje = orden;
+    pintarOpciones(estado.r);
+    return void $("tarjetas").querySelector(`[data-orden="${orden}"]`)?.focus({ preventScroll: true });
+  }
+  const empezar = e.target.closest("[data-empezar]");
+  if (empezar) {
+    const { o, etiquetas } = estado.tarjetas[empezar.dataset.empezar];
+    estado.elegida = o;
+    estado.etiquetaElegida = etiquetas.join(", ");
+    titulos.detalle = tituloOpcion(o);
+    return iniciarGuia(o);
+  }
   const t = e.target.closest(".tarjeta");
   if (t) abrirOpcion(t.dataset.i);
 });

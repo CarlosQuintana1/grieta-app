@@ -10,7 +10,7 @@
     "url": "https://www.bing.com/translator?from=es&to=otq",
     "fecha": "2026-11-03",
     "nota": "Traducción automática con adaptaciones breves; pendiente de revisión por hablantes.",
-    "actualizado": "2026-11-08"
+    "actualizado": "2026-11-09"
   },
   "mensajes": [
     {
@@ -9607,6 +9607,71 @@
       "clave": "texto_75bdc51a6f",
       "es": "Fuente: {v1}.",
       "otq": "Fuente: {v1}."
+    },
+    {
+      "clave": "texto_f05b9efbf1",
+      "es": "Barato",
+      "otq": "Ar njut'i menu ar bojä"
+    },
+    {
+      "clave": "texto_76495f26e6",
+      "es": "Rápido",
+      "otq": "Ngut'a"
+    },
+    {
+      "clave": "texto_1af85c81ab",
+      "es": "Caminar menos",
+      "otq": "'Yo menu"
+    },
+    {
+      "clave": "texto_1db3fbe259",
+      "es": "Elige cómo viajar",
+      "otq": "Da 'ñets'i Honja viajar"
+    },
+    {
+      "clave": "texto_16193b0fa5",
+      "es": "Transbordas",
+      "otq": "Nu'i gí transfiere"
+    },
+    {
+      "clave": "texto_d84dcc1dfe",
+      "es": "Cambias",
+      "otq": "Nu'i gí mpa̲ti"
+    },
+    {
+      "clave": "texto_3375353c72",
+      "es": "Otras formas de llegar",
+      "otq": "Ma 'ra ya maneras ar zo̲ni"
+    },
+    {
+      "clave": "texto_8feffdb92d",
+      "es": "Combinado, aprox.",
+      "otq": "Combinado, aprox."
+    },
+    {
+      "clave": "texto_da39d24e19",
+      "es": "{v1}, aprox.",
+      "otq": "{v1}, aprox."
+    },
+    {
+      "clave": "texto_2d77184c90",
+      "es": "Ahorras {v1}",
+      "otq": "Nu'i gí guarda {v1}"
+    },
+    {
+      "clave": "texto_3fd6141c4f",
+      "es": "Ahorras unos {v1}",
+      "otq": "Nu'i gí guarda {v1}"
+    },
+    {
+      "clave": "texto_42b9b0c1c0",
+      "es": "Evitas {v1} de CO₂",
+      "otq": "Nu'bu̲ nu'bu {v1} ar CO₂"
+    },
+    {
+      "clave": "texto_ea06f1a98b",
+      "es": "Caminas {v1} min",
+      "otq": "'Yo {v1} min"
     }
   ],
   "adaptaciones": [
@@ -10014,6 +10079,16 @@
       "clave": "texto_4444ec4125",
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "La sección de Voz quedó arriba de Ayuda; se quita la palabra «abajo» de la traducción anterior en lugar de volver a traducir."
+    },
+    {
+      "clave": "texto_f05b9efbf1",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Reusa la traducción automática de «Más económica»."
+    },
+    {
+      "clave": "texto_3fd6141c4f",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Misma traducción automática de «Ahorras {v1}»."
     }
   ],
   "parcial": false

@@ -10,7 +10,7 @@
     "nombre": "Google Traductor",
     "url": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
     "fecha": "2026-11-04",
-    "actualizado": "2026-11-08"
+    "actualizado": "2026-11-09"
   },
   "estado": "Traducción automática provisional, sin revisión lingüística.",
   "mensajes": [
@@ -9608,6 +9608,71 @@
       "clave": "texto_75bdc51a6f",
       "es": "Fuente: {v1}.",
       "nhe": "Tlen uala: {v1}."
+    },
+    {
+      "clave": "texto_f05b9efbf1",
+      "es": "Barato",
+      "nhe": "Barato"
+    },
+    {
+      "clave": "texto_76495f26e6",
+      "es": "Rápido",
+      "nhe": "Nima"
+    },
+    {
+      "clave": "texto_1af85c81ab",
+      "es": "Caminar menos",
+      "nhe": "amo tlauel xinejnemi"
+    },
+    {
+      "clave": "texto_1db3fbe259",
+      "es": "Elige cómo viajar",
+      "nhe": "Xijtlapejpeni kenijkatsa tias"
+    },
+    {
+      "clave": "texto_16193b0fa5",
+      "es": "Transbordas",
+      "nhe": "Tlatitlanili"
+    },
+    {
+      "clave": "texto_d84dcc1dfe",
+      "es": "Cambias",
+      "nhe": "Ti mopatla"
+    },
+    {
+      "clave": "texto_3375353c72",
+      "es": "Otras formas de llegar",
+      "nhe": "Sekinok ojtli tlen ika tias nopaya"
+    },
+    {
+      "clave": "texto_8feffdb92d",
+      "es": "Combinado, aprox.",
+      "nhe": "Ika sansejko, kanaj."
+    },
+    {
+      "clave": "texto_da39d24e19",
+      "es": "{v1}, aprox.",
+      "nhe": "{v1}, aprox."
+    },
+    {
+      "clave": "texto_2d77184c90",
+      "es": "Ahorras {v1}",
+      "nhe": "Ti tlaati {v1}"
+    },
+    {
+      "clave": "texto_3fd6141c4f",
+      "es": "Ahorras unos {v1}",
+      "nhe": "Ti tlaati se kentsi {v1}"
+    },
+    {
+      "clave": "texto_42b9b0c1c0",
+      "es": "Evitas {v1} de CO₂",
+      "nhe": "Ti kikauas {v1} tlen CO₂"
+    },
+    {
+      "clave": "texto_ea06f1a98b",
+      "es": "Caminas {v1} min",
+      "nhe": "Tinejnemi {v1} min"
     }
   ],
   "adaptaciones": [
@@ -9935,6 +10000,11 @@
       "clave": "texto_98add9d174",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "La sección de Voz quedó arriba de Ayuda; se quita la palabra «abajo» de la traducción anterior en lugar de volver a traducir."
+    },
+    {
+      "clave": "texto_f05b9efbf1",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe",
+      "criterio": "Mayúscula inicial como en el texto fuente."
     }
   ]
 }

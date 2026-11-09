@@ -16329,6 +16329,122 @@
           "expresion": "interfaz"
         }
       }
+    },
+    {
+      "clave": "texto_f05b9efbf1",
+      "es": "Barato",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_76495f26e6",
+      "es": "Rápido",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_1af85c81ab",
+      "es": "Caminar menos",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_1db3fbe259",
+      "es": "Elige cómo viajar",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_16193b0fa5",
+      "es": "Transbordas",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_d84dcc1dfe",
+      "es": "Cambias",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_3375353c72",
+      "es": "Otras formas de llegar",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_8feffdb92d",
+      "es": "Combinado, aprox.",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_da39d24e19",
+      "es": "{v1}, aprox.",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_2d77184c90",
+      "es": "Ahorras {v1}",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_3fd6141c4f",
+      "es": "Ahorras unos {v1}",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_42b9b0c1c0",
+      "es": "Evitas {v1} de CO₂",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_ea06f1a98b",
+      "es": "Caminas {v1} min",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
     }
   ]
 }
