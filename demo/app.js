@@ -4700,12 +4700,12 @@ function fichasPerfil() {
   const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
   return [
     ["perfilVista", "anil", "ojo", "Pantalla", { vista: "Veo bien", poco: "Veo poco", voz: "Grieta me habla" }[vistaActual()]],
-    ["perfilLengua", "hospital", `lengua-${acc.idioma ?? "es"}`, "Idioma", { es: "Español", oto: "Hñöñho", nah: "Náhuatl" }[acc.idioma] ?? "Español", true],
+    ["perfilLengua", "turquesa", `lengua-${acc.idioma ?? "es"}`, "Idioma", { es: "Español", oto: "Hñöñho", nah: "Náhuatl" }[acc.idioma] ?? "Español", true],
     acc.modoVoz && ["perfilLectorOpciones", "ciruela", "decir", "Lector", acc.lector === "si" ? "Uso lector" : "Grieta me lee"],
     !acc.modoVoz && ["perfilForma", "obsidiana", "letra", "Botones", acc.facil ? "Lo esencial" : "Completos"],
-    ["perfilMovilidad", "maiz", movilidad === "silla" ? "silla" : "caminar", "Caminar", { normal: "Camino bien", poco: "Camino poco", silla: "Silla o andadera" }[movilidad]],
+    ["perfilMovilidad", "naranja", movilidad === "silla" ? "silla" : "caminar", "Caminar", { normal: "Camino bien", poco: "Camino poco", silla: "Silla o andadera" }[movilidad]],
     ["perfilOido", "ciruela", "decir", "Avisos", acc.oido === "poco" ? "Escucho poco" : "Escucho bien"],
-    ["perfilTarifa", "hospital", "qrobus", "Tarifa", acc.unidos ? "Unidos" : "Normal"],
+    ["perfilTarifa", "rosa", "qrobus", "Tarifa", acc.unidos ? "Unidos" : "Normal"],
   ].filter(Boolean);
 }
 function resumenCortoPerfil() {
@@ -4730,7 +4730,7 @@ function pintarResumenPerfil() {
   const iconoGasolina = acc.modoVoz || elegida === "no" ? "" : `<i class="gas-${elegida}">${picto("gasolina")}</i>`;
   $("textoPerfil").insertAdjacentHTML("beforeend", iconoGasolina);
   $("credencialIconos").innerHTML = [acc.modoVoz ? "decir" : "ojo", movimiento[0] === "silla" ? "silla" : "caminar", "qrobus"].map((p) => `<i>${picto(p)}</i>`).join("") + iconoGasolina;
-  const gasolina = acc.modoVoz ? "" : `<div class="perfil-ficha ancha tono-salud">${picto("gasolina")}<span class="perfil-ficha-texto"><small>Tu carro usa</small><b>Gasolina</b></span>
+  const gasolina = acc.modoVoz ? "" : `<div class="perfil-ficha ancha gas-${elegida}">${picto("gasolina")}<span class="perfil-ficha-texto"><small>Tu carro usa</small><b>Gasolina</b></span>
     <span class="perfil-gasolina" role="group" aria-label="Qué gasolina le pones a tu carro">${[["magna", "Verde", "Gasolina verde"], ["premium", "Roja", "Gasolina roja"], ["no", "No", "No tengo carro"]].map(([v, t, nombre]) => `<button type="button" data-gasolina="${v}" aria-pressed="${v === elegida}" aria-label="${nombre}">${t}</button>`).join("")}</span></div>`;
   $("perfilFichas").innerHTML = fichasPerfil().map(([grupo, tono, icono, etiqueta, valor, nombrePropio]) =>
     `<button type="button" class="perfil-ficha tono-${tono}" data-ir-perfil="${grupo}" aria-haspopup="dialog">${picto(icono)}${ico("chevron", "chevron")}<span class="perfil-ficha-texto"><small>${etiqueta}</small><b${nombrePropio ? ' translate="no"' : ""}>${escapar(valor)}</b></span></button>`).join("") + gasolina;
