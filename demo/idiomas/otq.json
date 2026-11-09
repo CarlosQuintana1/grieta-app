@@ -2,14 +2,14 @@
   "codigo": "otq",
   "nombre": "Hñöñho (Otomí)",
   "revision": null,
-  "completa": false,
+  "completa": true,
   "provisional": true,
   "fuente": {
     "tipo": "automatica",
     "nombre": "Microsoft Translator, otomí de Querétaro (otq)",
     "url": "https://www.bing.com/translator?from=es&to=otq",
     "fecha": "2026-11-03",
-    "nota": "Traducción automática con adaptaciones breves; pendiente de revisión por hablantes. Parcial: faltan los textos nuevos de la versión 241 porque el traductor alcanzó su límite.",
+    "nota": "Traducción automática con adaptaciones breves; pendiente de revisión por hablantes.",
     "actualizado": "2026-11-09"
   },
   "mensajes": [
@@ -9672,6 +9672,366 @@
       "clave": "texto_ea06f1a98b",
       "es": "Caminas {v1} min",
       "otq": "'Yo {v1} min"
+    },
+    {
+      "clave": "texto_74ae2ba95b",
+      "es": "Cerrar mapa",
+      "otq": "Cerrar 'me̲ni"
+    },
+    {
+      "clave": "texto_73d60c5680",
+      "es": "Mi horario",
+      "otq": "Ma horari"
+    },
+    {
+      "clave": "texto_c08c3c4608",
+      "es": "¿A qué hora entras?",
+      "otq": "¿Temu̲ ora gí 'bu̲i?"
+    },
+    {
+      "clave": "texto_63d2779423",
+      "es": "Mañana",
+      "otq": "Xudi"
+    },
+    {
+      "clave": "texto_55133d4e6e",
+      "es": "Hoy",
+      "otq": "Nu'bya"
+    },
+    {
+      "clave": "texto_26e740c079",
+      "es": "Otro día",
+      "otq": "Ma'na ar pa"
+    },
+    {
+      "clave": "texto_692eeaf507",
+      "es": "Te digo si conviene y Grieta aprende",
+      "otq": "Ga diré nu'bu̲ funciona ne Grieta meya"
+    },
+    {
+      "clave": "texto_4507bfec65",
+      "es": "Llegar a tiempo",
+      "otq": "Zubi tso̲ho̲ tso̲ngwa"
+    },
+    {
+      "clave": "texto_bfb1b73d7a",
+      "es": "Ver ruta",
+      "otq": "Ga ruta"
+    },
+    {
+      "clave": "texto_395e3e15f7",
+      "es": "Ver ruta en app",
+      "otq": "Ga ruta jar nt'ot'e"
+    },
+    {
+      "clave": "texto_0c3814207a",
+      "es": "Sin caminar",
+      "otq": "Hinda 'yo"
+    },
+    {
+      "clave": "texto_edbf71fc65",
+      "es": "Pagas {v1} más",
+      "otq": "Nu'i gí jut'i {v1} mäs"
+    },
+    {
+      "clave": "texto_5a8192dc9a",
+      "es": "Caminas {v1} minutos menos",
+      "otq": "Mpe̲ka̲ {v1} t'olo ora menu"
+    },
+    {
+      "clave": "texto_f2cf55ecc2",
+      "es": "Caminas 1 minuto menos",
+      "otq": "Mpe̲ka̲ 1 t'olo ora menu"
+    },
+    {
+      "clave": "texto_a670bad08d",
+      "es": "min a pie",
+      "otq": "min 'yowa"
+    },
+    {
+      "clave": "texto_e3008d2904",
+      "es": "Para avisarte otro día necesito permiso de notificaciones.",
+      "otq": "Pa bí notificar bí ma'na ar pa di 'raku̲'be notificación."
+    },
+    {
+      "clave": "texto_6398362a35",
+      "es": "Te bajas y caminas",
+      "otq": "Gi za̲tho̲ ne mpe̲'yo"
+    },
+    {
+      "clave": "texto_8ee8896a1d",
+      "es": "{v1} min a pie",
+      "otq": "{v1} min 'yowa"
+    },
+    {
+      "clave": "texto_964094210f",
+      "es": "Súbete a la {v1}",
+      "otq": "Subir ar {v1}"
+    },
+    {
+      "clave": "texto_daf3d7e5fd",
+      "es": "No encontré cómo llegar a esa hora. Prueba una hora más tarde.",
+      "otq": "Hindi himar tsa̲ ga tini Temu̲ zo̲ni jar nunu̲ t'olo ora. Gi japi 'nar ora mäs xti nde."
+    },
+    {
+      "clave": "texto_6c18993d9a",
+      "es": "O pide {v1} a las",
+      "otq": "Wa gi 'ya̲ni {v1} jar"
+    },
+    {
+      "clave": "texto_99d9f4097b",
+      "es": "Pide {v1} a las",
+      "otq": "Gi 'ya̲ni {v1} jar"
+    },
+    {
+      "clave": "texto_2a1515acc6",
+      "es": "{v1} en Qrobus",
+      "otq": "{v1} Ja Qrobus"
+    },
+    {
+      "clave": "texto_4bae9f0fa3",
+      "es": "Sal de tu casa",
+      "otq": "Po̲ni ir nguu"
+    },
+    {
+      "clave": "texto_9548d4f789",
+      "es": "Sal de tu casa a las",
+      "otq": "Po̲ni ir nguu jar"
+    },
+    {
+      "clave": "texto_d9eb34b75a",
+      "es": "Sal a las",
+      "otq": "Po̲ni jar"
+    },
+    {
+      "clave": "texto_20927db150",
+      "es": "Sal a las {v1}",
+      "otq": "Po̲ni jar {v1}"
+    },
+    {
+      "clave": "texto_b87a5086d7",
+      "es": "Yo te digo",
+      "otq": "Di xi'i"
+    },
+    {
+      "clave": "texto_fa8f3adcfc",
+      "es": "Entras a las",
+      "otq": "Nu'i gi 'ñät'i jar"
+    },
+    {
+      "clave": "texto_30b8cafed0",
+      "es": "Entras a las {v1}",
+      "otq": "Nu'i gí ku̲t'i jar {v1}"
+    },
+    {
+      "clave": "texto_12f484cd9f",
+      "es": "Tú me dices",
+      "otq": "Nu'i gi xiki"
+    },
+    {
+      "clave": "texto_216f597d7e",
+      "es": "Configura tu horario",
+      "otq": "Configurar ár horario"
+    },
+    {
+      "clave": "texto_a2e63ff8aa",
+      "es": "{v1} a {v2}, sal a las",
+      "otq": "{v1} to {v2}, po̲ni jar"
+    },
+    {
+      "clave": "texto_162d92c98a",
+      "es": "Libre",
+      "otq": "Ntsa̲ya̲"
+    },
+    {
+      "clave": "texto_32aad8bfdf",
+      "es": "Calculando",
+      "otq": "Ar nt'ot'i"
+    },
+    {
+      "clave": "texto_74a9597b42",
+      "es": "Necesito saber de dónde sales",
+      "otq": "Di ne ga pädi hogem'bu̲ gi po̲ni"
+    },
+    {
+      "clave": "texto_81ae1db367",
+      "es": "No encontré camión a esa hora",
+      "otq": "Nunu̲ nunu̲ hindí dá tini 'nar dätä bo̲jä"
+    },
+    {
+      "clave": "texto_1503e3d7fe",
+      "es": "Otro lugar",
+      "otq": "Ma'na lugar"
+    },
+    {
+      "clave": "texto_031c1df252",
+      "es": "El {v1} estás libre",
+      "otq": "{v1} ntsa̲ya̲"
+    },
+    {
+      "clave": "texto_9db909742a",
+      "es": "Poner hora",
+      "otq": "Da hoki ar ora"
+    },
+    {
+      "clave": "texto_6e4c9e1d03",
+      "es": "El {v1} entras a las",
+      "otq": "Ar {v1} da ku̲t'i jar ar"
+    },
+    {
+      "clave": "texto_3a35bcb33e",
+      "es": "Donde esté",
+      "otq": "Hogem'bu̲ 'bu̲i"
+    },
+    {
+      "clave": "texto_a7c630c978",
+      "es": "Elige",
+      "otq": "Da 'ñets'i"
+    },
+    {
+      "clave": "texto_91f8d706e1",
+      "es": "Días de la semana",
+      "otq": "Ya pa ar su̲mänä"
+    },
+    {
+      "clave": "texto_820eaa6af7",
+      "es": "Usar",
+      "otq": "Njapu'befi"
+    },
+    {
+      "clave": "texto_24e4ff2be1",
+      "es": "toda la semana",
+      "otq": "nga̲tho ar su̲mänä"
+    },
+    {
+      "clave": "texto_5737c01cae",
+      "es": "Este día libre",
+      "otq": "Nu'bya ntsa̲ya̲"
+    },
+    {
+      "clave": "texto_f6013b3ae4",
+      "es": "Elige a dónde vas.",
+      "otq": "Gi jwahni hogem'bu̲ gi ma"
+    },
+    {
+      "clave": "texto_a0b456ef6b",
+      "es": "Pon la hora de al menos un día.",
+      "otq": "Da hoki ar ora tso̲kwa menu 'nar pa"
+    },
+    {
+      "clave": "texto_b810d8b8ea",
+      "es": "Elige lugares distintos.",
+      "otq": "Gi jwahni 'na'ño ya xeni"
+    },
+    {
+      "clave": "texto_39fc6e3af9",
+      "es": "{v1}. Sal ahora para llegar a tiempo.",
+      "otq": "{v1}. Po̲ni nu'bya pa zo̲ni tso̲ngar tso̲ngar ora."
+    },
+    {
+      "clave": "texto_06bca500eb",
+      "es": "Llegas {v1}, {v2} min",
+      "otq": "Tso̲ho̲ {v1}, {v2} min"
+    },
+    {
+      "clave": "texto_aeed406563",
+      "es": "Otra, {v1}",
+      "otq": "Ma'na, {v1}"
+    },
+    {
+      "clave": "texto_0d03a4d912",
+      "es": "Aprox. {v1}",
+      "otq": "Mäs o menu {v1}"
+    },
+    {
+      "clave": "texto_1b1b177ceb",
+      "es": "Te sobran {v1} min",
+      "otq": "Nu'i gí pe̲ts'i ya t'olo ora extra {v1}"
+    },
+    {
+      "clave": "texto_5ea25ccb52",
+      "es": "Llegas justo a tiempo",
+      "otq": "Da zo̲ni ngut'ä ngut'ä"
+    },
+    {
+      "clave": "texto_eb99a7b139",
+      "es": "Te aviso 10 min antes",
+      "otq": "Ga ga japi ga pädi 10 min nu'bu̲"
+    },
+    {
+      "clave": "texto_a58e09c486",
+      "es": "Cinco minutos menos",
+      "otq": "Ku̲t'a ya t'olo ora menu"
+    },
+    {
+      "clave": "texto_7b0d37c621",
+      "es": "Cinco minutos más",
+      "otq": "Ku̲t'a ya t'olo ora mäs"
+    },
+    {
+      "clave": "texto_44eefeab22",
+      "es": "Hora de entrada",
+      "otq": "Ora gi 'bu̲i"
+    },
+    {
+      "clave": "texto_ff12aa658d",
+      "es": "Salgo de",
+      "otq": "Di po̲ni ar"
+    },
+    {
+      "clave": "texto_02136aab15",
+      "es": "Voy a",
+      "otq": "Ma ga"
+    },
+    {
+      "clave": "texto_6691d69fc4",
+      "es": "Guardar mi horario",
+      "otq": "Guardar ma horario"
+    },
+    {
+      "clave": "texto_02ad931711",
+      "es": "Quitar mi horario",
+      "otq": "Pats'u̲ga̲ ma horario"
+    },
+    {
+      "clave": "texto_cf9718d840",
+      "es": "Al menos",
+      "otq": "'Me̲t'o menu"
+    },
+    {
+      "clave": "texto_e735306207",
+      "es": "de gasolina más estacionamiento",
+      "otq": "pa gas mäs estacionamiento"
+    },
+    {
+      "clave": "texto_8ccd8dfc71",
+      "es": "En tu carro",
+      "otq": "Ja ir coche"
+    },
+    {
+      "clave": "texto_78314d3e1b",
+      "es": "Elige otro día",
+      "otq": "Gi jwahni ma'na ar pa"
+    },
+    {
+      "clave": "texto_823f4896fa",
+      "es": "{v1} te aviso a las {v2} y a las {v3}, aunque cierres Grieta.",
+      "otq": "Gi gi ga pädi {v1} jar {v2} ne {v3}, 'nehe nu'bu̲ cerras Grieta."
+    },
+    {
+      "clave": "texto_2608109169",
+      "es": "Configura tu horario y te digo cuándo salir cada día",
+      "otq": "Configurar ár horario ne ga xi'i Hä'mu̲ po̲ni kadu̲ 'nar pa"
+    },
+    {
+      "clave": "texto_c462b381a7",
+      "es": "{v1}, precio estimado {v2}",
+      "otq": "{v1}, precio estimado {v2}"
+    },
+    {
+      "clave": "texto_ecba281b48",
+      "es": "Sal de donde estás",
+      "otq": "Po̲ni ho gi 'bu̲i"
     }
   ],
   "adaptaciones": [
@@ -10089,7 +10449,52 @@
       "clave": "texto_3fd6141c4f",
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "Misma traducción automática de «Ahorras {v1}»."
+    },
+    {
+      "clave": "texto_6c18993d9a",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Compone «o» con la traducción automática de «Pide {v1} a las»."
+    },
+    {
+      "clave": "texto_2a1515acc6",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Compone el precio con la traducción automática de «En Qrobus»."
+    },
+    {
+      "clave": "texto_162d92c98a",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Fragmento de la traducción automática de «Este día libre»; «Libre» salió como gratis."
+    },
+    {
+      "clave": "texto_031c1df252",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Fragmento de la traducción automática de «Este día libre»."
+    },
+    {
+      "clave": "texto_9db909742a",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Fragmento de la traducción automática de «Pon la hora de al menos un día»."
+    },
+    {
+      "clave": "texto_06bca500eb",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Compone la traducción automática de «Llegas {v1}» con los minutos."
+    },
+    {
+      "clave": "texto_0d03a4d912",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Reusa la traducción automática de «Aprox.»."
+    },
+    {
+      "clave": "texto_1b1b177ceb",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Traducción automática de «Tienes {v1} min de más»."
+    },
+    {
+      "clave": "texto_44eefeab22",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Traducción automática de «Hora en que entras»."
     }
   ],
-  "parcial": true
+  "parcial": false
 }
