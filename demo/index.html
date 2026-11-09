@@ -561,15 +561,17 @@
         <svg id="ahorroMeses" class="co2-semanas" viewBox="0 0 320 120" role="img" aria-label="Ahorro de los últimos meses"></svg>
       </div>
       <h2 class="titulo-medio tono-hospital bono-titulo"><span class="mini-ficha" aria-hidden="true"><svg class="picto"><use href="#p-tarjeta"/></svg></span>¿Qué bono te conviene?</h2>
-      <p class="etiqueta-campo" id="tituloViajesSemana">¿Cuántos viajes en camión haces a la semana?</p>
-      <div class="contador" role="group" aria-labelledby="tituloViajesSemana">
-        <button id="menosViajes" type="button" class="contador-boton" aria-label="Un viaje menos">−</button>
-        <output id="viajesSemana" aria-live="polite">10</output>
-        <button id="masViajes" type="button" class="contador-boton" aria-label="Un viaje más">+</button>
-      </div>
-      <div id="tarifaBonos" class="rutas-queja" role="radiogroup" aria-label="Tu tarifa">
-        <button type="button" role="radio" aria-checked="true" data-v="normal">Tarifa normal</button>
-        <button type="button" role="radio" aria-checked="false" tabindex="-1" data-v="unidos">Tarifa Unidos</button>
+      <div class="bono-panel">
+        <p class="etiqueta-campo" id="tituloViajesSemana">¿Cuántos viajes en camión haces a la semana?</p>
+        <div class="contador" role="group" aria-labelledby="tituloViajesSemana">
+          <button id="menosViajes" type="button" class="contador-boton" aria-label="Un viaje menos">−</button>
+          <output id="viajesSemana" aria-live="polite">10</output>
+          <button id="masViajes" type="button" class="contador-boton" aria-label="Un viaje más">+</button>
+        </div>
+        <div id="tarifaBonos" class="segmento" role="radiogroup" aria-label="Tu tarifa">
+          <button type="button" role="radio" aria-checked="true" data-v="normal">Tarifa normal</button>
+          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-v="unidos">Tarifa Unidos</button>
+        </div>
       </div>
       <div id="bonoVeredicto" class="bono-veredicto" role="status"></div>
       <ul id="bonoOpciones" class="bono-opciones"></ul>
@@ -824,12 +826,17 @@
     <section id="tutorial" class="pantalla tutorial" aria-labelledby="tutorialTitulo" hidden>
       <div class="tutorial-cabecera"><p id="tutorialProgreso" class="tutorial-progreso">Paso 1 de 3</p><button id="tutorialOmitir" type="button" class="enlace">Saltar tutorial</button></div>
       <div id="tutorialPuntos" class="tutorial-puntos" aria-hidden="true"><i></i><i></i><i></i></div>
-      <span id="tutorialFicha" class="tutorial-hero tono-maiz" aria-hidden="true"><svg class="picto"><use id="tutorialIcono" href="#p-lugar"/></svg></span>
-      <h1 id="tutorialTitulo" tabindex="-1">Busca a dónde vas</h1>
-      <p id="tutorialTexto" class="tutorial-texto"></p>
-      <p id="tutorialDetalle" class="tutorial-detalle"></p>
-      <button id="tutorialContinuar" type="button" class="boton">Continuar</button>
-      <button id="tutorialAnterior" type="button" class="boton oscuro" hidden>Paso anterior</button>
+      <div id="tutorialEscena" class="tutorial-escena" aria-hidden="true"></div>
+      <div id="tutorialCuerpo" class="tutorial-cuerpo">
+        <h1 id="tutorialTitulo" tabindex="-1">Busca a dónde vas</h1>
+        <p id="tutorialTexto" class="tutorial-texto"></p>
+        <p id="tutorialAviso" class="tutorial-aviso" hidden></p>
+        <p id="tutorialDetalle" class="oculto"></p>
+      </div>
+      <div class="tutorial-acciones">
+        <button id="tutorialAnterior" type="button" class="tutorial-atras" hidden><svg class="icono" aria-hidden="true"><use href="#i-atras"/></svg><span class="oculto">Paso anterior</span></button>
+        <button id="tutorialContinuar" type="button" class="boton">Continuar</button>
+      </div>
       <button id="tutorialRepetir" type="button" class="enlace" hidden>Repetir explicación</button>
       <button id="tutorialPracticar" type="button" class="boton oscuro" hidden>Practicar los toques</button>
     </section>
@@ -910,7 +917,7 @@
       <div id="ajustesFichas" class="ajustes-fichas">
         <button type="button" class="ajuste-ficha tono-anil" data-ajuste="pantalla"><svg class="picto" aria-hidden="true"><use href="#p-celular"/></svg><span><strong>Pantalla</strong><small>Colores, modo fácil e idioma</small></span></button>
         <button type="button" class="ajuste-ficha tono-ciruela" data-ajuste="voz"><svg class="picto" aria-hidden="true"><use href="#p-decir"/></svg><span><strong>Voz</strong><small>Encenderla y su velocidad</small></span></button>
-        <button type="button" class="ajuste-ficha tono-hospital" data-ajuste="viajes"><svg class="picto" aria-hidden="true"><use href="#p-qrobus"/></svg><span><strong>Tus viajes</strong><small>Caminar poco, tarifa y avisar a alguien</small></span></button>
+        <button type="button" class="ajuste-ficha tono-hospital" data-ajuste="viajes"><svg class="picto" aria-hidden="true"><use href="#p-qrobus"/></svg><span><strong>Tus viajes</strong><small>Cuánto caminas y qué tarifa pagas</small></span></button>
         <button type="button" class="ajuste-ficha tono-trabajo" data-ajuste="accesibilidad"><svg class="picto" aria-hidden="true"><use href="#p-ojo"/></svg><span><strong>Accesibilidad</strong><small>Letra, contraste y daltonismo</small></span></button>
         <button type="button" class="ajuste-ficha tono-maiz" data-ajuste="progreso"><svg class="picto" aria-hidden="true"><use href="#p-llave"/></svg><span><strong>Tu progreso</strong><small>Pásalo a otro teléfono</small></span></button>
         <button type="button" class="ajuste-ficha tono-obsidiana" data-ajuste="ayuda"><svg class="picto" aria-hidden="true"><use href="#p-reportar"/></svg><span><strong>Ayuda</strong><small>Cómo usar Grieta y preguntas</small></span></button>
@@ -994,24 +1001,6 @@
         <div id="parCamino" class="par-opciones" role="radiogroup" aria-labelledby="tituloCamino" data-par="optCamino">
           <button type="button" role="radio" aria-checked="true" data-v="no" tabindex="0"><span class="muestra muestra-camino" aria-hidden="true"><svg class="picto"><use href="#p-caminar"/></svg><i></i><svg class="picto"><use href="#p-parada"/></svg></span>Lo normal</button>
           <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1"><span class="muestra muestra-camino poco" aria-hidden="true"><svg class="picto"><use href="#p-caminar"/></svg><i></i><svg class="picto"><use href="#p-parada"/></svg></span>Menos de 300 m</button>
-        </div>
-        <div class="ajustes-lista">
-        <details class="ajuste-seccion ajuste-plegable">
-          <summary class="fila-ajustes">
-            <span class="mini-ficha tono-hospital" aria-hidden="true"><svg class="picto"><use href="#p-familiar"/></svg></span>
-            <span class="fila-texto"><strong id="tituloFamiliar">Avisar a alguien</strong><small id="textoFamiliar">Agrega a alguien de confianza</small></span>
-            <svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
-          </summary>
-          <div class="ajuste-panel">
-            <div class="familiar" role="group" aria-labelledby="tituloFamiliar">
-              <p class="nota">Al empezar un viaje y al llegar, Grieta te deja avisarle por WhatsApp con un toque. Se guarda en este teléfono y, si tienes llave, en tu copia cifrada.</p>
-              <label class="campo"><span><svg class="icono" aria-hidden="true"><use href="#i-persona"/></svg>Nombre</span><input id="familiarNombre" type="text" maxlength="30" autocomplete="off" placeholder="Ejemplo: Mamá"></label>
-              <label class="campo"><span><svg class="icono" aria-hidden="true"><use href="#i-telefono"/></svg>Teléfono a 10 dígitos</span><input id="familiarTel" type="tel" inputmode="tel" maxlength="16" autocomplete="off" placeholder="442 123 4567"></label>
-              <button id="guardarFamiliar" type="button" class="boton"><svg class="icono" aria-hidden="true"><use href="#i-palomita"/></svg>Guardar</button>
-              <p id="familiarEstado" class="nota" role="status"></p>
-            </div>
-          </div>
-        </details>
         </div>
       </div>
       <div data-ajuste-panel="progreso" class="tono-maiz" hidden>

@@ -2479,7 +2479,6 @@ function decir(titulo, detalle, etapa, alerta = false) {
   // En la parada el boton principal es "¿Es mi parada?"; arriba del camion, "Avisar al chofer".
   $("avisarChofer").hidden = !["camion", "bajate"].includes(clave);
   $("avisarChofer").classList.remove("oscuro");
-  // Con un familiar guardado, avisarle ya comparte el viaje: no se muestran los dos.
   ponerTitulo(titulo);
   $("guiaDetalle").textContent = cruce(textoFrase(detalle));
   // El color ya lo da la etapa; el aviso urgente se nota por el rojo de "Bájate".
@@ -2879,40 +2878,6 @@ async function revisarAvisosParada() {
   else if (lleno) unaVez(`gente-lleno-${guia.k}`, () => decir(`Alguien avisó que la ${c.linea} viene llena`, frase("espera_siguiente"), "En la parada"));
 }
 
-// Avisar a un familiar por WhatsApp: al salir y al llegar, con un toque
-let familiar = leer("grieta-familiar", null);
-function pintarResumenFamiliar() {
-  const resumen = $("textoFamiliar");
-  if (!resumen) return;
-  if (!familiar) {
-    resumen.textContent = "Agrega a alguien de confianza";
-    return;
-  }
-  const telefono = familiar.telefono.replace(/^52/, "").replace(/^(\d{3})(\d{3})(\d{4})$/, "$1 $2 $3");
-  resumen.textContent = `${familiar.nombre}, ${telefono}`;
-}
-function pintarFormaFamiliar() {
-  $("familiarNombre").value = familiar?.nombre ?? "";
-  $("familiarTel").value = familiar ? familiar.telefono.slice(2) : "";
-  pintarResumenFamiliar();
-}
-$("guardarFamiliar").addEventListener("click", () => {
-  const nombre = $("familiarNombre").value.trim().replace(/\s+/g, " ");
-  const digitos = $("familiarTel").value.replace(/\D/g, "").replace(/^52/, "");
-  if (!nombre && !digitos) {
-    familiar = null;
-    escribir("grieta-familiar", null);
-    pintarResumenFamiliar();
-    return void ($("familiarEstado").textContent = "Listo, ya no hay a quién avisar.");
-  }
-  if (!nombre) return void ($("familiarEstado").textContent = "Escribe el nombre.");
-  if (digitos.length !== 10) return void ($("familiarEstado").textContent = "El teléfono debe tener 10 dígitos.");
-  familiar = { nombre: nombre.charAt(0).toUpperCase() + nombre.slice(1), telefono: `52${digitos}` };
-  escribir("grieta-familiar", familiar);
-  pintarResumenFamiliar();
-  $("familiarEstado").textContent = `Guardado. En tus viajes aparecerá "Avisar a ${familiar.nombre}".`;
-});
-pintarFormaFamiliar();
 
 // La linea recta engaña cuando hay que rodear: se mide por calles al empezar a caminar
 // y mientras avanzas se estima lo que falta con la misma proporcion.
@@ -2969,7 +2934,7 @@ function avanzarCamion(lat, lon, velocidad = 0) {
   if (guia.fase === "fin") {
     const dest = guia.destino;
     if (dest && Grieta.metros(lat, lon, dest.lat, dest.lon) < 40) {
-      unaVez("destino", () => { vibrar([300, 120, 300, 120, 300]); decir(frase("llegaste"), `Estás en ${dest.nombre}.${guia.km ? ` Este viaje: ${kgTexto(co2Auto(guia.km))} de CO₂ que no emitió un auto.` : ""}${familiar ? ` Puedes avisarle a ${familiar.nombre} que llegaste.` : ""} Toca Terminar viaje cuando quieras.`, "Llegaste"); });
+      unaVez("destino", () => { vibrar([300, 120, 300, 120, 300]); decir(frase("llegaste"), `Estás en ${dest.nombre}.${guia.km ? ` Este viaje: ${kgTexto(co2Auto(guia.km))} de CO₂ que no emitió un auto.` : ""} Toca Terminar viaje cuando quieras.`, "Llegaste"); });
     }
     return;
   }
@@ -3043,8 +3008,7 @@ $("terminar").addEventListener("click", () => {
   terminarGuia();
   history.back();
 });
-// Compartir en la guia: manda a donde vas, en que camion, a que hora llegas y donde estas. Con un familiar guardado
-// se abre WhatsApp con esa persona; si no, el menu de compartir del telefono.
+// Compartir en la guia: manda a donde vas, en que camion, a que hora llegas y donde estas.
 function compartirGuia() {
   const destino = guia.destino?.nombre ?? estado.destino?.nombre ?? "mi destino";
   const c = guia.camion, aqui = guia.previo ?? estado.gps;
@@ -3052,7 +3016,6 @@ function compartirGuia() {
     ? `Ya llegué a ${destino}.`
     : `Voy a ${destino}${c ? ` en la ${c.linea} hacia ${c.hacia}. Llego como a las ${hora(guia.tramos?.at(-1)?.llega ?? c.llega)}` : ""}.`;
   const mensaje = aqui ? `${texto} Estoy aquí: https://www.google.com/maps?q=${aqui.lat.toFixed(5)},${aqui.lon.toFixed(5)}` : texto;
-  if (familiar) return void window.open(`https://wa.me/${familiar.telefono}?text=${encodeURIComponent(mensaje)}`, "_blank", "noopener");
   if (navigator.share) return void navigator.share({ title: "Mi viaje", text: mensaje }).catch(() => {});
   navigator.clipboard?.writeText(mensaje).then(() => hablar("Copié tu viaje para que lo pegues en un mensaje."), () => {});
 }
@@ -3503,12 +3466,12 @@ $("rachaTienda").addEventListener("click", (e) => {
 
 const ETAPAS_TL = [
   [0, "Tu tlacuache vive entre basura y humo.", "recoger la basura"],
-  [1000, "Ya no hay basura en el suelo.", "que crezca un árbol"],
-  [3000, "Creció un árbol y volvió el pasto.", "limpiar la fuente y el aire"],
-  [6000, "El agua está limpia y se fue el humo.", "que lleguen los pájaros"],
-  [10000, "Llegaron los pájaros y hay más árboles.", "que el nopal dé tunas"],
-  [15000, "Tu tlacuache ya come tunas.", "que tenga crías"],
-  [25000, "Tu tlacuache tuvo crías. Su ciudad está sana.", null],
+  [6000, "Ya no hay basura en el suelo.", "que crezca un árbol"],
+  [18000, "Creció un árbol y volvió el pasto.", "limpiar la fuente y el aire"],
+  [36000, "El agua está limpia y se fue el humo.", "que lleguen los pájaros"],
+  [60000, "Llegaron los pájaros y hay más árboles.", "que el nopal dé tunas"],
+  [90000, "Tu tlacuache ya come tunas.", "que tenga crías"],
+  [150000, "Tu tlacuache tuvo crías. Su ciudad está sana.", null],
 ];
 const CAMINO_TL = ["Basura", "Bote", "Árbol", "Agua", "Aves", "Tunas", "Crías"];
 function pintarTlacuache(g) {
@@ -3842,6 +3805,7 @@ TutorialGrieta.iniciar({
   guardar: valor => escribir('grieta-tutorial', valor),
   practicar: desde => PracticaGrieta.abrir(desde),
   reiniciar: () => ToquesGrieta.reiniciar(),
+  tlacuache: (x, y, k) => `<g transform="translate(${x} ${y}) scale(${(k / ESCALA_TL).toFixed(3)})">${tlacuache(4, racha.puestos, false)}</g>`,
 });
 
 // Botones del modo para personas ciegas.
@@ -4396,7 +4360,6 @@ const BONOS = {
   normal: { viaje: 11, opciones: [["Semanal", 111, 7], ["Quincenal", 231, 15], ["Mensual", 451, 30]] },
   unidos: { viaje: 2, opciones: [["Mensual", 86, 30]] },
 };
-const VEREDICTO_BONO = { "Bono semanal": "Te conviene el bono semanal", "Bono quincenal": "Te conviene el bono quincenal", "Bono mensual": "Te conviene el bono mensual" };
 const bono = { semana: 10, tarifa: "normal" };
 function viajesDeHistorial() {
   const desde = Date.now() - 28 * 864e5;
@@ -4409,11 +4372,12 @@ function pintarBonos() {
   const mejor = filas.reduce((a, b) => (b[1] < a[1] ? b : a));
   const porViaje = filas[0][1];
   $("viajesSemana").textContent = bono.semana;
-  $("bonoOpciones").innerHTML = filas.map(([n, c]) => `<li class="${n === mejor[0] ? "mejor" : ""}"><span>${n}</span><strong>${pesos(c)} al mes</strong></li>`).join("");
+  $("bonoOpciones").innerHTML = filas.map(([n, c]) => {
+    const extra = Math.round(c - mejor[1]);
+    return `<li class="${n === mejor[0] ? "mejor" : ""}"><i aria-hidden="true">${n === mejor[0] ? ico("palomita") : ""}</i><span>${n}<small>${n === mejor[0] ? "La más barata" : extra ? `${pesos(extra)} más al mes` : "Cuesta lo mismo"}</small></span><strong>${pesos(c)}</strong></li>`;
+  }).join("");
   const umbral = Math.ceil(t.opciones.at(-1)[1] / t.viaje);
-  $("bonoVeredicto").innerHTML = mejor === filas[0]
-    ? `<strong>Te conviene pagar cada viaje</strong><span>El bono mensual conviene desde ${umbral} viajes al mes.</span>`
-    : `<strong>${VEREDICTO_BONO[mejor[0]]}</strong><span>Ahorras ${pesos(porViaje - mejor[1])} al mes contra pagar cada viaje.</span>`;
+  $("bonoVeredicto").innerHTML = `<small>Te conviene</small><div><strong>${mejor[0]}</strong><b>${pesos(mejor[1])}<small> al mes</small></b></div><span>${mejor === filas[0] ? `El bono mensual conviene desde ${umbral} viajes al mes.` : `Ahorras ${pesos(porViaje - mejor[1])} al mes contra pagar cada viaje.`}</span>`;
 }
 const marcarTarifaBonos = radios("tarifaBonos", (v) => { bono.tarifa = v; pintarBonos(); });
 // Camioncito de hojalata (Figma): sube de nivel con lo ahorrado en el mes y se llena con $5000.

@@ -456,7 +456,6 @@ textarea::placeholder { color: var(--tenue); }
 .fila-ajustes .fila-texto strong, .fila-ajustes h3 { margin: 0; font-size: 1rem; display: block; font-weight: 700; }
 .fila-ajustes .fila-texto small { display: block; margin-top: 2px; color: var(--tenue); font-size: 0.8rem; line-height: 1.3; }
 .ajuste-panel { padding: 0 14px 14px; }
-.ajuste-panel .familiar { padding: 0; background: transparent; }
 .ajuste-panel .pasos-ayuda { margin: 2px 0 0; }
 .ajuste-panel .ayuda { padding: 0; background: transparent; }
 .densidad-fila { padding: 14px 0; border-bottom: 1px solid var(--linea); }
@@ -755,7 +754,6 @@ html.grande .lugar-nombre, html.facil .lugar-nombre { font-size: 0.95rem; }
 .dos-botones { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .dos-botones .boton { margin-top: 0; }
 .aviso-gente { margin: 0 0 10px; padding-left: 62px; font-size: 0.85rem; font-weight: 600; color: var(--ambar); }
-.familiar .campo { margin-top: 10px; }
 .ajuste-panel .llave { padding: 0; background: transparent; }
 .llave .campo { margin-top: 18px; }
 .llave .boton { margin-top: 10px; }
@@ -1007,21 +1005,17 @@ html.modo-voz :is(button,a,input,select,textarea,label) { touch-action: manipula
 #camaraSentidoOpciones { width: 100%; }
 
 /* Tutorial: las mismas fichas y acciones de la bienvenida. */
-.tutorial { display: flex; flex-direction: column; gap: 14px; min-height: 100%; }
+.tutorial { display: flex; flex-direction: column; gap: 12px; height: 100%; min-height: 0; }
 .tutorial-progreso { margin: 0; font-size: 1rem; font-weight: 800; color: var(--tinta); }
 .tutorial-puntos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
 .tutorial-puntos i { height: 6px; border-radius: 3px; background: var(--linea); }
 .tutorial-puntos i.hecho { background: var(--ambar); }
-.tutorial-hero { display: grid; place-items: center; width: 100%; aspect-ratio: 4 / 3; max-height: 40vh; margin-top: 4px; border-radius: 28px; color: #fff; background: var(--tono); background-image: radial-gradient(circle at 30% 20%, rgb(255 255 255 / 20%), transparent 60%); }
-.tutorial-hero .picto { width: 38%; max-width: 120px; height: auto; aspect-ratio: 1; }
-.tutorial h1 { margin: 6px 0 0; font-size: 1.9rem; line-height: 1.12; }
-.tutorial-texto { margin: 0; font-size: 1.15rem; line-height: 1.45; }
-.tutorial-detalle { margin: 0; padding: 14px 16px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); color: var(--tenue); font-size: .95rem; line-height: 1.45; }
+.tutorial h1 { margin: 0 0 6px; font-size: 2rem; line-height: 1.1; letter-spacing: -.02em; }
+.tutorial-texto { margin: 0; font-size: 1.08rem; line-height: 1.35; }
 .tutorial-cabecera { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .tutorial .nota { margin-top: 0; }
 .tutorial .mini-ficha { align-self: flex-start; }
 .tutorial .boton { margin-top: 0; }
-.tutorial #tutorialContinuar { margin-top: auto; }
 .tutorial .enlace { min-height: var(--toque); }
 
 #camionesUbicacion:empty { display: none; }
@@ -1050,16 +1044,6 @@ h2.titulo-medio .mini-ficha { width: 34px; height: 34px; }
 h2.titulo-medio .mini-ficha .picto { width: 20px; height: 20px; }
 #quejaCamion input { width: 100%; min-height: 52px; margin-bottom: 12px; padding: 12px 14px; color: var(--tinta); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--radio); }
 #quejaCamion input:focus { border-color: var(--ambar); outline: none; }
-.contador { display: flex; align-items: center; justify-content: center; gap: 22px; margin: 8px 0 4px; }
-.contador-boton { display: grid; place-items: center; padding: 0; width: 48px; height: 48px; border-radius: 50%; background: var(--superficie); border: 1px solid var(--linea); color: var(--ambar); font-size: 2rem; font-weight: 700; line-height: 1; }
-.contador output { min-width: 64px; text-align: center; font-size: 2.2rem; font-weight: 800; }
-.bono-veredicto { display: grid; gap: 4px; margin: 14px 0 10px; padding: 14px 16px; border-radius: var(--radio); background: color-mix(in srgb, var(--verde) 14%, var(--fondo)); border: 1px solid color-mix(in srgb, var(--verde) 50%, transparent); }
-.bono-veredicto strong { color: var(--verde); font-size: 1.15rem; }
-.bono-veredicto span { color: var(--tinta); }
-.bono-opciones { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 8px; }
-.bono-opciones li { display: flex; justify-content: space-between; gap: 12px; padding: 12px 14px; border-radius: 14px; background: var(--superficie); }
-.bono-opciones li.mejor { outline: 2px solid var(--verde); }
-.bono-opciones li.mejor strong { color: var(--verde); }
 .revision-parada { display: block; margin: 10px 0; font-weight: 600; }
 .revision-parada.si { border-color: var(--verde); color: var(--verde); }
 .revision-parada.enfrente { border-color: var(--cuidado); color: var(--cuidado); }
@@ -1426,8 +1410,6 @@ html.grande .racha-tienda { grid-template-columns: 1fr; }
 .tienda-cabeza h2 { margin: 0; }
 .tunas-saldo { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--superficie); color: var(--ambar); font-weight: 800; }
 .tunas-saldo svg { width: 20px; height: 20px; }
-#tarifaBonos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 380px; margin: 8px auto 12px; }
-#tarifaBonos button { padding: 0 10px; }
 /* Escena de la racha */
 .racha-escena { max-height: 260px; background: none; }
 /* Tienda */
@@ -1572,9 +1554,6 @@ html.grande .racha-tienda { grid-template-columns: 1fr; }
 .sentidos-linea em { padding: 1px 8px; border-radius: 999px; background: #1f6b44; color: #fff; font-size: .72rem; font-style: normal; font-weight: 700; line-height: 1.5; }
 .linea-rumbo { margin: 10px 2px 14px; color: var(--tenue); font-size: .9rem; line-height: 1.35; }
 
-/* Bonos: las dos tarifas chicas y centradas */
-#tarifaBonos { display: flex; justify-content: center; gap: 8px; max-width: none; margin: 12px 0 14px; }
-#tarifaBonos button { min-height: 44px; padding: 0 16px; font-size: .9rem; text-align: center; }
 /* Nombre del tlacuache */
 .tl-nombre { display: flex; justify-content: center; margin: 4px 0 12px; }
 .tl-nombre[hidden], .tl-nombre-forma[hidden] { display: none; }
@@ -1700,13 +1679,14 @@ body[data-pantalla="ajuste"] .hoja { padding-bottom: 12px; }
 .tema-opciones, .idioma-opciones { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .tema-opciones button, .idioma-opciones button, .densidad-opciones button { border: 2px solid var(--linea); border-radius: 16px; background: var(--superficie); color: var(--tinta); font: inherit; }
 .tema-opciones button { display: grid; justify-items: center; align-content: start; gap: 5px; padding: 8px 4px; font-size: .78rem; font-weight: 700; line-height: 1.12; text-align: center; }
-.tema-muestra { position: relative; display: block; width: 32px; height: 42px; overflow: hidden; border: 2px solid #8f8a80; border-radius: 8px; background: #0b0a09; }
+.tema-muestra { position: relative; display: block; width: 42px; height: 56px; overflow: hidden; border: 2px solid #8f8a80; border-radius: 11px; background: #0b0a09; }
 .tema-muestra.claro { background: #f6f2ea; }
 .tema-muestra.auto { background: linear-gradient(90deg, #0b0a09 50%, #f6f2ea 50%); }
-.tema-muestra i { position: absolute; left: 5px; right: 5px; top: 9px; height: 5px; border-radius: 3px; background: #e0a03c; }
-.tema-muestra i + i { top: 19px; right: 13px; background: #8f8a80; }
+.tema-muestra i { position: absolute; left: 6px; right: 6px; top: 9px; height: 6px; border-radius: 4px; background: #8f8a80; }
+.tema-muestra::after { content: ""; position: absolute; left: 6px; right: 6px; bottom: 7px; height: 10px; border-radius: 5px; background: #e0a03c; }
+.tema-muestra i + i { top: 21px; right: 16px; }
 .idioma-opciones button { display: grid; justify-items: center; align-content: center; gap: 4px; min-height: 66px; padding: 7px 4px; font-size: .84rem; font-weight: 700; text-align: center; }
-.idioma-opciones .picto { width: 26px; height: 26px; }
+.idioma-opciones .picto { width: 34px; height: 34px; }
 #ajuste h2.con-icono { display: flex; align-items: center; gap: 6px; }
 #ajuste h2.con-icono .icono { width: 16px; height: 16px; color: var(--ambar); }
 .densidad-opciones .mini-ficha { flex: none; width: 36px; height: 36px; }
@@ -1719,7 +1699,7 @@ body[data-pantalla="ajuste"] .hoja { padding-bottom: 12px; }
 .pregunta-ayuda summary strong { flex: 1; min-width: 0; }
 .pregunta-icono { flex: none; width: 20px; height: 20px; margin-right: 8px; color: var(--ambar); }
 .idioma-opciones button:disabled { opacity: .45; }
-.idioma-nota { margin: 6px 2px 0; font-size: .8rem; line-height: 1.25; }
+.idioma-nota { margin: 8px 0 0; font-size: .74rem; line-height: 1.25; text-align: center; }
 .densidad-opciones { display: grid; gap: 6px; }
 .densidad-opciones button { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 52px; padding: 5px 14px; text-align: left; }
 .densidad-opciones strong { display: block; font-size: .98rem; font-weight: 800; line-height: 1.2; }
@@ -1803,3 +1783,103 @@ html.grande .equivale-color { flex-direction: column; }
 html.grande .equivale-color li { grid-template-columns: auto auto 1fr; align-items: center; gap: 10px; }
 @media (max-width: 360px) { .equivale-color strong { font-size: 1.25rem; } .equivale-color span { font-size: .72rem; } }
 @media (max-height: 640px) { .bloque-escena svg, .bosque { height: 112px; } .bloque-sub { margin-bottom: 8px; } }
+
+/* Tutorial: una escena animada por paso; solo transform, opacity y el trazo de la ruta */
+.tutorial-puntos i { position: relative; overflow: hidden; background: var(--linea); }
+.tutorial-puntos i::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--ambar); transform: scaleX(0); transform-origin: left; transition: transform .45s ease-out; }
+.tutorial-puntos i.hecho { background: var(--linea); }
+.tutorial-puntos i.hecho::after { transform: none; }
+.tutorial-escena { position: relative; flex: 1 1 220px; min-height: 180px; overflow: hidden; border-radius: 28px; }
+.tutorial-escena > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.tutorial-escena text { font-family: Montserrat, sans-serif; font-weight: 800; }
+.esc-buscar { background: #e0a03c; }
+.esc-camiones { background: #1f6b46; }
+.esc-camara { background: #5b2f5a; }
+.tutorial-cuerpo { flex: none; min-height: 10rem; }
+.tutorial-aviso { margin: 8px 0 0; color: var(--tenue); font-size: .9rem; font-weight: 600; line-height: 1.3; }
+.tutorial-aviso[hidden] { display: none; }
+.tutorial-acciones { flex: none; display: flex; gap: 10px; margin-bottom: 4px; }
+.tutorial-acciones .boton { flex: 1; min-width: 0; }
+.tutorial-atras { flex: none; display: grid; place-items: center; width: 60px; border: 1px solid var(--linea); border-radius: 20px; background: var(--superficie); color: var(--tinta); }
+.tutorial-atras[hidden] { display: none; }
+.tutorial-atras .icono { width: 24px; height: 24px; }
+@media (prefers-reduced-motion: no-preference) {
+  .tutorial-escena.entra { animation: t-entra-escena .45s cubic-bezier(.2, .8, .3, 1); }
+  .tutorial-cuerpo.entra { animation: t-entra-texto .4s .08s ease-out backwards; }
+  @keyframes t-entra-escena { from { opacity: 0; transform: translateX(26px) scale(.97); } }
+  @keyframes t-entra-texto { from { opacity: 0; transform: translateY(12px); } }
+  .t-todo { animation: t-fundido 7s linear infinite; }
+  @keyframes t-fundido { 0%, 95% { opacity: 1; } 99%, 100% { opacity: 0; } }
+  .t-tapa { animation: t-tapa 7s steps(15) infinite; }
+  @keyframes t-tapa { 0%, 5% { transform: translateX(0); opacity: 1; } 27% { transform: translateX(206px); opacity: 1; } 29%, 100% { transform: translateX(206px); opacity: 0; } }
+  .t-pin { transform-box: fill-box; transform-origin: 50% 100%; animation: t-pin 7s ease-out infinite; }
+  @keyframes t-pin { 0%, 28% { opacity: 0; transform: translateY(-46px) scale(.7); } 35% { opacity: 1; transform: translateY(2px) scale(1.12, .9); } 39%, 100% { opacity: 1; transform: none; } }
+  .t-ruta { stroke-dasharray: 1; animation: t-ruta 7s ease-in-out infinite; }
+  @keyframes t-ruta { 0%, 38% { stroke-dashoffset: 1; } 55%, 100% { stroke-dashoffset: 0; } }
+  .t-ficha { transform-box: fill-box; transform-origin: center; animation: t-ficha 7s cubic-bezier(.2, .9, .3, 1.2) infinite backwards; }
+  .t-ficha.f2 { animation-delay: .25s; }
+  .t-ficha.f3 { animation-delay: .5s; }
+  @keyframes t-ficha { 0%, 55% { opacity: 0; transform: translateY(26px) scale(.85); } 64%, 100% { opacity: 1; transform: none; } }
+  .t-sonar { transform-box: fill-box; transform-origin: center; animation: t-sonar 2.4s ease-out infinite; }
+  .t-sonar.s2 { animation-delay: 1.2s; }
+  @keyframes t-sonar { from { opacity: .55; transform: scale(1); } to { opacity: 0; transform: scale(5.5); } }
+  .t-parada { transform-box: fill-box; transform-origin: center; animation: t-parada 7s cubic-bezier(.2, .9, .3, 1.5) infinite backwards; }
+  .t-parada.p2 { animation-delay: .2s; }
+  .t-parada.p3 { animation-delay: .4s; }
+  @keyframes t-parada { 0%, 4% { opacity: 0; transform: scale(0); } 12%, 100% { opacity: 1; transform: none; } }
+  .t-bus { animation: t-bus 7s linear infinite; }
+  @keyframes t-bus { 0% { transform: translate(26px, 178px); } 12% { transform: translate(104px, 178px); } 25% { transform: translate(104px, 86px); } 44% { transform: translate(240px, 86px); } 54%, 100% { transform: translate(240px, 150px); } }
+  .t-tarjeta { transform-box: fill-box; transform-origin: center; animation: t-tarjeta 7s cubic-bezier(.2, .9, .3, 1.15) infinite; }
+  @keyframes t-tarjeta { 0%, 54% { opacity: 0; transform: translateY(34px); } 62%, 100% { opacity: 1; transform: none; } }
+  .t-escaner { animation: t-escaner 7s ease-in-out infinite; }
+  @keyframes t-escaner { 0% { opacity: 1; transform: translateY(0); } 16% { opacity: 1; transform: translateY(150px); } 32% { opacity: 1; transform: translateY(0); } 36%, 100% { opacity: 0; transform: translateY(0); } }
+  .t-marco { transform-box: fill-box; transform-origin: center; animation: t-marco 7s ease-out infinite; }
+  @keyframes t-marco { 0%, 34% { opacity: 0; transform: scale(1.25); } 42%, 100% { opacity: 1; transform: none; } }
+  .t-globo { transform-box: fill-box; transform-origin: 0 100%; animation: t-globo 7s cubic-bezier(.2, .9, .3, 1.25) infinite; }
+  @keyframes t-globo { 0%, 44% { opacity: 0; transform: scale(.7); } 52%, 100% { opacity: 1; transform: none; } }
+  .t-onda { transform-box: fill-box; transform-origin: center; animation: t-onda .8s ease-in-out infinite alternate; }
+  .t-onda.o2 { animation-delay: .15s; } .t-onda.o3 { animation-delay: .3s; } .t-onda.o4 { animation-delay: .1s; } .t-onda.o5 { animation-delay: .25s; }
+  @keyframes t-onda { from { transform: scaleY(.45); } to { transform: scaleY(1.05); } }
+}
+.t-bus { transform: translate(240px, 150px); }
+.t-escaner { opacity: 0; }
+
+/* Pantalla: botones mas grandes con marca en el elegido */
+.tema-opciones button, .idioma-opciones button { position: relative; border-radius: 18px; }
+.tema-opciones button { gap: 7px; padding: 11px 4px 9px; font-size: .84rem; }
+.idioma-opciones button { gap: 3px; min-height: 72px; }
+.densidad-opciones button { min-height: 60px; padding: 5px 12px; border-radius: 18px; }
+.densidad-opciones .mini-ficha { width: 40px; height: 40px; }
+.densidad-opciones .mini-ficha .picto { width: 25px; height: 25px; }
+.densidad-opciones small { font-size: .74rem; }
+.tema-opciones button[aria-pressed="true"]::after, .idioma-opciones button[aria-checked="true"]::after { content: ""; position: absolute; top: 9px; right: 11px; width: 6px; height: 11px; border: solid #fff; border-width: 0 3px 3px 0; transform: rotate(42deg); }
+#ajuste [data-ajuste-panel="pantalla"] h2 { margin-top: 10px; }
+
+/* Bonos: panel para elegir, un bloque con la respuesta y la comparacion en una sola tarjeta */
+.bono-titulo::after { display: none; }
+.bono-panel { padding: 16px; border-radius: 24px; background: var(--superficie); }
+.bono-panel .etiqueta-campo { margin: 0; text-align: center; }
+.contador { display: flex; align-items: center; justify-content: center; gap: 26px; margin: 10px 0 14px; }
+.contador-boton { display: grid; place-items: center; width: 58px; height: 58px; padding: 0; border-radius: 50%; background: #e0a03c; color: #1c1408; font-size: 2.2rem; font-weight: 700; line-height: 1; }
+.contador output { min-width: 84px; text-align: center; font-size: 3.2rem; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+#tarifaBonos { margin: 0; background: var(--fondo); }
+#tarifaBonos button { min-height: 44px; }
+#tarifaBonos button[aria-checked="true"] { background: #e0a03c; color: #1c1408; }
+.bono-veredicto { margin-top: 8px; padding: 16px; border-radius: 24px; background: #1f6b46; color: #fff; }
+.bono-veredicto > small { font-size: .85rem; font-weight: 700; }
+.bono-veredicto div { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 2px 0 6px; }
+.bono-veredicto strong { font-size: 1.45rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+.bono-veredicto b { flex: none; font-size: 1.9rem; font-weight: 800; letter-spacing: -.02em; line-height: 1; }
+.bono-veredicto b small { font-size: .85rem; letter-spacing: 0; }
+.bono-veredicto span { font-size: .92rem; font-weight: 600; line-height: 1.3; }
+.bono-opciones { margin: 8px 0 12px; padding: 0 14px; border-radius: 24px; background: var(--superficie); list-style: none; }
+.bono-opciones li { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 10px 0; border-bottom: 1px solid var(--linea); }
+.bono-opciones li:last-child { border-bottom: 0; }
+.bono-opciones i { flex: none; display: grid; place-items: center; width: 26px; height: 26px; border: 2px solid var(--linea); border-radius: 50%; }
+.bono-opciones li.mejor i { border-color: var(--verde); background: var(--verde); color: var(--fondo); }
+.bono-opciones i .icono { width: 15px; height: 15px; stroke-width: 3.5; }
+.bono-opciones span { flex: 1; min-width: 0; font-weight: 700; line-height: 1.2; }
+.bono-opciones small { display: block; margin-top: 2px; color: var(--tenue); font-size: .8rem; font-weight: 600; }
+.bono-opciones strong { flex: none; font-size: 1.2rem; font-weight: 800; }
+.bono-opciones li.mejor strong, .bono-opciones li.mejor small { color: var(--verde); }
+@media (max-height: 620px) { .tutorial-escena { min-height: 130px; } .tutorial-cuerpo { min-height: 0; } .tutorial h1 { font-size: 1.6rem; } }
