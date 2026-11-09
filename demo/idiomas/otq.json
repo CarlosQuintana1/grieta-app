@@ -9297,6 +9297,316 @@
       "clave": "texto_6f83c68101",
       "es": "Cómo se sienten los viajes",
       "otq": "Temu̲ bí sienten ya viajes"
+    },
+    {
+      "clave": "texto_25cfe9cb3a",
+      "es": "Se cifra con tu contraseña: ni Grieta puede leerlo.",
+      "otq": "Xi cifrado ko ár contraseña: hingi siquiera Grieta to lei nä'ä."
+    },
+    {
+      "clave": "texto_4d476a0b34",
+      "es": "Tu progreso se queda en este teléfono",
+      "otq": "Ár nte ar queda jar nuna ar teléfono"
+    },
+    {
+      "clave": "texto_5b95fd6e41",
+      "es": "Se borran tu cuenta y tu copia en línea",
+      "otq": "Ir nu ne copia jar 'ñu ar eliminan"
+    },
+    {
+      "clave": "texto_9f18de70b1",
+      "es": "Sin correo ni contraseña",
+      "otq": "Ni 'na jar correo electrónico wa contraseña"
+    },
+    {
+      "clave": "texto_94157da5a9",
+      "es": "¿Ya tienes llave?",
+      "otq": "¿Ya gi pe̲ts'i 'nar clave?"
+    },
+    {
+      "clave": "texto_cb91a31237",
+      "es": "Escribe tus seis palabras",
+      "otq": "Gi ñut'i 'rato yá hñä"
+    },
+    {
+      "clave": "texto_873e515fa9",
+      "es": "Ver mis seis palabras",
+      "otq": "Gi hyandi ma 'rato ya hñä"
+    },
+    {
+      "clave": "texto_5f79a81080",
+      "es": "Tu llave. Escríbela en otro teléfono, en Ajustes y Tu cuenta, para tener ahí tu progreso.",
+      "otq": "Ár clave. Escriba nä'ä jar ma'na teléfono, jar Configuración ne ár nu, pa ga ár nte nu'bu̲."
+    },
+    {
+      "clave": "texto_41f56c0cdc",
+      "es": "¿Qué quieres hacer?",
+      "otq": "¿Temu̲ gi ne gi 'yo̲t'e?"
+    },
+    {
+      "clave": "texto_d506ad8e1e",
+      "es": "Ir a un lugar",
+      "otq": "Po̲ni 'na lugar"
+    },
+    {
+      "clave": "texto_099e4bf427",
+      "es": "Ver camiones cerca",
+      "otq": "Ga bo̲jä getu'bu̲"
+    },
+    {
+      "clave": "texto_f518161580",
+      "es": "Guardar mis lugares",
+      "otq": "Guardar ma xeni"
+    },
+    {
+      "clave": "texto_e6492f2843",
+      "es": "Pasar a otro teléfono",
+      "otq": "Gi thogi bí ma'na ar teléfono"
+    },
+    {
+      "clave": "texto_89c50df215",
+      "es": "¿Necesito crear una cuenta?",
+      "otq": "¿Di da t'ot'e 'nar nu?"
+    },
+    {
+      "clave": "texto_06ca19e6ea",
+      "es": "No. Puedes usar todo sin cuenta. Solo sirve para llevar tu progreso a otro teléfono.",
+      "otq": "Hi'nä. Nu'i gí tsa̲ da utilizar ga̲tho hinda pe. Ar ho̲ntho pa ndi ár nte bí ma'na ar teléfono."
+    },
+    {
+      "clave": "texto_9f4c3246a6",
+      "es": "En Ajustes, entra a Tu cuenta, toca Ya tengo cuenta y luego Olvidé mi contraseña. Necesitas tus seis palabras.",
+      "otq": "Jar configuración, vaya jar ár nu, pulse ya dí 'ñehe 'nar nu ne gem'bu̲ olvidé ma contraseña. T'ot'e yá 'rato ya hñä."
+    },
+    {
+      "clave": "texto_703ddfc584",
+      "es": "Estas gráficas aparecen cuando la gente avise más.",
+      "otq": "Nuya gráficos aparecen nu'bu̲ ya jä'i informan mäs."
+    },
+    {
+      "clave": "texto_218206d85a",
+      "es": "Las quejas no son oficiales",
+      "otq": "Ya quejas hingi ya oficiales"
+    },
+    {
+      "clave": "texto_4359311010",
+      "es": "Cómo mandarlas a la AMEQ",
+      "otq": "Tema pe̲hni ya da AMEQ"
+    },
+    {
+      "clave": "texto_e5cc6c7d14",
+      "es": "¿Cómo hago una queja oficial?",
+      "otq": "¿Tema tsa̲ ga 'yo̲t'e 'nar queja xidi mfädi?"
+    },
+    {
+      "clave": "texto_d734d5d0df",
+      "es": "Llamar a Reportes",
+      "otq": "Nt'uni mfädi llamada"
+    },
+    {
+      "clave": "texto_916fbec2e6",
+      "es": "Escribir por WhatsApp",
+      "otq": "'Yot'i vía WhatsApp"
+    },
+    {
+      "clave": "texto_7e8dd93767",
+      "es": "Buscar un lugar",
+      "otq": "Honi 'nar lugar"
+    },
+    {
+      "clave": "texto_6fd3f67c0d",
+      "es": "En Inicio, en \"Busca un lugar\" o con \"Decir a dónde voy\".",
+      "otq": "Jar Inicio, jar hmä \"Honi 'nar lugar\" wa ko \"Gi xiki hogem'bu̲ ma ga\"."
+    },
+    {
+      "clave": "texto_f6415ac193",
+      "es": "Ver camiones",
+      "otq": "Ga bo̲jä ma 'me̲t'o"
+    },
+    {
+      "clave": "texto_c7f2cdc22d",
+      "es": "Es el botón del centro, abajo.",
+      "otq": "Ge ar botón jar made, ja ar xeni inferior."
+    },
+    {
+      "clave": "texto_01103079f5",
+      "es": "Elige una parada",
+      "otq": "Da 'ñets'i 'nar parada"
+    },
+    {
+      "clave": "texto_17f09fb748",
+      "es": "Ves qué camiones pasan y a qué hora.",
+      "otq": "Ga nu'u̲ temu̲ ya bo̲jä ma 'me̲t'o thogi ne temu̲ ora"
+    },
+    {
+      "clave": "texto_16fefdbda2",
+      "es": "Llega con guía",
+      "otq": "Zo̲ni guía"
+    },
+    {
+      "clave": "texto_61b12ca296",
+      "es": "Toca Caminar con guía y te llevo a la parada.",
+      "otq": "Pulse 'ba̲ka̲ ko guía ne ga llevar ar parada."
+    },
+    {
+      "clave": "texto_0fa8faa0c5",
+      "es": "Reportar ahora",
+      "otq": "Gi ungu̲mfädi nu'"
+    },
+    {
+      "clave": "texto_215106bb93",
+      "es": "Está en Inicio, en Ahora mismo.",
+      "otq": "Xi jár nduni, jar gem'bya."
+    },
+    {
+      "clave": "texto_530aa62791",
+      "es": "Elige qué pasó",
+      "otq": "Da 'ñets'i nä'ä bi thogi"
+    },
+    {
+      "clave": "texto_7efd5c89c2",
+      "es": "Un problema en la parada o una queja del camión.",
+      "otq": "'Nar hñäki jar parada wa 'nar queja dige ar bo̲jä 'me̲t'o."
+    },
+    {
+      "clave": "texto_d519713728",
+      "es": "Mándalo",
+      "otq": "Pe̲hni"
+    },
+    {
+      "clave": "texto_cc93849753",
+      "es": "Si quieres, agrega una foto. Tu reporte ayuda a quien pase por ahí.",
+      "otq": "Nu'bu̲ gi, añadir 'nar fotografiya. Ár nt'uni mfädi ayuda to da thogi nu'bu̲."
+    },
+    {
+      "clave": "texto_669b55f351",
+      "es": "Apunta con el teléfono",
+      "otq": "Punto ko ar teléfono"
+    },
+    {
+      "clave": "texto_01488f84c2",
+      "es": "Escucha objetos y texto frente a ti.",
+      "otq": "'Mu̲ise̲ objetos ne texto hñandu̲hu̲ gí."
+    },
+    {
+      "clave": "texto_498f385028",
+      "es": "Sigue con cuidado",
+      "otq": "Seguir xi cuidado"
+    },
+    {
+      "clave": "texto_c309dc48a4",
+      "es": "Ir a Inicio",
+      "otq": "Ma jar nguu"
+    },
+    {
+      "clave": "texto_7095fc962e",
+      "es": "Está arriba, en Inicio.",
+      "otq": "'Bu̲i jar xeni mäs xi ngu, jar Home"
+    },
+    {
+      "clave": "texto_557d1d97dd",
+      "es": "Busca el lugar",
+      "otq": "Honi ar lugar"
+    },
+    {
+      "clave": "texto_f4bd7f4dbc",
+      "es": "Llega con un toque",
+      "otq": "Zo̲ho̲ ko 'nar Honto toque"
+    },
+    {
+      "clave": "texto_4149a65207",
+      "es": "Ir a Tu cuenta",
+      "otq": "Ma ár nu"
+    },
+    {
+      "clave": "texto_05951a01f1",
+      "es": "En Ajustes, en Tu cuenta.",
+      "otq": "Jar configuración, ja ir nu."
+    },
+    {
+      "clave": "texto_c568e67ffd",
+      "es": "Entra en el otro teléfono",
+      "otq": "Inicie sesión ja ar ma'na teléfono"
+    },
+    {
+      "clave": "texto_334bdbbc33",
+      "es": "Toca Ya tengo cuenta y escribe tu correo y tu contraseña.",
+      "otq": "Toque ya dí 'ñehe 'nar nu ne introduzca ár correo electrónico ne ar contraseña."
+    },
+    {
+      "clave": "texto_0f6bddcab4",
+      "es": "Llegan tu racha, tus viajes y tus lugares.",
+      "otq": "Tso̲ho̲ ir 'ma'yo, ir 'me̲i ne ir mpa̲ti."
+    },
+    {
+      "clave": "texto_e3b848ddce",
+      "es": "Tus líneas van sin avisos",
+      "otq": "Ir 'ñu 'yo hinda aviso"
+    },
+    {
+      "clave": "texto_87a78d59bc",
+      "es": "Toca Camiones cerca",
+      "otq": "Grifo bo̲jä ma 'me̲t'o hingi bu̲i"
+    },
+    {
+      "clave": "texto_904331c845",
+      "es": "Toca Reportar",
+      "otq": "Toque nt'uni mfädi"
+    },
+    {
+      "clave": "texto_469d54a872",
+      "es": "Toca Describir",
+      "otq": "Grifo Gi pede"
+    },
+    {
+      "clave": "texto_5e4e3341b0",
+      "es": "Toca Agregar",
+      "otq": "Pulse Agregar"
+    },
+    {
+      "clave": "texto_11069e3999",
+      "es": "Abrir la cámara",
+      "otq": "Abra ar cámara"
+    },
+    {
+      "clave": "texto_86a1b8f2de",
+      "es": "Ponle nombre: Casa, Escuela, Trabajo u otro.",
+      "otq": "Gi 'bu̲hu̲ 'nar thuuhu: ngú, nguu nsa̲di, 'be̲fi wa ma'na xka."
+    },
+    {
+      "clave": "texto_11ca5203c3",
+      "es": "Caminar con guía",
+      "otq": "'Yo ko ar nt'udi"
+    },
+    {
+      "clave": "texto_bd721a6261",
+      "es": "Ir en app",
+      "otq": "Ma jar nt'ot'e"
+    },
+    {
+      "clave": "texto_d40aa32cd3",
+      "es": "Hacia",
+      "otq": "Ntsuni"
+    },
+    {
+      "clave": "texto_d31a6c27f0",
+      "es": "Pasa en 6 min",
+      "otq": "Thogi jar 6 min"
+    },
+    {
+      "clave": "texto_456e202069",
+      "es": "Horario estimado",
+      "otq": "Horario estimado"
+    },
+    {
+      "clave": "texto_f61fe95371",
+      "es": "Aquí pasa la C60",
+      "otq": "Nuwa thogi ar C60"
+    },
+    {
+      "clave": "texto_75bdc51a6f",
+      "es": "Fuente: {v1}.",
+      "otq": "Fuente: {v1}."
     }
   ],
   "adaptaciones": [

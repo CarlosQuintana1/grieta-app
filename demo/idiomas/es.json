@@ -15890,6 +15890,445 @@
       "contextos": [
         "demo · cuentas, bienvenida y Qro al día"
       ]
+    },
+    {
+      "clave": "texto_25cfe9cb3a",
+      "es": "Se cifra con tu contraseña: ni Grieta puede leerlo.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_4d476a0b34",
+      "es": "Tu progreso se queda en este teléfono",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_5b95fd6e41",
+      "es": "Se borran tu cuenta y tu copia en línea",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_9f18de70b1",
+      "es": "Sin correo ni contraseña",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_94157da5a9",
+      "es": "¿Ya tienes llave?",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_cb91a31237",
+      "es": "Escribe tus seis palabras",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_873e515fa9",
+      "es": "Ver mis seis palabras",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_5f79a81080",
+      "es": "Tu llave. Escríbela en otro teléfono, en Ajustes y Tu cuenta, para tener ahí tu progreso.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_41f56c0cdc",
+      "es": "¿Qué quieres hacer?",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_d506ad8e1e",
+      "es": "Ir a un lugar",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_099e4bf427",
+      "es": "Ver camiones cerca",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_f518161580",
+      "es": "Guardar mis lugares",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_e6492f2843",
+      "es": "Pasar a otro teléfono",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_89c50df215",
+      "es": "¿Necesito crear una cuenta?",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_06ca19e6ea",
+      "es": "No. Puedes usar todo sin cuenta. Solo sirve para llevar tu progreso a otro teléfono.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_9f4c3246a6",
+      "es": "En Ajustes, entra a Tu cuenta, toca Ya tengo cuenta y luego Olvidé mi contraseña. Necesitas tus seis palabras.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_703ddfc584",
+      "es": "Estas gráficas aparecen cuando la gente avise más.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_218206d85a",
+      "es": "Las quejas no son oficiales",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_4359311010",
+      "es": "Cómo mandarlas a la AMEQ",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_e5cc6c7d14",
+      "es": "¿Cómo hago una queja oficial?",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_d734d5d0df",
+      "es": "Llamar a Reportes",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_916fbec2e6",
+      "es": "Escribir por WhatsApp",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_7e8dd93767",
+      "es": "Buscar un lugar",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_6fd3f67c0d",
+      "es": "En Inicio, en \"Busca un lugar\" o con \"Decir a dónde voy\".",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_f6415ac193",
+      "es": "Ver camiones",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_c7f2cdc22d",
+      "es": "Es el botón del centro, abajo.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_01103079f5",
+      "es": "Elige una parada",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_17f09fb748",
+      "es": "Ves qué camiones pasan y a qué hora.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_16fefdbda2",
+      "es": "Llega con guía",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_61b12ca296",
+      "es": "Toca Caminar con guía y te llevo a la parada.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_0fa8faa0c5",
+      "es": "Reportar ahora",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_215106bb93",
+      "es": "Está en Inicio, en Ahora mismo.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_530aa62791",
+      "es": "Elige qué pasó",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_7efd5c89c2",
+      "es": "Un problema en la parada o una queja del camión.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_d519713728",
+      "es": "Mándalo",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_cc93849753",
+      "es": "Si quieres, agrega una foto. Tu reporte ayuda a quien pase por ahí.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_669b55f351",
+      "es": "Apunta con el teléfono",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_01488f84c2",
+      "es": "Escucha objetos y texto frente a ti.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_498f385028",
+      "es": "Sigue con cuidado",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_c309dc48a4",
+      "es": "Ir a Inicio",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_7095fc962e",
+      "es": "Está arriba, en Inicio.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_557d1d97dd",
+      "es": "Busca el lugar",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_f4bd7f4dbc",
+      "es": "Llega con un toque",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_4149a65207",
+      "es": "Ir a Tu cuenta",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_05951a01f1",
+      "es": "En Ajustes, en Tu cuenta.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_c568e67ffd",
+      "es": "Entra en el otro teléfono",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_334bdbbc33",
+      "es": "Toca Ya tengo cuenta y escribe tu correo y tu contraseña.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_0f6bddcab4",
+      "es": "Llegan tu racha, tus viajes y tus lugares.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_e3b848ddce",
+      "es": "Tus líneas van sin avisos",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_87a78d59bc",
+      "es": "Toca Camiones cerca",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_904331c845",
+      "es": "Toca Reportar",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_469d54a872",
+      "es": "Toca Describir",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_5e4e3341b0",
+      "es": "Toca Agregar",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_11069e3999",
+      "es": "Abrir la cámara",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_86a1b8f2de",
+      "es": "Ponle nombre: Casa, Escuela, Trabajo u otro.",
+      "contextos": [
+        "demo · Tu cuenta, Ayuda y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_11ca5203c3",
+      "es": "Caminar con guía",
+      "contextos": [
+        "demo · pantallas y escenas"
+      ]
+    },
+    {
+      "clave": "texto_bd721a6261",
+      "es": "Ir en app",
+      "contextos": [
+        "demo · pantallas y escenas"
+      ]
+    },
+    {
+      "clave": "texto_d40aa32cd3",
+      "es": "Hacia",
+      "contextos": [
+        "demo · pantallas y escenas"
+      ]
+    },
+    {
+      "clave": "texto_d31a6c27f0",
+      "es": "Pasa en 6 min",
+      "contextos": [
+        "demo · pantallas y escenas"
+      ]
+    },
+    {
+      "clave": "texto_456e202069",
+      "es": "Horario estimado",
+      "contextos": [
+        "demo · pantallas y escenas"
+      ]
+    },
+    {
+      "clave": "texto_f61fe95371",
+      "es": "Aquí pasa la C60",
+      "contextos": [
+        "demo · pantallas y escenas"
+      ]
+    },
+    {
+      "clave": "texto_75bdc51a6f",
+      "es": "Fuente: {v1}.",
+      "contextos": [
+        "demo · pantallas y escenas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
     }
   ]
 }

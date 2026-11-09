@@ -28,12 +28,13 @@ async function calcular() {
     const suyos = votos.filter((v) => v.reporte_id === r.id), arreglado = suyos.filter((v) => !v.sigue).length;
     return !(arreglado >= 2 && arreglado > suyos.length - arreglado);
   });
+  const problemas = vigentes.filter((r) => r.tipo !== "referencia");
   const porHora = Array.from({ length: 24 }, (_, h) => llenos.filter((l) => l.hora === h).length);
   return {
     actualizado: new Date().toISOString(),
     impacto: { viajes, km: Math.round((km ?? 0) * 10) / 10, co2_kg: Math.round((co2 ?? 0) / 100) / 10 },
     quejas: { dias: 30, total: quejas.length, porTipo: contar(quejas, "tipo"), porRuta: contar(quejas, "ruta").slice(0, 10) },
-    accesibilidad: { vigentes: vigentes.length, porTipo: contar(vigentes, "tipo"), porParada: contar(vigentes.filter((r) => r.parada), "parada").slice(0, 8) },
+    accesibilidad: { vigentes: problemas.length, porTipo: contar(problemas, "tipo"), porParada: contar(problemas.filter((r) => r.parada), "parada").slice(0, 8) },
     lleno: { dias: 56, total: llenos.length, porLinea: contar(llenos, "linea").slice(0, 10), porHora },
     precios: { total: precios.length, porApp: contar(precios, "app") },
     sentir: {

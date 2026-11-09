@@ -265,6 +265,7 @@ function mostrar(nombre) {
     $("invitaPerfil").hidden = acc.modoVoz || leer("grieta-perfil", false) || leer("grieta-invita-cerrada", false);
   }
   if ($("hojaPerfil").open) $("hojaPerfil").close();
+  if ($("hojaAyuda").open) $("hojaAyuda").close();
   if (nombre === "perfil") pintarCredencial();
   if (nombre === "ajustes") $("perfilTlacuache").innerHTML = tlacuache(3, racha.puestos, false);
   if (nombre === "opciones") {
@@ -4846,7 +4847,34 @@ function abrirAjuste(panel) {
   titulos.ajuste = TITULOS_AJUSTE[panel];
   ir("ajuste");
   if (panel === "progreso") revisarSesion();
+  if (panel === "ayuda") $("ayudaTlacuache").innerHTML = tlacuache(3, racha.puestos, false);
 }
+// Ayuda por tarea: cada ficha dice como se hace y lleva directo a hacerlo.
+const AYUDAS = {
+  ir: { titulo: "Ir a un lugar", boton: "Buscar un lugar", hacer: () => abrirBuscar(), pasos: [["Di o escribe a dónde vas", 'En Inicio, en "Busca un lugar" o con "Decir a dónde voy".'], ["Compara y elige", "Ves cuánto cuesta en Uber, DiDi e inDrive y cómo llegar en Qrobus."], ["Empieza el viaje con avisos", "Grieta te avisa cuándo pasa tu camión y cuándo bajarte."]] },
+  camiones: { titulo: "Ver camiones cerca", boton: "Ver camiones", hacer: () => abrirCamiones(), pasos: [["Toca Camiones cerca", "Es el botón del centro, abajo."], ["Elige una parada", "Ves qué camiones pasan y a qué hora."], ["Llega con guía", "Toca Caminar con guía y te llevo a la parada."]] },
+  reportar: { titulo: "Reportar un problema", boton: "Reportar ahora", hacer: () => abrirReporte(), pasos: [["Toca Reportar", "Está en Inicio, en Ahora mismo."], ["Elige qué pasó", "Un problema en la parada o una queja del camión."], ["Mándalo", "Si quieres, agrega una foto. Tu reporte ayuda a quien pase por ahí."]] },
+  camara: { titulo: "Describir con la cámara", boton: "Abrir la cámara", hacer: () => abrirCamara(), pasos: [["Toca Describir", "Está en Inicio, en Ahora mismo."], ["Apunta con el teléfono", "Escucha objetos y texto frente a ti."], ["Sigue con cuidado", "Puede omitir obstáculos: usa tu bastón o acompañamiento."]] },
+  lugares: { titulo: "Guardar mis lugares", boton: "Ir a Inicio", hacer: () => ir("inicio"), pasos: [["Toca Agregar", "Está arriba, en Inicio."], ["Busca el lugar", "Ponle nombre: Casa, Escuela, Trabajo u otro."], ["Llega con un toque", "Después lo tocas en Tus lugares y te digo cómo llegar."]] },
+  cuenta: { titulo: "Pasar a otro teléfono", boton: "Ir a Tu cuenta", hacer: () => abrirAjuste("progreso"), pasos: [["Crea tu cuenta", "En Ajustes, en Tu cuenta."], ["Entra en el otro teléfono", "Toca Ya tengo cuenta y escribe tu correo y tu contraseña."], ["Listo", "Llegan tu racha, tus viajes y tus lugares."]] },
+};
+let ayudaAbierta = null;
+function abrirHojaAyuda(clave) {
+  const a = AYUDAS[clave];
+  ayudaAbierta = a;
+  $("hojaAyudaTitulo").textContent = a.titulo;
+  $("hojaAyudaIr").textContent = a.boton;
+  $("hojaAyudaPasos").innerHTML = a.pasos.map(([t, d], i) => `<li><span class="num" aria-hidden="true">${i + 1}</span><span><strong>${escapar(t)}</strong><small>${escapar(d)}</small></span></li>`).join("");
+  $("hojaAyuda").showModal();
+  $("hojaAyudaTitulo").focus({ preventScroll: true });
+}
+$("ayudaTareas").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-ayuda]");
+  if (b) abrirHojaAyuda(b.dataset.ayuda);
+});
+$("hojaAyudaCerrar").addEventListener("click", () => $("hojaAyuda").close());
+$("hojaAyudaIr").addEventListener("click", () => { $("hojaAyuda").close(); ayudaAbierta?.hacer(); });
+$("hojaAyuda").addEventListener("click", (e) => { if (e.target === $("hojaAyuda") && e.clientY < $("hojaAyuda").getBoundingClientRect().top) $("hojaAyuda").close(); });
 $("ajustesFichas").addEventListener("click", (e) => {
   const b = e.target.closest("[data-ajuste]");
   if (b) abrirAjuste(b.dataset.ajuste);

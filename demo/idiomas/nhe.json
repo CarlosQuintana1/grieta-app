@@ -8157,7 +8157,7 @@
     {
       "clave": "texto_00f7332f3b",
       "es": "{v1} min de viaje, {v2} min más que en app",
-      "nhe": "{v1} min viaje, {v2} min más que en app"
+      "nhe": "{v1} min, {v2} min más tlen ipan app"
     },
     {
       "clave": "texto_86083d8cff",
@@ -9298,6 +9298,316 @@
       "clave": "texto_6f83c68101",
       "es": "Cómo se sienten los viajes",
       "nhe": "Kenijkatsa tijyolmati kema tinejnemi"
+    },
+    {
+      "clave": "texto_25cfe9cb3a",
+      "es": "Se cifra con tu contraseña: ni Grieta puede leerlo.",
+      "nhe": "Ki ijkuilok ika mo tlajtoli: yon Grieta ax ueli kipoua."
+    },
+    {
+      "clave": "texto_4d476a0b34",
+      "es": "Tu progreso se queda en este teléfono",
+      "nhe": "Mo tlayekapan mokaua ipan ni teléfono"
+    },
+    {
+      "clave": "texto_5b95fd6e41",
+      "es": "Se borran tu cuenta y tu copia en línea",
+      "nhe": "Mo cuenta uan mo copia tlen eltok ipan internet ya kiixpolojtokej"
+    },
+    {
+      "clave": "texto_9f18de70b1",
+      "es": "Sin correo ni contraseña",
+      "nhe": "Ax onka correo electrónico yon contraseña"
+    },
+    {
+      "clave": "texto_94157da5a9",
+      "es": "¿Ya tienes llave?",
+      "nhe": "¿Ya tijpiya se llave?"
+    },
+    {
+      "clave": "texto_cb91a31237",
+      "es": "Escribe tus seis palabras",
+      "nhe": "Xikijkuilo chikuasej tlajtoli"
+    },
+    {
+      "clave": "texto_873e515fa9",
+      "es": "Ver mis seis palabras",
+      "nhe": "Xikita no chikuase tlajtoli"
+    },
+    {
+      "clave": "texto_5f79a81080",
+      "es": "Tu llave. Escríbela en otro teléfono, en Ajustes y Tu cuenta, para tener ahí tu progreso.",
+      "nhe": "Mo llave. Xikijkuilo ipan seyok teléfono, ipan Configuración uan Mocuenta, pampa nopaya tijpias moprogreso."
+    },
+    {
+      "clave": "texto_41f56c0cdc",
+      "es": "¿Qué quieres hacer?",
+      "nhe": "¿Tlaque tijnequi tijchihuas?"
+    },
+    {
+      "clave": "texto_d506ad8e1e",
+      "es": "Ir a un lugar",
+      "nhe": "xiya ipan se tlali"
+    },
+    {
+      "clave": "texto_099e4bf427",
+      "es": "Ver camiones cerca",
+      "nhe": "Xikita camiones tlen eltok nechka"
+    },
+    {
+      "clave": "texto_f518161580",
+      "es": "Guardar mis lugares",
+      "nhe": "xikinmakixti no tlali"
+    },
+    {
+      "clave": "texto_e6492f2843",
+      "es": "Pasar a otro teléfono",
+      "nhe": "Xijpatla ika seyok teléfono"
+    },
+    {
+      "clave": "texto_89c50df215",
+      "es": "¿Necesito crear una cuenta?",
+      "nhe": "¿Moneki nijchiuas se cuenta?"
+    },
+    {
+      "clave": "texto_06ca19e6ea",
+      "es": "No. Puedes usar todo sin cuenta. Solo sirve para llevar tu progreso a otro teléfono.",
+      "nhe": "Axtle. Uelis tijtekiuis nochi tlen ax kipia se cuenta. San tlapaleuia para kiuikas tlen tijchijtok ipan seyok teléfono."
+    },
+    {
+      "clave": "texto_9f4c3246a6",
+      "es": "En Ajustes, entra a Tu cuenta, toca Ya tengo cuenta y luego Olvidé mi contraseña. Necesitas tus seis palabras.",
+      "nhe": "Ipan Configuración, xikalaki ipan Mocuenta, xijtsonpechili Ya nijpixtok se cuenta, teipa xijtsonpechili Olvidé contraseña.moneki mo chikuase tlajtoli."
+    },
+    {
+      "clave": "texto_703ddfc584",
+      "es": "Estas gráficas aparecen cuando la gente avise más.",
+      "nhe": "Ni tlaixkopinkayomej nesi kemaj maseualmej kiijtouaj más."
+    },
+    {
+      "clave": "texto_218206d85a",
+      "es": "Las quejas no son oficiales",
+      "nhe": "Nopa tlatelhuili ax eli tlanauatili"
+    },
+    {
+      "clave": "texto_4359311010",
+      "es": "Cómo mandarlas a la AMEQ",
+      "nhe": "Kenijkatsa ti kintitlanis ipan AMEQ"
+    },
+    {
+      "clave": "texto_e5cc6c7d14",
+      "es": "¿Cómo hago una queja oficial?",
+      "nhe": "¿Kenijkatsa nijchiuas se tlajtlanili tlen tlanauatili?"
+    },
+    {
+      "clave": "texto_d734d5d0df",
+      "es": "Llamar a Reportes",
+      "nhe": "Tlajtoli tlen tlajtoli"
+    },
+    {
+      "clave": "texto_916fbec2e6",
+      "es": "Escribir por WhatsApp",
+      "nhe": "Xikijkuilo WhatsApp"
+    },
+    {
+      "clave": "texto_7e8dd93767",
+      "es": "Buscar un lugar",
+      "nhe": "Xijtemo se tlali"
+    },
+    {
+      "clave": "texto_6fd3f67c0d",
+      "es": "En Inicio, en \"Busca un lugar\" o con \"Decir a dónde voy\".",
+      "nhe": "Ipan kali, ipan \"Xijtemo se tlali\" o ika \"Xikijto kanke nias.\""
+    },
+    {
+      "clave": "texto_f6415ac193",
+      "es": "Ver camiones",
+      "nhe": "Xikita camiones"
+    },
+    {
+      "clave": "texto_c7f2cdc22d",
+      "es": "Es el botón del centro, abajo.",
+      "nhe": "Elij nopa tlatlajko botón, tlatsintla."
+    },
+    {
+      "clave": "texto_01103079f5",
+      "es": "Elige una parada",
+      "nhe": "Xijtlapejpeni kanke timoketsas"
+    },
+    {
+      "clave": "texto_17f09fb748",
+      "es": "Ves qué camiones pasan y a qué hora.",
+      "nhe": "Tikita tlen camiones panoj uan ipan tlen hora."
+    },
+    {
+      "clave": "texto_16fefdbda2",
+      "es": "Llega con guía",
+      "nhe": "Xiajsi ika se tlayekanki"
+    },
+    {
+      "clave": "texto_61b12ca296",
+      "es": "Toca Caminar con guía y te llevo a la parada.",
+      "nhe": "Xijtsonpechili Xinejnemi ika se tlayekanki uan nimitsuikas kampa timoketsas."
+    },
+    {
+      "clave": "texto_0fa8faa0c5",
+      "es": "Reportar ahora",
+      "nhe": "Xikijto amantsi"
+    },
+    {
+      "clave": "texto_215106bb93",
+      "es": "Está en Inicio, en Ahora mismo.",
+      "nhe": "Eltok ipan kalijtik, ipan amantsi."
+    },
+    {
+      "clave": "texto_530aa62791",
+      "es": "Elige qué pasó",
+      "nhe": "Xijtlapejpeni tlen panok"
+    },
+    {
+      "clave": "texto_7efd5c89c2",
+      "es": "Un problema en la parada o una queja del camión.",
+      "nhe": "Se kuesoli ipan nopa parada o se tlauejkayotl tlen nopa camión."
+    },
+    {
+      "clave": "texto_d519713728",
+      "es": "Mándalo",
+      "nhe": "xiktitlanili"
+    },
+    {
+      "clave": "texto_cc93849753",
+      "es": "Si quieres, agrega una foto. Tu reporte ayuda a quien pase por ahí.",
+      "nhe": "Tlaj tijneki, xijtlali se tlaixkopinkayotl. Mocamanal quipalehuía cati hueli cati pano."
+    },
+    {
+      "clave": "texto_669b55f351",
+      "es": "Apunta con el teléfono",
+      "nhe": "Xikita nopa teléfono"
+    },
+    {
+      "clave": "texto_01488f84c2",
+      "es": "Escucha objetos y texto frente a ti.",
+      "nhe": "Xijtlakakili tlamantli uan tlajkuiloli tlen eltok moixpa."
+    },
+    {
+      "clave": "texto_498f385028",
+      "es": "Sigue con cuidado",
+      "nhe": "Xijtoquilica ica cuidado"
+    },
+    {
+      "clave": "texto_c309dc48a4",
+      "es": "Ir a Inicio",
+      "nhe": "Xi ya mochaj"
+    },
+    {
+      "clave": "texto_7095fc962e",
+      "es": "Está arriba, en Inicio.",
+      "nhe": "Eltok nepa tlakpak, ipan kalijtik."
+    },
+    {
+      "clave": "texto_557d1d97dd",
+      "es": "Busca el lugar",
+      "nhe": "Xijtemo nopa tlali"
+    },
+    {
+      "clave": "texto_f4bd7f4dbc",
+      "es": "Llega con un toque",
+      "nhe": "Uala ika se tlajko"
+    },
+    {
+      "clave": "texto_4149a65207",
+      "es": "Ir a Tu cuenta",
+      "nhe": "Xi ya ipan mo cuenta"
+    },
+    {
+      "clave": "texto_05951a01f1",
+      "es": "En Ajustes, en Tu cuenta.",
+      "nhe": "Ipan tlasenkaualistli, ipan mo cuenta."
+    },
+    {
+      "clave": "texto_c568e67ffd",
+      "es": "Entra en el otro teléfono",
+      "nhe": "Xikalaki ipan nopa seyok teléfono"
+    },
+    {
+      "clave": "texto_334bdbbc33",
+      "es": "Toca Ya tengo cuenta y escribe tu correo y tu contraseña.",
+      "nhe": "Xijtsonpechili Ya nijpixtok se cuenta uan xijtlali mocorreo uan mocontraseña."
+    },
+    {
+      "clave": "texto_0f6bddcab4",
+      "es": "Llegan tu racha, tus viajes y tus lugares.",
+      "nhe": "Mo streak, mo viajes uan mo lugares ajsij."
+    },
+    {
+      "clave": "texto_e3b848ddce",
+      "es": "Tus líneas van sin avisos",
+      "nhe": "Mo lineas yauij san tlapic"
+    },
+    {
+      "clave": "texto_87a78d59bc",
+      "es": "Toca Camiones cerca",
+      "nhe": "Xijtlachili nopa camiones tlen eltok nechka"
+    },
+    {
+      "clave": "texto_904331c845",
+      "es": "Toca Reportar",
+      "nhe": "Xijtsonpechili Tlayolmelahuali"
+    },
+    {
+      "clave": "texto_469d54a872",
+      "es": "Toca Describir",
+      "nhe": "Xijtsonpechili Xikijto"
+    },
+    {
+      "clave": "texto_5e4e3341b0",
+      "es": "Toca Agregar",
+      "nhe": "Xijtsonpechili Xijtlali"
+    },
+    {
+      "clave": "texto_11069e3999",
+      "es": "Abrir la cámara",
+      "nhe": "Xijtlapo nopa cámara"
+    },
+    {
+      "clave": "texto_86a1b8f2de",
+      "es": "Ponle nombre: Casa, Escuela, Trabajo u otro.",
+      "nhe": "Xikijto: Kali, Escuela, Tekitl o seyok."
+    },
+    {
+      "clave": "texto_11ca5203c3",
+      "es": "Caminar con guía",
+      "nhe": "Xinejnemi ika se tlayekanki"
+    },
+    {
+      "clave": "texto_bd721a6261",
+      "es": "Ir en app",
+      "nhe": "Xikalaki ipan app"
+    },
+    {
+      "clave": "texto_d40aa32cd3",
+      "es": "Hacia",
+      "nhe": "Ika"
+    },
+    {
+      "clave": "texto_d31a6c27f0",
+      "es": "Pasa en 6 min",
+      "nhe": "Pano ipan 6 min"
+    },
+    {
+      "clave": "texto_456e202069",
+      "es": "Horario estimado",
+      "nhe": "Tlajtlanili tlen horario"
+    },
+    {
+      "clave": "texto_f61fe95371",
+      "es": "Aquí pasa la C60",
+      "nhe": "Nika pano nopa C60"
+    },
+    {
+      "clave": "texto_75bdc51a6f",
+      "es": "Fuente: {v1}.",
+      "nhe": "Tlen uala: {v1}."
     }
   ],
   "adaptaciones": [

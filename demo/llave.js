@@ -249,6 +249,13 @@ function pintarLlave() {
   $("llaveBorrar").hidden = conCuenta;
 }
 
+for (const [boton, caja] of [["llaveVer", "llaveDetalle"], ["llaveYaTengo", "llaveEscribir"]]) {
+  $(boton).addEventListener("click", () => {
+    const abrir = $(caja).hidden;
+    $(caja).hidden = !abrir;
+    $(boton).setAttribute("aria-expanded", String(abrir));
+  });
+}
 $("llaveCrear").addEventListener("click", () => crearLlave().catch(() => ($("llaveEstado").textContent = "No pude crear tu llave. Intenta otra vez.")));
 $("llaveRecuperar").addEventListener("click", recuperarLlave);
 $("llaveEntrada").addEventListener("keydown", (e) => { if (e.key === "Enter") recuperarLlave(); });

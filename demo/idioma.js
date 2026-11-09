@@ -207,5 +207,7 @@ const Interfaz = (() => {
     } catch {}
     aplicar();
   }
-  return { iniciar, cambiar, original, revisar, disponiblePara: (id) => catalogos.has(lenguas[id]), parcialPara: (id) => catalogos.get(lenguas[id])?.parcial === true, get disponible() { return Boolean(catalogo); }, get provisional() { return Boolean(catalogo?.provisional); } };
+  // Para letras dibujadas en SVG, que el recorrido de la pagina no toca.
+  const traducirTexto = (t) => traducir(t, document.body);
+  return { iniciar, cambiar, original, revisar, traducirTexto, disponiblePara: (id) => catalogos.has(lenguas[id]), parcialPara: (id) => catalogos.get(lenguas[id])?.parcial === true, get disponible() { return Boolean(catalogo); }, get provisional() { return Boolean(catalogo?.provisional); } };
 })();

@@ -140,6 +140,7 @@
       <symbol id="p-escudo" viewBox="0 0 48 48" fill="currentColor" stroke="none"><path opacity=".4" d="M24 4l16 6v12c0 10.5-6.8 18.6-16 22-9.2-3.4-16-11.5-16-22V10z"/><path d="M16.5 24.5l5.5 5.5 10-11" fill="none" stroke="currentColor" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
       <symbol id="p-luna" viewBox="0 0 48 48" fill="currentColor" stroke="none"><path d="M40 29A17 17 0 0 1 19 8a17 17 0 1 0 21 21z"/></symbol>
       <symbol id="p-acueducto" viewBox="0 0 48 48" fill="currentColor" stroke="none"><path fill-rule="evenodd" d="M2.5 9h43v6.5h-43zM5.5 15.5h37V44h-37zM10.3 44V31.8a4.1 4.1 0 0 1 8.2 0V44zM19.9 44V31.8a4.1 4.1 0 0 1 8.2 0V44zM29.5 44V31.8a4.1 4.1 0 0 1 8.2 0V44z"/><path d="M9 20h30" stroke="#000" stroke-opacity=".28" stroke-width="2"/></symbol>
+      <symbol id="p-perfil" viewBox="0 0 48 48" fill="currentColor" stroke="none"><circle cx="24" cy="24" r="21" opacity=".32"/><circle cx="24" cy="18.5" r="8"/><path d="M9.5 39.5C11.5 32 17 28.5 24 28.5s12.5 3.5 14.5 11A20.9 20.9 0 0 1 24 45a20.9 20.9 0 0 1-14.5-5.5z"/></symbol>
     </defs>
   </svg>
 
@@ -438,7 +439,7 @@
         </div>
       </section>
 
-      <div id="enCarro" class="en-carro" hidden></div>
+      <div id="enCarro" class="en-carro tono-ciruela" hidden></div>
       <div id="estacionaSigue" class="en-carro" hidden></div>
 
       <div class="guardar">
@@ -998,9 +999,9 @@
         <button type="button" class="ajuste-ficha tono-ciruela" data-ajuste="voz"><svg class="picto" aria-hidden="true"><use href="#p-decir"/></svg><span><strong>Voz</strong><small>Encenderla y su velocidad</small></span></button>
         <button type="button" class="ajuste-ficha tono-hospital" data-ajuste="viajes"><svg class="picto" aria-hidden="true"><use href="#p-qrobus"/></svg><span><strong>Tus viajes</strong><small>Cuánto caminas y qué tarifa pagas</small></span></button>
         <button type="button" class="ajuste-ficha tono-trabajo" data-ajuste="accesibilidad"><svg class="picto" aria-hidden="true"><use href="#p-ojo"/></svg><span><strong>Accesibilidad</strong><small>Letra, contraste y daltonismo</small></span></button>
-        <button type="button" class="ajuste-ficha tono-maiz" data-ajuste="progreso"><svg class="picto" aria-hidden="true"><use href="#p-llave"/></svg><span><strong>Tu cuenta</strong><small>Tu progreso en otro teléfono</small></span></button>
+        <button type="button" class="ajuste-ficha tono-maiz" data-ajuste="progreso"><svg class="picto" aria-hidden="true"><use href="#p-perfil"/></svg><span><strong>Tu cuenta</strong><small>Tu progreso en otro teléfono</small></span></button>
         <button type="button" class="ajuste-ficha tono-obsidiana" data-ajuste="ayuda"><svg class="picto" aria-hidden="true"><use href="#p-reportar"/></svg><span><strong>Ayuda</strong><small>Cómo usar Grieta y preguntas</small></span></button>
-        <a class="ajuste-ficha tono-turquesa" href="observatorio.html"><svg class="picto" aria-hidden="true"><use href="#p-acueducto"/></svg><span><strong translate="no">Qro al día</strong><small>Datos abiertos de Querétaro</small></span></a>
+        <a class="ajuste-ficha tono-turquesa" href="observatorio.html"><svg class="picto" aria-hidden="true"><use href="#p-acueducto"/></svg><span><strong translate="no">Qro al día</strong><small>Así se mueve Querétaro</small></span></a>
         <a id="llamarQrobus" class="ajuste-ficha tono-salud" href="tel:+524422100407" aria-label="Llamar a Qrobus al 442 210 0407"><svg class="picto" aria-hidden="true"><use href="#p-qrobus"/></svg><span><strong>Llamar a Qrobus</strong><small>Atención telefónica</small></span></a>
       </div>
     </section>
@@ -1100,60 +1101,72 @@
         <p class="seguro-nota">Es una recomendación: no garantiza que un lugar sea seguro.</p>
       </div>
       <div data-ajuste-panel="progreso" class="tono-maiz" hidden>
-        <div class="ajuste-cabeza"><svg class="picto" aria-hidden="true"><use href="#p-llave"/></svg><p>Tu racha y tus lugares, a salvo</p></div>
-        <div class="grupo llave-caja cuenta-panel">
-          <div class="llave">
-            <div id="cuentaSin">
-              <p class="nota">Crea tu cuenta para guardar tu progreso y usarlo en otro teléfono. Se cifra con tu contraseña: ni Grieta puede leerlo.</p>
-              <button id="cuentaCrear" type="button" class="boton">Crear cuenta</button>
-              <button id="cuentaEntrar" type="button" class="boton oscuro">Ya tengo cuenta</button>
-            </div>
-            <div id="cuentaCon" hidden>
-              <div class="cuenta-ficha"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-familiar"/></svg></span><span class="fila-texto"><strong id="cuentaNombreVer" translate="no"></strong><small id="cuentaCorreoVer" translate="no"></small></span></div>
-              <button id="cuentaClaveAbrir" type="button" class="fila-boton"><svg class="icono" aria-hidden="true"><use href="#i-lapiz"/></svg>Cambiar contraseña</button>
-              <button id="cuentaSalir" type="button" class="fila-boton"><svg class="icono" aria-hidden="true"><use href="#i-equis"/></svg>Cerrar sesión</button>
-              <button id="cuentaBorrar" type="button" class="fila-boton peligro"><svg class="icono" aria-hidden="true"><use href="#i-basura"/></svg>Borrar mi cuenta</button>
-            </div>
-            <p id="cuentaAviso" class="nota" role="status"></p>
+        <div class="ajuste-cabeza"><svg class="picto" aria-hidden="true"><use href="#p-perfil"/></svg><p>Tu racha y tus lugares, a salvo</p></div>
+        <h2 class="con-icono"><svg class="icono" aria-hidden="true"><use href="#i-persona"/></svg>Tu cuenta</h2>
+        <div id="cuentaSin" class="cuenta-bloque">
+          <div class="par-opciones">
+            <button id="cuentaCrear" type="button"><span class="muestra muestra-cuenta" aria-hidden="true"><svg class="picto"><use href="#p-perfil"/></svg><i>+</i></span>Crear cuenta</button>
+            <button id="cuentaEntrar" type="button"><span class="muestra muestra-cuenta" aria-hidden="true"><svg class="picto"><use href="#p-celular"/></svg></span>Ya tengo cuenta</button>
+          </div>
+          <p class="par-nota">Se cifra con tu contraseña: ni Grieta puede leerlo.</p>
+        </div>
+        <div id="cuentaCon" class="cuenta-bloque" hidden>
+          <div class="cuenta-ficha"><span id="cuentaInicial" class="cuenta-avatar" aria-hidden="true" translate="no"></span><span class="fila-texto"><strong id="cuentaNombreVer" translate="no"></strong><small id="cuentaCorreoVer" translate="no"></small></span></div>
+          <div class="densidad-opciones cuenta-acciones">
+            <button id="cuentaClaveAbrir" type="button"><span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-llave"/></svg></span><span><strong>Cambiar contraseña</strong><small>Se cierra tu sesión en tus otros teléfonos.</small></span><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+            <button id="cuentaSalir" type="button"><span class="mini-ficha tono-obsidiana" aria-hidden="true"><svg class="picto"><use href="#p-celular"/></svg></span><span><strong>Cerrar sesión</strong><small>Tu progreso se queda en este teléfono</small></span><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+            <button id="cuentaBorrar" type="button" class="peligro"><span class="mini-ficha tono-salud" aria-hidden="true"><svg class="picto"><use href="#p-aviso"/></svg></span><span><strong>Borrar mi cuenta</strong><small>Se borran tu cuenta y tu copia en línea</small></span><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></button>
           </div>
         </div>
-        <h2 id="tituloLlaveCuenta" class="seccion-llave">O con tu llave de seis palabras</h2>
-        <div class="grupo llave-caja">
-        <p id="textoLlave" class="nota">Guárdalo con una llave de seis palabras</p>
-            <div class="llave" role="group" aria-label="Tu progreso en otro teléfono">
-              <div id="llaveSin">
-                <p class="nota">Tu racha, tus tunas, tu ahorro y tus lugares se guardan con seis palabras, sin correo ni contraseña. Se cifran en tu teléfono antes de subir: nadie más puede leerlos.</p>
-                <button id="llaveCrear" type="button" class="boton"><svg class="picto" aria-hidden="true"><use href="#p-llave"/></svg>Crear mi llave</button>
-                <label class="campo"><span><svg class="icono" aria-hidden="true"><use href="#i-lapiz"/></svg>¿Ya tienes llave? Escribe tus seis palabras</span><input id="llaveEntrada" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="go"></label>
-                <button id="llaveRecuperar" type="button" class="boton oscuro"><svg class="icono" aria-hidden="true"><use href="#i-telefono"/></svg>Traer mi progreso</button>
-              </div>
-              <div id="llaveCon" hidden>
-                <p class="nota">Tu llave. Escríbela en otro teléfono, en Ajustes y Tu progreso, para tener ahí tu progreso.</p>
-                <ol id="llavePalabras" class="llave-palabras"></ol>
-                <p class="nota">Guárdala donde no la pierdas, por ejemplo en tus notas. Quien la tenga puede ver tu progreso, y sin ella no se puede recuperar.</p>
-                <div class="dos-botones"><button id="llaveCompartir" type="button" class="boton"><svg class="icono" aria-hidden="true"><use href="#i-compartir"/></svg>Compartir</button><button id="llaveCopiar" type="button" class="boton oscuro"><svg class="icono" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button></div>
-                <button id="llaveQuitar" type="button" class="fila-boton"><svg class="icono" aria-hidden="true"><use href="#i-equis"/></svg>Quitar la llave de este teléfono</button>
-                <button id="llaveBorrar" type="button" class="fila-boton peligro"><svg class="icono" aria-hidden="true"><use href="#i-basura"/></svg>Borrar mi copia en línea</button>
-              </div>
-              <p id="llaveEstado" class="nota" role="status"></p>
+        <p id="cuentaAviso" class="par-nota" role="status"></p>
+        <h2 class="con-icono"><svg class="icono" aria-hidden="true"><use href="#i-boleto"/></svg><span id="tituloLlaveCuenta">O con tu llave de seis palabras</span></h2>
+        <div class="llave llave-panel" role="group" aria-label="Tu progreso en otro teléfono">
+          <div id="llaveSin" class="cuenta-bloque">
+            <div class="densidad-opciones">
+              <button id="llaveCrear" type="button"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-llave"/></svg></span><span><strong>Crear mi llave</strong><small>Sin correo ni contraseña</small></span><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+              <button id="llaveYaTengo" type="button" aria-expanded="false" aria-controls="llaveEscribir"><span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-celular"/></svg></span><span><strong>¿Ya tienes llave?</strong><small>Escribe tus seis palabras</small></span><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></button>
             </div>
+            <div id="llaveEscribir" class="cuenta-bloque llave-escribir" hidden>
+              <label class="campo"><span>Tus seis palabras</span><input id="llaveEntrada" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="go"></label>
+              <button id="llaveRecuperar" type="button" class="boton">Traer mi progreso</button>
+            </div>
+            <p class="par-nota">Tu racha, tus tunas, tu ahorro y tus lugares se guardan con seis palabras, sin correo ni contraseña. Se cifran en tu teléfono antes de subir: nadie más puede leerlos.</p>
+          </div>
+          <div id="llaveCon" class="cuenta-bloque" hidden>
+            <div class="densidad-opciones">
+              <button id="llaveVer" type="button" aria-expanded="false" aria-controls="llaveDetalle"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-llave"/></svg></span><span><strong>Ver mis seis palabras</strong><small id="textoLlave">Guárdalo con una llave de seis palabras</small></span><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+            </div>
+            <div id="llaveDetalle" class="cuenta-bloque llave-detalle" hidden>
+              <ol id="llavePalabras" class="llave-palabras"></ol>
+              <p class="par-nota">Tu llave. Escríbela en otro teléfono, en Ajustes y Tu cuenta, para tener ahí tu progreso.</p>
+              <p class="par-nota">Guárdala donde no la pierdas, por ejemplo en tus notas. Quien la tenga puede ver tu progreso, y sin ella no se puede recuperar.</p>
+              <div class="dos-botones"><button id="llaveCompartir" type="button" class="boton"><svg class="icono" aria-hidden="true"><use href="#i-compartir"/></svg>Compartir</button><button id="llaveCopiar" type="button" class="boton oscuro"><svg class="icono" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button></div>
+              <button id="llaveQuitar" type="button" class="fila-boton"><svg class="icono" aria-hidden="true"><use href="#i-equis"/></svg>Quitar la llave de este teléfono</button>
+              <button id="llaveBorrar" type="button" class="fila-boton peligro"><svg class="icono" aria-hidden="true"><use href="#i-basura"/></svg>Borrar mi copia en línea</button>
+            </div>
+          </div>
+          <p id="llaveEstado" class="par-nota" role="status"></p>
         </div>
       </div>
       <div data-ajuste-panel="ayuda" class="tono-obsidiana" hidden>
-        <div class="ajuste-cabeza"><svg class="picto" aria-hidden="true"><use href="#p-reportar"/></svg><p>Aprende a usar Grieta</p></div>
-        <button id="abrirTutorial" type="button" class="boton ayuda-tutorial"><svg class="icono" aria-hidden="true"><use href="#i-play"/></svg>Ver tutorial</button>
-        <h2 id="tituloAyuda" class="con-icono"><svg class="icono" aria-hidden="true"><use href="#i-persona"/></svg>Cómo usar Grieta</h2>
-        <ol class="pasos-ayuda linea-tiempo">
-              <li><span class="num" aria-hidden="true">1</span><span><strong>Di o escribe a dónde vas</strong><small>En Inicio, en "Busca un lugar" o con "Dictar".</small></span></li>
-              <li><span class="num" aria-hidden="true">2</span><span><strong>Compara y elige</strong><small>Ves cuánto cuesta en Uber, DiDi e inDrive y cómo llegar en Qrobus.</small></span></li>
-              <li><span class="num" aria-hidden="true">3</span><span><strong>Empieza el viaje con avisos</strong><small>Grieta te avisa cuándo pasa tu camión y cuándo bajarte.</small></span></li>
-            </ol>
+        <button id="abrirTutorial" type="button" class="ayuda-hero"><span class="fila-texto"><strong>Ver tutorial</strong><small>Aprende a usar Grieta</small></span><svg id="ayudaTlacuache" class="perfil-tl" viewBox="-72 -84 140 88" aria-hidden="true"></svg><span class="ayuda-play" aria-hidden="true"><svg class="icono"><use href="#i-play"/></svg></span></button>
+        <h2 id="tituloTareas" class="con-icono"><svg class="icono" aria-hidden="true"><use href="#i-lista"/></svg>¿Qué quieres hacer?</h2>
+        <div id="ayudaTareas" class="ayuda-tareas" role="group" aria-labelledby="tituloTareas">
+          <button type="button" class="ajuste-ficha tono-anil" data-ayuda="ir"><svg class="picto" aria-hidden="true"><use href="#p-lugar"/></svg><span><strong>Ir a un lugar</strong></span></button>
+          <button type="button" class="ajuste-ficha tono-hospital" data-ayuda="camiones"><svg class="picto" aria-hidden="true"><use href="#p-camiones"/></svg><span><strong>Ver camiones cerca</strong></span></button>
+          <button type="button" class="ajuste-ficha tono-salud" data-ayuda="reportar"><svg class="picto" aria-hidden="true"><use href="#p-aviso"/></svg><span><strong>Reportar un problema</strong></span></button>
+          <button type="button" class="ajuste-ficha tono-ciruela" data-ayuda="camara"><svg class="picto" aria-hidden="true"><use href="#p-camara"/></svg><span><strong>Describir con la cámara</strong></span></button>
+          <button type="button" class="ajuste-ficha tono-casa" data-ayuda="lugares"><svg class="picto" aria-hidden="true"><use href="#p-casa"/></svg><span><strong>Guardar mis lugares</strong></span></button>
+          <button type="button" class="ajuste-ficha tono-maiz" data-ayuda="cuenta"><svg class="picto" aria-hidden="true"><use href="#p-perfil"/></svg><span><strong>Pasar a otro teléfono</strong></span></button>
+        </div>
         <h2 id="tituloPreguntas" class="con-icono"><svg class="icono" aria-hidden="true"><use href="#i-lupa"/></svg>Preguntas frecuentes</h2>
         <div class="grupo ayuda" role="group" aria-labelledby="tituloPreguntas">
               <details class="pregunta-ayuda"><summary><svg class="icono pregunta-icono" aria-hidden="true"><use href="#i-moneda"/></svg><strong>¿Los precios son exactos?</strong><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>No, son estimados. Los calcula nuestro modelo predictivo a partir de nuestros registros de cotizaciones reales. Si la app te marca otro, compáralo en "¿La app ya te dio precio?".</p></details>
               <details class="pregunta-ayuda"><summary><svg class="icono pregunta-icono" aria-hidden="true"><use href="#i-lupa"/></svg><strong>No encuentro un lugar</strong><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Escribe la calle y la colonia, o toca "Elígelo en el mapa".</p></details>
               <details class="pregunta-ayuda"><summary><svg class="icono pregunta-icono" aria-hidden="true"><use href="#i-altavoz"/></svg><strong>¿Por qué me habla Grieta?</strong><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Para avisarte durante el viaje. Puedes apagarla en Ajustes, en Voz.</p></details>
               <details class="pregunta-ayuda"><summary><svg class="icono pregunta-icono" aria-hidden="true"><use href="#i-reloj"/></svg><strong>¿Las horas del camión son seguras?</strong><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse unos minutos.</p></details>
+              <details class="pregunta-ayuda"><summary><svg class="icono pregunta-icono" aria-hidden="true"><use href="#i-persona"/></svg><strong>¿Necesito crear una cuenta?</strong><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>No. Puedes usar todo sin cuenta. Solo sirve para llevar tu progreso a otro teléfono.</p></details>
+              <details class="pregunta-ayuda"><summary><svg class="icono pregunta-icono" aria-hidden="true"><use href="#i-lapiz"/></svg><strong>Olvidé mi contraseña</strong><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>En Ajustes, entra a Tu cuenta, toca Ya tengo cuenta y luego Olvidé mi contraseña. Necesitas tus seis palabras.</p></details>
             </div>
       </div>
     </section>
@@ -1177,6 +1190,14 @@
     <button type="button" data-tab="camiones"><svg class="picto"><use href="#p-camiones"/></svg><span class="pestana-texto">Camiones cerca</span></button>
     <button type="button" data-tab="ajustes"><svg class="picto"><use href="#p-settings"/></svg><span class="pestana-texto">Ajustes</span></button>
   </nav>
+
+  <dialog id="hojaAyuda" class="hoja-perfil hoja-ayuda" aria-labelledby="hojaAyudaTitulo">
+    <span class="asa-lugar" aria-hidden="true"></span>
+    <h2 id="hojaAyudaTitulo" tabindex="-1"></h2>
+    <ol id="hojaAyudaPasos" class="pasos-ayuda linea-tiempo"></ol>
+    <button id="hojaAyudaIr" type="button" class="boton"></button>
+    <button id="hojaAyudaCerrar" type="button" class="enlace">Cerrar</button>
+  </dialog>
 
   <dialog id="dialogoLugar" class="dialogo-lugar" aria-labelledby="tituloAccionesLugar">
     <span class="asa-lugar" aria-hidden="true"></span>

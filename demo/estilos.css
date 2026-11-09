@@ -686,9 +686,7 @@ button:active, .boton:active, .chip:active, .tarjeta:active, .app-fila:active, .
 .sugerencia .mini-ficha { width: 48px; height: 48px; }
 .en-carro { display: flex; align-items: center; gap: 12px; margin-top: 18px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
 .en-carro .fila-texto strong { font-weight: 700; }
-#enCarro { --carro: #c62828; background: var(--carro); color: #fff; }
-html.daltonico #enCarro { --carro: #8a2c5a; }
-html.contraste #enCarro { --carro: #9c1d16; }
+#enCarro { --carro: var(--tono); background: var(--carro); color: #fff; }
 #enCarro .fila-texto small { color: #fff; }
 #enCarro .carro-co2 { font-weight: 700; }
 #enCarro .mini-ficha { background: #fff; color: var(--carro); }
@@ -2088,10 +2086,36 @@ html.modo-voz #bienvenida .pregunta-texto h1 { font-size: 2.1rem; }
 .cuenta-enlaces { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 16px; }
 .cuenta-guarda .llave-palabras { margin: 0; }
 .boton.peligro { background: #c62828; color: #fff; }
-.cuenta-panel #cuentaSin, .cuenta-panel #cuentaCon { display: flex; flex-direction: column; gap: 10px; }
-.cuenta-panel [hidden] { display: none !important; }
-.cuenta-panel .boton { margin-top: 0; }
-.cuenta-ficha { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
-.cuenta-ficha .fila-texto strong { font-weight: 700; overflow-wrap: anywhere; }
-.cuenta-ficha .fila-texto small { overflow-wrap: anywhere; }
-.seccion-llave { margin: 20px 0 8px; font-size: 1rem; }
+.cuenta-bloque { display: grid; gap: 8px; }
+.cuenta-bloque[hidden] { display: none; }
+.muestra-cuenta { position: relative; color: var(--ambar); }
+.muestra-cuenta .picto { width: 44px; height: 44px; }
+.muestra-cuenta i { position: absolute; right: calc(50% - 32px); bottom: 10px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--ambar); color: var(--sobre-ambar); font-style: normal; font-size: 1.15rem; font-weight: 800; line-height: 1; }
+.cuenta-ficha { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 18px; background: var(--tono); color: #fff; }
+.cuenta-avatar { flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: #fff; color: var(--tono); font-size: 1.5rem; font-weight: 800; }
+.cuenta-ficha .fila-texto strong { display: block; font-size: 1.08rem; font-weight: 800; line-height: 1.2; overflow-wrap: anywhere; }
+.cuenta-ficha .fila-texto small { display: block; margin-top: 2px; color: #fff; font-size: .84rem; overflow-wrap: anywhere; }
+.cuenta-acciones small, .llave-panel .densidad-opciones small { display: block; margin-top: 1px; color: var(--tenue); font-size: .78rem; line-height: 1.25; }
+#ajuste .densidad-opciones .chevron { flex: none; color: var(--tenue); }
+.densidad-opciones button.peligro strong { color: var(--cuidado); }
+#llaveYaTengo[aria-expanded="true"] .chevron, #llaveVer[aria-expanded="true"] .chevron { transform: rotate(90deg); }
+.llave-panel { display: grid; gap: 8px; }
+.llave-escribir, .llave-detalle { padding: 2px 0 4px; }
+.llave-panel .boton { margin-top: 0; }
+.llave-panel .llave-palabras { margin: 0; }
+.llave-panel .par-nota { margin-top: 0; }
+#cuentaAviso:empty, #llaveEstado:empty { display: none; }
+.ayuda-hero { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 86px; padding: 12px 14px 12px 18px; border-radius: 22px; background: var(--ambar); color: var(--sobre-ambar); text-align: left; }
+.ayuda-hero .fila-texto { flex: 1; min-width: 0; }
+.ayuda-hero strong { display: block; font-size: 1.3rem; font-weight: 800; line-height: 1.12; }
+.ayuda-hero small { display: block; margin-top: 3px; color: var(--sobre-ambar); font-size: .84rem; font-weight: 600; }
+.ayuda-play { flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--sobre-ambar); color: var(--ambar); }
+.ayuda-play .icono { width: 20px; height: 20px; fill: currentColor; }
+.ayuda-tareas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.ayuda-tareas .ajuste-ficha { min-height: 92px; }
+.ayuda-tareas .ajuste-ficha strong { font-size: .95rem; }
+html.grande .ayuda-tareas, html.modo-voz .ayuda-tareas { grid-template-columns: 1fr; }
+.hoja-ayuda h2 { margin: 0 0 16px; color: var(--tinta); font-size: 1.5rem; font-weight: 800; line-height: 1.15; letter-spacing: -.01em; text-transform: none; }
+.hoja-ayuda .linea-tiempo { margin: 0; padding: 0; list-style: none; }
+.hoja-ayuda .boton { width: 100%; margin-top: 6px; }
+.hoja-ayuda .enlace { display: block; margin: 6px auto 0; }

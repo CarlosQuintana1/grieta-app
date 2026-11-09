@@ -11,6 +11,9 @@ const TutorialGrieta = (() => {
       texto: 'En Inicio o Ajustes, abre Describir con la cámara. En Ajustes, en Pantalla, puedes elegir el modo Voz.',
       detalle: 'La cámara puede describir algunos objetos y leer letreros. Analiza las imágenes en tu teléfono y puede omitir obstáculos; usa tu bastón o acompañamiento.' },
   ];
+  const enIdioma = t => Interfaz.traducirTexto(t);
+  // El texto traducido puede ser mas largo: la letra baja para que quepa en su caja.
+  const letraQueCabe = (t, base, cabe) => Math.min(base, Math.floor(base * cabe / t.length));
   const camionIco = (x, y, t, color) => `<svg x="${x}" y="${y}" width="${t}" height="${t}" color="${color}"><use href="#p-qrobus"/></svg>`;
   const ficha = (clase, x, nombre, precio, fondo) => `<g class="t-ficha ${clase}"><rect x="${x}" y="228" width="100" height="58" rx="15" fill="${fondo}"/><text x="${x + 50}" y="251" text-anchor="middle" font-size="13" fill="#fff">${nombre}</text><text x="${x + 50}" y="275" text-anchor="middle" font-size="21" fill="#fff">${precio}</text></g>`;
   // Tres escenas dibujadas a mano: sin animacion se quedan en su cuadro final.
@@ -37,7 +40,7 @@ const TutorialGrieta = (() => {
       <circle class="t-sonar s1" cx="172" cy="150" r="12" fill="#66b4e8"/><circle class="t-sonar s2" cx="172" cy="150" r="12" fill="#66b4e8"/>
       <circle cx="172" cy="150" r="11" fill="#66b4e8" stroke="#fff" stroke-width="3.5"/>
       <g class="t-bus"><rect x="-17" y="-17" width="34" height="34" rx="10" fill="#e0a03c" stroke="#0e2a1c" stroke-width="3"/>${camionIco(-13, -13, 26, '#1c1408')}</g>
-      <g class="t-tarjeta"><rect x="32" y="212" width="296" height="62" rx="18" fill="#fff"/><rect x="44" y="224" width="62" height="38" rx="11" fill="#1f6b46"/><text x="75" y="250" text-anchor="middle" font-size="19" fill="#fff">C60</text><text x="118" y="240" font-size="18" fill="#1c1408">Pasa en 6 min</text><text x="118" y="259" font-size="12" fill="#6d665b">Horario estimado</text></g>
+      <g class="t-tarjeta"><rect x="32" y="212" width="296" height="62" rx="18" fill="#fff"/><rect x="44" y="224" width="62" height="38" rx="11" fill="#1f6b46"/><text x="75" y="250" text-anchor="middle" font-size="19" fill="#fff">C60</text><text x="118" y="240" font-size="${letraQueCabe(enIdioma('Pasa en 6 min'), 18, 17)}" fill="#1c1408">${enIdioma('Pasa en 6 min')}</text><text x="118" y="259" font-size="${letraQueCabe(enIdioma('Horario estimado'), 12, 34)}" fill="#6d665b">${enIdioma('Horario estimado')}</text></g>
     </g>`,
     camara: tl => `<g class="t-todo">
       <rect x="56" y="12" width="248" height="196" rx="22" fill="#241523"/>
@@ -50,7 +53,7 @@ const TutorialGrieta = (() => {
       ${tl(62, 294, .34)}
       <g class="t-globo"><path d="M122 262l-16 12 22-3z" fill="#fff"/><rect x="118" y="222" width="228" height="64" rx="22" fill="#fff"/>
         <g fill="#5b2f5a"><rect class="t-onda o1" x="136" y="246" width="5" height="16" rx="2.5"/><rect class="t-onda o2" x="146" y="240" width="5" height="28" rx="2.5"/><rect class="t-onda o3" x="156" y="244" width="5" height="20" rx="2.5"/><rect class="t-onda o4" x="166" y="238" width="5" height="32" rx="2.5"/><rect class="t-onda o5" x="176" y="246" width="5" height="16" rx="2.5"/></g>
-        <text x="194" y="261" font-size="16" fill="#1c1408">Aquí pasa la C60</text></g>
+        <text x="194" y="261" font-size="${letraQueCabe(enIdioma('Aquí pasa la C60'), 16, 16)}" fill="#1c1408">${enIdioma('Aquí pasa la C60')}</text></g>
     </g>`,
   };
   const glifo = (id, x, y, t, color) => `<svg x="${x}" y="${y}" width="${t}" height="${t}" color="${color}"><use href="#${id}"/></svg>`;

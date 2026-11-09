@@ -160,7 +160,7 @@ function pintarCuenta() {
   const d = cuentaActual.datos;
   $("cuentaSin").hidden = !!d;
   $("cuentaCon").hidden = !d;
-  if (d) { $("cuentaNombreVer").textContent = d.nombre; $("cuentaCorreoVer").textContent = d.correo; }
+  if (d) { $("cuentaNombreVer").textContent = d.nombre; $("cuentaCorreoVer").textContent = d.correo; $("cuentaInicial").textContent = d.nombre.charAt(0).toUpperCase(); }
   $("tituloLlaveCuenta").textContent = d ? "Tus seis palabras para recuperar tu cuenta" : "O con tu llave de seis palabras";
   pintarLlave();
 }

@@ -13,17 +13,30 @@ const AVISOS_PARA_PICO = 5;
 const VOTOS = "grieta-votos-ciudad";
 const numero = (n) => n.toLocaleString("es-MX");
 const vacio = (lista) => { const li = document.createElement("li"); li.className = "vacio"; li.textContent = "Todavía sin datos."; lista.append(li); };
-function fila(lista, nombre, valor, ancho) {
+function fila(lista, nombre, valor, ancho, puesto) {
   const li = document.createElement("li"), etiqueta = document.createElement("span"), total = document.createElement("strong"), medidor = document.createElement("span"), relleno = document.createElement("i");
   etiqueta.textContent = nombre; total.textContent = valor; medidor.className = "medidor"; relleno.style.width = `${ancho}%`;
-  medidor.append(relleno); li.append(etiqueta, total, medidor); lista.append(li);
+  medidor.append(relleno);
+  if (puesto) { const n = document.createElement("span"); n.className = "puesto"; n.textContent = puesto; li.className = "con-puesto"; li.append(n); }
+  li.append(etiqueta, total, medidor);
+  lista.append(li);
 }
 function barras(id, filas, nombre = (x) => x) {
   const lista = $(id);
   lista.replaceChildren();
   if (!filas.length) return vacio(lista);
   const tope = Math.max(...filas.map((f) => f.total));
-  for (const f of filas) fila(lista, nombre(f.clave), numero(f.total), (f.total / tope) * 100);
+  filas.forEach((f, i) => fila(lista, nombre(f.clave), numero(f.total), (f.total / tope) * 100, i + 1));
+}
+function fichasTipo(id, filas) {
+  const lista = $(id);
+  lista.replaceChildren();
+  if (!filas.length) return vacio(lista);
+  for (const f of filas) {
+    const li = el("li");
+    li.append(icono(ICONOS_AVISO[f.clave] ?? "p-reportar", "azul"), el("b", "", numero(f.total)), el("span", "nombre", TITULOS_AVISO[f.clave] ?? f.clave));
+    lista.append(li);
+  }
 }
 // Porcentaje de viajes estresados; cada fila muestra cuantas respuestas tiene detras.
 function porcentajes(id, filas) {
@@ -74,22 +87,31 @@ function textos(fuerte, chico) { const s = el("span", "tx"); s.append(el("strong
 function pintarLineas(v) {
   const mias = v ? misLineas() : [];
   $("tusLineas").hidden = !mias.length;
-  const h = horaActual();
-  $("listaLineas").replaceChildren(...mias.map((l) => {
-    const [tono, titulo, detalle] = estadoLinea(v.lineas[l], h);
-    const li = el("li");
-    li.append(el("span", "caja-linea", l), textos(titulo, detalle), el("i", `punto ${tono}`));
-    return li;
-  }));
+  const h = horaActual(), estados = mias.map((l) => [l, ...estadoLinea(v.lineas[l], h)]);
+  const conAviso = estados.filter(([, tono]) => tono !== "verde"), sinAviso = estados.filter(([, tono]) => tono === "verde");
+  const filas = conAviso.map(([l, tono, titulo, detalle]) => {
+    const d = el("div", `linea-estado ${tono}`);
+    d.append(el("span", "caja-linea", l), textos(titulo, detalle));
+    return d;
+  });
+  if (sinAviso.length) {
+    const d = el("div", "linea-estado verde"), ok = el("span", "ic claro"), chips = el("div", "chips-linea");
+    ok.innerHTML = '<svg class="marca-si" aria-hidden="true"><use href="#p-si"/></svg>';
+    chips.append(...sinAviso.map(([l]) => el("span", "caja-linea", l)));
+    d.append(ok, textos(conAviso.length ? "Sin avisos" : "Tus líneas van sin avisos", "En la última media hora"), chips);
+    filas.push(d);
+  }
+  $("listaLineas").replaceChildren(...filas);
 }
 function icono(id, tono) { const s = el("span", `ic ${tono}`); s.innerHTML = `<svg class="picto" aria-hidden="true"><use href="#${id}"/></svg>`; return s; }
-function fila2(ic, titulo, detalle, cuando) { const d = el("div", "aviso-fila"); d.append(ic, textos(titulo, detalle)); if (cuando) d.append(el("time", "", cuando)); return d; }
+function fila2(ic, titulo, detalle) { const d = el("div", "aviso-fila"); d.append(ic, textos(titulo, detalle)); return d; }
+function marcaVoto(id) { const s = el("span", "voto-ico"); s.innerHTML = `<svg aria-hidden="true"><use href="#${id}"/></svg>`; return s; }
 // Cada telefono cuenta una sola vez por aviso.
 function cajaVotos(api, clave, opciones) {
   const caja = el("div", opciones.length === 1 ? "votos uno" : "votos"), votados = leerLocal(VOTOS, {});
   const botones = opciones.map((o) => {
     const b = el("button"), cuenta = el("b", "", String(o.cuenta));
-    b.type = "button"; b.append(`${o.texto} `, cuenta); b.disabled = clave in votados;
+    b.type = "button"; b.append(marcaVoto(o.marca), o.texto, cuenta); b.disabled = clave in votados;
     if (votados[clave] === o.valor) b.classList.add("elegido");
     b.addEventListener("click", async () => {
       botones.forEach((x) => { x.disabled = true; });
@@ -113,12 +135,30 @@ function cajaVotos(api, clave, opciones) {
 function pintarAvisos(v, api) {
   $("bloqueAvisos").hidden = !v;
   if (!v) return;
-  const lista = v.avisos.map((a) => {
+  const lista = v.avisos.filter((a) => a.tipo === "lleno").map((a) => {
     const li = el("li", "aviso");
-    if (a.tipo === "lleno") li.append(fila2(icono("p-lleno", "ambar"), `${a.linea} viene llena`, "", hace(a.creado)), cajaVotos(api, `lleno-${a.linea}-${a.creado}`, [{ texto: "Yo también la vi", cuenta: a.veces, valor: 1, ruta: `/camiones/avisos/${a.linea}/confirmar` }]));
-    else li.append(fila2(icono(ICONOS_AVISO[a.tipo] ?? "p-reportar", "azul"), TITULOS_AVISO[a.tipo] ?? a.tipo, paradaBonita(a.parada), hace(a.creado)), cajaVotos(api, `reporte-${a.id}`, [{ texto: "Sigue así", cuenta: a.sigue, valor: 1, ruta: `/reportes/${a.id}/verificar`, cuerpo: { sigue: true } }, { texto: "Ya lo arreglaron", cuenta: a.arreglado, valor: 0, ruta: `/reportes/${a.id}/verificar`, cuerpo: { sigue: false } }]));
+    li.append(fila2(icono("p-lleno", "ambar"), `${a.linea} viene llena`, hace(a.creado)), cajaVotos(api, `lleno-${a.linea}-${a.creado}`, [{ texto: "Yo también la vi", marca: "p-si", cuenta: a.veces, valor: 1, ruta: `/camiones/avisos/${a.linea}/confirmar` }]));
     return li;
   });
+  // Los reportes de una misma parada van juntos para no repetir su nombre.
+  const paradas = new Map();
+  for (const a of v.avisos.filter((x) => x.tipo !== "lleno")) {
+    const nombre = paradaBonita(a.parada);
+    paradas.set(nombre, [...(paradas.get(nombre) ?? []), a]);
+  }
+  for (const [nombre, reportes] of paradas) {
+    const li = el("li", "aviso"), cab = el("div", "parada-cab");
+    cab.setAttribute("translate", "no");
+    cab.innerHTML = '<svg aria-hidden="true"><use href="#p-marca"/></svg>';
+    cab.append(el("strong", "", nombre));
+    li.append(cab);
+    for (const a of reportes) {
+      const r = el("div", "reporte");
+      r.append(fila2(icono(ICONOS_AVISO[a.tipo] ?? "p-reportar", "azul"), TITULOS_AVISO[a.tipo] ?? a.tipo, hace(a.creado)), cajaVotos(api, `reporte-${a.id}`, [{ texto: "Sigue así", marca: "p-si", cuenta: a.sigue, valor: 1, ruta: `/reportes/${a.id}/verificar`, cuerpo: { sigue: true } }, { texto: "Ya lo arreglaron", marca: "p-arreglo", cuenta: a.arreglado, valor: 0, ruta: `/reportes/${a.id}/verificar`, cuerpo: { sigue: false } }]));
+      li.append(r);
+    }
+    lista.push(li);
+  }
   for (const a of v.arreglados) {
     const li = el("li", "aviso logro");
     li.append(fila2(icono("p-escudo", "blanco"), LOGROS[a.tipo] ?? "¡Ya quedó!", `${paradaBonita(a.parada)}: ${a.personas} personas confirmaron que ya lo arreglaron.`));
@@ -127,6 +167,10 @@ function pintarAvisos(v, api) {
   if (!lista.length) lista.push(el("li", "sin-avisos", "Todavía nadie ha avisado nada. Puedes ser la primera persona."));
   $("listaAvisos").replaceChildren(...lista);
 }
+const hojaQuejas = $("hojaQuejas");
+$("abrirQuejas").addEventListener("click", () => hojaQuejas.showModal());
+$("cerrarQuejas").addEventListener("click", () => hojaQuejas.close());
+hojaQuejas.addEventListener("click", (e) => { if (e.target === hojaQuejas && e.clientY < hojaQuejas.getBoundingClientRect().top) hojaQuejas.close(); });
 // La pantalla sale en el idioma que eligió en la app.
 const idiomaElegido = leerLocal("grieta-acc", {}).idioma;
 if (idiomaElegido === "oto" || idiomaElegido === "nah") Interfaz.iniciar(idiomaElegido, () => {});
@@ -134,7 +178,6 @@ if (idiomaElegido === "oto" || idiomaElegido === "nah") Interfaz.iniciar(idiomaE
   try {
     const config = await fetch("datos/config.json").then((r) => r.json()).catch(() => ({}));
     const api = ["localhost", "127.0.0.1"].includes(location.hostname) ? "http://localhost:3000/api" : config.api;
-    $("enlaceJson").href = `${api}/observatorio`;
     const pedir = (ruta) => fetch(`${api}${ruta}`).then((r) => { if (!r.ok) throw Error(); return r.json(); });
     const [d, vivo] = await Promise.all([pedir("/observatorio"), pedir("/observatorio/vivo").catch(() => null)]);
     pintarLineas(vivo);
@@ -145,8 +188,9 @@ if (idiomaElegido === "oto" || idiomaElegido === "nah") Interfaz.iniciar(idiomaE
     $("cAcceso").textContent = numero(d.accesibilidad.porTipo.filter((t) => t.clave !== "referencia").reduce((s, t) => s + t.total, 0));
     barras("quejasRuta", d.quejas.porRuta);
     barras("quejasTipo", d.quejas.porTipo, (t) => TIPOS[t] ?? t);
-    barras("accesoTipo", d.accesibilidad.porTipo, (t) => TIPOS[t] ?? t);
-    barras("accesoParada", d.accesibilidad.porParada);
+    const problemas = d.accesibilidad.porTipo.filter((t) => t.clave !== "referencia");
+    fichasTipo("accesoTipo", problemas);
+    barras("accesoParada", d.accesibilidad.porParada, paradaBonita);
     barras("llenoLinea", d.lleno.porLinea);
     const v = d.sentir?.porValor ?? {}, totalSentir = d.sentir?.total ?? 0;
     $("sentirResumen").textContent = totalSentir ? `${numero(totalSentir)} ${totalSentir === 1 ? "respuesta" : "respuestas"}: ${v.tranquilo ?? 0} tranquilos, ${v.normal ?? 0} normales y ${v.estresado ?? 0} estresados.` : "Todavía sin respuestas.";
