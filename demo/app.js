@@ -1320,6 +1320,7 @@ function pintarCarro(r) {
   $("enCarro").hidden = !(km > 0) || acc.gasolina === "no";
   $("enCarro").innerHTML = `${miniFicha("tono-obsidiana", picto("app"))}<span class="fila-texto">
     <strong>En tu carro: al menos ${pesos((km / AUTO_KM_LITRO) * precioGasolina())} de gasolina${centro ? " más estacionamiento" : ""}</strong>
+    ${co2Auto(km) >= 50 ? `<small class="carro-co2">En auto emitiría ${kgTexto(co2Auto(km))} de CO₂</small>` : ""}
     <small id="carroDetalle" hidden></small></span>`;
   // Saliendo ahorita, cuanto tarda en auto con el trafico real (Azure Maps, desde la API)
   if (estado.momento !== 0) return;
