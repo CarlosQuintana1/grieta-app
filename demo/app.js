@@ -288,6 +288,8 @@ function mostrar(nombre) {
   for (const s of document.querySelectorAll(".pantalla")) s.hidden = s.id !== nombre;
   if (nombre === "camara" && document.body.dataset.pantalla !== "camara") camaraConVoz = true;
   document.body.dataset.pantalla = nombre;
+  if (nombre === "camiones") iniciarEstimados(); else if (relojEstimados) detenerEstimados();
+  if (nombre === "guia") requestAnimationFrame(pintarBotonSimulador);
   actualizarVozEncabezado();
   document.body.classList.toggle("con-mapa", Boolean(conf.mapa));
   document.body.classList.remove("alerta");
@@ -313,6 +315,7 @@ function mostrar(nombre) {
 }
 // Un mapa que estuvo oculto pierde el encuadre; se rehace con lo que toca en cada pantalla.
 function reencuadrar(nombre) {
+  if (nombre === "camiones" && vistaEstimados) return;
   // Con el mapa oculto (modo para personas ciegas) no hay a donde moverlo: Leaflet calcularia posiciones invalidas.
   if (!$("mapa").offsetHeight) return;
   if (nombre === "linea" && capas.rutaLinea) return encuadrarLinea();
@@ -1865,6 +1868,126 @@ function pintarApps(o) {
 }
 
 $("empezar").addEventListener("click", () => iniciarGuia(estado.elegida));
+
+// Recorrido animado: la cámara sigue tu viaje en un mapa inclinado. MapLibre solo se descarga al pedirlo.
+const MAPLIBRE = "https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl";
+const COLOR_TRAMO = { pie: "#ffffff", camion: "#e0a03c", app: "#6a7ae0" };
+let cargaMaplibre = null;
+const rc = { mapa: null, marca: null, cuadro: 0 };
+function cargarMaplibre() {
+  return cargaMaplibre ??= new Promise((listo, fallo) => {
+    const css = document.createElement("link");
+    css.rel = "stylesheet"; css.href = `${MAPLIBRE}.min.css`;
+    const js = document.createElement("script");
+    js.src = `${MAPLIBRE}.min.js`;
+    js.onload = () => listo(window.maplibregl);
+    js.onerror = () => { cargaMaplibre = null; fallo(new Error("maplibre")); };
+    document.head.append(css, js);
+  });
+}
+function tramosRecorrido() {
+  const tramos = [];
+  capas.camion?.eachLayer((l) => {
+    if (!(l instanceof L.Polyline)) return;
+    const pts = l.getLatLngs().map((p) => [p.lng, p.lat]);
+    if (pts.length > 1) tramos.push({ pts, tipo: l.options.camion ? "camion" : l.options.app ? "app" : "pie" });
+  });
+  let k = 0;
+  const lineas = estado.elegida.pasos.filter((p) => p.tipo === "camion").map((p) => p.linea);
+  for (const t of tramos) {
+    t.etapa = t.tipo === "camion" ? `En la ${lineas[k++] ?? ""}` : t.tipo === "app" ? "En auto" : "Caminas";
+    t.acum = [0];
+    for (let i = 1; i < t.pts.length; i++) t.acum.push(t.acum[i - 1] + Grieta.metros(t.pts[i - 1][1], t.pts[i - 1][0], t.pts[i][1], t.pts[i][0]));
+    t.largo = t.acum.at(-1);
+  }
+  return tramos.filter((t) => t.largo > 5);
+}
+const puntoEn = (t, d) => {
+  let i = 1;
+  while (i < t.acum.length - 1 && t.acum[i] < d) i++;
+  const f = (d - t.acum[i - 1]) / ((t.acum[i] - t.acum[i - 1]) || 1), [a, b] = [t.pts[i - 1], t.pts[i]];
+  return { p: [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f], i };
+};
+const rumboDe = (a, b) => { const r = Math.PI / 180, y = Math.sin((b[0] - a[0]) * r) * Math.cos(b[1] * r), x = Math.cos(a[1] * r) * Math.sin(b[1] * r) - Math.sin(a[1] * r) * Math.cos(b[1] * r) * Math.cos((b[0] - a[0]) * r); return (Math.atan2(y, x) / r + 360) % 360; };
+const lineaGeo = (coordinates, tipo) => ({ type: "Feature", properties: { color: COLOR_TRAMO[tipo] }, geometry: { type: "LineString", coordinates } });
+function cerrarRecorrido() {
+  cancelAnimationFrame(rc.cuadro);
+  rc.mapa?.remove(); rc.mapa = null; rc.marca = null;
+  if ($("recorridoHoja").open) $("recorridoHoja").close();
+}
+function animarRecorrido(tramos, limites) {
+  const m = rc.mapa, hecho = m.getSource("hecho");
+  const encuadre = { padding: { top: 70, bottom: 130, left: 40, right: 40 }, pitch: 50, bearing: 0 };
+  const terminar = () => {
+    hecho.setData({ type: "FeatureCollection", features: tramos.map((t) => lineaGeo(t.pts, t.tipo)) });
+    rc.marca.setLngLat(tramos.at(-1).pts.at(-1));
+    $("recorridoEtapa").textContent = "Tu viaje completo";
+    $("recorridoRepetir").hidden = false;
+    m.fitBounds(limites, { ...encuadre, duration: suave() ? 1800 : 0 });
+  };
+  $("recorridoRepetir").hidden = true;
+  if (!suave()) return terminar();
+  const total = tramos.reduce((s, t) => s + t.largo, 0), segundos = Math.max(14, Math.min(26, total / 1000 * 1.4));
+  for (const t of tramos) t.ms = (2200 + (t.largo / total) * segundos * 1000);
+  let i = 0, inicio = null, rumbo = null, zoom = 15, etapa = "", cuadro = 0;
+  const hechos = [];
+  const paso = (ahora) => {
+    inicio ??= ahora;
+    const t = tramos[i], avance = Math.min(1, (ahora - inicio) / t.ms), d = t.largo * (avance * avance * (3 - 2 * avance));
+    const { p, i: k } = puntoEn(t, d);
+    const adelante = puntoEn(t, Math.min(t.largo, d + (t.tipo === "pie" ? 45 : 220))).p;
+    const meta = rumboDe(p, adelante);
+    if (Number.isFinite(meta) && (p[0] !== adelante[0] || p[1] !== adelante[1])) rumbo = rumbo === null ? meta : (rumbo + (((meta - rumbo + 540) % 360) - 180) * 0.06 + 360) % 360;
+    zoom += ((t.tipo === "pie" ? 16.6 : 14.7) - zoom) * 0.05;
+    m.jumpTo({ center: p, bearing: rumbo ?? 0, pitch: 62, zoom });
+    rc.marca.setLngLat(p);
+    if (etapa !== t.etapa) { etapa = t.etapa; $("recorridoEtapa").textContent = etapa; rc.marca.getElement().querySelector("use").setAttribute("href", `#p-${t.tipo === "pie" ? "caminar" : t.tipo === "app" ? "carro" : "qrobus"}`); }
+    if (!(cuadro++ % 3)) hecho.setData({ type: "FeatureCollection", features: [...hechos, lineaGeo([...t.pts.slice(0, k), p], t.tipo)] });
+    if (avance >= 1) { hechos.push(lineaGeo(t.pts, t.tipo)); i++; inicio = null; if (i >= tramos.length) return terminar(); }
+    rc.cuadro = requestAnimationFrame(paso);
+  };
+  m.fitBounds(limites, { ...encuadre, duration: 0 });
+  setTimeout(() => {
+    if (rc.mapa !== m) return;
+    m.flyTo({ center: tramos[0].pts[0], zoom: 15, pitch: 62, duration: 1600 });
+    m.once("moveend", () => { if (rc.mapa === m) rc.cuadro = requestAnimationFrame(paso); });
+  }, 900);
+}
+async function abrirRecorrido() {
+  const tramos = tramosRecorrido();
+  if (!tramos.length) return;
+  const hoja = $("recorridoHoja");
+  $("recorridoEtapa").textContent = "Cargando recorrido";
+  $("recorridoRepetir").hidden = true;
+  hoja.showModal();
+  try {
+    const lib = await cargarMaplibre();
+    if (!hoja.open) return;
+    const limites = tramos.flatMap((t) => t.pts).reduce((b, p) => b.extend(p), new lib.LngLatBounds(tramos[0].pts[0], tramos[0].pts[0]));
+    const m = rc.mapa = new lib.Map({ container: "recorridoMapa", style: "https://tiles.openfreemap.org/styles/liberty", bounds: limites, fitBoundsOptions: { padding: 60 }, pitch: 50, maxPitch: 70, interactive: false, attributionControl: false });
+    m.addControl(new lib.AttributionControl({ compact: true }), "top-left");
+    m.on("load", () => {
+      if (rc.mapa !== m) return;
+      m.addSource("todo", { type: "geojson", data: { type: "FeatureCollection", features: tramos.map((t) => lineaGeo(t.pts, t.tipo)) } });
+      m.addSource("hecho", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+      const trazo = { "line-cap": "round", "line-join": "round" };
+      m.addLayer({ id: "todo", type: "line", source: "todo", layout: trazo, paint: { "line-color": "#16181d", "line-width": 5, "line-opacity": 0.32 } });
+      m.addLayer({ id: "borde", type: "line", source: "hecho", layout: trazo, paint: { "line-color": "#16181d", "line-width": 10 } });
+      m.addLayer({ id: "hecho", type: "line", source: "hecho", layout: trazo, paint: { "line-color": ["get", "color"], "line-width": 6 } });
+      const el = document.createElement("span");
+      el.className = "rc-punto";
+      el.innerHTML = picto("qrobus");
+      rc.marca = new lib.Marker({ element: el }).setLngLat(tramos[0].pts[0]).addTo(m);
+      $("recorridoRepetir").onclick = () => { cancelAnimationFrame(rc.cuadro); m.getSource("hecho").setData({ type: "FeatureCollection", features: [] }); animarRecorrido(tramos, limites); };
+      animarRecorrido(tramos, limites);
+    });
+  } catch {
+    $("recorridoEtapa").textContent = "No pude cargar el recorrido. Revisa tu internet.";
+  }
+}
+$("verRecorrido").addEventListener("click", abrirRecorrido);
+$("recorridoCerrar").addEventListener("click", cerrarRecorrido);
+$("recorridoHoja").addEventListener("close", cerrarRecorrido);
 // Cada paso dicho como dos oraciones, con su punto, para que la voz haga la pausa.
 const conPunto = (t) => (/[.!?]$/.test(t) ? t : `${t}.`);
 const pasosEnVoz = (o) => pasosDe(o).map((p) => `${conPunto(p.titulo)} ${conPunto(p.nota)}`).join(" ");
@@ -2042,6 +2165,45 @@ function pintarParadasEnVista() {
     return m;
   })).addTo(mapa);
 }
+// Camiones estimados por horario en Camiones cerca: se mueven solos y nunca se presentan como ubicación real.
+const MAX_ESTIMADOS = 14;
+const estimados = new Map();
+let relojEstimados = null, vistaEstimados = false;
+const minutoExacto = () => { const a = new Date(); return a.getHours() * 60 + a.getMinutes() + a.getSeconds() / 60; };
+const iconoEstimado = (linea) => L.divIcon({ className: "camion-est", iconSize: [56, 26], iconAnchor: [28, 13], html: `<span class="ce-ficha">${picto("qrobus")}<b translate="no">${escapar(linea)}</b></span>` });
+function limpiarEstimados() {
+  for (const m of estimados.values()) m.remove();
+  estimados.clear();
+  $("camionesHorario").hidden = true;
+  $("verEstimados").hidden = document.body.dataset.pantalla !== "camiones" || acc.modoVoz;
+}
+function pintarEstimados() {
+  if (document.body.dataset.pantalla !== "camiones" || acc.modoVoz || !Grieta.qrobus || mapa.getZoom() < 13) return limpiarEstimados();
+  const area = mapa.getBounds().pad(0.05), c = mapa.getCenter();
+  const candidatos = Grieta.camionesEstimados(hoyDia(), minutoExacto()).filter((x) => area.contains([x.lat, x.lon]))
+    .sort((a, b) => Number(estimados.has(b.id)) - Number(estimados.has(a.id)) || Grieta.metros(c.lat, c.lng, a.lat, a.lon) - Grieta.metros(c.lat, c.lng, b.lat, b.lon));
+  const visibles = [], lineasVistas = new Set(), puntos = [];
+  // Uno por línea y separados en pantalla: que se lean, no que tapen el mapa.
+  for (const x of candidatos) {
+    const clave = `${x.linea}|${x.hacia}`, p = mapa.latLngToContainerPoint([x.lat, x.lon]);
+    if (lineasVistas.has(clave) || puntos.some((q) => q.distanceTo(p) < 62)) continue;
+    lineasVistas.add(clave); puntos.push(p); visibles.push(x);
+    if (visibles.length === MAX_ESTIMADOS) break;
+  }
+  const vivos = new Set(visibles.map((x) => x.id));
+  for (const [id, m] of estimados) if (!vivos.has(id)) { m.remove(); estimados.delete(id); }
+  for (const x of visibles) {
+    const m = estimados.get(x.id);
+    if (m) m.setLatLng([x.lat, x.lon]);
+    else estimados.set(x.id, L.marker([x.lat, x.lon], { icon: iconoEstimado(x.linea), keyboard: false, zIndexOffset: 300 }).bindTooltip(`${x.linea} hacia ${x.hacia}, estimado`, { direction: "top", className: "etiqueta-mapa" }).addTo(mapa));
+  }
+  $("camionesHorario").hidden = !visibles.length;
+  $("verEstimados").hidden = visibles.length > 0 && mapa.getZoom() <= 15.5;
+}
+function detenerEstimados() { clearInterval(relojEstimados); relojEstimados = null; limpiarEstimados(); }
+function iniciarEstimados() { vistaEstimados = false; detenerEstimados(); pintarEstimados(); relojEstimados = setInterval(pintarEstimados, suave() ? 2000 : 8000); }
+mapa.on("moveend", () => { if (relojEstimados) pintarEstimados(); });
+$("verEstimados").addEventListener("click", () => (vistaEstimados = true, suave() ? mapa.flyTo(mapa.getCenter(), 14.5, { duration: 0.8 }) : mapa.setView(mapa.getCenter(), 14.5)));
 let esperaVista;
 mapa.on("moveend", () => { clearTimeout(esperaVista); esperaVista = setTimeout(pintarParadasEnVista, 250); });
 // Desde Dónde estoy, tocar una parada abre sus camiones con el camino a pie ya trazado.
@@ -2746,8 +2908,7 @@ document.addEventListener("visibilitychange", () => { if (guia.activa && documen
 
 function seguir(alMoverse) {
   if (!navigator.geolocation) return decir("Sin ubicación", "Tu navegador no comparte la ubicación.");
-  guia.reloj = navigator.geolocation.watchPosition(
-    ({ coords }) => {
+  const alPosicion = guia.alPosicion = ({ coords }) => {
       const aqui = [coords.latitude, coords.longitude];
       if (document.body.classList.contains("guia-mapa")) { capas.aqui?.remove(); capas.aqui = null; }
       else if (capas.aqui) capas.aqui.setLatLng(aqui);
@@ -2771,7 +2932,9 @@ function seguir(alMoverse) {
       if (!guia.previo || ahora - guia.previo.t >= 3000) guia.previo = { lat: coords.latitude, lon: coords.longitude, t: ahora };
       if (v !== null) guia.velocidad = v;
       alMoverse(coords.latitude, coords.longitude, guia.velocidad ?? 0);
-    },
+  };
+  guia.reloj = navigator.geolocation.watchPosition(
+    alPosicion,
     // Sin permiso no hay avisos; un GPS que tarda en responder se sigue esperando sin interrumpir lo que se dice.
     (err) => { if (err.code === err.PERMISSION_DENIED) unaVez("sin-permiso", () => decir("Sin ubicación", "Activa la ubicación para recibir los avisos.")); },
     { enableHighAccuracy: true, maximumAge: 0, timeout: 20000 },
@@ -2963,6 +3126,7 @@ function iniciarGuia(o) {
   mantenerPantalla();
   vibrar([60]);
   $("yaMeSubi").hidden = false;
+  pintarBotonSimulador();
   // Con el horario oficial: avisa 5 minutos y 1 minuto antes de que pase el camion.
   guia.horario = setInterval(() => {
     if (guia.fase !== "parada" && guia.fase !== "esperando") return;
@@ -3018,6 +3182,7 @@ function iniciarGuiaCaminando(lugar, desde) {
   mantenerPantalla();
   vibrar([60]);
   decir(frase("camina_parada", { parada: meta.nombre }), "", "Hacia tu destino");
+  pintarBotonSimulador();
   medirCaminata(desde, meta);
   indicacionesPie(desde, meta);
   seguir(avanzarCaminata);
@@ -3036,7 +3201,77 @@ function avanzarCaminata(lat, lon) {
   salirMapaPie();
   unaVez("destino", () => { vibrar([300, 120, 300, 120, 300]); decir(frase("llegaste"), `Estás en ${d.nombre}.`, "Llegaste"); });
 }
-$("aPieIr").addEventListener("click", () => iniciarGuiaCaminando(estado.destino, estado.gps ?? estado.origen));
+$("aPieIr").addEventListener("click", () => { iniciarGuiaCaminando(estado.destino, estado.gps ?? estado.origen); pintarBotonSimulador(); });
+
+// Modo feria: adentro del recinto no hay GPS, así que Grieta recorre sola el viaje con los mismos avisos.
+let modoFeria = leer("grieta-feria", false) || new URLSearchParams(location.search).has("feria");
+const sim = { reloj: null, pos: null, puntos: [], i: 0, espera: 0 };
+function pintarBotonSimulador() {
+  const b = $("simularCaminata");
+  b.hidden = !modoFeria || !guia.activa;
+  b.textContent = sim.reloj ? "Detener simulación" : "Simular caminata";
+}
+function detenerSimulador() {
+  clearInterval(sim.reloj);
+  sim.reloj = null;
+  if (guia.activa !== undefined) pintarBotonSimulador();
+}
+function moverSimulado(lat, lon, speed) {
+  sim.pos = { lat, lon };
+  guia.alPosicion?.({ coords: { latitude: lat, longitude: lon, speed, heading: null, accuracy: 5 } });
+}
+// Parte la línea en pasos iguales para que los avisos salgan a la misma distancia que en la calle.
+function muestrearLinea(linea, paso) {
+  const salida = [linea[0]];
+  for (let i = 1; i < linea.length; i++) {
+    const [a, b] = [linea[i - 1], linea[i]], d = Grieta.metros(a[0], a[1], b[0], b[1]), n = Math.max(1, Math.round(d / paso));
+    for (let k = 1; k <= n; k++) salida.push([a[0] + (b[0] - a[0]) * k / n, a[1] + (b[1] - a[1]) * k / n]);
+  }
+  return salida;
+}
+function pasoSimulador() {
+  if (!guia.activa) return detenerSimulador();
+  if (guia.fase === "parada") {
+    if (sim.claveRuta !== guia.rutaPie || !sim.puntos.length) {
+      const meta = guia.camion?.recorrido[0] ?? guia.destino, desde = sim.pos ?? guia.previo ?? estado.gps ?? estado.origen;
+      sim.puntos = muestrearLinea(guia.trazoPie ?? [[desde.lat, desde.lon], [meta.lat, meta.lon]], 9);
+      sim.i = 0; sim.claveRuta = guia.rutaPie;
+    }
+    const p = sim.puntos[Math.min(sim.i++, sim.puntos.length - 1)];
+    return moverSimulado(p[0], p[1], 1.4);
+  }
+  if (guia.fase === "esperando") { if (++sim.espera >= 5) { sim.espera = 0; subir(guia.actual); } return; }
+  if (guia.fase === "camion") {
+    const r = guia.camion.recorrido, p = r[Math.min(guia.actual + 1, r.length - 1)];
+    return moverSimulado(p.lat, p.lon, 8);
+  }
+  if (guia.fase === "fin") {
+    const d = guia.destino;
+    if (d && Grieta.metros(sim.pos?.lat ?? d.lat, sim.pos?.lon ?? d.lon, d.lat, d.lon) > 30) moverSimulado(d.lat, d.lon, 1.4);
+    return detenerSimulador();
+  }
+}
+$("simularCaminata").addEventListener("click", () => {
+  if (sim.reloj) return detenerSimulador();
+  if (guia.reloj !== undefined) navigator.geolocation.clearWatch(guia.reloj);
+  Object.assign(sim, { pos: guia.previo ?? estado.gps ?? null, puntos: [], i: 0, espera: 0, claveRuta: null });
+  sim.reloj = setInterval(pasoSimulador, 1300);
+  pintarBotonSimulador();
+  pasoSimulador();
+});
+let toquesLogo = 0, tiempoLogo = 0;
+document.querySelector("#ajustes .logo-ajustes").addEventListener("click", () => {
+  const ahora = Date.now();
+  toquesLogo = ahora - tiempoLogo < 800 ? toquesLogo + 1 : 1;
+  tiempoLogo = ahora;
+  if (toquesLogo < 5) return;
+  toquesLogo = 0;
+  modoFeria = !modoFeria;
+  escribir("grieta-feria", modoFeria);
+  avisar(modoFeria ? "Modo feria activado" : "Modo feria desactivado");
+  setTimeout(() => avisar(""), 3000);
+  hablar(modoFeria ? "Modo feria activado" : "Modo feria desactivado");
+});
 
 // Avisos con la pantalla bloqueada: la API los manda por push a su hora. Hace falta la app instalada y el permiso;
 // si algo falta, la guia sigue igual con voz y vibracion mientras la pantalla este encendida.
@@ -3311,6 +3546,7 @@ $("comoTeFue").addEventListener("click", (e) => {
   hablar("Gracias por contarnos.", false, false);
 });
 function terminarGuia() {
+  detenerSimulador();
   clearTimeout(guia.confirmar);
   guia.pasosPie = null;
   salirMapaPie();

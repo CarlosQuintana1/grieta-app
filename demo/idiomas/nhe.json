@@ -10273,6 +10273,76 @@
       "clave": "texto_0576813f17",
       "es": "Copié dónde estás para que lo pegues en un mensaje.",
       "nhe": "Nik ijkuilok kanke ti itstok para uelis tijtlalis ipan se tlajtoli."
+    },
+    {
+      "clave": "texto_aba1d4acb6",
+      "es": "Los camiones del mapa son estimados según su horario, no su ubicación real.",
+      "nhe": "Nopa camiones tlen eltok ipan mapa kin tlachiliaj ika inin horario, ax ika kanke eltok."
+    },
+    {
+      "clave": "texto_66d9c786ef",
+      "es": "{v1} hacia {v2}, estimado",
+      "nhe": "{v1} hasta {v2}, tlen moiljuia"
+    },
+    {
+      "clave": "texto_f054f3e6df",
+      "es": "Simular caminata",
+      "nhe": "Ximo nejnemi"
+    },
+    {
+      "clave": "texto_22fa4f2156",
+      "es": "Detener simulación",
+      "nhe": "Ximoketsa nopa simulación"
+    },
+    {
+      "clave": "texto_2cd7feb1dc",
+      "es": "Modo feria activado",
+      "nhe": "Modo justo activado"
+    },
+    {
+      "clave": "texto_082ec1e314",
+      "es": "Modo feria desactivado",
+      "nhe": "Modo justo tlatsakuili"
+    },
+    {
+      "clave": "texto_c22101b91c",
+      "es": "Ver recorrido animado",
+      "nhe": "Xikita nopa paxalojketl"
+    },
+    {
+      "clave": "texto_3f14c85b3b",
+      "es": "Cerrar recorrido",
+      "nhe": "Xitlami tour"
+    },
+    {
+      "clave": "texto_bfa83eba9c",
+      "es": "Cargando recorrido",
+      "nhe": "Tour de carga"
+    },
+    {
+      "clave": "texto_fcae4ec070",
+      "es": "No pude cargar el recorrido. Revisa tu internet.",
+      "nhe": "Ax ueliyaya nijtlamitlalia nopa tour.Xikita ipan mo internet."
+    },
+    {
+      "clave": "texto_cd1152f7cf",
+      "es": "Tu viaje completo",
+      "nhe": "Nochi mo viaje"
+    },
+    {
+      "clave": "texto_2646fc5398",
+      "es": "En la {v1}",
+      "nhe": "Ipan {v1}"
+    },
+    {
+      "clave": "texto_220a733b53",
+      "es": "En auto",
+      "nhe": "Ika carro"
+    },
+    {
+      "clave": "texto_6692f5454f",
+      "es": "Ver camiones en el mapa",
+      "nhe": "Xikita camiones ipan mapa"
     }
   ],
   "adaptaciones": [

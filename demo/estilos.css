@@ -2450,3 +2450,30 @@ html.grande .pf-tres > span, html.modo-voz .pf-tres > span { grid-template-colum
 html:not(:lang(es)) .pf-chica b { font-size: .8rem; white-space: normal; overflow-wrap: anywhere; }
 html:not(:lang(es)) .pf-chica small { font-size: .66rem; overflow-wrap: anywhere; }
 .pf-chica .perfil-ficha-texto { max-width: 100%; }
+
+/* Recorrido animado */
+html.modo-voz #verRecorrido { display: none; }
+#verRecorrido { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px; }
+#verRecorrido .picto { width: 24px; height: 24px; }
+.recorrido { position: fixed; inset: 0; width: 100%; max-width: none; height: 100%; max-height: none; margin: 0; padding: 0; border: 0; overflow: hidden; background: #e8e4dc; }
+.recorrido::backdrop { background: #0b0a09; }
+#recorridoMapa.recorrido-mapa { position: absolute; inset: 0; width: 100%; height: 100%; }
+.rc-cerrar { position: absolute; top: calc(12px + env(safe-area-inset-top)); right: 14px; z-index: 2; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: #16181d; color: #fff; }
+.rc-cerrar .icono { width: 22px; height: 22px; color: #fff; }
+.rc-abajo { position: absolute; left: 14px; right: 14px; bottom: calc(18px + env(safe-area-inset-bottom)); z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: 20px; background: #16181d; color: #fff; }
+.rc-etapa { margin: 0; min-width: 0; font-size: 1.3rem; font-weight: 800; line-height: 1.12; }
+.rc-abajo .boton { flex: none; width: auto; min-height: 46px; padding: 0 18px; }
+.rc-punto { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 3px solid #fff; background: #1c1408; color: #e0a03c; box-shadow: 0 3px 10px rgb(0 0 0 / 40%); }
+.rc-punto .picto { width: 26px; height: 26px; }
+
+/* Camiones estimados por horario */
+.camion-est { transition: transform 2s linear; }
+.leaflet-zoom-anim .camion-est { transition: none; }
+.ce-ficha { display: inline-flex; align-items: center; gap: 3px; height: 24px; padding: 0 7px 0 4px; border-radius: 12px; border: 1.5px dashed #1c1408; background: #e0a03c; color: #1c1408; white-space: nowrap; }
+.ce-ficha .picto { width: 16px; height: 16px; }
+.ce-ficha b { font-size: .72rem; font-weight: 800; }
+@media (prefers-reduced-motion: reduce) { .camion-est { transition: none; } }
+#simularCaminata { margin-top: 8px; }
+#verEstimados { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px; }
+#verEstimados[hidden] { display: none; }
+#verEstimados .picto { width: 24px; height: 24px; }

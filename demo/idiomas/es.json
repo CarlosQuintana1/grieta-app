@@ -17427,6 +17427,117 @@
       "contextos": [
         "demo/app.js"
       ]
+    },
+    {
+      "clave": "texto_aba1d4acb6",
+      "es": "Los camiones del mapa son estimados según su horario, no su ubicación real.",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_66d9c786ef",
+      "es": "{v1} hacia {v2}, estimado",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        },
+        "v2": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_f054f3e6df",
+      "es": "Simular caminata",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_22fa4f2156",
+      "es": "Detener simulación",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_2cd7feb1dc",
+      "es": "Modo feria activado",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_082ec1e314",
+      "es": "Modo feria desactivado",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_c22101b91c",
+      "es": "Ver recorrido animado",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_3f14c85b3b",
+      "es": "Cerrar recorrido",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_bfa83eba9c",
+      "es": "Cargando recorrido",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_fcae4ec070",
+      "es": "No pude cargar el recorrido. Revisa tu internet.",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_cd1152f7cf",
+      "es": "Tu viaje completo",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_2646fc5398",
+      "es": "En la {v1}",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_220a733b53",
+      "es": "En auto",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_6692f5454f",
+      "es": "Ver camiones en el mapa",
+      "contextos": [
+        "demo/app.js"
+      ]
     }
   ]
 }

@@ -511,6 +511,28 @@ const Grieta = (() => {
     return [...lineas.values()].sort((a, b) => a.horas[0] - b.horas[0]);
   }
 
+  // Dónde debería ir cada camión según su horario; no es su ubicación real.
+  function camionesEstimados(dia, minuto) {
+    const activos = [];
+    qrobus.patrones.forEach((p, pi) => {
+      const total = p.minutos.at(-1);
+      const probar = (serv, corrimiento) => {
+        for (const salida of p.salidas[serv] ?? []) {
+          const t = minuto + corrimiento - salida;
+          if (t < 0 || t >= total) continue;
+          let pos = 0;
+          while (pos < p.minutos.length - 2 && p.minutos[pos + 1] <= t) pos++;
+          const tramo = p.minutos[pos + 1] - p.minutos[pos], f = tramo > 0 ? Math.min(1, (t - p.minutos[pos]) / tramo) : 0;
+          const [la1, lo1] = qrobus.paradas[p.paradas[pos]], [la2, lo2] = qrobus.paradas[p.paradas[pos + 1]];
+          activos.push({ id: `${pi}-${serv}-${salida}`, linea: p.linea, hacia: p.hacia, lat: la1 + (la2 - la1) * f, lon: lo1 + (lo2 - lo1) * f });
+        }
+      };
+      probar(qrobus.servicio_por_dia[dia], 0);
+      if (minuto < MADRUGADA) probar(qrobus.servicio_por_dia[(dia + 6) % 7], 1440);
+    });
+    return activos;
+  }
+
   // Paradas con próximas salidas registradas; no garantiza cercanía caminando ni cobertura completa.
   function pasanAqui(lat, lon, dia, minuto, radio = 350, limite = 3) {
     return paradasEnRadio(lat, lon, radio)
@@ -538,5 +560,5 @@ const Grieta = (() => {
 
   const nombreApp = (a) => ({ uber: "Uber", didi: "DiDi", indrive: "inDrive" })[a];
 
-  return { cargar, cotizar, evaluar, decidir, pasanAqui, revisarParada, sentidosDeParada, ladoPorBrujula, paradasCercanas, tieneRecorridos, horariosParada, horariosParadaPorIndice, hhmm, metros, CORTES, nombreApp, get modelo() { return modelo; }, get qrobus() { return qrobus; } };
+  return { camionesEstimados, cargar, cotizar, evaluar, decidir, pasanAqui, revisarParada, sentidosDeParada, ladoPorBrujula, paradasCercanas, tieneRecorridos, horariosParada, horariosParadaPorIndice, hhmm, metros, CORTES, nombreApp, get modelo() { return modelo; }, get qrobus() { return qrobus; } };
 })();

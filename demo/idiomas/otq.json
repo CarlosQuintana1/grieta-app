@@ -10272,6 +10272,76 @@
       "clave": "texto_0576813f17",
       "es": "Copié dónde estás para que lo pegues en un mensaje.",
       "otq": "Dá kopya ho gi 'yo̲t'e pa gi pe̲ts'i 'nar 'me̲hni 'nar 'me̲hni pa"
+    },
+    {
+      "clave": "texto_aba1d4acb6",
+      "es": "Los camiones del mapa son estimados según su horario, no su ubicación real.",
+      "otq": "Ya bo̲jä 'me̲ni jar 'me̲ni nu'u̲ mä ár programa, hingi yá 'mu̲i hño."
+    },
+    {
+      "clave": "texto_66d9c786ef",
+      "es": "{v1} hacia {v2}, estimado",
+      "otq": "{v1} to {v2}, estimado"
+    },
+    {
+      "clave": "texto_f054f3e6df",
+      "es": "Simular caminata",
+      "otq": "Simular mpe̲ka̲"
+    },
+    {
+      "clave": "texto_22fa4f2156",
+      "es": "Detener simulación",
+      "otq": "Detener simulación"
+    },
+    {
+      "clave": "texto_2cd7feb1dc",
+      "es": "Modo feria activado",
+      "otq": "Modo Fair activado"
+    },
+    {
+      "clave": "texto_082ec1e314",
+      "es": "Modo feria desactivado",
+      "otq": "Modo Fair desactivado"
+    },
+    {
+      "clave": "texto_c22101b91c",
+      "es": "Ver recorrido animado",
+      "otq": "Ga ruta animada"
+    },
+    {
+      "clave": "texto_3f14c85b3b",
+      "es": "Cerrar recorrido",
+      "otq": "Ruta njot'i"
+    },
+    {
+      "clave": "texto_bfa83eba9c",
+      "es": "Cargando recorrido",
+      "otq": "Ruta carga"
+    },
+    {
+      "clave": "texto_fcae4ec070",
+      "es": "No pude cargar el recorrido. Revisa tu internet.",
+      "otq": "Hingi himar tsa̲ cargar ar ruta. Compruebe ir internet."
+    },
+    {
+      "clave": "texto_cd1152f7cf",
+      "es": "Tu viaje completo",
+      "otq": "Nga̲tho ir 'ñu"
+    },
+    {
+      "clave": "texto_2646fc5398",
+      "es": "En la {v1}",
+      "otq": "Ja ar {v1}"
+    },
+    {
+      "clave": "texto_220a733b53",
+      "es": "En auto",
+      "otq": "'Bu̲ jar coche"
+    },
+    {
+      "clave": "texto_6692f5454f",
+      "es": "Ver camiones en el mapa",
+      "otq": "Gi hyandi ya dätä bo̲jä jar 'me̲ni ar 'me̲ni"
     }
   ],
   "adaptaciones": [

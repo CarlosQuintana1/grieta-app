@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://tile.openstreetmap.org; connect-src 'self' https://photon.komoot.io https://router.project-osrm.org https://routing.openstreetmap.de https://grieta-api-qro.azurewebsites.net https://grieta-ia.carlosquintanara.workers.dev https://api.open-meteo.com http://localhost:3000 http://localhost:8798; media-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://tile.openstreetmap.org; connect-src 'self' https://photon.komoot.io https://router.project-osrm.org https://routing.openstreetmap.de https://grieta-api-qro.azurewebsites.net https://grieta-ia.carlosquintanara.workers.dev https://api.open-meteo.com https://tiles.openfreemap.org http://localhost:3000 http://localhost:8798; media-src 'self'; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
   <meta name="theme-color" content="#0b0a09">
   <title>Grieta</title>
   <link rel="icon" href="icono-192.png">
@@ -491,6 +491,7 @@
           <p id="co2Arbol" class="co2-arbol"></p>
         </div>
         <div class="acciones-fijas">
+          <button id="verRecorrido" type="button" class="boton oscuro"><svg class="picto" aria-hidden="true"><use href="#p-map-pinned"/></svg>Ver recorrido animado</button>
           <button id="empezar" type="button" class="boton"><svg class="icono"><use href="#i-play"/></svg>Empezar viaje con avisos</button>
         </div>
       </div>
@@ -556,6 +557,7 @@
         <button id="guiaVibrar" type="button" aria-pressed="true" aria-label="Avisos con vibración"><svg class="icono" aria-hidden="true"><use href="#i-vibrar"/></svg><span>Vibración</span></button>
       </div>
       <button id="guiaAsistencia" type="button" class="boton asistencia"><svg class="picto" aria-hidden="true"><use href="#p-camara"/></svg><span>Asistencia con cámara</span></button>
+      <button id="simularCaminata" type="button" class="boton" hidden>Simular caminata</button>
       <span id="guiaFicha" class="guia-ficha" aria-hidden="true"><svg class="picto"><use id="guiaPicto" href="#p-caminar"/></svg></span>
       <h1 id="guiaTitulo" class="guia-titulo" tabindex="-1" aria-live="assertive"></h1>
       <video id="guiaSenas" class="guia-senas" muted loop playsinline aria-label="La misma indicación en Lengua de Señas Mexicana" hidden></video>
@@ -744,6 +746,8 @@
     </section>
 
     <section id="camiones" class="pantalla" aria-labelledby="tituloPantalla" hidden>
+      <button id="verEstimados" type="button" class="boton oscuro" hidden><svg class="picto" aria-hidden="true"><use href="#p-qrobus"/></svg>Ver camiones en el mapa</button>
+      <p id="camionesHorario" class="nota" hidden>Los camiones del mapa son estimados según su horario, no su ubicación real.</p>
       <p id="camionesUbicacion" class="nota" role="status"></p>
       <div id="camionesContenido"></div>
     </section>
@@ -967,6 +971,12 @@
       <button id="cerrarHojaPerfil" type="button" class="oculto">Cerrar</button>
       </dialog>
     </section>
+
+    <dialog id="recorridoHoja" class="recorrido" aria-labelledby="recorridoEtapa">
+      <div id="recorridoMapa" class="recorrido-mapa"></div>
+      <button id="recorridoCerrar" type="button" class="rc-cerrar" aria-label="Cerrar recorrido"><svg class="icono" aria-hidden="true"><use href="#i-equis"/></svg></button>
+      <div class="rc-abajo"><p id="recorridoEtapa" class="rc-etapa" role="status"></p><button id="recorridoRepetir" type="button" class="boton" hidden>Repetir</button></div>
+    </dialog>
 
     <section id="tutorial" class="pantalla tutorial" aria-labelledby="tutorialTitulo" hidden>
       <div class="tutorial-cabecera"><p id="tutorialProgreso" class="tutorial-progreso">Paso 1 de 3</p><button id="tutorialOmitir" type="button" class="enlace">Saltar tutorial</button></div>
