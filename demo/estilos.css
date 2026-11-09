@@ -1043,7 +1043,7 @@ button.impacto-todos { width: 100%; text-align: left; }
 .impacto-todos > .chevron { flex: none; width: 20px; height: 20px; color: var(--tenue); }
 .segmento { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; margin-bottom: 14px; border-radius: 999px; background: var(--superficie); border: 1px solid var(--linea); }
 .segmento[hidden] { display: none; }
-.segmento button { min-height: 40px; border-radius: 999px; font-weight: 700; color: var(--tenue); text-align: center; }
+.segmento button { min-height: 44px; border-radius: 999px; font-weight: 700; color: var(--tenue); text-align: center; }
 .segmento button[aria-checked="true"] { background: var(--verde); color: var(--fondo); }
 .bosque { display: block; width: 100%; height: auto; margin: auto 0; border-radius: 18px; }
 .bosque[hidden] { display: none; }
