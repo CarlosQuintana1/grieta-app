@@ -1765,7 +1765,7 @@ html:not(.inicio-listo) #inicioNormal { visibility: hidden; }
 .equivale-color span { font-size: .76rem; font-weight: 700; line-height: 1.15; }
 .equivale-color .eq-pantalla { background: #a8362c; }
 .equivale-color .eq-gasolina { background: #7a5a18; }
-.equivale-color .eq-parque { background: #2c7a4f; }
+.equivale-color .eq-parque { background: #6b3a63; }
 .equivale-color .eq-hielo { background: #1f6390; }
 html.grande .equivale-color { flex-direction: column; }
 html.grande .equivale-color li { grid-template-columns: auto auto 1fr; align-items: center; gap: 10px; }

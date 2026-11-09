@@ -3490,17 +3490,21 @@ function pintarTlacuache(g) {
   $("co2Unidad").textContent = siguiente ? `Faltan ${kgTexto(siguiente - g)} para ${sigue}` : `${racha.nombre || "Tu tlacuache"} tuvo crías`;
 }
 let alcanceCo2 = "tu";
-const marcarAlcance = radios("co2Alcance", (v) => { alcanceCo2 = v; pintarCo2(); });
+const marcarAlcance = radios("co2Alcance", (v) => { alcanceCo2 = v; pintarCo2(); llenarPrimeraVista("co2"); });
 const ponerCifra = (id, texto) => { $(id).textContent = texto; $(id).classList.toggle("larga", texto.length > 6); };
 // La primera vista llega justo a la barra: lo que sigue empieza debajo y ninguna ficha queda partida.
 function llenarPrimeraVista(id) {
   const caja = $(id).querySelector(".primera-vista"), bloque = caja.querySelector(".bloque-hero"), barra = $("pestanas");
-  caja.style.minHeight = bloque.style.minHeight = "";
+  const escena = bloque.querySelector(".bloque-escena:not([hidden]) svg, .bosque:not([hidden])");
+  caja.style.minHeight = bloque.style.minHeight = escena.style.height = "";
   const limite = barra.hidden ? innerHeight : barra.getBoundingClientRect().top;
   // La pantalla entra con una animacion que la baja unos pixeles: no debe contar en la medida.
   const bajada = new DOMMatrix(getComputedStyle($(id)).transform).m42;
   const espacio = limite - (caja.getBoundingClientRect().top - bajada) - 12;
-  // Si las fichas no caben completas, el bloque llena la pantalla y ellas quedan debajo.
+  // Si faltan pocos pixeles cede la escena, recortando cielo, para que las fichas sigan a la vista.
+  const exceso = caja.offsetHeight - espacio, altoEscena = escena.getBoundingClientRect().height;
+  if (exceso > 0 && altoEscena - exceso >= 120) escena.style.height = `${altoEscena - exceso}px`;
+  // Si las fichas aun asi no caben completas, el bloque llena la pantalla y ellas quedan debajo.
   if (caja.offsetHeight <= espacio) caja.style.minHeight = `${espacio}px`;
   else bloque.style.minHeight = `${limite - (bloque.getBoundingClientRect().top - bajada) - 8}px`;
 }
