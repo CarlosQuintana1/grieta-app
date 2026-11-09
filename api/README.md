@@ -69,6 +69,9 @@ contador no arranque vacío en una presentación) y `DELETE /api/viajes/demo` lo
 días por tipo y ruta, reportes de accesibilidad vigentes, avisos de "viene lleno" por línea y hora, y cuántos precios se han
 compartido. Solo conteos; la página `demo/observatorio.html` los muestra.
 
+`GET /api/observatorio/vivo` (público, caché de 30 s) da lo de ahorita para Qro al día: avisos por parada o línea sin texto,
+ubicación ni persona, y lo que se sabe de cada línea. Cada teléfono filtra sus líneas sin mandarlas al servidor.
+
 `POST /api/quejas` guarda una queja del servicio (`tipo`: no_paro, sucio, manejo, cobro, acoso u otro_servicio;
 `ruta`, `unidad` opcional, `lat`, `lon`, `descripcion`). Es pública para enviar, pero la lista con el texto es solo del
 equipo: `GET /api/quejas/resumen?ruta=` o `?lat=&lon=` devuelve únicamente conteos por tipo de los últimos 30 días.

@@ -471,6 +471,40 @@ describe("Observatorio", () => {
   });
 });
 
+describe("Qro al día", () => {
+  test("GET /api/observatorio/vivo publica avisos sin texto, ubicación ni persona", async () => {
+    const dato = { lat: 20.59, lon: -100.39 };
+    const bien = await equipo().post("/api/reportes").send({ tipo: "banqueta", parada: "Colon/Zaragoza", descripcion: "Texto privado vivo", ...dato }).expect(201);
+    const arreglo = await equipo().post("/api/reportes").send({ tipo: "sin_rampa", parada: "Villas/Informatica", ...dato }).expect(201);
+    await equipo().post("/api/reportes").send({ tipo: "referencia", parada: "Solo referencia", ...dato }).expect(201);
+    await equipo().post("/api/reportes").send({ tipo: "obstaculo", ...dato }).expect(201);
+    await equipo().post(`/api/reportes/${bien.body.id}/verificar`).send({ sigue: true }).expect(201);
+    for (let i = 0; i < 2; i++) await equipo().post(`/api/reportes/${arreglo.body.id}/verificar`).send({ sigue: false }).expect(201);
+    await equipo().post("/api/quejas").send({ tipo: "no_paro", ruta: "c60", ...dato }).expect(201);
+    await equipo().post("/api/camiones/avisos").send({ tipo: "lleno", linea: "c34", ...dato }).expect(201);
+    await equipo().post("/api/camiones/avisos/c34/confirmar").expect(201);
+    await equipo().post("/api/camiones/avisos/L999/confirmar").expect(404);
+    const r = await publico().get("/api/observatorio/vivo").expect(200);
+    const lleno = r.body.avisos.find((a) => a.tipo === "lleno");
+    assert.equal(lleno.linea, "C34");
+    assert.equal(lleno.veces, 2);
+    const reporte = r.body.avisos.find((a) => a.id === bien.body.id);
+    assert.equal(reporte.sigue, 1);
+    assert.equal(r.body.avisos.some((a) => a.id === arreglo.body.id), false);
+    assert.deepEqual(r.body.arreglados[0], { tipo: "sin_rampa", parada: "Villas/Informatica", personas: 2 });
+    assert.equal(r.body.lineas.C60.quejas.tipo, "no_paro");
+    assert.ok(r.body.lineas.C34.lleno);
+    const texto = JSON.stringify(r.body);
+    for (const prohibido of ["Texto privado", "Solo referencia", '"lat"', '"lon"', "usuario"]) assert.equal(texto.includes(prohibido), false, prohibido);
+  });
+  test("cualquiera puede decir que también vio el camión lleno", async () => {
+    const { permisos } = await import("../src/seguridad.js");
+    let paso = false;
+    permisos({ method: "POST", path: "/api/camiones/avisos/C34/confirmar", get: () => undefined }, {}, () => { paso = true; });
+    assert.equal(paso, true);
+  });
+});
+
 describe("Copia cifrada del progreso", () => {
   const id = "a".repeat(64), otro = "b".repeat(64);
   test("se guarda, se lee y no se pisa una version mas nueva", async () => {

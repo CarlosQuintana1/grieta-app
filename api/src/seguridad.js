@@ -9,6 +9,7 @@ const ESCRITURAS_PUBLICAS = [
   ["POST", /^\/api\/reportes\/\d+\/verificar\/?$/],
   ["POST", /^\/api\/precios-reportados\/?$/],
   ["POST", /^\/api\/camiones\/avisos\/?$/],
+  ["POST", /^\/api\/camiones\/avisos\/[A-Za-z0-9]{1,6}\/confirmar\/?$/],
   ["POST", /^\/api\/notificaciones(\/cancelar)?\/?$/],
   ["POST", /^\/api\/viajes\/?$/],
   ["POST", /^\/api\/sentir\/?$/],

@@ -2040,7 +2040,7 @@ const distanciaTexto = (m, corta = false) => m < 1000
 const minutosCaminando = (m) => Math.max(1, Math.round(m / 1000 / 4.5 * 60));
 const enCuanto = (min) => { const f = Math.round(min - ahoraMin()); return f <= 0 ? "ya debe pasar" : f < 60 ? `en ${f} min` : `en ${Math.floor(f / 60)} h ${f % 60} min`; };
 let revisionCamiones = 0;
-$("pasanAqui").addEventListener("click", () => abrirCamiones());
+$("qroAlDia").addEventListener("click", () => location.assign("observatorio.html"));
 function abrirCamiones() {
   const revision = ++revisionCamiones;
   estado.recomendacionAnunciada = null;
@@ -3080,12 +3080,12 @@ function compartirGuia() {
 $("compartirGuia").addEventListener("click", compartirGuia);
 $("reportarInicio").addEventListener("click", () => abrirReporte());
 
-// "¿Cómo te fue?" al bajar: una respuesta por linea del viaje, sin ubicacion. Arma el mapa de estres del Observatorio.
+// "¿Cómo te fue?" al bajar: una respuesta por linea del viaje, sin ubicacion. Arma el mapa de estres de Qro al dia.
 function mostrarComoFue() {
   const caja = $("comoTeFue");
   caja.hidden = false;
   caja.querySelectorAll("[data-sentir]").forEach((b) => { b.disabled = false; b.removeAttribute("aria-pressed"); });
-  caja.querySelector(".nota").textContent = "Solo se guarda la línea y la hora, nunca dónde estás. Se suma al Observatorio de la ciudad.";
+  caja.querySelector(".nota").textContent = "Solo se guarda la línea y la hora, nunca dónde estás. Se suma a Qro al día.";
 }
 $("comoTeFue").addEventListener("click", (e) => {
   const b = e.target.closest("[data-sentir]");
@@ -5087,6 +5087,7 @@ async function accionInicial() {
   const accion = new URLSearchParams(location.search).get("accion");
   if (!accion || primeraVez) return;
   history.replaceState({ p: "inicio" }, "", location.pathname);
+  if (accion === "reportar") return abrirReporte();
   for (let i = 0; i < 24 && !estado.gps; i++) await new Promise((r) => setTimeout(r, 250));
   if (accion === "casa") {
     const casa = guardados.find((g) => g.nombre === "Casa");

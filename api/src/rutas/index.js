@@ -3,7 +3,7 @@ import { camiones, notificaciones } from "../controladores/avisos.js";
 import { auto } from "../controladores/auto.js";
 import { buscar } from "../controladores/buscar.js";
 import { impacto } from "../controladores/impacto.js";
-import { observatorio } from "../controladores/observatorio.js";
+import { observatorio, observatorioVivo } from "../controladores/observatorio.js";
 import { respaldos } from "../controladores/respaldos.js";
 import { sentir } from "../controladores/sentir.js";
 import { consultasRouter } from "./consultas.js";
@@ -33,6 +33,7 @@ export const api = Router()
   // Sin tabla: avisos de la gente en la parada y avisos programados por push
   .get("/camiones/avisos", camiones.listar)
   .post("/camiones/avisos", camiones.crear)
+  .post("/camiones/avisos/:linea/confirmar", camiones.confirmar)
   .get("/camiones/ocupacion", camiones.ocupacion)
   .get("/notificaciones/clave", notificaciones.clave)
   .post("/notificaciones", notificaciones.programar)
@@ -48,4 +49,5 @@ export const api = Router()
   .put("/respaldos/:id", respaldos.guardar)
   .delete("/respaldos/:id", respaldos.borrar)
   // Datos abiertos agregados para la ciudad
-  .get("/observatorio", observatorio);
+  .get("/observatorio", observatorio)
+  .get("/observatorio/vivo", observatorioVivo);

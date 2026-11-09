@@ -18,8 +18,20 @@ export function ahoraEnQueretaro(fecha = new Date()) {
   return { fecha: `${partes.year}-${partes.month}-${partes.day}`, hora: Number(partes.hour), finde: ["Sat", "Sun"].includes(partes.weekday) };
 }
 // Una linea "suele ir llena" a esta hora si la gente lo avisó en al menos 3 dias distintos de las ultimas 8 semanas.
-const DIAS_MINIMOS = 3;
+export const DIAS_MINIMOS = 3;
 const VENTANA_DIAS = 56;
+
+// Los "viene lleno" vigentes de toda la ciudad, juntos por linea y sin ubicacion.
+export function llenosVigentes() {
+  const ahora = Date.now();
+  const porLinea = new Map();
+  for (const a of avisos.filter((x) => x.tipo === "lleno" && ahora - x.t < VIGENCIA_MS)) {
+    const x = porLinea.get(a.linea) ?? { linea: a.linea, t: a.t, veces: 0 };
+    x.veces += 1 + (a.confirmo ?? 0);
+    porLinea.set(a.linea, x);
+  }
+  return [...porLinea.values()];
+}
 
 export const camiones = {
   listar: (req, res) => {
@@ -42,6 +54,14 @@ export const camiones = {
     avisos = avisos.slice(0, 2000);
     if (tipo === "lleno") await LlenoCamion.create({ linea: linea.toUpperCase(), ...ahoraEnQueretaro() }).catch(() => {});
     res.status(201).json({ tipo, linea: linea.toUpperCase() });
+  },
+  // "Yo tambien la vi": suma al aviso mas reciente sin crear otro "viene lleno" ni reiniciar su media hora.
+  confirmar: (req, res) => {
+    const linea = req.params.linea.toUpperCase();
+    const aviso = avisos.find((a) => a.tipo === "lleno" && a.linea === linea && Date.now() - a.t < VIGENCIA_MS);
+    if (!aviso) return res.status(404).json({ error: "Ese aviso ya venció" });
+    aviso.confirmo = (aviso.confirmo ?? 0) + 1;
+    res.status(201).json({ ok: true });
   },
   ocupacion: async (req, res) => {
     const lineas = String(req.query.lineas ?? "").toUpperCase().split(",").filter((l) => /^[A-Z0-9]{1,6}$/.test(l)).slice(0, 20);

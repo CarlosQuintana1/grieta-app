@@ -11644,8 +11644,8 @@
       ]
     },
     {
-      "clave": "texto_68342463e1",
-      "es": "Solo se guarda la línea y la hora, nunca dónde estás. Se suma al Observatorio de la ciudad.",
+      "clave": "texto_a03d192ad9",
+      "es": "Solo se guarda la línea y la hora, nunca dónde estás. Se suma a Qro al día.",
       "contextos": [
         "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
       ]
