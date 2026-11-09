@@ -8438,6 +8438,26 @@
       "clave": "texto_84098227ab",
       "es": "Es una recomendación: no garantiza que un lugar sea seguro.",
       "nhe": "Elij se tlajtolpaleuilistli: ax kiijtosneki se tlali kuali eltok."
+    },
+    {
+      "clave": "texto_6efe5e3c0b",
+      "es": "Modo",
+      "nhe": "Modo"
+    },
+    {
+      "clave": "texto_3e805e38d5",
+      "es": "Seguro",
+      "nhe": "Seguro"
+    },
+    {
+      "clave": "texto_2e690fc6e5",
+      "es": "Noche",
+      "nhe": "youali"
+    },
+    {
+      "clave": "texto_79d249827e",
+      "es": "Cuándo usar el modo seguro",
+      "nhe": "Kemaj tijtekiuis nopa modo seguro"
     }
   ],
   "adaptaciones": [

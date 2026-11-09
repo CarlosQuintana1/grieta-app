@@ -14512,6 +14512,34 @@
       "contextos": [
         "demo · interfaz noviembre 2026"
       ]
+    },
+    {
+      "clave": "texto_6efe5e3c0b",
+      "es": "Modo",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_3e805e38d5",
+      "es": "Seguro",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_2e690fc6e5",
+      "es": "Noche",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_79d249827e",
+      "es": "Cuándo usar el modo seguro",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
     }
   ]
 }

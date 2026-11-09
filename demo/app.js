@@ -4787,8 +4787,11 @@ function pintarResumenPerfil() {
   $("credencialIconos").innerHTML = [acc.modoVoz ? "decir" : "ojo", movimiento[0] === "silla" ? "silla" : "caminar", "qrobus"].map((p) => `<i>${picto(p)}</i>`).join("") + iconoGasolina;
   const gasolina = acc.modoVoz ? "" : `<div class="perfil-ficha ancha gas-${elegida}">${picto("gasolina")}<span class="perfil-ficha-texto"><small>Tu carro usa</small><b>Gasolina</b></span>
     <span class="perfil-gasolina" role="group" aria-label="Qué gasolina le pones a tu carro">${[["magna", "Verde", "Gasolina verde"], ["premium", "Roja", "Gasolina roja"], ["no", "No", "No tengo carro"]].map(([v, t, nombre]) => `<button type="button" data-gasolina="${v}" aria-pressed="${v === elegida}" aria-label="${nombre}">${t}</button>`).join("")}</span></div>`;
+  const seguroPerfil = acc.seguro ?? "noche";
+  const fichaSegura = `<div class="perfil-ficha ancha ficha-segura">${picto("escudo")}<span class="perfil-ficha-texto"><small>Modo</small><b>Seguro</b></span>
+    <span class="perfil-gasolina" role="group" aria-label="Cuándo usar el modo seguro">${[["noche", "Noche", "De noche"], ["siempre", "Siempre", "Siempre"], ["nunca", "No", "Nunca"]].map(([v, t, nombre]) => `<button type="button" data-seguro="${v}" aria-pressed="${v === seguroPerfil}" aria-label="${nombre}">${t}</button>`).join("")}</span></div>`;
   $("perfilFichas").innerHTML = fichasPerfil().map(([grupo, tono, icono, etiqueta, valor, nombrePropio]) =>
-    `<button type="button" class="perfil-ficha tono-${tono}" data-ir-perfil="${grupo}" aria-haspopup="dialog">${picto(icono)}${ico("chevron", "chevron")}<span class="perfil-ficha-texto"><small>${etiqueta}</small><b${nombrePropio ? ' translate="no"' : ""}>${escapar(valor)}</b></span></button>`).join("") + gasolina;
+    `<button type="button" class="perfil-ficha tono-${tono}" data-ir-perfil="${grupo}" aria-haspopup="dialog">${picto(icono)}${ico("chevron", "chevron")}<span class="perfil-ficha-texto"><small>${etiqueta}</small><b${nombrePropio ? ' translate="no"' : ""}>${escapar(valor)}</b></span></button>`).join("") + fichaSegura + gasolina;
 }
 // La foto y el nombre se pintan al entrar: al arrancar la racha todavia no existe.
 function pintarCredencial() {
@@ -4854,6 +4857,18 @@ hojaPerfil.addEventListener("touchend", (e) => {
   inicioHoja = null;
 });
 $("perfilFichas").addEventListener("click", (e) => {
+  const seguro = e.target.closest("[data-seguro]");
+  if (seguro) {
+    const v = seguro.dataset.seguro;
+    acc.seguro = v;
+    guardarAcc();
+    escribir("grieta-perfil", true);
+    estado.seguroApagado = false;
+    marcarSeguro(v);
+    $("seguroResumen").textContent = NOMBRES_SEGURO[v];
+    pintarResumenPerfil();
+    return $("perfilFichas").querySelector(`[data-seguro="${v}"]`).focus({ preventScroll: true });
+  }
   const gasolina = e.target.closest("[data-gasolina]");
   if (gasolina) {
     escribir("grieta-perfil", true);
