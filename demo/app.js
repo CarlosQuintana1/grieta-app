@@ -17,6 +17,7 @@ const fichaApp = (app) => `<span class="mini-ficha ficha-app app-${app}" aria-hi
 const miniFicha = (tono, contenido) => `<span class="mini-ficha ${tono}" aria-hidden="true">${contenido}</span>`;
 const ico = (nombre, clase = "") => `<svg class="icono ${clase}" aria-hidden="true"><use href="#i-${nombre}"/></svg>`;
 const leer = (clave, defecto) => { try { return JSON.parse(localStorage.getItem(clave)) ?? defecto; } catch { return defecto; } };
+let siMePierdo = leer("grieta-si-me-pierdo", null);
 // llave.js lo cambia para anotar la hora de cada cambio y guardar la copia cifrada.
 let alEscribir = () => {};
 const escribir = (clave, valor) => { try { localStorage.setItem(clave, JSON.stringify(valor)); } catch {} alEscribir(clave); };
@@ -111,7 +112,7 @@ let turnoVoz = 0;
 let colaVoz = Promise.resolve();
 
 // Ajustes guardados en este telefono.
-const acc = { toques: true, vibracion: true, modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: false, vozElegida: false, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", lengua: "es", ...leer("grieta-acc", {}) };
+const acc = { colchon: 0, toques: true, vibracion: true, modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: false, vozElegida: false, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", lengua: "es", ...leer("grieta-acc", {}) };
 let camaraConVoz = true;
 // La voz de la guia es aparte de la de toda la app: activarla en un viaje no hace que hablen las demas pantallas.
 let viajeEnCurso = false;
@@ -269,7 +270,7 @@ function mostrar(nombre) {
   }
   if ($("hojaPerfil").open) $("hojaPerfil").close();
   if ($("hojaAyuda").open) $("hojaAyuda").close();
-  if (nombre === "perfil") pintarCredencial();
+  if (nombre === "perfil") { pintarCredencial(); requestAnimationFrame(pintarResumenPerfil); }
   if (nombre === "ajustes") $("perfilTlacuache").innerHTML = tlacuache(3, racha.puestos, false);
   if (nombre === "opciones") {
     quitarTrazo();
@@ -2460,6 +2461,8 @@ function ponerYo() {
 function abrirUbicacion() {
   if (acc.modoVoz) return dondeEstoy("voz");
   ir("ubicacion");
+  pintarAyudaPierdo();
+  $("ubicacionAqui").hidden = true; $("ubicacionParada").hidden = true;
   $("ubicacionCalle").textContent = "Buscando dónde estás...";
   ubicar((encontrada) => {
     if (document.body.dataset.pantalla !== "ubicacion") return;
@@ -2467,13 +2470,71 @@ function abrirUbicacion() {
     const { lat, lon } = estado.gps;
     ponerYo();
     $("ubicacionCalle").textContent = "";
+    const parada = Grieta.pasanAqui(lat, lon, hoyDia(), ahoraMin(), 500)[0];
+    if (parada) { $("ubicacionParada").textContent = `Parada a ${minutosCaminando(parada.m * 1.3)} min: ${cruce(parada.nombre)}`; $("ubicacionParada").hidden = false; }
     fetch(`https://photon.komoot.io/reverse?lat=${lat}&lon=${lon}&limit=1`).then((r) => r.json()).then((r) => {
       const p = r.features[0]?.properties ?? {};
       const calle = p.street ?? p.name;
-      if (calle && document.body.dataset.pantalla === "ubicacion") $("ubicacionCalle").textContent = calle;
+      if (calle && document.body.dataset.pantalla === "ubicacion") { $("ubicacionCalle").textContent = calle; $("ubicacionAqui").hidden = false; }
     }).catch(() => {});
   }, true);
 }
+// Si me pierdo: el contacto se queda solo en este teléfono, fuera del respaldo de la cuenta.
+function lugarDeAyuda() { return siMePierdo ? leer("grieta-lugares", []).find((g) => g.nombre === siMePierdo.lugar) ?? null : null; }
+function pintarAyudaPierdo() {
+  const c = siMePierdo, lugar = lugarDeAyuda();
+  $("ayudaPierdo").hidden = !c;
+  $("vozLlamar").hidden = !c;
+  if (!c) return;
+  const tel = `tel:+52${c.telefono}`, texto = `Llamar a ${c.nombre}`;
+  $("pierdoLlamar").href = tel; $("pierdoLlamarTexto").textContent = texto;
+  $("vozLlamar").href = tel; $("vozLlamarTexto").textContent = texto;
+  $("pierdoCasa").hidden = !lugar;
+  if (lugar) $("pierdoCasaTexto").textContent = `Llévame a ${lugar.nombre}`;
+}
+const hojaPierdo = $("hojaPierdo");
+function abrirHojaPierdo() {
+  const c = siMePierdo, select = $("pierdoLugar");
+  $("pierdoNombre").value = c?.nombre ?? "";
+  $("pierdoTel").value = c?.telefono ?? "";
+  $("pierdoError").hidden = true;
+  $("pierdoQuitar").hidden = !c;
+  $("pierdoLugarCampo").hidden = !guardados.length;
+  select.replaceChildren(...guardados.map((g) => new Option(g.nombre, g.nombre)));
+  const elegido = c?.lugar ?? guardados.find((g) => g.nombre === "Casa")?.nombre;
+  if (elegido && guardados.some((g) => g.nombre === elegido)) select.value = elegido;
+  hojaPierdo.showModal();
+}
+function repintarPierdo() { pintarAyudaPierdo(); pintarResumenPerfil(); }
+$("pierdoForma").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const nombre = $("pierdoNombre").value.trim();
+  const telefono = $("pierdoTel").value.replace(/\D/g, "").replace(/^52(?=\d{10}$)/, "");
+  const error = !nombre ? "Escribe cómo se llama." : telefono.length !== 10 ? "Escribe su teléfono a 10 dígitos." : "";
+  $("pierdoError").textContent = error; $("pierdoError").hidden = !error;
+  if (error) return;
+  siMePierdo = { nombre, telefono, lugar: $("pierdoLugar").value || null };
+  escribir("grieta-si-me-pierdo", siMePierdo);
+  hojaPierdo.close();
+  repintarPierdo();
+});
+$("pierdoCancelar").addEventListener("click", () => hojaPierdo.close());
+$("pierdoQuitar").addEventListener("click", () => { siMePierdo = null; localStorage.removeItem("grieta-si-me-pierdo"); hojaPierdo.close(); repintarPierdo(); });
+hojaPierdo.addEventListener("click", (e) => { if (e.target === hojaPierdo && e.clientY < hojaPierdo.getBoundingClientRect().top) hojaPierdo.close(); });
+hojaPierdo.addEventListener("close", () => $("perfilFichas").querySelector("[data-pierdo]")?.focus({ preventScroll: true }));
+$("pierdoMandar").addEventListener("click", () => {
+  const g = estado.gps, calle = $("ubicacionCalle").textContent;
+  const mensaje = `Me perdí.${calle ? ` Estoy en ${calle}.` : ""}${g ? ` https://www.google.com/maps?q=${g.lat.toFixed(5)},${g.lon.toFixed(5)}` : ""}`;
+  if (navigator.share) return void navigator.share({ text: mensaje }).catch(() => {});
+  navigator.clipboard?.writeText(mensaje).then(() => avisar("Copié dónde estás para que lo pegues en un mensaje."), () => {});
+});
+$("pierdoCasa").addEventListener("click", () => {
+  const lugar = lugarDeAyuda();
+  if (!lugar) return;
+  if (estado.gps) estado.origen = estado.gps;
+  irA(lugar);
+});
+pintarAyudaPierdo();
 $("dondeEstoy").addEventListener("click", abrirUbicacion);
 $("dondeGuia").addEventListener("click", () => dondeEstoy("guia"));
 
@@ -4068,7 +4129,8 @@ $("miniMapa").addEventListener("click", (e) => {
 const llegarEstado = { origen: null, destino: null, kmCalle: null, caminatas: undefined, offset: 0, meta: 480 };
 const diaDeOffset = (d) => (hoyDia() + d) % 7;
 const textoDia = (d) => (d === 0 ? "Hoy" : d === 1 ? "Mañana" : `El ${DIAS[diaDeOffset(d)]}`);
-function salidasParaLlegar({ origen, destino, kmCalle, caminatas, offset, meta }) {
+function salidasParaLlegar({ origen, destino, kmCalle, caminatas, offset, meta: hora }) {
+  const meta = hora - (acc.colchon ?? 0);
   const desde = offset === 0 ? ahoraMin() : 0;
   const base = { origen: [origen.lat, origen.lon], destino: [destino.lat, destino.lon], kmCalle, dia: diaDeOffset(offset), caminarMax: acc.camino ? 300 : undefined, tarifa: acc.unidos ? { pasaje: 2, transbordo: 0 } : undefined, caminatas, camiones: 2 };
   const aTiempo = [];
@@ -4215,7 +4277,7 @@ function pintarTarjetaHorario() {
   const caja = $("horarioCaja"), p = diaHorario();
   if (!p) { miHorario = null; escribir("grieta-horario", null); return pintarHorario(); }
   const origen = miHorario.origen ?? estado.gps ?? estado.origen ?? null;
-  const clave = JSON.stringify([miHorario, p, origen?.lat, origen?.lon, new Date().toDateString(), Math.floor(ahoraMin() / 10)]);
+  const clave = JSON.stringify([acc.colchon, miHorario, p, origen?.lat, origen?.lon, new Date().toDateString(), Math.floor(ahoraMin() / 10)]);
   const titulo = `${textoDia(p.d)} a ${escapar(miHorario.destino.nombre)}, sal a las`;
   const tiras = `<div class="hr-dias">${miHorario.horas.map((m, i) => `<button type="button" data-h-elige="${i}" aria-pressed="${i === p.dia}" aria-label="${DIAS[i]}, ${m === null ? "libre" : hora(m)}" class="${m === null ? "" : "tiene"}${i === p.dia ? " sel" : ""}"><b>${DIAS[i][0].toUpperCase()}</b><small>${m === null ? "Libre" : horaCorta(m)}</small></button>`).join("")}</div>`;
   const pinta = (r) => {
@@ -5231,16 +5293,19 @@ function vistaActual() {
 }
 // El perfil en fichas de dos palabras, con el mismo dibujo y color que su pregunta; tocar una lleva a esa pregunta.
 function fichasPerfil() {
-  const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
+  const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal"), colchon = acc.colchon ?? 0;
   return [
-    ["perfilVista", "anil", "ojo", "Pantalla", { vista: "Veo bien", poco: "Veo poco", voz: "Grieta me habla" }[vistaActual()]],
-    ["perfilLengua", "turquesa", `lengua-${acc.idioma ?? "es"}`, "Idioma", { es: "Español", oto: "Hñöñho", nah: "Náhuatl" }[acc.idioma] ?? "Español", true],
-    acc.modoVoz && ["perfilLectorOpciones", "ciruela", "decir", "Lector", acc.lector === "si" ? "Uso lector" : "Grieta me lee"],
-    !acc.modoVoz && ["perfilForma", "obsidiana", "letra", "Botones", acc.facil ? "Lo esencial" : "Completos"],
-    ["perfilMovilidad", "naranja", movilidad === "silla" ? "silla" : "caminar", "Caminar", { normal: "Camino bien", poco: "Camino poco", silla: "Silla o andadera" }[movilidad]],
-    ["perfilOido", "ciruela", "decir", "Avisos", acc.oido === "poco" ? "Escucho poco" : "Escucho bien"],
+    acc.modoVoz && ["perfilLectorOpciones", "obsidiana", "decir", "Lector", acc.lector === "si" ? "Uso lector" : "Me lee"],
+    ["perfilMovilidad", "naranja", movilidad === "silla" ? "silla" : "caminar", "Caminar", { normal: "Bien", poco: "Poco", silla: "Silla" }[movilidad]],
+    ["perfilOido", "ciruela", "decir", "Avisos", acc.oido === "poco" ? "Vibra" : "Con voz"],
     ["perfilTarifa", "rosa", "qrobus", "Tarifa", acc.unidos ? "Unidos" : "Normal"],
+    ["perfilLlegar", "anil", "flag", "Llegar", colchon ? `${colchon} min` : "Justo"],
   ].filter(Boolean);
+}
+function placaPierdo() {
+  const c = siMePierdo, lugar = lugarDeAyuda();
+  const filas = [["pin", "Te digo tu calle"], ["telefono", "Le llamo con un toque"], lugar && ["casa", `Te llevo a ${lugar.nombre}`]].filter(Boolean);
+  return `<button type="button" class="pf-corte pf-pierdo" data-pierdo aria-haspopup="dialog"><span class="hv-partido">${PLACAS_VIAJE}<span class="hv-lado"><span class="pf-pt">${picto("donde")}<span><small>Si me pierdo</small><b>${c ? escapar(c.nombre) : "Elige a quién"}</b></span></span></span><span class="hv-lado der"><span class="pf-lista">${filas.map(([i, x]) => `<span>${ico(i)}<span>${escapar(x)}</span></span>`).join("")}</span></span></span>${ico("lapiz", "pf-lapiz")}</button>`;
 }
 function resumenCortoPerfil() {
   const vista = { vista: "Ves bien", poco: "Ves poco", voz: "Grieta te habla" }[vistaActual()];
@@ -5264,14 +5329,30 @@ function pintarResumenPerfil() {
   const iconoGasolina = acc.modoVoz || elegida === "no" ? "" : `<i class="gas-${elegida}">${picto("gasolina")}</i>`;
   $("textoPerfil").insertAdjacentHTML("beforeend", iconoGasolina);
   $("credencialIconos").innerHTML = [acc.modoVoz ? "decir" : "ojo", movimiento[0] === "silla" ? "silla" : "caminar", "qrobus"].map((p) => `<i>${picto(p)}</i>`).join("") + iconoGasolina;
-  const gasolina = acc.modoVoz ? "" : `<div class="perfil-ficha ancha gas-${elegida}">${picto("gasolina")}<span class="perfil-ficha-texto"><small>Tu carro usa</small><b>Gasolina</b></span>
-    <span class="perfil-gasolina" role="group" aria-label="Qué gasolina le pones a tu carro">${[["magna", "Verde", "Gasolina verde"], ["premium", "Roja", "Gasolina roja"], ["no", "No", "No tengo carro"]].map(([v, t, nombre]) => `<button type="button" data-gasolina="${v}" aria-pressed="${v === elegida}" aria-label="${nombre}">${t}</button>`).join("")}</span></div>`;
+  if (document.body.dataset.pantalla !== "perfil") return;
+  const pildoras = (dato, actual, opciones, nombre) => `<span class="perfil-gasolina" role="group" aria-label="${nombre}">${opciones.map(([v, t, n]) => `<button type="button" data-${dato}="${v}" aria-pressed="${v === actual}" aria-label="${n}">${t}</button>`).join("")}</span>`;
+  const cabeza = (icono, sm, ti, resto) => `<span class="pf-cabeza">${picto(icono)}<span class="perfil-ficha-texto"><small>${sm}</small><b>${ti}</b></span>${resto}</span>`;
   const seguroPerfil = acc.seguro ?? "noche";
-  const fichaSegura = `<div class="perfil-ficha ancha ficha-segura">${picto("escudo")}<span class="perfil-ficha-texto"><small>Modo</small><b>Seguro</b></span>
-    <span class="perfil-gasolina" role="group" aria-label="Cuándo usar el modo seguro">${[["noche", "Noche", "De noche"], ["siempre", "Siempre", "Siempre"], ["nunca", "No", "Nunca"]].map(([v, t, nombre]) => `<button type="button" data-seguro="${v}" aria-pressed="${v === seguroPerfil}" aria-label="${nombre}">${t}</button>`).join("")}</span></div>`;
-  $("perfilFichas").innerHTML = fichasPerfil().map(([grupo, tono, icono, etiqueta, valor, nombrePropio]) =>
-    `<button type="button" class="perfil-ficha tono-${tono}" data-ir-perfil="${grupo}" aria-haspopup="dialog">${picto(icono)}${ico("chevron", "chevron")}<span class="perfil-ficha-texto"><small>${etiqueta}</small><b${nombrePropio ? ' translate="no"' : ""}>${escapar(valor)}</b></span></button>`).join("") + fichaSegura + gasolina;
+  const fichaSegura = `<div class="pf-corte pf-carta pf-seg">${cabeza("escudo", "Modo", "Seguro", pildoras("seguro", seguroPerfil, [["noche", "Noche", "De noche"], ["siempre", "Siempre", "Siempre"], ["nunca", "No", "Nunca"]], "Cuándo usar el modo seguro"))}<span class="pf-cuando"><span>${{ noche: "De 8 pm a 6 am", siempre: "En todos tus viajes", nunca: "Apagado: no cambio tus rutas" }[seguroPerfil]}</span><em>Recomendación, no garantía</em></span>${seguroPerfil === "nunca" ? "" : `<span class="pf-tres">${[["caminar", "Máximo 5 min a pie"], ["parada", "Paradas sobre avenida"], ["megafono", "Avisos de la gente"]].map(([i, x]) => `<span>${picto(i)}<span>${x}</span></span>`).join("")}</span>`}</div>`;
+  const gasolina = acc.modoVoz ? "" : `<div class="pf-corte pf-carta gas-${elegida}">${cabeza("gasolina", "Tu carro usa", "Gasolina", pildoras("gasolina", elegida, [["magna", "Verde", "Gasolina verde"], ["premium", "Roja", "Gasolina roja"], ["no", "No", "No tengo carro"]], "Qué gasolina le pones a tu carro"))}${elegida === "no" ? '<span class="pf-precio"><span class="pf-solo">No te muestro lo que gastarías en carro.</span></span>' : `<span class="pf-precio"><span class="pf-litro"><strong>$${precioGasolina().toFixed(2)}</strong><i>el litro</i></span><span class="pf-solo">Con esto calculo lo que gastarías si vas en tu carro.</span></span>`}</div>`;
+  const fichas = fichasPerfil();
+  $("perfilFichas").innerHTML = fichas.map(([grupo, tono, icono, etiqueta, valor], i) =>
+    `<button type="button" class="pf-corte pf-chica tono-${tono}${fichas.length % 2 && i === fichas.length - 1 ? " pf-sola" : ""}" data-ir-perfil="${grupo}" aria-haspopup="dialog" aria-label="${etiqueta}: ${escapar(valor)}">${picto(icono)}<span class="perfil-ficha-texto"><small>${etiqueta}</small><b>${escapar(valor)}</b></span></button>`).join("") + placaPierdo() + fichaSegura + gasolina;
+  evitarCortePerfil();
 }
+// Si la ficha queda partida por la barra de abajo, baja completa a la siguiente vista.
+function evitarCortePerfil() {
+  const caja = $("perfilFichas");
+  if (document.body.dataset.pantalla !== "perfil") return;
+  for (const f of caja.children) f.style.marginTop = "";
+  const barra = document.querySelector("[data-tab]").parentElement.getBoundingClientRect().top;
+  for (const f of caja.children) {
+    const r = f.getBoundingClientRect();
+    if (r.top < barra && r.bottom > barra - 6) { f.style.marginTop = `${Math.ceil(barra - r.top + 12)}px`; break; }
+  }
+}
+addEventListener("resize", evitarCortePerfil);
+new ResizeObserver(evitarCortePerfil).observe($("perfilFichas"));
 // La foto y el nombre se pintan al entrar: al arrancar la racha todavia no existe.
 function pintarCredencial() {
   const nombre = leer("grieta-cuenta", null)?.nombre || acc.nombre || racha.nombre || "Tu tlacuache";
@@ -5347,7 +5428,7 @@ function abrirHojaPerfil(grupo) {
   item.querySelector('[aria-checked="true"]')?.focus({ preventScroll: true });
 }
 const cerrarHojaPerfil = () => { if (hojaPerfil.open) hojaPerfil.close(); };
-hojaPerfil.addEventListener("close", () => $("perfilFichas").querySelector(`[data-ir-perfil="${hojaPerfil.dataset.grupo}"]`)?.focus({ preventScroll: true }));
+hojaPerfil.addEventListener("close", () => { pintarResumenPerfil(); $("perfilFichas").querySelector(`[data-ir-perfil="${hojaPerfil.dataset.grupo}"]`)?.focus({ preventScroll: true }); });
 hojaPerfil.addEventListener("click", (e) => {
   if (e.target === hojaPerfil && e.clientY < hojaPerfil.getBoundingClientRect().top) return cerrarHojaPerfil();
   // Con el dedo se cierra al elegir; con flechas o lector se queda abierta para seguir probando.
@@ -5381,6 +5462,7 @@ $("perfilFichas").addEventListener("click", (e) => {
     escribir("grieta-perfil", true);
     return $("perfilGasolina").querySelector(`[data-v="${gasolina.dataset.gasolina}"]`).click();
   }
+  if (e.target.closest("[data-pierdo]")) return abrirHojaPierdo();
   const b = e.target.closest("[data-ir-perfil]");
   if (b) abrirHojaPerfil(b.dataset.irPerfil);
 });
@@ -5391,6 +5473,7 @@ const EFECTOS = {
   perfilMovilidad: { normal: "Te busco la parada que más te convenga.", poco: "Te busco paradas más cerca.", silla: "Paradas cerca, y te aviso si reportaron que no tienen rampa." },
   perfilOido: { bien: "Durante el viaje te aviso con voz.", poco: "Avisos en pantalla grande y con vibración, sin voz." },
   perfilTarifa: { si: "Calculo el camión a $2 y el transbordo gratis.", no: "Calculo el camión con la tarifa normal." },
+  perfilLlegar: { 0: "Te digo la última salida que llega a la hora.", 5: "Tu salida te deja 5 minutos de colchón.", 10: "Tu salida te deja 10 minutos de colchón.", 15: "Tu salida te deja 15 minutos de colchón." },
   perfilGasolina: { magna: "Calculo el gasto de tu carro con gasolina verde.", premium: "Calculo el gasto de tu carro con gasolina roja.", no: "No te muestro lo que gastarías en carro." },
   perfilForma: { completa: "Precios, horarios, comparar y esperar.", facil: "Solo lo esencial, con botones grandes." },
   perfilLengua: { es: "La interfaz está en español. El audio sigue en español.", oto: "La traducción de la interfaz todavía no está disponible. El audio sigue en español.", nah: "La traducción de la interfaz todavía no está disponible. El audio sigue en español." },
@@ -5407,6 +5490,7 @@ const RESPUESTAS_PERFIL = {
   perfilMovilidad: { normal: "Camino sin problema", poco: "Me cuesta caminar", silla: "Uso silla de ruedas o andadera" },
   perfilOido: { bien: "Escucho bien los avisos", poco: "Me cuesta escuchar" },
   perfilTarifa: { si: "Pago Tarifa Unidos", no: "Pago tarifa normal" },
+  perfilLlegar: { 0: "Justo a la hora", 5: "5 minutos antes", 10: "10 minutos antes", 15: "15 minutos antes" },
   perfilGasolina: { magna: "Gasolina verde", premium: "Gasolina roja", no: "No tengo carro" },
   perfilLengua: { es: "Español", oto: NOMBRE_OTOMI, nah: NOMBRE_NAHUATL },
 };
@@ -5419,6 +5503,7 @@ function actualizarFilasPerfil() {
     perfilMovilidad: movilidad,
     perfilOido: acc.oido ?? "bien",
     perfilTarifa: acc.unidos ? "si" : "no",
+    perfilLlegar: String(acc.colchon ?? 0),
     perfilGasolina: acc.gasolina ?? "magna",
     perfilLengua: acc.idioma,
   };
@@ -5435,6 +5520,7 @@ function actualizarFilasPerfil() {
   marcarOido(valores.perfilOido);
   marcarTarifa(valores.perfilTarifa);
   marcarGasolina(valores.perfilGasolina);
+  marcarLlegar(valores.perfilLlegar);
   $("preguntaGasolina").hidden = acc.modoVoz;
   marcarLengua(valores.perfilLengua);
   marcarAjusteIdioma(valores.perfilLengua);
@@ -5474,6 +5560,10 @@ const marcarOido = radios("perfilOido", (v) => cambiarPerfil(() => {
 const marcarForma = radios("perfilForma", (v) => cambiarPerfil(() => {
   efecto("perfilForma", v);
   acc.facil = v === "facil";
+}));
+const marcarLlegar = radios("perfilLlegar", (v) => cambiarPerfil(() => {
+  efecto("perfilLlegar", v);
+  acc.colchon = Number(v);
 }));
 const marcarTarifa = radios("perfilTarifa", (v) => cambiarPerfil(() => {
   efecto("perfilTarifa", v);

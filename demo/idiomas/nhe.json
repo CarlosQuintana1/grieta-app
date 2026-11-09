@@ -10053,6 +10053,226 @@
       "clave": "texto_da5e7234b3",
       "es": "{v1} km en auto",
       "nhe": "{v1} km ika carro"
+    },
+    {
+      "clave": "texto_1ba49dee32",
+      "es": "Estás en",
+      "nhe": "Ti itstok ipan"
+    },
+    {
+      "clave": "texto_88bc279635",
+      "es": "Mandarle dónde estoy",
+      "nhe": "Xijtitlani campa na niitztoc"
+    },
+    {
+      "clave": "texto_341cb463c5",
+      "es": "¿A quién le llamo si te pierdes?",
+      "nhe": "¿Ajqueya nijnotzas intla timocuapolos?"
+    },
+    {
+      "clave": "texto_802e3e46f5",
+      "es": "Cómo se llama",
+      "nhe": "¿Tlaque itoca?"
+    },
+    {
+      "clave": "texto_0cca013788",
+      "es": "Su teléfono",
+      "nhe": "Mo teléfono"
+    },
+    {
+      "clave": "texto_af3842a36e",
+      "es": "A dónde te llevo",
+      "nhe": "¿Canque nimitzhuicas?"
+    },
+    {
+      "clave": "texto_66eaff47d3",
+      "es": "Se queda solo en este teléfono.",
+      "nhe": "San mokaua ipan ni teléfono."
+    },
+    {
+      "clave": "texto_099b778162",
+      "es": "¿Con cuánto tiempo quieres llegar?",
+      "nhe": "¿Kech tonali tijneki tiajsiti?"
+    },
+    {
+      "clave": "texto_522a9a43fd",
+      "es": "Justo a la hora",
+      "nhe": "Ipan nopa tonali"
+    },
+    {
+      "clave": "texto_59cff4fb50",
+      "es": "5 minutos antes",
+      "nhe": "5 minutos achtoui"
+    },
+    {
+      "clave": "texto_5798b378e0",
+      "es": "10 minutos antes",
+      "nhe": "10 minutos achtoui"
+    },
+    {
+      "clave": "texto_5be544061d",
+      "es": "15 minutos antes",
+      "nhe": "15 minutos achtoui"
+    },
+    {
+      "clave": "texto_f4864e1bac",
+      "es": "Llegar",
+      "nhe": "Ajsis"
+    },
+    {
+      "clave": "texto_794a4b5a29",
+      "es": "Justo",
+      "nhe": "Xitlauak"
+    },
+    {
+      "clave": "texto_3d7ed1bfba",
+      "es": "Bien",
+      "nhe": "Kuali"
+    },
+    {
+      "clave": "texto_53c759c773",
+      "es": "Poco",
+      "nhe": "Pilkentsi"
+    },
+    {
+      "clave": "texto_07bab4c27f",
+      "es": "Silla",
+      "nhe": "Silla"
+    },
+    {
+      "clave": "texto_b1a104d21c",
+      "es": "Con voz",
+      "nhe": "Ika tlajtoli"
+    },
+    {
+      "clave": "texto_7519be4b34",
+      "es": "Vibra",
+      "nhe": "Vibra"
+    },
+    {
+      "clave": "texto_f6fbc0f56a",
+      "es": "Me lee",
+      "nhe": "Nechpoua"
+    },
+    {
+      "clave": "texto_5de305b59c",
+      "es": "Si me pierdo",
+      "nhe": "Tlaj nimopolos"
+    },
+    {
+      "clave": "texto_ef940f671f",
+      "es": "Elige a quién",
+      "nhe": "Xijtlapejpeni ajkia"
+    },
+    {
+      "clave": "texto_8470d25713",
+      "es": "Te digo tu calle",
+      "nhe": "Nimits iljuia mo calle"
+    },
+    {
+      "clave": "texto_f98f0462ac",
+      "es": "Le llamo con un toque",
+      "nhe": "Nimitsnotsa ika se tlajko"
+    },
+    {
+      "clave": "texto_1650d50980",
+      "es": "Te llevo a {v1}",
+      "nhe": "Nimits uikatis ipan {v1}"
+    },
+    {
+      "clave": "texto_91a15a9834",
+      "es": "De 8 pm a 6 am",
+      "nhe": "Tlen 8 pm hasta 6 am"
+    },
+    {
+      "clave": "texto_0dfba1bec6",
+      "es": "En todos tus viajes",
+      "nhe": "Ipan nochi mo paxalojke"
+    },
+    {
+      "clave": "texto_67009fbe02",
+      "es": "Apagado: no cambio tus rutas",
+      "nhe": "Off: Ax nijpatla mo ojtli"
+    },
+    {
+      "clave": "texto_50ad19600c",
+      "es": "Recomendación, no garantía",
+      "nhe": "Tlapaleuilistli, ax tlateochiualistli"
+    },
+    {
+      "clave": "texto_4133eae91c",
+      "es": "Máximo 5 min a pie",
+      "nhe": "Máximo 5 min nejnemilistli"
+    },
+    {
+      "clave": "texto_a089c4c3eb",
+      "es": "Paradas sobre avenida",
+      "nhe": "Moketsa ipan ojtli"
+    },
+    {
+      "clave": "texto_99d68ae767",
+      "es": "Avisos de la gente",
+      "nhe": "Tlayolmelahuali tlen maseualmej"
+    },
+    {
+      "clave": "texto_4144fe3664",
+      "es": "el litro",
+      "nhe": "nopa litro"
+    },
+    {
+      "clave": "texto_0491c67281",
+      "es": "Con esto calculo lo que gastarías si vas en tu carro.",
+      "nhe": "Ika ni nijpoua tlen tijtekiuis tlaj tias ipan mocarro."
+    },
+    {
+      "clave": "texto_41593aa991",
+      "es": "Llamar a {v1}",
+      "nhe": "Xijnotza {v1}"
+    },
+    {
+      "clave": "texto_7685584999",
+      "es": "Llévame a {v1}",
+      "nhe": "Xinechuika ipan {v1}"
+    },
+    {
+      "clave": "texto_789d263e6c",
+      "es": "Parada a {v1} min: {v2}",
+      "nhe": "Ximoketsa ipan {v1} min: {v2}"
+    },
+    {
+      "clave": "texto_0714727175",
+      "es": "Te digo la última salida que llega a la hora.",
+      "nhe": "Nimechilhuis nopa último tlanemijya tlen ajsi ipan nopa hora."
+    },
+    {
+      "clave": "texto_f9f0f529ef",
+      "es": "Tu salida te deja 5 minutos de colchón.",
+      "nhe": "Kema ti yas mits kauas 5 minutos tlen tlaseuilistli."
+    },
+    {
+      "clave": "texto_26a2f607e9",
+      "es": "Tu salida te deja 10 minutos de colchón.",
+      "nhe": "Kema ti yas mits kauas 10 minutos tlen tlaseuilistli."
+    },
+    {
+      "clave": "texto_5d8c54f88a",
+      "es": "Tu salida te deja 15 minutos de colchón.",
+      "nhe": "Kema ti yas mits kauas 15 minutos tlen tlaseuilistli."
+    },
+    {
+      "clave": "texto_76145960f5",
+      "es": "Escribe cómo se llama.",
+      "nhe": "Xikijkuilo tlen itoka."
+    },
+    {
+      "clave": "texto_cceddd0c45",
+      "es": "Escribe su teléfono a 10 dígitos.",
+      "nhe": "Xikijkuilo mo número de teléfono ika 10 dígitos."
+    },
+    {
+      "clave": "texto_0576813f17",
+      "es": "Copié dónde estás para que lo pegues en un mensaje.",
+      "nhe": "Nik ijkuilok kanke ti itstok para uelis tijtlalis ipan se tlajtoli."
     }
   ],
   "adaptaciones": [

@@ -17096,6 +17096,337 @@
           "expresion": "interfaz"
         }
       }
+    },
+    {
+      "clave": "texto_1ba49dee32",
+      "es": "Estás en",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_88bc279635",
+      "es": "Mandarle dónde estoy",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_341cb463c5",
+      "es": "¿A quién le llamo si te pierdes?",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_802e3e46f5",
+      "es": "Cómo se llama",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_0cca013788",
+      "es": "Su teléfono",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_af3842a36e",
+      "es": "A dónde te llevo",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_66eaff47d3",
+      "es": "Se queda solo en este teléfono.",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_099b778162",
+      "es": "¿Con cuánto tiempo quieres llegar?",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_522a9a43fd",
+      "es": "Justo a la hora",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_59cff4fb50",
+      "es": "5 minutos antes",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_5798b378e0",
+      "es": "10 minutos antes",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_5be544061d",
+      "es": "15 minutos antes",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_f4864e1bac",
+      "es": "Llegar",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_794a4b5a29",
+      "es": "Justo",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_3d7ed1bfba",
+      "es": "Bien",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_53c759c773",
+      "es": "Poco",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_07bab4c27f",
+      "es": "Silla",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_b1a104d21c",
+      "es": "Con voz",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_7519be4b34",
+      "es": "Vibra",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_f6fbc0f56a",
+      "es": "Me lee",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_5de305b59c",
+      "es": "Si me pierdo",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_ef940f671f",
+      "es": "Elige a quién",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_8470d25713",
+      "es": "Te digo tu calle",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_f98f0462ac",
+      "es": "Le llamo con un toque",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_1650d50980",
+      "es": "Te llevo a {v1}",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_91a15a9834",
+      "es": "De 8 pm a 6 am",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_0dfba1bec6",
+      "es": "En todos tus viajes",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_67009fbe02",
+      "es": "Apagado: no cambio tus rutas",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_50ad19600c",
+      "es": "Recomendación, no garantía",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_4133eae91c",
+      "es": "Máximo 5 min a pie",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_a089c4c3eb",
+      "es": "Paradas sobre avenida",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_99d68ae767",
+      "es": "Avisos de la gente",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_4144fe3664",
+      "es": "el litro",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_0491c67281",
+      "es": "Con esto calculo lo que gastarías si vas en tu carro.",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_41593aa991",
+      "es": "Llamar a {v1}",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_7685584999",
+      "es": "Llévame a {v1}",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_789d263e6c",
+      "es": "Parada a {v1} min: {v2}",
+      "contextos": [
+        "demo/app.js"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        },
+        "v2": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_0714727175",
+      "es": "Te digo la última salida que llega a la hora.",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_f9f0f529ef",
+      "es": "Tu salida te deja 5 minutos de colchón.",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_26a2f607e9",
+      "es": "Tu salida te deja 10 minutos de colchón.",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_5d8c54f88a",
+      "es": "Tu salida te deja 15 minutos de colchón.",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_76145960f5",
+      "es": "Escribe cómo se llama.",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_cceddd0c45",
+      "es": "Escribe su teléfono a 10 dígitos.",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_0576813f17",
+      "es": "Copié dónde estás para que lo pegues en un mensaje.",
+      "contextos": [
+        "demo/app.js"
+      ]
     }
   ]
 }

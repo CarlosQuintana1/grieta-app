@@ -10052,6 +10052,226 @@
       "clave": "texto_da5e7234b3",
       "es": "{v1} km en auto",
       "otq": "{v1} km ya coche"
+    },
+    {
+      "clave": "texto_1ba49dee32",
+      "es": "Estás en",
+      "otq": "Gi 'bu̲i"
+    },
+    {
+      "clave": "texto_88bc279635",
+      "es": "Mandarle dónde estoy",
+      "otq": "Gi pe̲hni nu'bu̲ nu'bu̲ di 'bu̲i"
+    },
+    {
+      "clave": "texto_341cb463c5",
+      "es": "¿A quién le llamo si te pierdes?",
+      "otq": "¿Togo'ä ga xekwi nu'bu̲ gi 'be̲di?"
+    },
+    {
+      "clave": "texto_802e3e46f5",
+      "es": "Cómo se llama",
+      "otq": "Temu̲ ar hu'ä"
+    },
+    {
+      "clave": "texto_0cca013788",
+      "es": "Su teléfono",
+      "otq": "Ár teléfono"
+    },
+    {
+      "clave": "texto_af3842a36e",
+      "es": "A dónde te llevo",
+      "otq": "Hogem'bu̲ ga gu̲ts'i"
+    },
+    {
+      "clave": "texto_66eaff47d3",
+      "es": "Se queda solo en este teléfono.",
+      "otq": "Bi 'bu̲i ho̲ntho jar nuna ar teléfono."
+    },
+    {
+      "clave": "texto_099b778162",
+      "es": "¿Con cuánto tiempo quieres llegar?",
+      "otq": "¿Tengu ya pa gí ne da zo̲ni?"
+    },
+    {
+      "clave": "texto_522a9a43fd",
+      "es": "Justo a la hora",
+      "otq": "Xa ngut'ä"
+    },
+    {
+      "clave": "texto_59cff4fb50",
+      "es": "5 minutos antes",
+      "otq": "5 t'olo ora nu'bu̲"
+    },
+    {
+      "clave": "texto_5798b378e0",
+      "es": "10 minutos antes",
+      "otq": "10 t'olo ora nu'bu̲"
+    },
+    {
+      "clave": "texto_5be544061d",
+      "es": "15 minutos antes",
+      "otq": "15 t'olo ora nu'bu̲"
+    },
+    {
+      "clave": "texto_f4864e1bac",
+      "es": "Llegar",
+      "otq": "Ze̲ni"
+    },
+    {
+      "clave": "texto_794a4b5a29",
+      "es": "Justo",
+      "otq": "Exactamente"
+    },
+    {
+      "clave": "texto_3d7ed1bfba",
+      "es": "Bien",
+      "otq": "Ar za̲"
+    },
+    {
+      "clave": "texto_53c759c773",
+      "es": "Poco",
+      "otq": "Tx'u̲tho"
+    },
+    {
+      "clave": "texto_07bab4c27f",
+      "es": "Silla",
+      "otq": "Thuhni"
+    },
+    {
+      "clave": "texto_b1a104d21c",
+      "es": "Con voz",
+      "otq": "'Nar hñä"
+    },
+    {
+      "clave": "texto_7519be4b34",
+      "es": "Vibra",
+      "otq": "Vibra"
+    },
+    {
+      "clave": "texto_f6fbc0f56a",
+      "es": "Me lee",
+      "otq": "Gi lei"
+    },
+    {
+      "clave": "texto_5de305b59c",
+      "es": "Si me pierdo",
+      "otq": "Nu'bu̲ ga 'be̲di"
+    },
+    {
+      "clave": "texto_ef940f671f",
+      "es": "Elige a quién",
+      "otq": "Da 'ñets'i togo'ä"
+    },
+    {
+      "clave": "texto_8470d25713",
+      "es": "Te digo tu calle",
+      "otq": "Di xi'i ir dä za"
+    },
+    {
+      "clave": "texto_f98f0462ac",
+      "es": "Le llamo con un toque",
+      "otq": "Nugu̲hu̲ ko 'nar grifo"
+    },
+    {
+      "clave": "texto_1650d50980",
+      "es": "Te llevo a {v1}",
+      "otq": "Gi llevo {v1}"
+    },
+    {
+      "clave": "texto_91a15a9834",
+      "es": "De 8 pm a 6 am",
+      "otq": "Ar 8 pm da 6 am"
+    },
+    {
+      "clave": "texto_0dfba1bec6",
+      "es": "En todos tus viajes",
+      "otq": "Ja nga̲tho ir 'befi"
+    },
+    {
+      "clave": "texto_67009fbe02",
+      "es": "Apagado: no cambio tus rutas",
+      "otq": "Desactivado: Hingi cambio ir rutas"
+    },
+    {
+      "clave": "texto_50ad19600c",
+      "es": "Recomendación, no garantía",
+      "otq": "Recomendación, hingi 'nar garantía"
+    },
+    {
+      "clave": "texto_4133eae91c",
+      "es": "Máximo 5 min a pie",
+      "otq": "5 máximo min 'yowa"
+    },
+    {
+      "clave": "texto_a089c4c3eb",
+      "es": "Paradas sobre avenida",
+      "otq": "Ya parada jar nga̲tho'bu̲"
+    },
+    {
+      "clave": "texto_99d68ae767",
+      "es": "Avisos de la gente",
+      "otq": "Ya signos ya jä'i"
+    },
+    {
+      "clave": "texto_4144fe3664",
+      "es": "el litro",
+      "otq": "ar litri"
+    },
+    {
+      "clave": "texto_0491c67281",
+      "es": "Con esto calculo lo que gastarías si vas en tu carro.",
+      "otq": "Ko 'me̲hna calculo nä'ä gastar nu'bu̲ gi ma jar ár coche."
+    },
+    {
+      "clave": "texto_41593aa991",
+      "es": "Llamar a {v1}",
+      "otq": "Xekwi {v1}"
+    },
+    {
+      "clave": "texto_7685584999",
+      "es": "Llévame a {v1}",
+      "otq": "Gi e̲ts'i ar {v1}"
+    },
+    {
+      "clave": "texto_789d263e6c",
+      "es": "Parada a {v1} min: {v2}",
+      "otq": "Parada jar {v1} min: {v2}"
+    },
+    {
+      "clave": "texto_0714727175",
+      "es": "Te digo la última salida que llega a la hora.",
+      "otq": "Ga xi'i ár ngäts'i ar 'me̲hna da tso̲ho̲ tso̲ngwa."
+    },
+    {
+      "clave": "texto_f9f0f529ef",
+      "es": "Tu salida te deja 5 minutos de colchón.",
+      "otq": "Ár partida bí he̲gi ya t'olo ora 5 ar sobra."
+    },
+    {
+      "clave": "texto_26a2f607e9",
+      "es": "Tu salida te deja 10 minutos de colchón.",
+      "otq": "Ár partida bí he̲gi ya t'olo ora 10 ar sobra."
+    },
+    {
+      "clave": "texto_5d8c54f88a",
+      "es": "Tu salida te deja 15 minutos de colchón.",
+      "otq": "Ár partida bí xta t'olo ora 15 amortiguación."
+    },
+    {
+      "clave": "texto_76145960f5",
+      "es": "Escribe cómo se llama.",
+      "otq": "Gi 'yot'i temu̲ ar hu'u̲."
+    },
+    {
+      "clave": "texto_cceddd0c45",
+      "es": "Escribe su teléfono a 10 dígitos.",
+      "otq": "Escriba ár 'bede ya teléfono jar dígitos 10 ."
+    },
+    {
+      "clave": "texto_0576813f17",
+      "es": "Copié dónde estás para que lo pegues en un mensaje.",
+      "otq": "Dá kopya ho gi 'yo̲t'e pa gi pe̲ts'i 'nar 'me̲hni 'nar 'me̲hni pa"
     }
   ],
   "adaptaciones": [

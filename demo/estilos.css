@@ -1893,7 +1893,7 @@ html.grande .equivale-color li { grid-template-columns: auto auto 1fr; align-ite
 .credencial-iconos i { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; background: #1c1408; color: #e0a03c; }
 .credencial-iconos .picto { width: 22px; height: 22px; }
 #perfil:not([hidden]) { display: flex; flex-direction: column; min-height: 100%; }
-.perfil-fichas { flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(92px, 1fr); gap: 10px; margin-top: 10px; }
+.perfil-fichas { flex: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; margin-top: 7px; }
 .perfil-ficha { position: relative; display: grid; align-content: space-between; justify-items: start; min-height: 76px; padding: 9px 12px; overflow: hidden; border-radius: 22px; background: var(--tono); color: #fff; text-align: left; }
 .perfil-ficha > .picto { width: 27px; height: 27px; }
 .perfil-ficha > .chevron { position: absolute; top: 13px; right: 12px; width: 18px; height: 18px; opacity: .7; stroke-width: 2.6; }
@@ -1905,14 +1905,12 @@ html.grande .equivale-color li { grid-template-columns: auto auto 1fr; align-ite
 .perfil-ficha.ancha.gas-premium { --tono: #a8362c; }
 .perfil-ficha.ancha.gas-no { --tono: #1f6390; }
 .perfil-ficha.tono-rosa { --tono: #c2185b; }
-.perfil-fichas:has(> .ancha) { grid-template-rows: repeat(3, minmax(76px, 1fr)) auto auto; }
 .perfil-ficha.ficha-segura { --tono: var(--seguro); }
-html.grande .perfil-fichas:has(> .ancha) { grid-template-rows: none; }
 body[data-pantalla="perfil"] .hoja { padding-bottom: 12px; }
 .perfil-gasolina { display: flex; gap: 5px; }
 .perfil-gasolina button { min-width: 44px; height: 44px; padding: 0 11px; border-radius: 999px; background: rgb(0 0 0 / 26%); color: #fff; font-size: .78rem; font-weight: 800; }
 .perfil-gasolina button[aria-pressed="true"] { background: #fff; color: var(--tono); }
-html.grande .perfil-fichas { flex: none; grid-template-columns: 1fr; grid-auto-rows: auto; }
+html.grande .perfil-fichas, html.modo-voz .perfil-fichas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 html.grande .perfil-ficha.ancha { grid-template-columns: auto 1fr; }
 html.grande .perfil-gasolina { grid-column: 1 / -1; justify-content: stretch; }
 html.grande .perfil-gasolina button { flex: 1; }
@@ -2382,3 +2380,73 @@ html.claro #textoPerfil { --sobre-ambar: #0b0a09; --ambar: #e0a03c; }
 @media (max-width: 340px) { .horas-riel strong { font-size: .7rem; } .app-p strong { font-size: .78rem; } }
 html.grande .horas-riel strong { font-size: .72rem; }
 html.grande .app-p strong { font-size: .76rem; }
+
+/* Tu perfil de viaje */
+.perfil-fichas > * { grid-column: 1 / -1; }
+.perfil-fichas > .pf-chica { grid-column: span 1; }
+.pf-corte { clip-path: polygon(0 0, 100% 0, 100% 100%, 20px 100%, 0 calc(100% - 20px)); border-radius: 20px; }
+.pf-chica, .pf-carta { background-color: var(--tono); background-image: linear-gradient(160deg, rgb(255 255 255 / 16%), rgb(255 255 255 / 0%) 55%, rgb(0 0 0 / 14%)); color: #fff; }
+html.contraste .pf-chica, html.contraste .pf-carta { background-image: none; }
+.pf-corte:focus-visible, .pf-carta button:focus-visible { outline: 3px solid #fff; outline-offset: -5px; }
+.pf-chica { display: grid; gap: 4px; justify-items: start; min-width: 0; padding: 8px 10px; clip-path: polygon(0 0, 100% 0, 100% 100%, 15px 100%, 0 calc(100% - 15px)); border-radius: 18px; text-align: left; }
+.pf-chica > .picto { width: 23px; height: 23px; }
+.pf-chica small { display: block; font-size: .72rem; font-weight: 700; opacity: .9; }
+.pf-chica b { display: block; font-size: .98rem; font-weight: 800; line-height: 1.1; white-space: nowrap; }
+.pf-chica.tono-rosa { --tono: #c2185b; }
+html.grande .pf-sola, html.modo-voz .pf-sola { grid-column: 1 / -1; }
+.pf-pierdo { position: relative; display: block; width: 100%; overflow: hidden; padding: 0; background: #0b0a09; color: #fff; text-align: left; }
+.pf-pierdo .hv-verde { fill: #8e2a28; }
+.pf-pierdo .hv-azul { fill: #25221d; }
+.pf-pierdo .hv-lado { display: block; padding-top: 9px; padding-bottom: 9px; }
+.pf-pt { display: grid; gap: 7px; }
+.pf-pt .picto { width: 32px; height: 32px; }
+.pf-pt small { display: block; font-size: .76rem; font-weight: 700; opacity: .9; }
+.pf-pt b { display: block; font-size: 1.3rem; font-weight: 800; line-height: 1.06; overflow-wrap: anywhere; }
+.pf-lista { display: grid; gap: 5px; padding-right: 16px; text-align: left; justify-items: start; }
+.pf-lista > span { display: flex; align-items: center; gap: 8px; font-size: .86rem; font-weight: 700; line-height: 1.14; }
+.pf-lista .icono { flex: none; width: 19px; height: 19px; color: #e0a03c; }
+.pf-lapiz { position: absolute; top: 10px; right: 11px; width: 19px; height: 19px; color: #fff; opacity: .8; }
+.pf-carta { display: grid; gap: 6px; padding: 9px 12px 10px; }
+.pf-carta.pf-seg { --tono: var(--seguro); }
+.pf-carta.gas-magna { --tono: #1f6b46; }
+.pf-carta.gas-premium { --tono: #a8362c; }
+.pf-carta.gas-no { --tono: #1f6390; }
+.pf-cabeza { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 9px; }
+.pf-cabeza > .picto { width: 30px; height: 30px; }
+.pf-cabeza small { display: block; font-size: .76rem; font-weight: 700; opacity: .9; white-space: nowrap; }
+.pf-cabeza b { display: block; font-size: 1.16rem; font-weight: 800; line-height: 1.06; }
+.pf-carta .perfil-gasolina button { display: grid; place-items: center; white-space: nowrap; }
+.pf-cuando { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 2px 8px; font-size: .86rem; font-weight: 800; }
+.pf-cuando em { font-style: normal; font-size: .7rem; font-weight: 700; opacity: .82; }
+.pf-tres { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.pf-tres > span { display: grid; gap: 2px; align-content: start; padding: 6px 8px 7px; border-radius: 13px; background: rgb(0 0 0 / 20%); font-size: .76rem; font-weight: 700; line-height: 1.14; }
+.pf-tres .picto { width: 18px; height: 18px; }
+.pf-precio { display: flex; align-items: center; gap: 12px; padding: 5px 12px; border-radius: 13px; background: rgb(0 0 0 / 20%); }
+.pf-litro { flex: none; display: grid; }
+.pf-litro strong { font-size: 1.5rem; font-weight: 800; line-height: 1; }
+.pf-litro i { margin-top: 2px; font-style: normal; font-size: .7rem; font-weight: 700; opacity: .9; }
+.pf-solo { font-size: .84rem; font-weight: 600; line-height: 1.22; }
+html.grande .pf-cabeza, html.modo-voz .pf-cabeza { grid-template-columns: auto minmax(0, 1fr); }
+html.grande .pf-tres, html.modo-voz .pf-tres { grid-template-columns: 1fr; }
+html.grande .pf-tres > span, html.modo-voz .pf-tres > span { grid-template-columns: auto 1fr; align-items: center; gap: 8px; font-size: .9rem; }
+@media (max-width: 380px) { .pf-chica { padding: 8px 7px; } .pf-chica b { font-size: .84rem; } }
+@media (max-width: 340px) { .pf-chica b { font-size: .76rem; } }
+@media (max-width: 360px) { .pf-lista > span { font-size: .78rem; } .pf-pt b { font-size: 1.14rem; } .pf-cabeza b { font-size: 1rem; } .pf-carta .perfil-gasolina button { min-width: 38px; padding: 0 8px; font-size: .72rem; } }
+.pierdo-forma { display: grid; gap: 10px; }
+.pierdo-forma .fila-perfil { padding-bottom: 2px; }
+.pierdo-forma .nota { margin: 0; text-align: center; }
+.pierdo-forma select { width: 100%; background: none; color: inherit; font: inherit; font-weight: 700; border: 0; }
+.aq-et { margin: 0; color: var(--tenue); font-size: .9rem; font-weight: 700; }
+.aq-parada { margin: 0 0 8px; color: var(--tenue); font-size: .92rem; font-weight: 600; line-height: 1.25; }
+.aq-ayuda { display: grid; gap: 8px; margin-top: 8px; }
+.aq-llamar { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 72px; padding: 8px 14px; border-radius: 22px; background: #1f6b46; color: #fff; font-size: 1.4rem; font-weight: 800; text-align: center; text-decoration: none; }
+.aq-llamar .picto { flex: none; width: 34px; height: 34px; }
+.aq-dos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.aq-b { display: grid; gap: 4px; align-content: center; min-height: 82px; padding: 10px 13px; border-radius: 20px; background: var(--tono); color: #fff; font-size: 1.02rem; font-weight: 800; line-height: 1.14; text-align: left; }
+.aq-b[hidden] { display: none; }
+.aq-b .picto { width: 26px; height: 26px; }
+.aq-dos:has(> .aq-b[hidden]) { grid-template-columns: 1fr; }
+#vozLlamar { text-decoration: none; }
+html:not(:lang(es)) .pf-chica b { font-size: .8rem; white-space: normal; overflow-wrap: anywhere; }
+html:not(:lang(es)) .pf-chica small { font-size: .66rem; overflow-wrap: anywhere; }
+.pf-chica .perfil-ficha-texto { max-width: 100%; }

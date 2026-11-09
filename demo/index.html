@@ -276,6 +276,7 @@
         <div id="vozLugares" class="voz-lugares"></div>
         <button id="vozCamion" type="button" class="boton-voz"><svg class="picto"><use href="#p-camiones"/></svg>¿Qué camión pasa aquí?</button>
         <button id="vozDonde" type="button" class="boton-voz"><svg class="picto"><use href="#p-donde"/></svg>¿Dónde estoy?</button>
+        <a id="vozLlamar" class="boton-voz" hidden><svg class="picto" aria-hidden="true"><use href="#p-familia"/></svg><span id="vozLlamarTexto"></span></a>
         <button id="vozRepetir" type="button" class="boton-voz oscuro"><svg class="icono"><use href="#i-repetir"/></svg>Repetir</button>
         <button id="salirVoz" type="button" class="boton-voz borde">Usar la pantalla normal</button>
         <div id="respuestaVoz" class="oculto" aria-live="polite"></div>
@@ -730,7 +731,16 @@
     </section>
 
     <section id="ubicacion" class="pantalla" aria-labelledby="tituloPantalla" hidden>
+      <p id="ubicacionAqui" class="aq-et" hidden>Estás en</p>
       <p id="ubicacionCalle" class="parada-nombre" role="status" translate="no"></p>
+      <p id="ubicacionParada" class="aq-parada" translate="no" hidden></p>
+      <div id="ayudaPierdo" class="aq-ayuda" hidden>
+        <a id="pierdoLlamar" class="aq-llamar"><svg class="picto" aria-hidden="true"><use href="#p-familia"/></svg><span id="pierdoLlamarTexto"></span></a>
+        <div class="aq-dos">
+          <button id="pierdoMandar" type="button" class="aq-b tono-turquesa"><svg class="picto" aria-hidden="true"><use href="#p-megafono"/></svg><span>Mandarle dónde estoy</span></button>
+          <button id="pierdoCasa" type="button" class="aq-b tono-trabajo"><svg class="picto" aria-hidden="true"><use href="#p-casa"/></svg><span id="pierdoCasaTexto"></span></button>
+        </div>
+      </div>
     </section>
 
     <section id="camiones" class="pantalla" aria-labelledby="tituloPantalla" hidden>
@@ -822,6 +832,19 @@
         <div class="credencial-datos"><small>VIAJERO DE QUERÉTARO</small><strong id="credencialNombre"></strong><div id="credencialIconos" class="credencial-iconos" aria-hidden="true"></div></div>
       </div>
       <div id="perfilFichas" class="perfil-fichas" role="group" aria-label="Tu perfil de viaje"></div>
+      <dialog id="hojaPierdo" class="hoja-perfil" aria-labelledby="pierdoTitulo">
+        <div class="hoja-asa" aria-hidden="true"></div>
+        <form id="pierdoForma" class="pierdo-forma" novalidate>
+          <div class="fila-perfil"><span class="mini-ficha tono-salud" aria-hidden="true"><svg class="picto"><use href="#p-donde"/></svg></span><div class="fila-texto"><h3 id="pierdoTitulo">¿A quién le llamo si te pierdes?</h3></div></div>
+          <label class="campo"><span>Cómo se llama</span><input id="pierdoNombre" type="text" maxlength="24" autocomplete="off" enterkeyhint="next"></label>
+          <label class="campo"><span>Su teléfono</span><input id="pierdoTel" type="tel" inputmode="tel" maxlength="16" autocomplete="off" enterkeyhint="next"></label>
+          <label id="pierdoLugarCampo" class="campo"><span>A dónde te llevo</span><select id="pierdoLugar"></select></label>
+          <p id="pierdoError" class="nota" role="alert" hidden></p>
+          <button type="submit" class="boton">Guardar</button>
+          <div class="hr-pills"><button id="pierdoCancelar" type="button">Cancelar</button><button id="pierdoQuitar" type="button" hidden>Quitar</button></div>
+          <p class="nota">Se queda solo en este teléfono.</p>
+        </form>
+      </dialog>
       <dialog id="hojaPerfil" class="hoja-perfil">
       <div class="hoja-asa" aria-hidden="true"></div>
       <div class="perfil-preguntas">
@@ -910,6 +933,20 @@
             <div id="perfilTarifa" class="fichas dos" role="radiogroup" aria-labelledby="pTarifa" aria-describedby="perfilTarifaEfecto">
               <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-boleto"/></svg><span>Sí, pago $2</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
               <button type="button" role="radio" aria-checked="false" data-v="no" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-camion"/></svg><span>Pago tarifa normal</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <div id="preguntaLlegar" class="item-perfil" data-grupo-perfil="perfilLlegar">
+          <div class="fila-perfil">
+            <span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-flag"/></svg></span>
+            <div class="fila-texto"><h3 id="pLlegar">¿Con cuánto tiempo quieres llegar?</h3><strong class="respuesta-perfil"></strong><small id="perfilLlegarEfecto" class="efecto fila-perfil-efecto"></small></div>
+          </div>
+          <div id="panelPerfilLlegar" class="opciones-perfil">
+            <div id="perfilLlegar" class="fichas dos" role="radiogroup" aria-labelledby="pLlegar" aria-describedby="perfilLlegarEfecto">
+              <button type="button" role="radio" aria-checked="false" data-v="0" tabindex="-1" class="ficha"><span>Justo a la hora</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+              <button type="button" role="radio" aria-checked="false" data-v="5" tabindex="-1" class="ficha"><span>5 minutos antes</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+              <button type="button" role="radio" aria-checked="false" data-v="10" tabindex="-1" class="ficha"><span>10 minutos antes</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+              <button type="button" role="radio" aria-checked="false" data-v="15" tabindex="-1" class="ficha"><span>15 minutos antes</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
             </div>
           </div>
         </div>
