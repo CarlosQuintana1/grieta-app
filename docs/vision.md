@@ -9,6 +9,13 @@ de avisos. La cámara narra automáticamente con una voz española local, inclus
 está apagada. El altavoz del encabezado solo silencia esa cámara. Si se configuró un lector de
 pantalla, la cámara usa sus anuncios sin duplicar el audio.
 
+## Arranque y modelo adaptable
+
+La cámara abre primero y el reconocimiento se prepara con la imagen ya visible. Se baja solo la versión que el teléfono puede usar (SIMD o no).
+El detector arranca siempre en ligero. Lectura de letreros, escalones y hoyos se cargan después, de uno en uno.
+Tras seis análisis, si la mediana del ligero es de 130 ms o menos, cambia a detalle sin detener la cámara; si detalle resulta lento (más de 800 ms tres veces seguidas), regresa a ligero.
+Una descripción se descarta si la imagen tiene más de 2.5 s, pero esa revisión sigue contando para confirmar dónde hay personas antes de enviar una foto.
+
 ## Reconocimiento
 
 Desde la versión 138, Más detalle usa YOLOX-s (Megvii, Apache 2.0) con los pesos COCO oficiales de la

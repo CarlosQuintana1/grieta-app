@@ -18,6 +18,9 @@ const CamaraGrieta = (() => {
   muestra.width = 64; muestra.height = 48;
   const muestras = muestra.getContext('2d', { willReadFrequently: true });
   let mascaras = [], capturando = false, personas = [], personasEn = 0;
+  let piezas = null, modeloEnUso = 'ligero', reemplazo = null, cambiando = false, restoListo = false, sinSubir = false, tiempos = [], ultimoMs = 0;
+  // El modo detalle tarda unas 6 veces mas que el ligero: solo se sube si el ligero va sobrado.
+  const MUESTRAS_MODELO = 6, LIGERO_RAPIDO_MS = 130;
   let viaje = () => null, rutas = () => [], revisionRuta = '', cambioRuta = 0, referencia = 0, camionVisible = null, ultimoCamion = 0, ultimaComparacion = 0, ultimoCamionNarrado = '', caducaCamion, ultimoFotograma = -Infinity, ultimaFraseCamion = '', recortes = [];
   const confirmarCamion = new GrietaTransporte.Confirmador();
   const enViaje = () => $('camaraViaje').checked;
@@ -146,6 +149,9 @@ const CamaraGrieta = (() => {
     $('camaraVideo').srcObject = null;
     detector?.terminate();
     detector = null;
+    reemplazo?.worker.terminate();
+    reemplazo = piezas = null;
+    modeloEnUso = 'ligero'; cambiando = restoListo = sinSubir = false; tiempos = []; ultimoMs = 0;
     ocr?.terminate();
     ocr = null;
     lienzo.width = lienzo.height = lienzoTexto.width = lienzoTexto.height = 0;
@@ -177,15 +183,26 @@ const CamaraGrieta = (() => {
       worker.postMessage(mensaje, transferir);
     });
   }
-  async function preparar(turno, signal) {
-    const r = await fetch(url('activos.json') + '?v=6', { signal });
-    if (!r.ok) throw Error('descarga');
-    const lista = await r.json();
-    const elegido = modeloActual() === 'detalle' ? 'objetos-v1' : 'efficientdet_lite0';
-    const activos = lista.filter((a) => a.grupo === 'hoyos' ? GrietaHoyos.habilitado() : a.grupo === 'escalones' ? GrietaEscalones.habilitado() : !a.ruta.endsWith('.tflite') || a.ruta.endsWith(`${elegido}.tflite`));
+  const valida = (bytes) => { try { return WebAssembly.validate(new Uint8Array(bytes)); } catch { return false; } };
+  // Cada parte se baja cuando hace falta, y solo la version que este telefono puede usar.
+  function repartir(lista) {
+    const simd = valida([0, 97, 115, 109, 1, 0, 0, 0, 1, 5, 1, 96, 0, 1, 123, 3, 2, 1, 0, 10, 10, 1, 8, 0, 65, 0, 253, 15, 253, 98, 11]);
+    const relajado = valida([0, 97, 115, 109, 1, 0, 0, 0, 1, 5, 1, 96, 0, 1, 123, 3, 2, 1, 0, 10, 15, 1, 13, 0, 65, 1, 253, 15, 65, 2, 253, 15, 253, 128, 2, 11]);
+    const nucleo = relajado ? 'tesseract-core-relaxedsimd-lstm' : simd ? 'tesseract-core-simd-lstm' : 'tesseract-core-lstm';
+    const mediapipe = (r) => r.includes('/mediapipe/') && (!r.includes('/wasm/') || r.includes('nosimd') !== simd);
+    const tesseract = (r) => r.includes('/tesseract/') && (!r.includes('/core/tesseract-core') || r.includes(nucleo));
+    return {
+      detector: lista.filter((a) => mediapipe(a.ruta) || a.ruta.endsWith('efficientdet_lite0.tflite')),
+      detalle: lista.filter((a) => a.ruta.endsWith('objetos-v1.tflite')),
+      lector: lista.filter((a) => tesseract(a.ruta) || a.ruta.endsWith('spa.traineddata.gz')),
+      escalones: lista.filter((a) => a.grupo === 'escalones'),
+      hoyos: lista.filter((a) => a.grupo === 'hoyos'),
+    };
+  }
+  async function bajar(turno, signal, archivos, avisar = false) {
     const cache = await caches.open(CACHE);
     let completos = 0;
-    for (const archivo of activos) {
+    await Promise.all(archivos.map(async (archivo) => {
       if (!vigente(turno)) return;
       const destino = url(archivo.ruta);
       let respuesta = await cache.match(destino);
@@ -198,8 +215,107 @@ const CamaraGrieta = (() => {
         await cache.put(destino, respuesta);
       }
       completos++;
-      if (vigente(turno)) informar(`Preparando cámara: ${Math.round(completos / activos.length * 100)} %.`, false);
+      if (avisar && vigente(turno)) informar(`Preparando cámara: ${Math.round(completos / archivos.length * 100)} %.`, false);
+    }));
+  }
+  // Con la imagen ya funcionando se prepara lo demas, de uno en uno para no ahogar al telefono.
+  async function prepararResto(turno, signal) {
+    try {
+      await bajar(turno, signal, piezas.lector);
+      if (!vigente(turno)) return;
+      const lector = new Worker('vision/lector-worker.js?v=3');
+      await pedir(lector, { tipo: 'iniciar' }, 'listo', signal);
+      if (!vigente(turno)) return lector.terminate();
+      ocr = lector;
+      botones();
+    } catch (e) {
+      if (e.name === 'AbortError' || !vigente(turno)) return;
+      $('camaraRendimiento').textContent = 'No pude preparar la lectura de letreros. Revisa la conexión.';
     }
+    for (const [suelo, archivos, aviso] of [[GrietaEscalones, piezas?.escalones, 'No pude preparar los avisos de escaleras y escalones. Revisa la conexión.'], [GrietaHoyos, piezas?.hoyos, 'No pude preparar los avisos de hoyos. Revisa la conexión.']]) {
+      if (!vigente(turno)) return;
+      if (!suelo.habilitado()) continue;
+      try {
+        await bajar(turno, signal, archivos);
+        await suelo.preparar(signal, pedir);
+        if (!vigente(turno)) return;
+        suelo.encender($('camaraVideo'), () => calidadActual?.problema, () => (ultimoMs > 300 ? 900 : 0));
+      } catch (e) {
+        if (e.name === 'AbortError' || !vigente(turno)) return;
+        $('camaraRendimiento').textContent = aviso;
+        hablar(aviso);
+      }
+    }
+    restoListo = true;
+  }
+  async function cambiarModelo(turno, modelo) {
+    cambiando = true;
+    let nuevo;
+    try {
+      const signal = abortar.signal;
+      if (modelo === 'detalle') await bajar(turno, signal, piezas.detalle);
+      if (!vigente(turno)) return;
+      nuevo = new Worker('vision/detector-worker.js?v=4');
+      await pedir(nuevo, { tipo: 'iniciar', modelo }, 'listo', signal);
+      if (!vigente(turno)) return nuevo.terminate();
+      reemplazo = { worker: nuevo, modelo };
+    } catch {
+      nuevo?.terminate();
+      if (vigente(turno)) { cambiando = false; sinSubir = true; }
+    }
+  }
+  function ajustarModelo(turno, ms) {
+    if (reemplazo) {
+      detector.terminate();
+      detector = reemplazo.worker;
+      modeloEnUso = reemplazo.modelo;
+      reemplazo = null; cambiando = false; lento = 0; tiempos = [];
+      conectar(turno);
+      return;
+    }
+    if (cambiando || !restoListo) return;
+    if (modeloEnUso === 'detalle') {
+      if (lento >= 3) { sinSubir = true; cambiarModelo(turno, 'ligero'); }
+      return;
+    }
+    if (sinSubir || modeloActual() !== 'detalle' || navigator.connection?.saveData) return;
+    tiempos.push(ms);
+    if (tiempos.length < MUESTRAS_MODELO) return;
+    const mediana = [...tiempos].sort((a, b) => a - b)[tiempos.length >> 1];
+    tiempos = [];
+    if (mediana <= LIGERO_RAPIDO_MS) cambiarModelo(turno, 'detalle');
+    else sinSubir = true;
+  }
+  function conectar(turno) {
+    detector.onmessage = ({ data }) => {
+      if (!vigente(turno)) return;
+      clearTimeout(vigilancia);
+      if (data.tipo === 'error') return fallo(turno, 'No pude analizar la imagen. Detuve la cámara. Vuelve a intentar.');
+      if (!Number.isFinite(data.ms)) data.ms = 0;
+      ultimoMs = data.ms;
+      // Aunque la descripcion ya no sirva, esta revision confirma donde hay personas antes de enviar una foto.
+      personas = GrietaVision.deteccionesValidas(data.detecciones, data.ancho, data.alto).filter((o) => o.clase === 'person').map((o) => o.caja);
+      personasEn = performance.now();
+      if (calidadActual && performance.now() - calidadActual.capturada < 2500) describir(data);
+      else {
+        descartarCamion();
+        $('camaraResultado').textContent = 'Actualizando la descripción con una imagen reciente.';
+        $('camaraLectura').textContent = '';
+        ultimaFrase = fraseSuelo(); anterior = []; seguimiento.reiniciar();
+        if (!explorando() && !sueloReciente()) callar(); botones();
+      }
+      lento = data.ms > 800 ? lento + 1 : 0;
+      const avisoLento = 'Análisis lento: los avisos de vehículos pueden omitirse.';
+      if (lento >= 3 && original('camaraRendimiento') !== avisoLento) $('camaraRendimiento').textContent = avisoLento;
+      if (!lento && original('camaraRendimiento') === avisoLento) $('camaraRendimiento').textContent = '';
+      if (!leyendo && !explorando() && !$('camaraAvisos').checked && !calidadActual?.problema) {
+        if (enViaje() && camionVisible && performance.now() - camionVisible.instante < 800 && Date.now() - ultimoCamion > 2200) leerCamion(false);
+        else if (Date.now() - ultimaLectura > 15000) leerTexto(false);
+      }
+      ajustarModelo(turno, data.ms);
+      reloj = setTimeout(() => analizar(turno), GrietaMovimiento.espera(data.ms, calidadActual?.movimiento));
+    };
+    detector.onerror = () => fallo(turno, 'Falló el reconocimiento local. Detuve la cámara. Vuelve a intentar.');
   }
   async function iniciar() {
     if (activa) return;
@@ -216,16 +332,10 @@ const CamaraGrieta = (() => {
     botones();
     $('camara').querySelector('.camara-panel').scrollTop = 0;
     $('camaraDetener').focus();
-    informar('Preparando el reconocimiento en tu teléfono. Puedes detenerlo cuando quieras.', false);
+    informar('Permite usar la cámara para describir lo que apunta el teléfono.', false);
     vigilancia = setTimeout(() => fallo(turno, 'La preparación tardó demasiado. Revisa tu conexión y vuelve a intentar.'), 180000);
     try {
-      await preparar(turno, signal);
-      if (!vigente(turno)) return;
-      detector = new Worker('vision/detector-worker.js?v=4');
-      ocr = new Worker('vision/lector-worker.js?v=3');
-      await Promise.all([pedir(detector, { tipo: 'iniciar', modelo: modeloActual() }, 'listo', signal), pedir(ocr, { tipo: 'iniciar' }, 'listo', signal), ...suelos.map(s => s.preparar(signal, pedir))]);
-      if (!vigente(turno)) return;
-      informar('Permite usar la cámara para describir lo que apunta el teléfono.', false);
+      // Primero la imagen: los modelos se preparan con la camara ya a la vista.
       const video = await navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } } });
       if (!vigente(turno)) { video.getTracks().forEach((p) => p.stop()); return; }
       flujo = video;
@@ -233,37 +343,23 @@ const CamaraGrieta = (() => {
       botones();
       await $('camaraVideo').play();
       if (!vigente(turno)) return;
-      clearTimeout(vigilancia);
       flujo.getVideoTracks()[0].addEventListener('ended', () => fallo(turno, 'La cámara se desconectó. Puedes volver a iniciarla.'));
-      detector.onmessage = ({ data }) => {
-        if (!vigente(turno)) return;
-        clearTimeout(vigilancia);
-        if (data.tipo === 'error') return fallo(turno, 'No pude analizar la imagen. Detuve la cámara. Vuelve a intentar.');
-        if (!Number.isFinite(data.ms)) data.ms = 0;
-        if (calidadActual && performance.now() - calidadActual.capturada < 1200) describir(data);
-        else {
-          descartarCamion();
-          $('camaraResultado').textContent = 'Actualizando la descripción con una imagen reciente.';
-          $('camaraLectura').textContent = '';
-          ultimaFrase = fraseSuelo(); anterior = []; seguimiento.reiniciar();
-          if (!explorando() && !sueloReciente()) callar(); botones();
-        }
-        lento = data.ms > 800 ? lento + 1 : 0;
-        const avisoLento = 'Análisis lento: los avisos de vehículos pueden omitirse. Detén la cámara y elige Más ligero.';
-        if (lento >= 3 && original('camaraRendimiento') !== avisoLento) $('camaraRendimiento').textContent = avisoLento;
-        if (!lento && original('camaraRendimiento') === avisoLento) $('camaraRendimiento').textContent = '';
-        if (!leyendo && !explorando() && !$('camaraAvisos').checked && !calidadActual?.problema) {
-          if (enViaje() && camionVisible && performance.now() - camionVisible.instante < 800 && Date.now() - ultimoCamion > 2200) leerCamion(false);
-          else if (Date.now() - ultimaLectura > 15000) leerTexto(false);
-        }
-        reloj = setTimeout(() => analizar(turno), GrietaMovimiento.espera(data.ms, calidadActual?.movimiento));
-      };
-      detector.onerror = () => fallo(turno, 'Falló el reconocimiento local. Detuve la cámara. Vuelve a intentar.');
-      suelos.forEach(s => s.encender($('camaraVideo'), () => calidadActual?.problema));
+      mantenerPantalla(turno);
+      informar('Preparando el reconocimiento en tu teléfono. Puedes detenerlo cuando quieras.', false);
+      const r = await fetch(url('activos.json') + '?v=6', { signal });
+      if (!r.ok) throw Error('descarga');
+      piezas = repartir(await r.json());
+      await bajar(turno, signal, piezas.detector, true);
+      if (!vigente(turno)) return;
+      detector = new Worker('vision/detector-worker.js?v=4');
+      await pedir(detector, { tipo: 'iniciar', modelo: 'ligero' }, 'listo', signal);
+      if (!vigente(turno)) return;
+      clearTimeout(vigilancia);
+      conectar(turno);
       informar('Cámara encendida.', false);
       ultimaLectura = Date.now();
-      mantenerPantalla(turno);
       analizar(turno);
+      prepararResto(turno, signal);
     } catch (e) {
       const texto = e.message === 'modelo-hoyos' ? 'No pude preparar los avisos de hoyos. Revisa la conexión o desactívalos antes de iniciar para usar los otros objetos.' : e.message === 'modelo-escalones' ? 'No pude preparar los avisos de escaleras y escalones. Revisa la conexión o desactívalos antes de iniciar para usar los otros objetos.' : e.name === 'NotAllowedError' ? 'No diste permiso para la cámara. Puedes habilitarlo en los permisos del navegador y volver a intentar.'
         : e.name === 'NotFoundError' ? 'No encontré una cámara en este dispositivo.'
@@ -295,7 +391,6 @@ const CamaraGrieta = (() => {
     const detectados = GrietaVision.deteccionesValidas(data.detecciones, data.ancho, data.alto);
     revisarCamion(detectados);
     mascaras = detectados.map((o) => o.caja);
-    personas = detectados.filter((o) => o.clase === 'person').map((o) => o.caja); personasEn = performance.now();
     const aviso = seguimiento.actualizar(detectados, estado.capturada, { ...estado.camara, invalido: Boolean(problema) || data.ms > 800 || performance.now() - estado.capturada > 1200 });
     if (!aviso || !$('camaraAvisos').checked) return;
     ultimoRiesgo = Date.now();
@@ -324,7 +419,7 @@ const CamaraGrieta = (() => {
   }
   async function analizar(turno) {
     if (!vigente(turno) || capturando) return;
-    if (!capturar(modeloActual() === 'detalle' ? 960 : 640)) { reloj = setTimeout(() => analizar(turno), 100); return; }
+    if (!capturar(modeloEnUso === 'detalle' ? 960 : 640)) { reloj = setTimeout(() => analizar(turno), 100); return; }
     capturando = true;
     const ancho = lienzo.width, alto = lienzo.height;
     const capturada = performance.now();

@@ -3744,7 +3744,8 @@ function decirIA(texto, escrito = false) {
 }
 // En iPhone el detector puede tardar en revisar un cuadro: se espera hasta 6 s a que haya una foto segura.
 async function fotoSegura() {
-  for (let i = 0; i < 24; i++) {
+  // Hasta 15 s: en un telefono lento la primera revision de personas tarda en llegar.
+  for (let i = 0; i < 60; i++) {
     const f = CamaraGrieta.foto();
     if (f) return f;
     await new Promise((r) => setTimeout(r, 250));
@@ -3764,7 +3765,7 @@ async function preguntarIA(pregunta = "") {
   }
   try {
     const r = await fetch(`${IA}/describir`, { method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ imagen: f.imagen, pregunta, historial: charla.historial }), signal: AbortSignal.timeout(12000) });
+      body: JSON.stringify({ imagen: f.imagen, pregunta, historial: charla.historial }), signal: AbortSignal.timeout(15000) });
     const d = await r.json().catch(() => ({}));
     if (d.texto) charla.historial = [...charla.historial, { pregunta: pregunta || "¿Qué tengo enfrente?", respuesta: d.texto }].slice(-3);
     if (d.texto) decirIA(d.texto, true);
@@ -3773,8 +3774,8 @@ async function preguntarIA(pregunta = "") {
     const respuesta = sinAcentos(d.texto ?? d.error ?? "");
     if (charla.activa && respuesta === charla.previa) terminarCharla("Dejé de escuchar porque se repitió la misma respuesta. Toca Preguntar para seguir.");
     charla.previa = respuesta;
-  } catch {
-    decirIA("Sin conexión para describir. Los avisos de la cámara siguen funcionando.");
+  } catch (e) {
+    decirIA(e.name === "TimeoutError" ? "La descripción tardó demasiado. Intenta otra vez." : "Sin conexión para describir. Los avisos de la cámara siguen funcionando.");
   } finally {
     charla.ocupado = false;
     $("camaraEnfrente").disabled = false;

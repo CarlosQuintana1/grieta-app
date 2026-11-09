@@ -8457,6 +8457,31 @@
       "clave": "texto_79d249827e",
       "es": "Cuándo usar el modo seguro",
       "otq": "Hä'mu̲ utilizar modo pädi xi hño"
+    },
+    {
+      "clave": "texto_6ea118b9bb",
+      "es": "Análisis lento: los avisos de vehículos pueden omitirse.",
+      "otq": "Análisis lento: ar xi omitir ya advertencias vehículo."
+    },
+    {
+      "clave": "texto_5561ab93bb",
+      "es": "No pude preparar la lectura de letreros. Revisa la conexión.",
+      "otq": "Hindi pude hoki da ar nt'udi nt'udi señal. Compruebe ar conexión."
+    },
+    {
+      "clave": "texto_8bc1437f24",
+      "es": "No pude preparar los avisos de escaleras y escalones. Revisa la conexión.",
+      "otq": "Hindi pude hoki ar advertencias escalera ne pasos. Compruebe ar conexión."
+    },
+    {
+      "clave": "texto_9c0f8772e1",
+      "es": "No pude preparar los avisos de hoyos. Revisa la conexión.",
+      "otq": "Hindi pude hoki ya advertencias oki. Compruebe ar conexión."
+    },
+    {
+      "clave": "texto_8f57d34139",
+      "es": "La descripción tardó demasiado. Intenta otra vez.",
+      "otq": "Ar pede tardó 'me̲xi. Gi japi ma'nagi."
     }
   ],
   "adaptaciones": [

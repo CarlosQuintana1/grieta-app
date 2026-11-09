@@ -8458,6 +8458,31 @@
       "clave": "texto_79d249827e",
       "es": "Cuándo usar el modo seguro",
       "nhe": "Kemaj tijtekiuis nopa modo seguro"
+    },
+    {
+      "clave": "texto_6ea118b9bb",
+      "es": "Análisis lento: los avisos de vehículos pueden omitirse.",
+      "nhe": "Tlaixkopinkayotl tlen amo uejkaua: Uelis tijtlauelkauasej nopa tlajtolpanextili tlen nopa teposnenemi."
+    },
+    {
+      "clave": "texto_5561ab93bb",
+      "es": "No pude preparar la lectura de letreros. Revisa la conexión.",
+      "nhe": "Ax ueliyaya nimoyektlalia para nijpouas señas.Xikita nopa tlasaloualistli."
+    },
+    {
+      "clave": "texto_8bc1437f24",
+      "es": "No pude preparar los avisos de escaleras y escalones. Revisa la conexión.",
+      "nhe": "Ax ueliyaya nijyektlalia nopa tlajtoli tlen escaleras uan escalones.Xikita nopa tlasaloualistli."
+    },
+    {
+      "clave": "texto_9c0f8772e1",
+      "es": "No pude preparar los avisos de hoyos. Revisa la conexión.",
+      "nhe": "Ax ueliyaya nijyektlalia nopa tlajtolpanextili tlen nopa ostotl.Xikita nopa tlasaloualistli."
+    },
+    {
+      "clave": "texto_8f57d34139",
+      "es": "La descripción tardó demasiado. Intenta otra vez.",
+      "nhe": "Nopa tlajtoli tlauel uejkajki.Xijyejyeko sempa."
     }
   ],
   "adaptaciones": [

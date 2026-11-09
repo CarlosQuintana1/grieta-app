@@ -4,10 +4,10 @@ La interfaz usa catálogos estáticos del teléfono. No manda ubicaciones, repor
 fotos ni texto de cámara a un traductor. La voz continúa en español y recupera los textos
 originales con `Interfaz.original`.
 
-- `demo/idiomas/es.json`: 1,689 textos fuente, contexto, variables y selectores.
-- `demo/idiomas/otq.json`: 1,689 traducciones automáticas de otomí de Querétaro (Bing
+- `demo/idiomas/es.json`: 1,694 textos fuente, contexto, variables y selectores.
+- `demo/idiomas/otq.json`: 1,694 traducciones automáticas de otomí de Querétaro (Bing
   Translator), obtenidas del 3 al 8 de noviembre de 2026, sin revisión de hablantes.
-- `demo/idiomas/nhe.json`: 1,689 textos de náhuatl de la Huasteca oriental, obtenidos en
+- `demo/idiomas/nhe.json`: 1,694 textos de náhuatl de la Huasteca oriental, obtenidos en
   Google Traductor el 4, 7 y 8 de noviembre de 2026. Traducción automática provisional,
   sin revisión de hablantes.
 

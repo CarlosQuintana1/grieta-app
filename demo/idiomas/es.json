@@ -14540,6 +14540,41 @@
       "contextos": [
         "demo · interfaz noviembre 2026"
       ]
+    },
+    {
+      "clave": "texto_6ea118b9bb",
+      "es": "Análisis lento: los avisos de vehículos pueden omitirse.",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_5561ab93bb",
+      "es": "No pude preparar la lectura de letreros. Revisa la conexión.",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_8bc1437f24",
+      "es": "No pude preparar los avisos de escaleras y escalones. Revisa la conexión.",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_9c0f8772e1",
+      "es": "No pude preparar los avisos de hoyos. Revisa la conexión.",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
+    },
+    {
+      "clave": "texto_8f57d34139",
+      "es": "La descripción tardó demasiado. Intenta otra vez.",
+      "contextos": [
+        "demo · interfaz noviembre 2026"
+      ]
     }
   ]
 }

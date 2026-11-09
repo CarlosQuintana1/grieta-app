@@ -51,7 +51,7 @@ const assert = require('node:assert/strict');
   await pagina.locator('#camaraDetener').click();
   assert.equal(await pagina.evaluate(() => window.__liberaciones), 1);
   assert.deepEqual(await pagina.evaluate(() => window.__pistas.map((p) => p.readyState)), ['ended']);
-  await pagina.evaluate(() => { window.__retraso = 1350; });
+  await pagina.evaluate(() => { window.__retraso = 2650; });
   await pagina.locator('#camaraIniciar').click();
   await pagina.waitForFunction(() => document.querySelector('#camaraResultado').textContent.includes('imagen reciente'), null, { timeout: 10000 });
   assert.equal(await pagina.locator('#camaraRepetir').isDisabled(), true);

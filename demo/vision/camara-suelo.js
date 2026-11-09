@@ -2,6 +2,7 @@ function crearCamaraSuelo(config) {
   const $ = id => document.getElementById(id);
   const avisador = new config.politica.Avisador();
   const lienzo = document.createElement('canvas'), contexto = lienzo.getContext('2d', { willReadFrequently: true });
+  let pausa = () => 0;
   const mini = document.createElement('canvas'); mini.width = 32; mini.height = 24;
   const lectura = mini.getContext('2d', { willReadFrequently: true });
   let opciones = {}, worker, video, calidad, cancelarInicio, sesion = 0, reloj, vigilancia, caduca, muestra, ultimaFrase = '', clave = '', ultimoAviso = -Infinity, ultimoFotograma = -Infinity, vista = 0;
@@ -89,11 +90,11 @@ function crearCamaraSuelo(config) {
       }
     }
     ultimoFotograma = Math.max(ultimoFotograma, captura.fotograma);
-    reloj = setTimeout(() => analizar(turno), Math.max(100, 700 - data.ms));
+    reloj = setTimeout(() => analizar(turno), Math.max(100, 700 - data.ms) + pausa());
   }
-  function encender(fuente, estadoCalidad) {
+  function encender(fuente, estadoCalidad, pausaExtra = () => 0) {
     if (!worker) return;
-    video = fuente; calidad = estadoCalidad;
+    video = fuente; calidad = estadoCalidad; pausa = pausaExtra;
     const turno = sesion;
     worker.onmessage = ({ data }) => recibir(turno, data);
     worker.onerror = () => { if (turno === sesion) fallo(); };
