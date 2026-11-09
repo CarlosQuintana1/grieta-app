@@ -211,6 +211,7 @@ const PANTALLAS = {
   ubicacion: { tab: "inicio", mapa: true, encabezado: true },
   camara: { tab: "inicio", encabezado: true },
   practica: { tab: "inicio", encabezado: true },
+  cuenta: { encabezado: true },
   guia: {},
   reporte: { tab: "inicio", encabezado: true },
   ahorro: { tab: "inicio", encabezado: true },
@@ -220,7 +221,7 @@ const PANTALLAS = {
   perfil: { tab: "ajustes", encabezado: true },
   ajuste: { tab: "ajustes", encabezado: true },
 };
-const titulos = { reporte: "Reportar", racha: "Tu tlacuache", nombrar: "Guardar un lugar", co2: "Lo que evitamos", ahorro: "Tu ahorro", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
+const titulos = { cuenta: "Tu cuenta", reporte: "Reportar", racha: "Tu tlacuache", nombrar: "Guardar un lugar", co2: "Lo que evitamos", ahorro: "Tu ahorro", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
 
 function actualizarVozEncabezado() {
   const boton = $("vozEncabezado"), enCamara = document.body.dataset.pantalla === "camara";
@@ -3870,6 +3871,7 @@ TutorialGrieta.iniciar({
   guardar: valor => escribir('grieta-tutorial', valor),
   practicar: desde => PracticaGrieta.abrir(desde),
   reiniciar: () => ToquesGrieta.reiniciar(),
+  seguirBienvenida: () => { ir("bienvenida", true); irPaso("ubicacion"); },
   tlacuache: (x, y, k) => `<g transform="translate(${x} ${y}) scale(${(k / ESCALA_TL).toFixed(3)})">${tlacuache(4, racha.puestos, false)}</g>`,
 });
 
@@ -4646,7 +4648,7 @@ const PASOS_VOZ = {
   tarifa: "3 de 3. ¿Pagas Tarifa Unidos, el pasaje de 2 pesos para estudiantes, mayores de 60 y personas con discapacidad? Arriba, sí. Abajo, no.",
 };
 // Orden de la bienvenida; la pregunta del lector solo aparece con la guía por voz.
-const ordenPasos = () => ["vista", ...(acc.modoVoz ? ["lector"] : ["forma"]), "ubicacion", "movilidad", "oido", "tarifa", ...(acc.modoVoz ? [] : ["gasolina"])];
+const ordenPasos = () => ["vista", ...(acc.modoVoz ? ["lector"] : ["forma"]), "ubicacion", "movilidad", "oido", "tarifa", ...(acc.modoVoz ? [] : ["gasolina", "cuenta"])];
 let pasoActual = "vista";
 function irPaso(p) {
   ToquesGrieta.reiniciar();
@@ -4655,12 +4657,21 @@ function irPaso(p) {
   const orden = ordenPasos();
   const numero = orden.indexOf(p) + 1;
   const progreso = $("progresoBienvenida");
-  $("avanceBienvenida").style.width = `${(numero / orden.length) * 100}%`;
+  if (progreso.children.length !== orden.length) {
+    progreso.replaceChildren(...orden.map(() => document.createElement("i")));
+    progreso.style.gridTemplateColumns = `repeat(${orden.length}, 1fr)`;
+  }
+  [...progreso.children].forEach((punto, i) => punto.classList.toggle("hecho", i < numero));
+  $("numeroPregunta").textContent = p === "cuenta" ? "Último paso" : `Pregunta ${numero} de ${orden.filter((x) => x !== "cuenta").length}`;
   $("regresarBienvenida").classList.toggle("oculta", numero === 1);
   progreso.setAttribute("aria-valuemax", String(orden.length));
   progreso.setAttribute("aria-valuenow", String(numero));
   progreso.setAttribute("aria-valuetext", `Paso ${numero} de ${orden.length}`);
-  document.querySelector(`#bienvenida [data-paso="${p}"] .paso-numero`).textContent = `PASO ${numero} DE ${orden.length}`;
+  const escena = document.querySelector(`#bienvenida [data-paso="${p}"] .escena-pregunta`);
+  if (escena && !acc.modoVoz) {
+    escena.className = `escena-pregunta esc-p-${p} entra`;
+    escena.innerHTML = TutorialGrieta.escena(p);
+  }
   for (const d of document.querySelectorAll("#bienvenida [data-paso]")) d.hidden = d.dataset.paso !== p;
   const titulo = document.querySelector(`#bienvenida [data-paso="${p}"] h1`);
   $("bienvenida").setAttribute("aria-labelledby", titulo.id);
@@ -4669,19 +4680,26 @@ function irPaso(p) {
   if (acc.modoVoz && PASOS_VOZ[p]) hablar(`${p === 'ubicacion' && anteriorPaso === 'lector' && ToquesGrieta.activo() ? ToquesGrieta.instrucciones + ' ' : ''}${PASOS_VOZ[p]}`, false, true);
 }
 function abrirBienvenida() {
-  for (const s of document.querySelectorAll(".tl-pregunta")) s.innerHTML = tlacuache(3, racha.puestos, false);
   ir("bienvenida", true);
   irPaso("vista");
 }
-function terminarBienvenida(saltarTutorial = false) {
+// Quien responde como ve la pantalla ya puede seguir el tutorial; despues vienen las demas preguntas.
+function seguirATutorial() {
+  // En modo Voz siguen primero las preguntas: ahi se explica como usar los toques.
+  if (acc.modoVoz || leer("grieta-tutorial", false)) return irPaso("ubicacion");
+  TutorialGrieta.abrir("bienvenida", true);
+}
+function terminarBienvenida() {
   escribir("grieta-bienvenida", true);
-  if (!saltarTutorial && !leer("grieta-tutorial", false)) return TutorialGrieta.abrir("inicio", true);
+  if (acc.modoVoz && !leer("grieta-tutorial", false)) return TutorialGrieta.abrir("inicio", true);
   ir("inicio", true);
   if (acc.modoVoz) hablar(ayudaVoz(), false, true);
 }
 $("saltarBienvenida").addEventListener("click", () => {
-  escribir("grieta-tutorial", { version: 1, completado: false });
-  terminarBienvenida(true);
+  if (!leer("grieta-tutorial", false)) escribir("grieta-tutorial", { version: 1, completado: false });
+  // Ya en las preguntas del perfil, saltarlas todavia ofrece guardar el progreso.
+  if (ordenPasos().includes("cuenta") && !["vista", "forma", "lector", "cuenta"].includes(pasoActual)) return irPaso("cuenta");
+  terminarBienvenida();
 });
 document.querySelector('#bienvenida [data-paso="vista"]').addEventListener("click", (e) => {
   const b = e.target.closest("[data-v]");
@@ -4699,7 +4717,7 @@ document.querySelector('#bienvenida [data-paso="forma"]').addEventListener("clic
   acc.facil = b.dataset.forma === "facil";
   guardarAcc();
   aplicarAcc();
-  irPaso("ubicacion");
+  seguirATutorial();
 });
 document.querySelector('#bienvenida [data-paso="lector"]').addEventListener("click", (e) => {
   const b = e.target.closest("[data-lector]");
@@ -4708,7 +4726,7 @@ document.querySelector('#bienvenida [data-paso="lector"]').addEventListener("cli
   acc.voz = b.dataset.lector === "no";
   guardarAcc();
   aplicarAcc();
-  irPaso("ubicacion");
+  seguirATutorial();
 });
 for (const b of document.querySelectorAll("#bienvenida .regresar")) {
   b.addEventListener("click", () => {
@@ -4726,9 +4744,11 @@ $("sinUbicacion").addEventListener("click", () => {
 });
 // Las tres preguntas del perfil: cada respuesta ajusta lo mismo que la pantalla "Tu perfil".
 $("bienvenida").addEventListener("click", (e) => {
+  const opcionCuenta = e.target.closest("[data-cuenta]");
+  if (opcionCuenta) return abrirCuenta(opcionCuenta.dataset.cuenta, terminarBienvenida);
   const b = e.target.closest("[data-movilidad], [data-oido], [data-tarifa], [data-gasolina], .saltar");
   if (!b) return;
-  if (b.classList.contains("saltar")) return terminarBienvenida();
+  if (b.classList.contains("saltar")) return pasoActual !== "cuenta" && ordenPasos().includes("cuenta") ? irPaso("cuenta") : terminarBienvenida();
   if (b.dataset.movilidad) {
     Object.assign(acc, { movilidad: b.dataset.movilidad, camino: b.dataset.movilidad !== "normal" });
   } else if (b.dataset.oido) {
@@ -4745,6 +4765,7 @@ $("bienvenida").addEventListener("click", (e) => {
   if (b.dataset.movilidad) return irPaso("oido");
   if (b.dataset.oido) return irPaso("tarifa");
   if (b.dataset.tarifa && ordenPasos().includes("gasolina")) return irPaso("gasolina");
+  if (b.dataset.gasolina) return irPaso("cuenta");
   terminarBienvenida();
 });
 // Perfil de viaje: lo que la persona necesita para moverse, guardado solo en este telefono.
@@ -4797,13 +4818,13 @@ function pintarResumenPerfil() {
 }
 // La foto y el nombre se pintan al entrar: al arrancar la racha todavia no existe.
 function pintarCredencial() {
-  const nombre = racha.nombre || "Tu tlacuache";
+  const nombre = leer("grieta-cuenta", null)?.nombre || acc.nombre || racha.nombre || "Tu tlacuache";
   $("credencialFoto").innerHTML = `<g transform="translate(76 134) scale(${(0.38 / ESCALA_TL).toFixed(3)})">${tlacuache(4, racha.puestos, false)}</g>`;
   $("credencialNombre").textContent = nombre;
   $("credencialNombre").classList.toggle("largo", nombre.length > 9);
 }
 // Cada ficha de Ajustes abre su panel en una pantalla con flecha de regreso.
-const TITULOS_AJUSTE = { pantalla: "Pantalla", accesibilidad: "Accesibilidad", voz: "Voz", viajes: "Tus viajes", progreso: "Tu progreso", ayuda: "Ayuda", seguro: "Modo seguro" };
+const TITULOS_AJUSTE = { pantalla: "Pantalla", accesibilidad: "Accesibilidad", voz: "Voz", viajes: "Tus viajes", progreso: "Tu cuenta", ayuda: "Ayuda", seguro: "Modo seguro" };
 const NOMBRES_SEGURO = { noche: "De noche", siempre: "Siempre", nunca: "Nunca" };
 const marcarSeguro = radios("optSeguro", (v) => { acc.seguro = v; guardarAcc(); estado.seguroApagado = false; $("seguroResumen").textContent = NOMBRES_SEGURO[v]; });
 $("abrirSeguro").addEventListener("click", () => abrirAjuste("seguro"));
@@ -4824,6 +4845,7 @@ function abrirAjuste(panel) {
   $("seguroResumen").textContent = NOMBRES_SEGURO[modoSeguro()];
   titulos.ajuste = TITULOS_AJUSTE[panel];
   ir("ajuste");
+  if (panel === "progreso") revisarSesion();
 }
 $("ajustesFichas").addEventListener("click", (e) => {
   const b = e.target.closest("[data-ajuste]");

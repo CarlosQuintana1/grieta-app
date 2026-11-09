@@ -505,6 +505,76 @@ describe("Qro al día", () => {
   });
 });
 
+describe("Cuentas", () => {
+  const clave = "a".repeat(64), nueva = "b".repeat(64), prueba = "c".repeat(64), llave = "QUJDRA==";
+  const alta = { nombre: "Persona de prueba", correo: "Prueba@Grieta.test", clave, llave_cifrada: llave, prueba_llave: prueba };
+  const conToken = (t) => ({ Authorization: `Bearer ${t}` });
+  let token;
+  test("crea la cuenta sin devolver nada secreto", async () => {
+    const r = await publico().post("/api/cuentas").send(alta).expect(201);
+    token = r.body.token;
+    assert.deepEqual(r.body.cuenta, { nombre: "Persona de prueba", correo: "prueba@grieta.test" });
+    await publico().post("/api/cuentas").send({ ...alta, correo: "PRUEBA@grieta.test" }).expect(409);
+    await publico().post("/api/cuentas").send({ ...alta, correo: "otra@grieta.test", clave: "corta" }).expect(400);
+    await publico().post("/api/cuentas").send({ ...alta, correo: "sin-arroba", prueba_llave: prueba }).expect(400);
+  });
+  test("la sesión abre lo tuyo y sin ella no se puede", async () => {
+    const yo = await publico().get("/api/cuentas/yo").set(conToken(token)).expect(200);
+    assert.equal(yo.body.cuenta.correo, "prueba@grieta.test");
+    assert.equal(JSON.stringify(yo.body).includes("clave"), false);
+    await publico().get("/api/cuentas/yo").expect(401);
+    await publico().get("/api/cuentas/yo").set(conToken("inventado")).expect(401);
+  });
+  test("la lista de usuarios del equipo no enseña las claves ni las acepta", async () => {
+    const lista = await equipo().get("/api/usuarios").expect(200);
+    for (const k of ["clave_hash", "llave_cifrada", "prueba_llave"]) assert.equal(JSON.stringify(lista.body).includes(k), false, k);
+    const u = await equipo().post("/api/usuarios").send({ nombre: "Sin clave", correo: "sinclave@grieta.test", clave_hash: "x:y" }).expect(201);
+    await publico().post("/api/cuentas/entrar").send({ correo: "sinclave@grieta.test", clave }).expect(401);
+    await equipo().delete(`/api/usuarios/${u.body.id}`).expect(204);
+  });
+  test("entra con la clave correcta y regresa la llave cifrada", async () => {
+    const r = await publico().post("/api/cuentas/entrar").send({ correo: " prueba@grieta.TEST ", clave }).expect(200);
+    assert.equal(r.body.llave_cifrada, llave);
+    await publico().post("/api/cuentas/entrar").send({ correo: "prueba@grieta.test", clave: nueva }).expect(401);
+    await publico().post("/api/cuentas/entrar").send({ correo: "nadie@grieta.test", clave }).expect(401);
+  });
+  test("cambiar la contraseña cierra las otras sesiones", async () => {
+    const otra = await publico().post("/api/cuentas/entrar").send({ correo: "prueba@grieta.test", clave }).expect(200);
+    await publico().put("/api/cuentas/yo/clave").set(conToken(token)).send({ clave_actual: nueva, clave_nueva: nueva, llave_cifrada: llave }).expect(401);
+    await publico().put("/api/cuentas/yo/clave").set(conToken(token)).send({ clave_actual: clave, clave_nueva: nueva, llave_cifrada: "RUZHSA==" }).expect(200);
+    await publico().get("/api/cuentas/yo").set(conToken(otra.body.token)).expect(401);
+    await publico().get("/api/cuentas/yo").set(conToken(token)).expect(200);
+    await publico().post("/api/cuentas/entrar").send({ correo: "prueba@grieta.test", clave }).expect(401);
+    const r = await publico().post("/api/cuentas/entrar").send({ correo: "prueba@grieta.test", clave: nueva }).expect(200);
+    assert.equal(r.body.llave_cifrada, "RUZHSA==");
+  });
+  test("con las seis palabras se recupera; sin ellas, no", async () => {
+    await publico().post("/api/cuentas/recuperar").send({ correo: "prueba@grieta.test", prueba_llave: nueva, clave_nueva: clave, llave_cifrada: llave }).expect(401);
+    const r = await publico().post("/api/cuentas/recuperar").send({ correo: "prueba@grieta.test", prueba_llave: prueba, clave_nueva: clave, llave_cifrada: llave }).expect(200);
+    await publico().get("/api/cuentas/yo").set(conToken(token)).expect(401);
+    token = r.body.token;
+    await publico().post("/api/cuentas/entrar").send({ correo: "prueba@grieta.test", clave }).expect(200);
+  });
+  test("salir cierra solo esa sesión", async () => {
+    const otra = await publico().post("/api/cuentas/entrar").send({ correo: "prueba@grieta.test", clave }).expect(200);
+    await publico().post("/api/cuentas/salir").set(conToken(otra.body.token)).expect(204);
+    await publico().get("/api/cuentas/yo").set(conToken(otra.body.token)).expect(401);
+    await publico().get("/api/cuentas/yo").set(conToken(token)).expect(200);
+  });
+  test("después de varios intentos fallidos se bloquea un rato", async () => {
+    await publico().post("/api/cuentas").send({ ...alta, correo: "bloqueo@grieta.test" }).expect(201);
+    for (let i = 0; i < 8; i++) await publico().post("/api/cuentas/entrar").send({ correo: "bloqueo@grieta.test", clave: nueva }).expect(401);
+    await publico().post("/api/cuentas/entrar").send({ correo: "bloqueo@grieta.test", clave }).expect(429);
+  });
+  test("borrar la cuenta pide la contraseña y no deja rastro", async () => {
+    await publico().delete("/api/cuentas/yo").set(conToken(token)).send({ clave: nueva }).expect(401);
+    await publico().delete("/api/cuentas/yo").set(conToken(token)).send({ clave }).expect(204);
+    await publico().get("/api/cuentas/yo").set(conToken(token)).expect(401);
+    await publico().post("/api/cuentas/entrar").send({ correo: "prueba@grieta.test", clave }).expect(401);
+    await publico().post("/api/cuentas").send(alta).expect(201);
+  });
+});
+
 describe("Copia cifrada del progreso", () => {
   const id = "a".repeat(64), otro = "b".repeat(64);
   test("se guarda, se lee y no se pisa una version mas nueva", async () => {

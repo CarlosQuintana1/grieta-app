@@ -1,4 +1,4 @@
 import { Usuario } from "../modelos.js";
 import { crud } from "./base.js";
 
-export const usuarios = crud(Usuario);
+export const usuarios = crud(Usuario, { campos: ["nombre", "correo", "rol"] });

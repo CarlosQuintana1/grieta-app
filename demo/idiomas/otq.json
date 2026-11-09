@@ -8482,6 +8482,821 @@
       "clave": "texto_8f57d34139",
       "es": "La descripción tardó demasiado. Intenta otra vez.",
       "otq": "Ar pede tardó 'me̲xi. Gi japi ma'nagi."
+    },
+    {
+      "clave": "texto_eea4492e84",
+      "es": "Guarda tu progreso",
+      "otq": "Guardar ir nte"
+    },
+    {
+      "clave": "texto_d7b908541b",
+      "es": "Para no perderlo si cambias de teléfono.",
+      "otq": "Nja'bu da hingi bí pierda nu'bu̲ cambia teléfonos."
+    },
+    {
+      "clave": "texto_f620f0331d",
+      "es": "Crear cuenta",
+      "otq": "Da t'ot'e nu"
+    },
+    {
+      "clave": "texto_77bb8beaf6",
+      "es": "Con tu correo y una contraseña",
+      "otq": "Ko ir correo electrónico ne 'nar contraseña"
+    },
+    {
+      "clave": "texto_e0d523cfb8",
+      "es": "Ya tengo cuenta",
+      "otq": "Ya dí pe̲ts'i 'nar nu"
+    },
+    {
+      "clave": "texto_bfaee845f1",
+      "es": "Trae tu progreso a este teléfono",
+      "otq": "Ba hä ár nte nuna ar teléfono"
+    },
+    {
+      "clave": "texto_e9b7a092da",
+      "es": "Solo con mi nombre",
+      "otq": "Ho̲ntho ko ma thuhuu"
+    },
+    {
+      "clave": "texto_7b87f66378",
+      "es": "Se queda en este teléfono",
+      "otq": "Ar queda jar nuna ar teléfono"
+    },
+    {
+      "clave": "texto_1dfb6ce20a",
+      "es": "Crea tu cuenta",
+      "otq": "Da t'ot'e ir nu"
+    },
+    {
+      "clave": "texto_d36ae2c1bf",
+      "es": "Tu nombre",
+      "otq": "Ir thuhuu"
+    },
+    {
+      "clave": "texto_a5d3e74b02",
+      "es": "Tu correo",
+      "otq": "Ir correo electrónico"
+    },
+    {
+      "clave": "texto_4656565a6f",
+      "es": "Tus seis palabras",
+      "otq": "Ir 'rato ya hñä"
+    },
+    {
+      "clave": "texto_e21e0810e2",
+      "es": "Tu contraseña",
+      "otq": "Ir contraseña"
+    },
+    {
+      "clave": "texto_a389a638de",
+      "es": "Contraseña",
+      "otq": "Contraseña"
+    },
+    {
+      "clave": "texto_20ab386d12",
+      "es": "Ver",
+      "otq": "Show"
+    },
+    {
+      "clave": "texto_96f90e582d",
+      "es": "Olvidé mi contraseña",
+      "otq": "Xta olvidado ma contraseña"
+    },
+    {
+      "clave": "texto_cc96ab9c72",
+      "es": "Guarda tus seis palabras",
+      "otq": "Guarda ir 'rato ya hñä"
+    },
+    {
+      "clave": "texto_05e5f00901",
+      "es": "Si olvidas tu contraseña, con ellas recuperas tu cuenta. Sin ellas no hay forma de hacerlo.",
+      "otq": "Nu'bu̲ olvidas ir contraseña, pe recuperar ir nu ko nu'u. 'Ñotho nu'u̲, otho bí ar hoki."
+    },
+    {
+      "clave": "texto_e749755c1f",
+      "es": "Copiarlas",
+      "otq": "Gi kopya"
+    },
+    {
+      "clave": "texto_72bbed37c9",
+      "es": "Ya las guardé",
+      "otq": "Ya xta guardado"
+    },
+    {
+      "clave": "texto_d30c5ae09e",
+      "es": "Tu cuenta",
+      "otq": "Ir nu"
+    },
+    {
+      "clave": "texto_f6900f389a",
+      "es": "Crea tu cuenta para guardar tu progreso y usarlo en otro teléfono. Se cifra con tu contraseña: ni Grieta puede leerlo.",
+      "otq": "Da t'ot'e ár nu ku̲ ár nte ne utilizar nä'ä jar ma'na ar teléfono. Xi cifrado ko ár contraseña: hingi 'nehe Grieta to lei nä'ä."
+    },
+    {
+      "clave": "texto_050ccf0b0f",
+      "es": "Cambiar contraseña",
+      "otq": "Cambio contraseña"
+    },
+    {
+      "clave": "texto_c6e6960395",
+      "es": "Cerrar sesión",
+      "otq": "Cerrar sesión"
+    },
+    {
+      "clave": "texto_a216d49a41",
+      "es": "Borrar mi cuenta",
+      "otq": "Da hñäki ma nu"
+    },
+    {
+      "clave": "texto_e6d6ee1b3c",
+      "es": "O con tu llave de seis palabras",
+      "otq": "Wa ko ár tecla 'rato ya hñä"
+    },
+    {
+      "clave": "texto_c9eff36985",
+      "es": "Volver a Grieta",
+      "otq": "Volver jar Grieta"
+    },
+    {
+      "clave": "texto_e8b794f79a",
+      "es": "Así se mueve Querétaro",
+      "otq": "Bí nja'bu̲ bí mueve Querétaro"
+    },
+    {
+      "clave": "texto_ed7bdc67c8",
+      "es": "Resumen",
+      "otq": "Descripción Nxoge"
+    },
+    {
+      "clave": "texto_4c53f3cd7b",
+      "es": "viajes guiados en Qrobus",
+      "otq": "Viajes guiados jar Qrobus"
+    },
+    {
+      "clave": "texto_6ccc46416d",
+      "es": "problemas de accesibilidad",
+      "otq": "Hñäki accesibilidad"
+    },
+    {
+      "clave": "texto_9fef092caf",
+      "es": "Contado por la gente que usa Grieta",
+      "otq": "Mä ya jä'i da utilizan Grieta"
+    },
+    {
+      "clave": "texto_78164e6c88",
+      "es": "Cargando...",
+      "otq": "Carga ..."
+    },
+    {
+      "clave": "texto_6b512e85bc",
+      "es": "Tus líneas a esta hora",
+      "otq": "Yá 'ñu nuna ar ora"
+    },
+    {
+      "clave": "texto_9374ec1aa9",
+      "es": "Salen de tus viajes recientes y se quedan en tu teléfono.",
+      "otq": "Provienen ir viajes recientes ne permanezcan ja ir teléfono."
+    },
+    {
+      "clave": "texto_be018e9d6f",
+      "es": "Avisar algo",
+      "otq": "Gi ungu̲mfädi 'naxtu"
+    },
+    {
+      "clave": "texto_60fbe3eb0a",
+      "es": "Lo que avisa la gente",
+      "otq": "Nä'ä mfädi ya jä'i"
+    },
+    {
+      "clave": "texto_58d7fcfa81",
+      "es": "Hoy en Querétaro",
+      "otq": "Nu'bya jar Querétaro"
+    },
+    {
+      "clave": "texto_9e817536da",
+      "es": "Avisos de camión lleno por hora",
+      "otq": "Avisos bo̲jä Nxoge ya ora"
+    },
+    {
+      "clave": "texto_09a93ce112",
+      "es": "Líneas que más van llenas",
+      "otq": "Líneas nä'ä gi 'bu̲hu̲ mäs abarrotadas"
+    },
+    {
+      "clave": "texto_743317a29b",
+      "es": "Accesibilidad en paradas",
+      "otq": "Accesibilidad ja ya paradas"
+    },
+    {
+      "clave": "texto_f7415ad878",
+      "es": "Reportes vigentes: la gente confirma si siguen o ya los arreglaron.",
+      "otq": "Mfädi actuales: ya jä'i confirman nu'bu̲ Tobe 'nar hñäki wa nu'bu̲ xi xi fijados."
+    },
+    {
+      "clave": "texto_1c07f14a87",
+      "es": "Paradas con más reportes",
+      "otq": "Ar detiene ko 'nar dätä xe̲ni mfädi"
+    },
+    {
+      "clave": "texto_5bc4ae364f",
+      "es": "Rutas con más quejas",
+      "otq": "Rutas ko mäs quejas"
+    },
+    {
+      "clave": "texto_47b47065f7",
+      "es": "Últimos 30 días.",
+      "otq": "Últimos pa 30"
+    },
+    {
+      "clave": "texto_3471bb7e04",
+      "es": "Qué se reporta del servicio",
+      "otq": "Nä'ä bí xi reportando dige ar hontho"
+    },
+    {
+      "clave": "texto_941c25a3e0",
+      "es": "¿Cómo se sienten los viajes?",
+      "otq": "Temu̲ bí sienten ya viajes"
+    },
+    {
+      "clave": "texto_634d78b620",
+      "es": "Al bajar del camión, la gente dice cómo le fue. Últimas 8 semanas.",
+      "otq": "Nu'bu̲ ar ñäñho ar bo̲jä, ya jä'i hmä temu̲ bí thogi. Últimos ya su̲mänä 8"
+    },
+    {
+      "clave": "texto_38995b65d0",
+      "es": "Qué tan seguido se llega estresado, por hora del día",
+      "otq": "Tengu tso̲kwa menudo zo̲ho̲ ya jä'i estresada, ar ora ar pa"
+    },
+    {
+      "clave": "texto_9c5ba848f1",
+      "es": "Líneas donde más se llega estresado",
+      "otq": "Líneas ho ya jä'i ar estresan mäs"
+    },
+    {
+      "clave": "texto_960ef21856",
+      "es": "Todavía sin datos",
+      "otq": "Tobe hinda datos"
+    },
+    {
+      "clave": "texto_94ddb4d202",
+      "es": "Úsalos",
+      "otq": "Ya gi japu̲'be̲fi"
+    },
+    {
+      "clave": "texto_3e05bb6175",
+      "es": "Todo es anónimo: nunca nombres, textos ni recorridos.",
+      "otq": "Ga̲tho ar anónimo: ni 'nar pa thuhuu, textos wa rutas."
+    },
+    {
+      "clave": "texto_4085ef1326",
+      "es": "Para la AMEQ, el municipio, la universidad o cualquier persona. Se actualizan cada 5 minutos.",
+      "otq": "Pa AMEQ, ar Municipalidad, ar dätä nguu wa 'na jä'i. Actualizado ya t'olo ora 5."
+    },
+    {
+      "clave": "texto_5557b146c1",
+      "es": "Descargar los datos (JSON)",
+      "otq": "Descargar ya datos (JSON)"
+    },
+    {
+      "clave": "texto_9e7dc8acbb",
+      "es": "Las quejas no son oficiales. Para que la AMEQ las atienda, mándalas también a su línea de Reportes (442) 211 70 00 o al WhatsApp 446 117 1516.",
+      "otq": "Ya quejas hingi ya oficiales. Pa da AMEQ ya maneje, 'nehe pe̲hni ya ár 'ñu Reporting (442) 211 70 00 wa da WhatsApp 446 117 1516."
+    },
+    {
+      "clave": "texto_125b6cf786",
+      "es": "Último paso",
+      "otq": "Ngäts'i bi thogi"
+    },
+    {
+      "clave": "texto_3292f17253",
+      "es": "En Inicio, toca Busca un lugar o Decir a dónde voy y elige tu destino.",
+      "otq": "Jar Inicio, pulse honi 'nar lugar wa gi mä hogem'bu̲ ga ne da 'ñets'i ár 'mu̲i."
+    },
+    {
+      "clave": "texto_c5fcf0325f",
+      "es": "Tu llave está lista; tu progreso se guarda cuando haya internet.",
+      "otq": "Ár clave xi hñoki; ár nte ar guarda nu'bu̲ 'bu̲i internet."
+    },
+    {
+      "clave": "texto_e5be5e69eb",
+      "es": "Tu progreso se cifra con tu contraseña: ni Grieta puede leerlo.",
+      "otq": "Ár nte xi cifrado ko ár contraseña: hingi 'nehe Grieta to lei dá."
+    },
+    {
+      "clave": "texto_a9f04618d9",
+      "es": "Contraseña (mínimo 8 caracteres)",
+      "otq": "Contraseña (caracteres 8 mínimo)"
+    },
+    {
+      "clave": "texto_6539b19d41",
+      "es": "Entra a tu cuenta",
+      "otq": "Inicie sesión ja ir"
+    },
+    {
+      "clave": "texto_6c4c135c3c",
+      "es": "Trae tu progreso a este teléfono.",
+      "otq": "Ba hä ár nte nuna ar teléfono."
+    },
+    {
+      "clave": "texto_4105811890",
+      "es": "Entrar",
+      "otq": "Da du'mi ya sesión"
+    },
+    {
+      "clave": "texto_1f2ffbaa56",
+      "es": "Crear una cuenta",
+      "otq": "Da t'ot'e 'nar nu"
+    },
+    {
+      "clave": "texto_7ab1bb38f6",
+      "es": "Recupera tu cuenta",
+      "otq": "Recuperar ir nu"
+    },
+    {
+      "clave": "texto_c044d5850c",
+      "es": "Escribe tus seis palabras y elige una contraseña nueva.",
+      "otq": "Escriba ir 'rato ya hñä ne elija 'nar 'ra'yo contraseña."
+    },
+    {
+      "clave": "texto_6e429734b0",
+      "es": "Guardar contraseña nueva",
+      "otq": "Guardar ar 'ra'yo contraseña"
+    },
+    {
+      "clave": "texto_12e4335074",
+      "es": "Contraseña nueva (mínimo 8 caracteres)",
+      "otq": "'Ra'yo contraseña (mínimo caracteres 8)"
+    },
+    {
+      "clave": "texto_fd09c84d25",
+      "es": "Volver a entrar",
+      "otq": "Inicie sesión ma 'nagi"
+    },
+    {
+      "clave": "texto_8da98da9a0",
+      "es": "¿Cómo te llamas?",
+      "otq": "¿Temu̲ ar hu'i?"
+    },
+    {
+      "clave": "texto_6c6d23c027",
+      "es": "Se queda solo en este teléfono. Puedes crear tu cuenta después.",
+      "otq": "Ar kohi ho̲ntho jar nuna ar teléfono. To da t'ot'e ár nu mäs ya'bu̲."
+    },
+    {
+      "clave": "texto_a8a7bda1da",
+      "es": "Cambia tu contraseña",
+      "otq": "Mpa̲ti ar contraseña"
+    },
+    {
+      "clave": "texto_60c07b77cd",
+      "es": "Se cierra tu sesión en tus otros teléfonos.",
+      "otq": "Nu'i gí da cerrado sesión ja yá ma'ra teléfonos."
+    },
+    {
+      "clave": "texto_4a0a1bd212",
+      "es": "Guardar contraseña",
+      "otq": "Guardar contraseña"
+    },
+    {
+      "clave": "texto_a350807027",
+      "es": "Se borran tu cuenta y tu copia en línea para siempre. Lo de este teléfono se queda.",
+      "otq": "Ár nu ne ár copia ntsuni jar 'ñu ar eliminarán pa zäntho. Nä'ä xi nuna ar teléfono ar queda."
+    },
+    {
+      "clave": "texto_52480c73b1",
+      "es": "Borrar para siempre",
+      "otq": "Da hñäki ya pa zäntho"
+    },
+    {
+      "clave": "texto_40161e2738",
+      "es": "No pude conectarme. Revisa tu internet e intenta otra vez.",
+      "otq": "Hindi pude conectar. Compruebe ir internet ne japi ma 'nagi."
+    },
+    {
+      "clave": "texto_71c899b519",
+      "es": "Algo falló. Intenta otra vez.",
+      "otq": "'Naxtu̲i xi hño. Pengi gi 'yo̲t'e"
+    },
+    {
+      "clave": "texto_e5ca04dbdf",
+      "es": "Listo, tu contraseña cambió.",
+      "otq": "'Yo̲t'e, ar xi cambiado ár contraseña."
+    },
+    {
+      "clave": "texto_23254b4d36",
+      "es": "Se borran tu cuenta y tu copia en línea para siempre. ¿Borrar?",
+      "otq": "Ár nu ne ár copia ntsuni jar 'ñu ar eliminarán pa zäntho. ¿Da hñäki ya?"
+    },
+    {
+      "clave": "texto_0bbba3ee3a",
+      "es": "Tu cuenta se borró. Lo de este teléfono se queda.",
+      "otq": "Ár nu xi xi eliminada. Nä'ä 'bu̲i jar nuna ar teléfono bí queda."
+    },
+    {
+      "clave": "texto_b533a0d524",
+      "es": "Escribe tu nombre.",
+      "otq": "Gi ñut'i ir thuhuu"
+    },
+    {
+      "clave": "texto_38f58a261d",
+      "es": "Escribe un correo válido.",
+      "otq": "Introduzca 'nar correo electrónico válido."
+    },
+    {
+      "clave": "texto_c4a2888c22",
+      "es": "Escribe tus seis palabras.",
+      "otq": "Gi ñut'i ir 'rato ya hñä"
+    },
+    {
+      "clave": "texto_a50194551d",
+      "es": "Escribe tu contraseña.",
+      "otq": "Introduzca ár contraseña."
+    },
+    {
+      "clave": "texto_5cf27f2f1c",
+      "es": "Tu contraseña necesita al menos 8 caracteres.",
+      "otq": "Ár contraseña t'ot'e tso̲kwa menu caracteres 8 ."
+    },
+    {
+      "clave": "texto_0353252857",
+      "es": "Tus seis palabras para recuperar tu cuenta",
+      "otq": "Yá 'rato ya hñä pa recuperar ár nu"
+    },
+    {
+      "clave": "texto_574e1c7196",
+      "es": "Un momento...",
+      "otq": "'Nar t'olo ora ..."
+    },
+    {
+      "clave": "texto_dd68077287",
+      "es": "Ocultar",
+      "otq": "Tagi"
+    },
+    {
+      "clave": "texto_24224e5f54",
+      "es": "Copiadas. Pégalas en tus notas.",
+      "otq": "Copia. Pega ya ja yá notas."
+    },
+    {
+      "clave": "texto_7d5b0d9db2",
+      "es": "Tu progreso se queda en este teléfono, pero ya no se va a guardar en tu cuenta. ¿Cerrar sesión?",
+      "otq": "Ár nte ar mantiene jar nuna ar teléfono, pe ya hingi bí guardará ja yá nu. ¿Cerrar sesión?"
+    },
+    {
+      "clave": "texto_d3fb82b5af",
+      "es": "Cerraste sesión.",
+      "otq": "Xka logu."
+    },
+    {
+      "clave": "texto_1512aadbf2",
+      "es": "Revisa tu nombre, tu correo y tu contraseña",
+      "otq": "Compruebe ár thuhuu, correo electrónico ne contraseña"
+    },
+    {
+      "clave": "texto_1f90f85bd2",
+      "es": "Ese correo ya tiene cuenta. Entra con él.",
+      "otq": "Nunu̲ correo electrónico ya pe̲ts'i 'nar nu. Inicie sesión ko nä'ä."
+    },
+    {
+      "clave": "texto_ab03e499ae",
+      "es": "Escribe tu correo y tu contraseña",
+      "otq": "Introduzca ár correo electrónico ne ar contraseña"
+    },
+    {
+      "clave": "texto_6ec1609f2a",
+      "es": "Demasiados intentos. Espera 15 minutos.",
+      "otq": "Demasiados intentos. Espere ya t'olo ora 15"
+    },
+    {
+      "clave": "texto_ae6fc05737",
+      "es": "Correo o contraseña incorrectos",
+      "otq": "Correo electrónico incorrecto wa contraseña"
+    },
+    {
+      "clave": "texto_8b0103b903",
+      "es": "Tu sesión terminó. Vuelve a entrar.",
+      "otq": "Ár sesión xi wadi bí. Inicie sesión ma 'nagi."
+    },
+    {
+      "clave": "texto_67ed6c8bd5",
+      "es": "Revisa tu contraseña",
+      "otq": "Compruebe ár contraseña"
+    },
+    {
+      "clave": "texto_0388be57be",
+      "es": "Tu contraseña actual no coincide",
+      "otq": "Ir contraseña nu'bya hingi coincide"
+    },
+    {
+      "clave": "texto_d3aa640f12",
+      "es": "Revisa tu correo, tus palabras y tu contraseña",
+      "otq": "Compruebe ár correo electrónico, ya hñä ne ar contraseña"
+    },
+    {
+      "clave": "texto_f803bb4e69",
+      "es": "Ese correo y esas palabras no coinciden",
+      "otq": "Nunu̲ ar correo electrónico ne esas hñä hingi coinciden"
+    },
+    {
+      "clave": "texto_21fefed1c0",
+      "es": "Tu contraseña no coincide",
+      "otq": "Ir contraseña hingi coincide"
+    },
+    {
+      "clave": "texto_9b1554bc4e",
+      "es": "Muchos intentos seguidos. Intenta en un rato",
+      "otq": "Xingu ya intentos ja 'nar fila. Probar ma 'nagi jar 'naxtu̲i"
+    },
+    {
+      "clave": "texto_1f0311ace8",
+      "es": "Cobro de más",
+      "otq": "Sobrecarga"
+    },
+    {
+      "clave": "texto_b059c31697",
+      "es": "Problema en la parada",
+      "otq": "Hñäki jar parada"
+    },
+    {
+      "clave": "texto_8dcceae6eb",
+      "es": "¡Ya quedó la banqueta!",
+      "otq": "¡Ar ts'ñu ya nt'ot'i!"
+    },
+    {
+      "clave": "texto_35232d96ba",
+      "es": "¡Ya quedó la rampa!",
+      "otq": "¡Ar rampa nt'ot'i!"
+    },
+    {
+      "clave": "texto_8850c9eff9",
+      "es": "¡Ya le pusieron techo!",
+      "otq": "¡Ya gi 'yo̲t'e ar techo!"
+    },
+    {
+      "clave": "texto_dcf7a10210",
+      "es": "¡Ya quitaron el obstáculo!",
+      "otq": "¡Ar xi quitado ar obstáculo!"
+    },
+    {
+      "clave": "texto_0065a7832d",
+      "es": "¡Ya pusieron señalización!",
+      "otq": "¡Ya gi t'ät'i ya nthuts'i!"
+    },
+    {
+      "clave": "texto_6fdae6f2ec",
+      "es": "¡Ya quedó!",
+      "otq": "¡Xa nt'ot'i!"
+    },
+    {
+      "clave": "texto_2092ae2b70",
+      "es": "Todavía sin datos.",
+      "otq": "Tobe hinda datos."
+    },
+    {
+      "clave": "texto_dffad59823",
+      "es": "Justo ahora",
+      "otq": "Xa nu'bya"
+    },
+    {
+      "clave": "texto_90d325badf",
+      "es": "Ayer",
+      "otq": "Mande"
+    },
+    {
+      "clave": "texto_0a4879efe1",
+      "es": "Viene llena",
+      "otq": "Ar completo ehe"
+    },
+    {
+      "clave": "texto_047e83c329",
+      "es": "Avisó alguien justo ahora",
+      "otq": "'Bu̲i ja ir wadi bí m'avisa"
+    },
+    {
+      "clave": "texto_9b2458222f",
+      "es": "Suele ir llena",
+      "otq": "Nu'bu̲ da nthe̲hu̲ 'ra 'bu̲i 'nar"
+    },
+    {
+      "clave": "texto_68623b906a",
+      "es": "Una queja esta semana",
+      "otq": "'Nar queja nuna ar su̲mänä"
+    },
+    {
+      "clave": "texto_84e9bcb8e3",
+      "es": "Reportada por la gente",
+      "otq": "Ar mfädi ya jä'i"
+    },
+    {
+      "clave": "texto_37b9f9b927",
+      "es": "Sin avisos",
+      "otq": "Hingi t'o̲t'e ya aviso"
+    },
+    {
+      "clave": "texto_a9f487b859",
+      "es": "En la última media hora",
+      "otq": "Ar ngäts'i made ora"
+    },
+    {
+      "clave": "texto_d48ff403fe",
+      "es": "No se pudo mandar. Intenta otra vez.",
+      "otq": "Hindar tsa̲ ndi pe̲hni. Pengi gi japi"
+    },
+    {
+      "clave": "texto_11efaefec3",
+      "es": "Yo también la vi",
+      "otq": "Nugu̲ga̲ 'nehe dá handi"
+    },
+    {
+      "clave": "texto_81fc126a1c",
+      "es": "Todavía nadie ha avisado nada. Puedes ser la primera persona.",
+      "otq": "Tobe ni xi notificado otho. Dar tsa̲ da ndui ya jä'i."
+    },
+    {
+      "clave": "texto_39e938016f",
+      "es": "Todavía sin respuestas.",
+      "otq": "Tobe hinda nthädi."
+    },
+    {
+      "clave": "texto_b29dc60358",
+      "es": "Todavía hay pocos avisos para ver un patrón",
+      "otq": "Tobe xki pocos avisos pa ga 'nar hmu"
+    },
+    {
+      "clave": "texto_5823640044",
+      "es": "No pude cargar los datos. Revisa tu conexión e intenta otra vez.",
+      "otq": "Hindi pude cargar ya datos. Compruebe ár conexión ne japi ma 'nagi."
+    },
+    {
+      "clave": "texto_f6a711e5db",
+      "es": "Hace 1 mes",
+      "otq": "Xí 1 ar zänä"
+    },
+    {
+      "clave": "texto_01ab237861",
+      "es": "Semanal",
+      "otq": "Ar su̲mänä"
+    },
+    {
+      "clave": "texto_36f56e0188",
+      "es": "Quincenal",
+      "otq": "Bi xunt'i ya xe̲nwa"
+    },
+    {
+      "clave": "texto_acacad0708",
+      "es": "Mensual",
+      "otq": "Ar mensual"
+    },
+    {
+      "clave": "texto_abbd694a66",
+      "es": "ya debe pasar",
+      "otq": "Gi 'yo̲t'e 'bu̲ nu'bya"
+    },
+    {
+      "clave": "texto_ef43adf2df",
+      "es": "Esta",
+      "otq": "'Me̲hna"
+    },
+    {
+      "clave": "texto_be11fb70fd",
+      "es": "Si no es, regresa y vuelve a decirlo.",
+      "otq": "Xähmö nu'bu̲ hingi pengi gi mä."
+    },
+    {
+      "clave": "texto_8074b9db71",
+      "es": "Elige uno de la lista.",
+      "otq": "Gi jwahni 'na jar Nthuts'i"
+    },
+    {
+      "clave": "texto_a46c73936b",
+      "es": "Todavía no identifico un solo camión para leer su número. Apunta a su letrero; también puedes usar Leer letrero.",
+      "otq": "Tobe hindi xta identificado Honto 'nar dätä bo̲jä pa lei ár 'bede. Punto ár nt'udi nt'uni; 'nehe tsa̲ da utilizar ár nt'udi nt'udi nt'udi"
+    },
+    {
+      "clave": "texto_7f3d9c68bb",
+      "es": "Pregunta {v1} de {v2}",
+      "otq": "Gi 'ya̲ni {v1} ar {v2}"
+    },
+    {
+      "clave": "texto_a1f4c88883",
+      "es": "Avisó alguien hace {v1} min",
+      "otq": "'Na informó nä'ä gi thogi {v1} min"
+    },
+    {
+      "clave": "texto_04508d36ce",
+      "es": "De {v1} a {v2}, según la gente",
+      "otq": "Ar {v1} da {v2}, nä'ä mä ya jä'i"
+    },
+    {
+      "clave": "texto_d7f0b6a2ca",
+      "es": "{v1} quejas esta semana",
+      "otq": "Quejas {v1} nuna ar su̲mänä"
+    },
+    {
+      "clave": "texto_dce117fc1b",
+      "es": "{v1} viene llena",
+      "otq": "{v1} ku̲hu̲ completo"
+    },
+    {
+      "clave": "texto_b02ffed3a4",
+      "es": "{v1}: {v2} personas confirmaron que ya lo arreglaron.",
+      "otq": "{v1}: {v2} ya jä'i confirmaron ke ya bí solucionaron."
+    },
+    {
+      "clave": "texto_2315bb6149",
+      "es": "{v1} respuesta: {v2} tranquilos, {v3} normales y {v4} estresados.",
+      "otq": "{v1} respuesta: {v2} calmado, {v3} normal ne {v4} estressado."
+    },
+    {
+      "clave": "texto_2eb7854598",
+      "es": "{v1} respuestas: {v2} tranquilos, {v3} normales y {v4} estresados.",
+      "otq": "{v1} nthädi: {v2} calma, {v3} normal ne {v4} estresado."
+    },
+    {
+      "clave": "texto_1405af60b1",
+      "es": "{v1} aviso de \"viene lleno\" en las últimas 8 semanas.",
+      "otq": "{v1} \"ku̲hu̲ nxo̲ge\" aviso ja ya últimas ya su̲mänä 8."
+    },
+    {
+      "clave": "texto_b58219104d",
+      "es": "{v1} avisos de \"viene lleno\" en las últimas 8 semanas.",
+      "otq": "{v1} \"ku̲hu̲ completo\" avisa ja ya últimas su̲mänä 8."
+    },
+    {
+      "clave": "texto_d942e6cd74",
+      "es": "El camión suele ir más lleno de {v1} a {v2}",
+      "otq": "Ar dätä bo̲jä ar nu'bu̲ da nthe̲hu̲ 'ra mäs lleno ar {v1} da {v2}"
+    },
+    {
+      "clave": "texto_b7b627c505",
+      "es": "Avisos de camión lleno por hora. Suele ir más lleno de {v1} a {v2}.",
+      "otq": "Camión alertas completo ya ora. Nu'bu̲ da nthe̲hu̲ 'ra ar mäs lleno ar {v1} da {v2}."
+    },
+    {
+      "clave": "texto_65edc5ffed",
+      "es": "Actualizado a las {v1}",
+      "otq": "Actualizado {v1}"
+    },
+    {
+      "clave": "texto_dc8904594f",
+      "es": "Hace {v1} min",
+      "otq": "{v1} min ago"
+    },
+    {
+      "clave": "texto_08c4de06fb",
+      "es": "Hace {v1} h",
+      "otq": "{v1} h ago"
+    },
+    {
+      "clave": "texto_cb3240a351",
+      "es": "Hace {v1} días",
+      "otq": "Xí pa {v1}"
+    },
+    {
+      "clave": "texto_36e6eae31d",
+      "es": "Hace {v1} meses",
+      "otq": "Xí {v1} ya zänä"
+    },
+    {
+      "clave": "texto_05d90b7183",
+      "es": "Tu destino está a unos {v1} caminando.",
+      "otq": "Ár 'mu̲i ge ar {v1} mpe̲ka̲."
+    },
+    {
+      "clave": "texto_06f7d0a313",
+      "es": "Encontré {v1} lugares.",
+      "otq": "Dá tini xeni {v1}"
+    },
+    {
+      "clave": "texto_e972f57367",
+      "es": "No encontré {v1}. Intenta con otro nombre.",
+      "otq": "Hindi dá tini ar {v1}. Japi ma'na thuuhu."
+    },
+    {
+      "clave": "texto_b6bd96a1d9",
+      "es": "{v1} árboles y {v2} brotes en un cerro",
+      "otq": "Zaa {v1} ne {v2} dispara 'nar colina"
+    },
+    {
+      "clave": "texto_3793009800",
+      "es": "1 árbol y {v1} brotes en un cerro",
+      "otq": "Zaa 1 ne {v1} dispara ja 'nar colina"
+    },
+    {
+      "clave": "texto_475fa28fd1",
+      "es": "{v1}: camino a pie",
+      "otq": "{v1}: ruta ar 'ñu"
+    },
+    {
+      "clave": "texto_091ebd7d04",
+      "es": "de CO₂ evitados",
+      "otq": "nu'bu ar CO₂"
+    },
+    {
+      "clave": "texto_6f83c68101",
+      "es": "Cómo se sienten los viajes",
+      "otq": "Temu̲ bí sienten ya viajes"
     }
   ],
   "adaptaciones": [

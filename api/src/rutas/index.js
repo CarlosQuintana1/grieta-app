@@ -7,6 +7,7 @@ import { observatorio, observatorioVivo } from "../controladores/observatorio.js
 import { respaldos } from "../controladores/respaldos.js";
 import { sentir } from "../controladores/sentir.js";
 import { consultasRouter } from "./consultas.js";
+import { cuentasRouter } from "./cuentas.js";
 import { cotizacionesRouter } from "./cotizaciones.js";
 import { lugaresRouter } from "./lugares.js";
 import { preciosRouter } from "./precios.js";
@@ -23,6 +24,7 @@ export const api = Router()
   .get("/auto", auto)
   .use("/lugares", lugaresRouter)
   .use("/usuarios", usuariosRouter)
+  .use("/cuentas", cuentasRouter)
   .use("/rutas", rutasRouter)
   .use("/registros", registrosRouter)
   .use("/cotizaciones", cotizacionesRouter)

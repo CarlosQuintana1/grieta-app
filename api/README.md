@@ -69,6 +69,9 @@ contador no arranque vacío en una presentación) y `DELETE /api/viajes/demo` lo
 días por tipo y ruta, reportes de accesibilidad vigentes, avisos de "viene lleno" por línea y hora, y cuántos precios se han
 compartido. Solo conteos; la página `demo/observatorio.html` los muestra.
 
+`/api/cuentas` crea cuentas opcionales con correo y contraseña en la misma PostgreSQL: el teléfono manda un valor derivado
+de la contraseña, la API lo guarda con scrypt y el progreso va cifrado. Sesiones en la tabla `sesiones`; se recupera con las seis palabras.
+
 `GET /api/observatorio/vivo` (público, caché de 30 s) da lo de ahorita para Qro al día: avisos por parada o línea sin texto,
 ubicación ni persona, y lo que se sabe de cada línea. Cada teléfono filtra sus líneas sin mandarlas al servidor.
 

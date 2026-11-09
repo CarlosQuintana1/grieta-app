@@ -14575,6 +14575,1321 @@
       "contextos": [
         "demo · interfaz noviembre 2026"
       ]
+    },
+    {
+      "clave": "texto_eea4492e84",
+      "es": "Guarda tu progreso",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_d7b908541b",
+      "es": "Para no perderlo si cambias de teléfono.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_f620f0331d",
+      "es": "Crear cuenta",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_77bb8beaf6",
+      "es": "Con tu correo y una contraseña",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_e0d523cfb8",
+      "es": "Ya tengo cuenta",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_bfaee845f1",
+      "es": "Trae tu progreso a este teléfono",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_e9b7a092da",
+      "es": "Solo con mi nombre",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_7b87f66378",
+      "es": "Se queda en este teléfono",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_1dfb6ce20a",
+      "es": "Crea tu cuenta",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_d36ae2c1bf",
+      "es": "Tu nombre",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_a5d3e74b02",
+      "es": "Tu correo",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_4656565a6f",
+      "es": "Tus seis palabras",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_e21e0810e2",
+      "es": "Tu contraseña",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_a389a638de",
+      "es": "Contraseña",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_20ab386d12",
+      "es": "Ver",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_96f90e582d",
+      "es": "Olvidé mi contraseña",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_cc96ab9c72",
+      "es": "Guarda tus seis palabras",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_05e5f00901",
+      "es": "Si olvidas tu contraseña, con ellas recuperas tu cuenta. Sin ellas no hay forma de hacerlo.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_e749755c1f",
+      "es": "Copiarlas",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_72bbed37c9",
+      "es": "Ya las guardé",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_d30c5ae09e",
+      "es": "Tu cuenta",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_f6900f389a",
+      "es": "Crea tu cuenta para guardar tu progreso y usarlo en otro teléfono. Se cifra con tu contraseña: ni Grieta puede leerlo.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_050ccf0b0f",
+      "es": "Cambiar contraseña",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_c6e6960395",
+      "es": "Cerrar sesión",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_a216d49a41",
+      "es": "Borrar mi cuenta",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_e6d6ee1b3c",
+      "es": "O con tu llave de seis palabras",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_c9eff36985",
+      "es": "Volver a Grieta",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_e8b794f79a",
+      "es": "Así se mueve Querétaro",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_ed7bdc67c8",
+      "es": "Resumen",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_4c53f3cd7b",
+      "es": "viajes guiados en Qrobus",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_6ccc46416d",
+      "es": "problemas de accesibilidad",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_9fef092caf",
+      "es": "Contado por la gente que usa Grieta",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_78164e6c88",
+      "es": "Cargando...",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_6b512e85bc",
+      "es": "Tus líneas a esta hora",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_9374ec1aa9",
+      "es": "Salen de tus viajes recientes y se quedan en tu teléfono.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_be018e9d6f",
+      "es": "Avisar algo",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_60fbe3eb0a",
+      "es": "Lo que avisa la gente",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_58d7fcfa81",
+      "es": "Hoy en Querétaro",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_9e817536da",
+      "es": "Avisos de camión lleno por hora",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_09a93ce112",
+      "es": "Líneas que más van llenas",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_743317a29b",
+      "es": "Accesibilidad en paradas",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_f7415ad878",
+      "es": "Reportes vigentes: la gente confirma si siguen o ya los arreglaron.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_1c07f14a87",
+      "es": "Paradas con más reportes",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_5bc4ae364f",
+      "es": "Rutas con más quejas",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_47b47065f7",
+      "es": "Últimos 30 días.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_3471bb7e04",
+      "es": "Qué se reporta del servicio",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_941c25a3e0",
+      "es": "¿Cómo se sienten los viajes?",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_634d78b620",
+      "es": "Al bajar del camión, la gente dice cómo le fue. Últimas 8 semanas.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_38995b65d0",
+      "es": "Qué tan seguido se llega estresado, por hora del día",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_9c5ba848f1",
+      "es": "Líneas donde más se llega estresado",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_960ef21856",
+      "es": "Todavía sin datos",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_94ddb4d202",
+      "es": "Úsalos",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_3e05bb6175",
+      "es": "Todo es anónimo: nunca nombres, textos ni recorridos.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_4085ef1326",
+      "es": "Para la AMEQ, el municipio, la universidad o cualquier persona. Se actualizan cada 5 minutos.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_5557b146c1",
+      "es": "Descargar los datos (JSON)",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_9e7dc8acbb",
+      "es": "Las quejas no son oficiales. Para que la AMEQ las atienda, mándalas también a su línea de Reportes (442) 211 70 00 o al WhatsApp 446 117 1516.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_125b6cf786",
+      "es": "Último paso",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_3292f17253",
+      "es": "En Inicio, toca Busca un lugar o Decir a dónde voy y elige tu destino.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_c5fcf0325f",
+      "es": "Tu llave está lista; tu progreso se guarda cuando haya internet.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_e5be5e69eb",
+      "es": "Tu progreso se cifra con tu contraseña: ni Grieta puede leerlo.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_a9f04618d9",
+      "es": "Contraseña (mínimo 8 caracteres)",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_6539b19d41",
+      "es": "Entra a tu cuenta",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_6c4c135c3c",
+      "es": "Trae tu progreso a este teléfono.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_4105811890",
+      "es": "Entrar",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_1f2ffbaa56",
+      "es": "Crear una cuenta",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_7ab1bb38f6",
+      "es": "Recupera tu cuenta",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_c044d5850c",
+      "es": "Escribe tus seis palabras y elige una contraseña nueva.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_6e429734b0",
+      "es": "Guardar contraseña nueva",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_12e4335074",
+      "es": "Contraseña nueva (mínimo 8 caracteres)",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_fd09c84d25",
+      "es": "Volver a entrar",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_8da98da9a0",
+      "es": "¿Cómo te llamas?",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_6c6d23c027",
+      "es": "Se queda solo en este teléfono. Puedes crear tu cuenta después.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_a8a7bda1da",
+      "es": "Cambia tu contraseña",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_60c07b77cd",
+      "es": "Se cierra tu sesión en tus otros teléfonos.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_4a0a1bd212",
+      "es": "Guardar contraseña",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_a350807027",
+      "es": "Se borran tu cuenta y tu copia en línea para siempre. Lo de este teléfono se queda.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_52480c73b1",
+      "es": "Borrar para siempre",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_40161e2738",
+      "es": "No pude conectarme. Revisa tu internet e intenta otra vez.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_71c899b519",
+      "es": "Algo falló. Intenta otra vez.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_e5ca04dbdf",
+      "es": "Listo, tu contraseña cambió.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_23254b4d36",
+      "es": "Se borran tu cuenta y tu copia en línea para siempre. ¿Borrar?",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_0bbba3ee3a",
+      "es": "Tu cuenta se borró. Lo de este teléfono se queda.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_b533a0d524",
+      "es": "Escribe tu nombre.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_38f58a261d",
+      "es": "Escribe un correo válido.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_c4a2888c22",
+      "es": "Escribe tus seis palabras.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_a50194551d",
+      "es": "Escribe tu contraseña.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_5cf27f2f1c",
+      "es": "Tu contraseña necesita al menos 8 caracteres.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_0353252857",
+      "es": "Tus seis palabras para recuperar tu cuenta",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_574e1c7196",
+      "es": "Un momento...",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_dd68077287",
+      "es": "Ocultar",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_24224e5f54",
+      "es": "Copiadas. Pégalas en tus notas.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_7d5b0d9db2",
+      "es": "Tu progreso se queda en este teléfono, pero ya no se va a guardar en tu cuenta. ¿Cerrar sesión?",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_d3fb82b5af",
+      "es": "Cerraste sesión.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_1512aadbf2",
+      "es": "Revisa tu nombre, tu correo y tu contraseña",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_1f90f85bd2",
+      "es": "Ese correo ya tiene cuenta. Entra con él.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_ab03e499ae",
+      "es": "Escribe tu correo y tu contraseña",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_6ec1609f2a",
+      "es": "Demasiados intentos. Espera 15 minutos.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_ae6fc05737",
+      "es": "Correo o contraseña incorrectos",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_8b0103b903",
+      "es": "Tu sesión terminó. Vuelve a entrar.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_67ed6c8bd5",
+      "es": "Revisa tu contraseña",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_0388be57be",
+      "es": "Tu contraseña actual no coincide",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_d3aa640f12",
+      "es": "Revisa tu correo, tus palabras y tu contraseña",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_f803bb4e69",
+      "es": "Ese correo y esas palabras no coinciden",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_21fefed1c0",
+      "es": "Tu contraseña no coincide",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_9b1554bc4e",
+      "es": "Muchos intentos seguidos. Intenta en un rato",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_1f0311ace8",
+      "es": "Cobro de más",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_b059c31697",
+      "es": "Problema en la parada",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_8dcceae6eb",
+      "es": "¡Ya quedó la banqueta!",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_35232d96ba",
+      "es": "¡Ya quedó la rampa!",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_8850c9eff9",
+      "es": "¡Ya le pusieron techo!",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_dcf7a10210",
+      "es": "¡Ya quitaron el obstáculo!",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_0065a7832d",
+      "es": "¡Ya pusieron señalización!",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_6fdae6f2ec",
+      "es": "¡Ya quedó!",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_2092ae2b70",
+      "es": "Todavía sin datos.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_dffad59823",
+      "es": "Justo ahora",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_90d325badf",
+      "es": "Ayer",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_0a4879efe1",
+      "es": "Viene llena",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_047e83c329",
+      "es": "Avisó alguien justo ahora",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_9b2458222f",
+      "es": "Suele ir llena",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_68623b906a",
+      "es": "Una queja esta semana",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_84e9bcb8e3",
+      "es": "Reportada por la gente",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_37b9f9b927",
+      "es": "Sin avisos",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_a9f487b859",
+      "es": "En la última media hora",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_d48ff403fe",
+      "es": "No se pudo mandar. Intenta otra vez.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_11efaefec3",
+      "es": "Yo también la vi",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_81fc126a1c",
+      "es": "Todavía nadie ha avisado nada. Puedes ser la primera persona.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_39e938016f",
+      "es": "Todavía sin respuestas.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_b29dc60358",
+      "es": "Todavía hay pocos avisos para ver un patrón",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_5823640044",
+      "es": "No pude cargar los datos. Revisa tu conexión e intenta otra vez.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_f6a711e5db",
+      "es": "Hace 1 mes",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_01ab237861",
+      "es": "Semanal",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_36f56e0188",
+      "es": "Quincenal",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_acacad0708",
+      "es": "Mensual",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_abbd694a66",
+      "es": "ya debe pasar",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_ef43adf2df",
+      "es": "Esta",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_be11fb70fd",
+      "es": "Si no es, regresa y vuelve a decirlo.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_8074b9db71",
+      "es": "Elige uno de la lista.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_a46c73936b",
+      "es": "Todavía no identifico un solo camión para leer su número. Apunta a su letrero; también puedes usar Leer letrero.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_7f3d9c68bb",
+      "es": "Pregunta {v1} de {v2}",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        },
+        "v2": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_a1f4c88883",
+      "es": "Avisó alguien hace {v1} min",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_04508d36ce",
+      "es": "De {v1} a {v2}, según la gente",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        },
+        "v2": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_d7f0b6a2ca",
+      "es": "{v1} quejas esta semana",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_dce117fc1b",
+      "es": "{v1} viene llena",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_b02ffed3a4",
+      "es": "{v1}: {v2} personas confirmaron que ya lo arreglaron.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        },
+        "v2": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_2315bb6149",
+      "es": "{v1} respuesta: {v2} tranquilos, {v3} normales y {v4} estresados.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        },
+        "v2": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        },
+        "v3": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        },
+        "v4": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_2eb7854598",
+      "es": "{v1} respuestas: {v2} tranquilos, {v3} normales y {v4} estresados.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        },
+        "v2": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        },
+        "v3": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        },
+        "v4": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_1405af60b1",
+      "es": "{v1} aviso de \"viene lleno\" en las últimas 8 semanas.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_b58219104d",
+      "es": "{v1} avisos de \"viene lleno\" en las últimas 8 semanas.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_d942e6cd74",
+      "es": "El camión suele ir más lleno de {v1} a {v2}",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        },
+        "v2": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_b7b627c505",
+      "es": "Avisos de camión lleno por hora. Suele ir más lleno de {v1} a {v2}.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        },
+        "v2": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_65edc5ffed",
+      "es": "Actualizado a las {v1}",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_dc8904594f",
+      "es": "Hace {v1} min",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_08c4de06fb",
+      "es": "Hace {v1} h",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_cb3240a351",
+      "es": "Hace {v1} días",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_36e6eae31d",
+      "es": "Hace {v1} meses",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_05d90b7183",
+      "es": "Tu destino está a unos {v1} caminando.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_06f7d0a313",
+      "es": "Encontré {v1} lugares.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_e972f57367",
+      "es": "No encontré {v1}. Intenta con otro nombre.",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_b6bd96a1d9",
+      "es": "{v1} árboles y {v2} brotes en un cerro",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        },
+        "v2": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_3793009800",
+      "es": "1 árbol y {v1} brotes en un cerro",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_475fa28fd1",
+      "es": "{v1}: camino a pie",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "interfaz"
+        }
+      }
+    },
+    {
+      "clave": "texto_091ebd7d04",
+      "es": "de CO₂ evitados",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
+    },
+    {
+      "clave": "texto_6f83c68101",
+      "es": "Cómo se sienten los viajes",
+      "contextos": [
+        "demo · cuentas, bienvenida y Qro al día"
+      ]
     }
   ]
 }

@@ -9,7 +9,21 @@ export const Usuario = sequelize.define("Usuario", {
   nombre: { type: DataTypes.STRING(60), allowNull: false },
   correo: { type: DataTypes.STRING(120), allowNull: false, unique: true, validate: { isEmail: true } },
   rol: { type: DataTypes.ENUM("capturista", "usuario"), allowNull: false, defaultValue: "usuario" },
-}, { tableName: "usuarios" });
+  // De las cuentas de la app. No salen en las lecturas normales.
+  clave_hash: DataTypes.STRING(200),
+  llave_cifrada: DataTypes.TEXT,
+  prueba_llave: DataTypes.STRING(64),
+}, {
+  tableName: "usuarios",
+  defaultScope: { attributes: { exclude: ["clave_hash", "llave_cifrada", "prueba_llave"] } },
+  scopes: { conClave: {} },
+});
+
+// Una sesion abierta en un telefono. Se guarda la huella del token, nunca el token.
+export const Sesion = sequelize.define("Sesion", {
+  token_hash: { type: DataTypes.STRING(64), allowNull: false, unique: true },
+  expira: { type: DataTypes.DATE, allowNull: false },
+}, { tableName: "sesiones", updatedAt: false });
 
 export const Lugar = sequelize.define("Lugar", {
   clave: { type: DataTypes.STRING(40), allowNull: false, unique: true },
@@ -142,6 +156,8 @@ Consulta.belongsTo(Lugar, { as: "origen", ...llave("origen_id") });
 Consulta.belongsTo(Lugar, { as: "destino", ...llave("destino_id") });
 
 // Reportes y precios se pueden mandar sin cuenta.
+Usuario.hasMany(Sesion, { foreignKey: { name: "usuario_id", allowNull: false }, onDelete: "CASCADE" });
+Sesion.belongsTo(Usuario, { foreignKey: { name: "usuario_id", allowNull: false }, onDelete: "CASCADE" });
 Usuario.hasMany(Reporte, { foreignKey: "usuario_id", onDelete: "SET NULL" });
 Reporte.belongsTo(Usuario, { foreignKey: "usuario_id", onDelete: "SET NULL" });
 Usuario.hasMany(PrecioReportado, { foreignKey: "usuario_id", onDelete: "SET NULL" });

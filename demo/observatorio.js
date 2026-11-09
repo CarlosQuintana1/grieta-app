@@ -127,6 +127,9 @@ function pintarAvisos(v, api) {
   if (!lista.length) lista.push(el("li", "sin-avisos", "Todavía nadie ha avisado nada. Puedes ser la primera persona."));
   $("listaAvisos").replaceChildren(...lista);
 }
+// La pantalla sale en el idioma que eligió en la app.
+const idiomaElegido = leerLocal("grieta-acc", {}).idioma;
+if (idiomaElegido === "oto" || idiomaElegido === "nah") Interfaz.iniciar(idiomaElegido, () => {});
 (async () => {
   try {
     const config = await fetch("datos/config.json").then((r) => r.json()).catch(() => ({}));

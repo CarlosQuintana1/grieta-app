@@ -2017,3 +2017,81 @@ html.claro { --seguro-acento: #5a2bb0; }
 .seguro-lista small { display: block; color: var(--tenue); font-size: .82rem; font-weight: 600; line-height: 1.25; }
 .seguro-nota { margin: 12px 8px 0; color: var(--tenue); font-size: .82rem; line-height: 1.3; text-align: center; }
 .seguro-banda .fila-texto small, .fila-seguro .fila-texto small { color: #fff; }
+
+/* Bienvenida: cada pregunta con su escena, como el tutorial. */
+.bienvenida-cabecera { display: flex; flex-direction: column; align-items: stretch; gap: 10px; }
+.bienvenida-cabecera .tutorial-cabecera { gap: 8px; }
+.bienvenida-cabecera .tutorial-progreso { flex: 1; min-width: 0; }
+.bienvenida-cabecera .tutorial-puntos { gap: 5px; }
+.bienvenida-atras.oculta { display: none; }
+#bienvenida .bienvenida-atras { flex: none; }
+.escena-pregunta { position: relative; flex: none; height: clamp(120px, 24vh, 180px); margin-bottom: 14px; overflow: hidden; border-radius: 24px; background: #e0a03c; }
+.escena-pregunta[hidden] { display: none; }
+.escena-pregunta > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.escena-pregunta text { font-family: Montserrat, sans-serif; font-weight: 800; }
+.esc-p-forma { background: #424d88; } .esc-p-lector { background: #67375f; } .esc-p-ubicacion { background: #0e2a1c; } .esc-p-movilidad { background: #0d676b; }
+.esc-p-oido { background: #9a2d6b; } .esc-p-tarifa { background: #1f6b46; } .esc-p-gasolina { background: #2b2520; } .esc-p-cuenta { background: #e0a03c; }
+.pregunta-texto { flex: none; }
+#bienvenida .pregunta-texto h1 { margin: 0; font-size: 1.85rem; line-height: 1.1; letter-spacing: -.02em; }
+#bienvenida .pregunta-texto .nota-paso { margin: 6px 0 0; font-size: .95rem; }
+#bienvenida .pregunta-texto .tl-saludo { margin: 0 0 4px; }
+#bienvenida .vista-opciones { padding-top: 16px; }
+html.grande .escena-pregunta, html.modo-voz #bienvenida .escena-pregunta { display: none; }
+html.modo-voz #bienvenida .pregunta-texto h1 { font-size: 2.1rem; }
+@media (max-height: 640px) { #bienvenida .escena-pregunta { display: none; } }
+.t-fase { opacity: 0; }
+.t-fase.ultima { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .escena-pregunta.entra { animation: t-entra-escena .45s cubic-bezier(.2, .8, .3, 1); }
+  .t-fase { animation: 9s linear infinite; }
+  .t-fase.f1 { animation-name: t-f1; } .t-fase.f2 { animation-name: t-f2; } .t-fase.f3 { animation-name: t-f3; }
+  .t-fase.g1 { animation-name: t-g1; animation-duration: 6s; } .t-fase.g2 { animation-name: t-g2; animation-duration: 6s; }
+  @keyframes t-f1 { 0%, 30% { opacity: 1; } 34%, 96% { opacity: 0; } 100% { opacity: 1; } }
+  @keyframes t-f2 { 0%, 30% { opacity: 0; } 34%, 63% { opacity: 1; } 67%, 100% { opacity: 0; } }
+  @keyframes t-f3 { 0%, 63% { opacity: 0; } 67%, 96% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes t-g1 { 0%, 46% { opacity: 1; } 50%, 96% { opacity: 0; } 100% { opacity: 1; } }
+  @keyframes t-g2 { 0%, 46% { opacity: 0; } 50%, 96% { opacity: 1; } 100% { opacity: 0; } }
+  .t-cursor { animation: t-cursor 5s steps(1) infinite; }
+  @keyframes t-cursor { 0%, 24% { transform: none; } 25%, 49% { transform: translateY(34px); } 50%, 74% { transform: translateY(68px); } 75%, 100% { transform: translateY(102px); } }
+  .t-andar { animation: t-andar 7s ease-in-out infinite; }
+  @keyframes t-andar { 0%, 4% { opacity: 1; transform: none; } 42% { opacity: 1; transform: translateX(190px); } 47%, 100% { opacity: 0; transform: translateX(190px); } }
+  .t-rodar { animation: t-rodar 7s ease-in-out infinite; }
+  @keyframes t-rodar { 0%, 48% { opacity: 0; transform: none; } 52% { opacity: 1; transform: none; } 88% { opacity: 1; transform: translateX(196px) translateY(-24px); } 96%, 100% { opacity: 0; transform: translateX(196px) translateY(-24px); } }
+  .t-vibra { transform-box: fill-box; transform-origin: center; animation: t-vibra 2.6s linear infinite; }
+  @keyframes t-vibra { 0%, 42%, 74%, 100% { transform: none; } 46%, 54%, 62%, 70% { transform: rotate(-3.5deg); } 50%, 58%, 66% { transform: rotate(3.5deg); } }
+  .t-arco { animation: t-arco 2.6s ease-out infinite; }
+  .t-arco.a2 { animation-delay: .22s; }
+  @keyframes t-arco { 0%, 8% { opacity: 0; } 18%, 36% { opacity: 1; } 44%, 100% { opacity: 0; } }
+  .t-tarjeta2 { transform-box: fill-box; transform-origin: center; animation: t-tarjeta2 6s ease-in-out infinite; }
+  @keyframes t-tarjeta2 { 0%, 100% { transform: none; } 50% { transform: translateY(-5px) rotate(-1.5deg); } }
+  .t-gota { transform-box: fill-box; transform-origin: center; animation: t-gota 1.5s ease-in infinite; }
+  @keyframes t-gota { 0% { opacity: 0; transform: translateY(-12px) scale(.6); } 25% { opacity: 1; } 80% { opacity: 1; transform: translateY(10px) scale(1); } 100% { opacity: 0; transform: translateY(14px); } }
+  .t-carro { animation: t-carro 6s cubic-bezier(.3, .7, .3, 1) infinite; }
+  @keyframes t-carro { 0% { transform: translateX(-150px); } 22%, 88% { transform: none; } 100% { transform: translateX(-150px); } }
+  .t-viaja { offset-path: path("M100 88C130 40 230 40 260 88"); animation: t-viaja 3.4s ease-in-out infinite; }
+  @keyframes t-viaja { 0% { offset-distance: 0%; opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+}
+@media (prefers-reduced-motion: reduce) { .t-viaja { transform: translate(180px, 52px); } }
+
+/* Cuenta */
+#cuentaForma, .cuenta-guarda { display: flex; flex-direction: column; gap: 12px; }
+#cuentaForma[hidden], .cuenta-guarda[hidden] { display: none; }
+#cuenta .escena-pregunta { height: clamp(96px, 17vh, 140px); }
+#cuenta h1 { margin: 0; font-size: 1.85rem; line-height: 1.1; letter-spacing: -.02em; }
+#cuenta .nota { margin: 0; }
+#cuenta .nota:empty { display: none; }
+#cuenta .campo[hidden] { display: none; }
+#cuenta .boton { margin-top: 0; }
+.campo-clave { display: flex; align-items: center; gap: 10px; }
+.campo-clave input { flex: 1; min-width: 0; }
+.campo-clave .enlace { flex: none; }
+.cuenta-enlaces { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 16px; }
+.cuenta-guarda .llave-palabras { margin: 0; }
+.boton.peligro { background: #c62828; color: #fff; }
+.cuenta-panel #cuentaSin, .cuenta-panel #cuentaCon { display: flex; flex-direction: column; gap: 10px; }
+.cuenta-panel [hidden] { display: none !important; }
+.cuenta-panel .boton { margin-top: 0; }
+.cuenta-ficha { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
+.cuenta-ficha .fila-texto strong { font-weight: 700; overflow-wrap: anywhere; }
+.cuenta-ficha .fila-texto small { overflow-wrap: anywhere; }
+.seccion-llave { margin: 20px 0 8px; font-size: 1rem; }

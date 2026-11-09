@@ -164,7 +164,7 @@ async function sincronizarRespaldo() {
   }
 }
 
-async function crearLlave() {
+async function palabrasNuevas() {
   const lista = await palabrasLlave(), azar = new Uint32Array(PALABRAS_LLAVE * 2), tope = Math.floor(2 ** 32 / lista.length) * lista.length;
   const palabras = [];
   // Se descartan los numeros que no reparten parejo entre las palabras.
@@ -172,10 +172,16 @@ async function crearLlave() {
     crypto.getRandomValues(azar);
     for (const n of azar) if (n < tope && palabras.length < PALABRAS_LLAVE) palabras.push(lista[n % lista.length]);
   }
+  return palabras;
+}
+function activarLlave(palabras) {
   // Lo que ya hay en este telefono es lo mas nuevo.
   for (const c of CLAVES_RESPALDO) if (leer(c, null) !== null) respaldo.cambios[c] ??= Date.now();
   escribir("grieta-cambios", respaldo.cambios);
   guardarLlave(palabras, 0);
+}
+async function crearLlave() {
+  activarLlave(await palabrasNuevas());
   $("llaveEstado").textContent = "Guardando tu progreso...";
   await sincronizarRespaldo();
   $("llaveEstado").textContent = respaldo.guardada ? "Listo. Guarda tus seis palabras donde no las pierdas." : "Tu llave está lista; tu progreso se guarda cuando haya internet.";
@@ -200,6 +206,15 @@ async function leerPalabras(texto) {
   }
   return { palabras };
 }
+// Al llegar a un telefono nuevo, lo de la copia gana: aqui solo se suman viajes y lugares que no tenga.
+async function traerCopia(palabras, derivada, remoto) {
+  const local = docLocal();
+  for (const c in local.t) local.t[c] = 0;
+  aplicarRespaldo(juntarRespaldo(await descifrar(derivada.clave, remoto.datos), local));
+  guardarLlave(palabras, remoto.version);
+  respaldo.derivada = Promise.resolve(derivada);
+  await sincronizarRespaldo();
+}
 async function recuperarLlave() {
   const estado = $("llaveEstado");
   if (!API) return void (estado.textContent = "Sin conexión con Grieta. Intenta en un momento.");
@@ -207,17 +222,10 @@ async function recuperarLlave() {
   if (error) return void (estado.textContent = error);
   estado.textContent = "Buscando tu copia...";
   try {
-    const { clave, id } = await derivarLlave(palabras);
-    const remoto = await pedirRespaldo(id);
+    const derivada = await derivarLlave(palabras);
+    const remoto = await pedirRespaldo(derivada.id);
     if (!remoto) return void (estado.textContent = "No encontré una copia con esas palabras. Revísalas una por una.");
-    // Al llegar a un telefono nuevo, lo de la copia gana: aqui solo se suman viajes y lugares que no tenga.
-    const local = docLocal();
-    for (const c in local.t) local.t[c] = 0;
-    const doc = juntarRespaldo(await descifrar(clave, remoto.datos), local);
-    aplicarRespaldo(doc);
-    guardarLlave(palabras, remoto.version);
-    respaldo.derivada = Promise.resolve({ clave, id });
-    await sincronizarRespaldo();
+    await traerCopia(palabras, derivada, remoto);
     sessionStorage.setItem("grieta-llave-lista", "1");
     location.reload();
   } catch {
@@ -235,6 +243,10 @@ function pintarLlave() {
   $("llaveCon").hidden = !con;
   $("textoLlave").textContent = !con ? "Guárdalo con una llave de seis palabras" : respaldo.guardada ? `Guardado ${hace(respaldo.guardada)}` : "Se guarda cuando haya internet";
   $("llavePalabras").innerHTML = con ? respaldo.palabras.map((p) => `<li>${escapar(p)}</li>`).join("") : "";
+  // Con cuenta, la llave es parte de ella: quitarla aqui la dejaria sin copia.
+  const conCuenta = !!leer("grieta-cuenta", null);
+  $("llaveQuitar").hidden = conCuenta;
+  $("llaveBorrar").hidden = conCuenta;
 }
 
 $("llaveCrear").addEventListener("click", () => crearLlave().catch(() => ($("llaveEstado").textContent = "No pude crear tu llave. Intenta otra vez.")));

@@ -1,7 +1,7 @@
 import express from "express";
 import { CARPETA_LOCAL } from "./almacen.js";
 import { api } from "./rutas/index.js";
-import { encabezados, limiteEnvios, limiteRespaldos, permisos } from "./seguridad.js";
+import { encabezados, limiteCuentas, limiteEnvios, limiteRespaldos, permisos } from "./seguridad.js";
 
 export const app = express();
 app.disable("x-powered-by");
@@ -13,12 +13,13 @@ app.use(encabezados);
 app.use((req, res, next) => {
   res.set("Access-Control-Allow-Origin", process.env.ORIGEN_PERMITIDO ?? "*");
   res.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.set("Access-Control-Allow-Headers", "Content-Type, X-Clave-Admin");
+  res.set("Access-Control-Allow-Headers", "Content-Type, X-Clave-Admin, Authorization");
   if (req.method === "OPTIONS") return res.status(204).end();
   next();
 });
 app.use(permisos);
 app.use(limiteEnvios);
+app.use("/api/cuentas", limiteCuentas);
 // La copia cifrada del progreso pesa mas que cualquier otro envio; solo esa ruta acepta hasta 400 KB.
 app.use("/api/respaldos", limiteRespaldos, express.json({ limit: "400kb" }));
 app.use(express.json({ limit: "20kb" }));

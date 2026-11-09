@@ -157,16 +157,18 @@
 
     <section id="bienvenida" class="pantalla bienvenida" aria-labelledby="tituloBienvenida" hidden>
       <div class="bienvenida-cabecera">
-        <button id="regresarBienvenida" type="button" class="regresar bienvenida-atras oculta" aria-label="Regresar"><svg class="icono" aria-hidden="true"><use href="#i-atras"/></svg></button>
-        <button id="saltarBienvenida" type="button" class="enlace">Saltar</button>
-        <div id="progresoBienvenida" class="bienvenida-progreso progreso-1" role="progressbar" aria-label="Progreso de bienvenida" aria-valuemin="1" aria-valuemax="6" aria-valuenow="1" aria-valuetext="Paso 1 de 6"><span id="avanceBienvenida"></span></div>
+        <div class="tutorial-cabecera">
+          <button id="regresarBienvenida" type="button" class="regresar bienvenida-atras oculta" aria-label="Regresar"><svg class="icono" aria-hidden="true"><use href="#i-atras"/></svg></button>
+          <p id="numeroPregunta" class="tutorial-progreso">Pregunta 1 de 7</p>
+          <button id="saltarBienvenida" type="button" class="enlace">Saltar</button>
+        </div>
+        <div id="progresoBienvenida" class="tutorial-puntos" role="progressbar" aria-label="Progreso de bienvenida" aria-valuemin="1" aria-valuemax="7" aria-valuenow="1" aria-valuetext="Paso 1 de 7"></div>
       </div>
       <div data-paso="vista" class="paso">
-        <div class="tl-dialogo"><svg class="tl-pregunta" viewBox="-72 -84 140 88" aria-hidden="true"></svg><div class="tl-globo">
-        <p class="paso-numero">PASO 1 DE 6</p>
+        <div class="escena-pregunta" aria-hidden="true"></div><div class="pregunta-texto">
         <p class="tl-saludo">¡Hola! Yo te acompaño en tus viajes.</p>
         <h1 id="tituloBienvenida" tabindex="-1"><span class="oculto">Bienvenida a Grieta. </span>¿Cómo ves la pantalla?</h1>
-        </div></div>
+        </div>
         <div class="vista-opciones">
           <button type="button" class="opcion-vista" data-v="vista"><span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-ojo"/></svg></span><span class="opcion-texto"><strong>Veo bien</strong><small>Mapa y letra normal</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
           <button type="button" class="opcion-vista" data-v="poco"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-letra"/></svg></span><span class="opcion-texto"><strong>Veo poco</strong><small>Letra grande y más contraste</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
@@ -174,43 +176,39 @@
         </div>
       </div>
       <div data-paso="lector" class="paso" hidden>
-        <div class="tl-dialogo"><svg class="tl-pregunta" viewBox="-72 -84 140 88" aria-hidden="true"></svg><div class="tl-globo">
-        <p class="paso-numero">PASO 2 DE 6</p>
+        <div class="escena-pregunta" aria-hidden="true"></div><div class="pregunta-texto">
         <h1 id="tituloLector" tabindex="-1">¿Tu teléfono ya te lee la pantalla?</h1>
-        </div></div>
+        </div>
         <div class="vista-opciones">
           <button type="button" class="opcion-vista" data-lector="si"><span class="mini-ficha tono-escuela" aria-hidden="true"><svg class="picto"><use href="#p-decir"/></svg></span><span class="opcion-texto"><strong>Sí, ya uso uno</strong><small>VoiceOver o TalkBack</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
           <button type="button" class="opcion-vista" data-lector="no"><span class="mini-ficha tono-hospital" aria-hidden="true"><svg class="picto"><use href="#p-familiar"/></svg></span><span class="opcion-texto"><strong>No, ayúdame</strong><small>Grieta te lo dice en voz alta</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
         </div>
       </div>
       <div data-paso="forma" class="paso" hidden>
-        <div class="tl-dialogo"><svg class="tl-pregunta" viewBox="-72 -84 140 88" aria-hidden="true"></svg><div class="tl-globo">
-        <p class="paso-numero">PASO 2 DE 6</p>
+        <div class="escena-pregunta" aria-hidden="true"></div><div class="pregunta-texto">
         <h1 id="tituloForma" tabindex="-1">¿Cómo quieres ver Grieta?</h1>
         <p class="nota-paso">Lo puedes cambiar después en tu perfil.</p>
-        </div></div>
+        </div>
         <div class="vista-opciones">
           <button type="button" class="opcion-vista" data-forma="completa"><span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-lugar"/></svg></span><span class="opcion-texto"><strong>Completa</strong><small>Precios, horarios, comparar y esperar</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
           <button type="button" class="opcion-vista" data-forma="facil"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-agregar"/></svg></span><span class="opcion-texto"><strong>Fácil</strong><small>Solo lo esencial, con botones grandes</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
         </div>
       </div>
       <div data-paso="ubicacion" class="paso" hidden>
-        <div class="tl-dialogo"><svg class="tl-pregunta" viewBox="-72 -84 140 88" aria-hidden="true"></svg><div class="tl-globo">
-        <p class="paso-numero">PASO 3 DE 6</p>
+        <div class="escena-pregunta" aria-hidden="true"></div><div class="pregunta-texto">
         <h1 id="tituloUbicacion" tabindex="-1">¿Usamos tu ubicación?</h1>
         <p class="nota-paso">Sirve para encontrar paradas y guiarte.</p>
-        </div></div>
+        </div>
         <div class="vista-opciones">
           <button id="permisoUbicacion" type="button" class="opcion-vista" aria-label="Sí, usar mi ubicación"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-donde"/></svg></span><span class="opcion-texto"><strong>Sí, usar mi ubicación</strong><small>Para saber desde dónde sales</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
           <button id="sinUbicacion" type="button" class="opcion-vista"><span class="mini-ficha tono-obsidiana" aria-hidden="true"><svg class="picto"><use href="#p-lugar"/></svg></span><span class="opcion-texto"><strong>Ahora no</strong><small>Escribes desde dónde sales</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
         </div>
       </div>
       <div data-paso="movilidad" class="paso" hidden>
-        <div class="tl-dialogo"><svg class="tl-pregunta" viewBox="-72 -84 140 88" aria-hidden="true"></svg><div class="tl-globo">
-        <p class="paso-numero">PASO 4 DE 6</p>
+        <div class="escena-pregunta" aria-hidden="true"></div><div class="pregunta-texto">
         <h1 id="tituloMovilidad" tabindex="-1">¿Cómo te mueves?</h1>
         <p class="nota-paso">Sirve para encontrar paradas a tu medida.</p>
-        </div></div>
+        </div>
         <div class="vista-opciones">
           <button type="button" class="opcion-vista" data-movilidad="normal"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-caminar"/></svg></span><span class="opcion-texto"><strong>Camino sin problema</strong></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
           <button type="button" class="opcion-vista" data-movilidad="poco"><span class="mini-ficha tono-casa" aria-hidden="true"><svg class="picto"><use href="#p-caminar"/></svg></span><span class="opcion-texto"><strong>Me cuesta caminar</strong><small>Paradas más cerca</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
@@ -219,11 +217,10 @@
         <button type="button" class="enlace saltar">Saltar estas preguntas</button>
       </div>
       <div data-paso="oido" class="paso" hidden>
-        <div class="tl-dialogo"><svg class="tl-pregunta" viewBox="-72 -84 140 88" aria-hidden="true"></svg><div class="tl-globo">
-        <p class="paso-numero">PASO 5 DE 6</p>
+        <div class="escena-pregunta" aria-hidden="true"></div><div class="pregunta-texto">
         <h1 id="tituloOido" tabindex="-1">¿Escuchas bien los avisos?</h1>
         <p class="nota-paso">Sirve para elegir cómo avisarte durante el viaje.</p>
-        </div></div>
+        </div>
         <div class="vista-opciones">
           <button type="button" class="opcion-vista" data-oido="bien"><span class="mini-ficha tono-escuela" aria-hidden="true"><svg class="picto"><use href="#p-decir"/></svg></span><span class="opcion-texto"><strong>Sí, escucho bien</strong><small>Avisos con voz</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
           <button type="button" class="opcion-vista" data-oido="poco"><span class="mini-ficha tono-hospital" aria-hidden="true"><svg class="picto"><use href="#p-familiar"/></svg></span><span class="opcion-texto"><strong>Me cuesta escuchar</strong><small>Avisos grandes y con vibración</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
@@ -231,11 +228,10 @@
         <button type="button" class="enlace saltar">Saltar estas preguntas</button>
       </div>
       <div data-paso="tarifa" class="paso" hidden>
-        <div class="tl-dialogo"><svg class="tl-pregunta" viewBox="-72 -84 140 88" aria-hidden="true"></svg><div class="tl-globo">
-        <p class="paso-numero">PASO 6 DE 6</p>
+        <div class="escena-pregunta" aria-hidden="true"></div><div class="pregunta-texto">
         <h1 id="tituloTarifa" tabindex="-1">¿Pagas Tarifa Unidos?</h1>
         <p class="nota-paso">Sirve para calcular cuánto te cuesta el camión.</p>
-        </div></div>
+        </div>
         <div class="vista-opciones">
           <button type="button" class="opcion-vista" data-tarifa="si"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-qrobus"/></svg></span><span class="opcion-texto"><strong>Sí</strong><small>Estudiante, mayor de 60 o persona con discapacidad</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
           <button type="button" class="opcion-vista" data-tarifa="no"><span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-camiones"/></svg></span><span class="opcion-texto"><strong>No, pago la tarifa normal</strong></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
@@ -243,15 +239,25 @@
         <button type="button" class="enlace saltar">Saltar estas preguntas</button>
       </div>
       <div data-paso="gasolina" class="paso" hidden>
-        <div class="tl-dialogo"><svg class="tl-pregunta" viewBox="-72 -84 140 88" aria-hidden="true"></svg><div class="tl-globo">
-        <p class="paso-numero">PASO 7 DE 7</p>
+        <div class="escena-pregunta" aria-hidden="true"></div><div class="pregunta-texto">
         <h1 id="tituloGasolina" tabindex="-1">¿Qué gasolina le pones a tu carro?</h1>
         <p class="nota-paso">Sirve para calcular cuánto gastarías en carro.</p>
-        </div></div>
+        </div>
         <div class="vista-opciones">
           <button type="button" class="opcion-vista" data-gasolina="magna"><span class="mini-ficha tono-hospital" aria-hidden="true"><svg class="picto"><use href="#p-gasolina"/></svg></span><span class="opcion-texto"><strong>Verde</strong><small>Magna</small></span></button>
           <button type="button" class="opcion-vista" data-gasolina="premium"><span class="mini-ficha tono-salud" aria-hidden="true"><svg class="picto"><use href="#p-gasolina"/></svg></span><span class="opcion-texto"><strong>Roja</strong><small>Premium</small></span></button>
           <button type="button" class="opcion-vista" data-gasolina="no"><span class="mini-ficha tono-obsidiana" aria-hidden="true"><svg class="picto"><use href="#p-qrobus"/></svg></span><span class="opcion-texto"><strong>No tengo carro</strong></span></button>
+        </div>
+      </div>
+      <div data-paso="cuenta" class="paso" hidden>
+        <div class="escena-pregunta" aria-hidden="true"></div><div class="pregunta-texto">
+        <h1 id="tituloCuentaPaso" tabindex="-1">Guarda tu progreso</h1>
+        <p class="nota-paso">Para no perderlo si cambias de teléfono.</p>
+        </div>
+        <div class="vista-opciones">
+          <button type="button" class="opcion-vista" data-cuenta="crear"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-llave"/></svg></span><span class="opcion-texto"><strong>Crear cuenta</strong><small>Con tu correo y una contraseña</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
+          <button type="button" class="opcion-vista" data-cuenta="entrar"><span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-celular"/></svg></span><span class="opcion-texto"><strong>Ya tengo cuenta</strong><small>Trae tu progreso a este teléfono</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
+          <button type="button" class="opcion-vista" data-cuenta="nombre"><span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-familiar"/></svg></span><span class="opcion-texto"><strong>Solo con mi nombre</strong><small>Se queda en este teléfono</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
         </div>
       </div>
     </section>
@@ -757,6 +763,30 @@
       </div>
     </section>
 
+    <section id="cuenta" class="pantalla cuenta" aria-labelledby="tituloPantalla" hidden>
+      <div id="cuentaEscena" class="escena-pregunta esc-p-cuenta" aria-hidden="true"></div>
+      <form id="cuentaForma" novalidate>
+        <h1 id="cuentaTitulo" tabindex="-1">Crea tu cuenta</h1>
+        <p id="cuentaNota" class="nota"></p>
+        <label id="grupoNombre" class="campo"><span>Tu nombre</span><input id="cuentaNombre" type="text" maxlength="60" autocomplete="name" enterkeyhint="next"></label>
+        <label id="grupoCorreo" class="campo"><span>Tu correo</span><input id="cuentaCorreo" type="email" maxlength="120" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false" enterkeyhint="next"></label>
+        <label id="grupoPalabras" class="campo"><span>Tus seis palabras</span><input id="cuentaPalabras" type="text" autocomplete="off" autocapitalize="none" spellcheck="false"></label>
+        <label id="grupoActual" class="campo"><span>Tu contraseña</span><input id="cuentaActual" type="password" autocomplete="current-password" maxlength="128"></label>
+        <div id="grupoClave" class="campo"><label for="cuentaClave"><span id="cuentaClaveTexto">Contraseña</span></label><div class="campo-clave"><input id="cuentaClave" type="password" maxlength="128" enterkeyhint="go"><button id="cuentaVer" type="button" class="enlace">Ver</button></div></div>
+        <button id="cuentaEnviar" type="submit" class="boton">Crear cuenta</button>
+        <p id="cuentaEstado" class="nota" role="status"></p>
+        <div class="cuenta-enlaces"><button id="cuentaOtroModo" type="button" class="enlace"></button><button id="cuentaOlvide" type="button" class="enlace">Olvidé mi contraseña</button></div>
+      </form>
+      <div id="cuentaGuarda" class="cuenta-guarda" hidden>
+        <h1 id="cuentaGuardaTitulo" tabindex="-1">Guarda tus seis palabras</h1>
+        <p class="nota">Si olvidas tu contraseña, con ellas recuperas tu cuenta. Sin ellas no hay forma de hacerlo.</p>
+        <ol id="cuentaLista" class="llave-palabras" translate="no"></ol>
+        <p id="cuentaCopiado" class="nota" role="status"></p>
+        <button id="cuentaCopiar" type="button" class="boton oscuro">Copiarlas</button>
+        <button id="cuentaListo" type="button" class="boton">Ya las guardé</button>
+      </div>
+    </section>
+
     <section id="perfil" class="pantalla" aria-labelledby="tituloPantalla" hidden>
       <div class="credencial">
         <div class="credencial-foto"><svg id="credencialFoto" viewBox="0 0 150 150" aria-hidden="true"></svg></div>
@@ -968,7 +998,7 @@
         <button type="button" class="ajuste-ficha tono-ciruela" data-ajuste="voz"><svg class="picto" aria-hidden="true"><use href="#p-decir"/></svg><span><strong>Voz</strong><small>Encenderla y su velocidad</small></span></button>
         <button type="button" class="ajuste-ficha tono-hospital" data-ajuste="viajes"><svg class="picto" aria-hidden="true"><use href="#p-qrobus"/></svg><span><strong>Tus viajes</strong><small>Cuánto caminas y qué tarifa pagas</small></span></button>
         <button type="button" class="ajuste-ficha tono-trabajo" data-ajuste="accesibilidad"><svg class="picto" aria-hidden="true"><use href="#p-ojo"/></svg><span><strong>Accesibilidad</strong><small>Letra, contraste y daltonismo</small></span></button>
-        <button type="button" class="ajuste-ficha tono-maiz" data-ajuste="progreso"><svg class="picto" aria-hidden="true"><use href="#p-llave"/></svg><span><strong>Tu progreso</strong><small>Pásalo a otro teléfono</small></span></button>
+        <button type="button" class="ajuste-ficha tono-maiz" data-ajuste="progreso"><svg class="picto" aria-hidden="true"><use href="#p-llave"/></svg><span><strong>Tu cuenta</strong><small>Tu progreso en otro teléfono</small></span></button>
         <button type="button" class="ajuste-ficha tono-obsidiana" data-ajuste="ayuda"><svg class="picto" aria-hidden="true"><use href="#p-reportar"/></svg><span><strong>Ayuda</strong><small>Cómo usar Grieta y preguntas</small></span></button>
         <a class="ajuste-ficha tono-turquesa" href="observatorio.html"><svg class="picto" aria-hidden="true"><use href="#p-acueducto"/></svg><span><strong translate="no">Qro al día</strong><small>Datos abiertos de Querétaro</small></span></a>
         <a id="llamarQrobus" class="ajuste-ficha tono-salud" href="tel:+524422100407" aria-label="Llamar a Qrobus al 442 210 0407"><svg class="picto" aria-hidden="true"><use href="#p-qrobus"/></svg><span><strong>Llamar a Qrobus</strong><small>Atención telefónica</small></span></a>
@@ -1071,6 +1101,23 @@
       </div>
       <div data-ajuste-panel="progreso" class="tono-maiz" hidden>
         <div class="ajuste-cabeza"><svg class="picto" aria-hidden="true"><use href="#p-llave"/></svg><p>Tu racha y tus lugares, a salvo</p></div>
+        <div class="grupo llave-caja cuenta-panel">
+          <div class="llave">
+            <div id="cuentaSin">
+              <p class="nota">Crea tu cuenta para guardar tu progreso y usarlo en otro teléfono. Se cifra con tu contraseña: ni Grieta puede leerlo.</p>
+              <button id="cuentaCrear" type="button" class="boton">Crear cuenta</button>
+              <button id="cuentaEntrar" type="button" class="boton oscuro">Ya tengo cuenta</button>
+            </div>
+            <div id="cuentaCon" hidden>
+              <div class="cuenta-ficha"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-familiar"/></svg></span><span class="fila-texto"><strong id="cuentaNombreVer" translate="no"></strong><small id="cuentaCorreoVer" translate="no"></small></span></div>
+              <button id="cuentaClaveAbrir" type="button" class="fila-boton"><svg class="icono" aria-hidden="true"><use href="#i-lapiz"/></svg>Cambiar contraseña</button>
+              <button id="cuentaSalir" type="button" class="fila-boton"><svg class="icono" aria-hidden="true"><use href="#i-equis"/></svg>Cerrar sesión</button>
+              <button id="cuentaBorrar" type="button" class="fila-boton peligro"><svg class="icono" aria-hidden="true"><use href="#i-basura"/></svg>Borrar mi cuenta</button>
+            </div>
+            <p id="cuentaAviso" class="nota" role="status"></p>
+          </div>
+        </div>
+        <h2 id="tituloLlaveCuenta" class="seccion-llave">O con tu llave de seis palabras</h2>
         <div class="grupo llave-caja">
         <p id="textoLlave" class="nota">Guárdalo con una llave de seis palabras</p>
             <div class="llave" role="group" aria-label="Tu progreso en otro teléfono">
@@ -1180,5 +1227,6 @@
   <script src="escenas-arte.js"></script>
   <script src="app.js"></script>
   <script src="llave.js"></script>
+  <script src="cuenta.js"></script>
 </body>
 </html>

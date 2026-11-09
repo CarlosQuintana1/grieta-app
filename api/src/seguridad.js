@@ -3,6 +3,9 @@
 
 // Lo que cualquiera puede mandar desde la app.
 const ESCRITURAS_PUBLICAS = [
+  ["POST", /^\/api\/cuentas(\/entrar|\/recuperar|\/salir)?\/?$/],
+  ["PUT", /^\/api\/cuentas\/yo\/clave\/?$/],
+  ["DELETE", /^\/api\/cuentas\/yo\/?$/],
   ["POST", /^\/api\/reportes\/?$/],
   ["POST", /^\/api\/quejas\/?$/],
   ["POST", /^\/api\/reportes\/\d+\/foto\/?$/],
@@ -36,7 +39,7 @@ const TOPE = Number(process.env.TOPE_ENVIOS_HORA ?? 30);
 const envios = new Map();
 
 export function limiteEnvios(req, res, next) {
-  if (req.method !== "POST" || esDelEquipo(req)) return next();
+  if (req.method !== "POST" || esDelEquipo(req) || req.path.startsWith("/api/cuentas")) return next();
   const quien = req.ip;
   const ahora = Date.now();
   const lista = (envios.get(quien) ?? []).filter((t) => ahora - t < VENTANA_MS);
@@ -58,6 +61,21 @@ export function limiteRespaldos(req, res, next) {
   lista.push(ahora);
   respaldosPorIp.set(req.ip, lista);
   if (respaldosPorIp.size > 5000) respaldosPorIp.delete(respaldosPorIp.keys().next().value);
+  next();
+}
+
+// Las cuentas llevan su propio tope: en una red compartida no deben gastarse los envios de los demas.
+const TOPE_CUENTAS = Number(process.env.TOPE_CUENTAS_HORA ?? 60);
+const cuentasPorIp = new Map();
+
+export function limiteCuentas(req, res, next) {
+  if (req.method === "GET" || req.method === "OPTIONS" || esDelEquipo(req)) return next();
+  const ahora = Date.now();
+  const lista = (cuentasPorIp.get(req.ip) ?? []).filter((t) => ahora - t < VENTANA_MS);
+  if (lista.length >= TOPE_CUENTAS) return res.status(429).json({ error: "Muchos intentos seguidos. Intenta en un rato" });
+  lista.push(ahora);
+  cuentasPorIp.set(req.ip, lista);
+  if (cuentasPorIp.size > 5000) cuentasPorIp.delete(cuentasPorIp.keys().next().value);
   next();
 }
 
