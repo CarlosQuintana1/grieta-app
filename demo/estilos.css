@@ -2480,3 +2480,16 @@ html.modo-voz #verRecorrido { display: none; }
 .recorrido.oscuro { background: #0b0a09; }
 .rc-credito { position: absolute; top: calc(12px + env(safe-area-inset-top)); left: 14px; z-index: 2; max-width: calc(100% - 92px); padding: 3px 8px; border-radius: 8px; background: rgb(255 255 255 / 86%); color: #16181d; font-size: .62rem; font-weight: 600; line-height: 1.25; }
 .recorrido.oscuro .rc-credito { background: rgb(22 24 29 / 86%); color: #fff; }
+
+/* Perfil compacto para que todo quepa sin scroll en un iPhone */
+#perfil .credencial { padding: 10px 14px; }
+#perfil .credencial-foto { width: 84px; height: 84px; border-radius: 20px; }
+.pf-pierdo .hv-lado { display: flex; align-items: center; }
+.pf-pt { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 9px; }
+.pf-pt b { font-size: 1.14rem; }
+.pf-lista { padding-right: 24px; }
+.pf-lista > span { font-size: .8rem; }
+.pf-lista .icono { width: 17px; height: 17px; }
+.pf-tres > span { grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: 5px; }
+html.grande .pf-cabeza b { font-size: 1.16rem; }
+.pf-corte { transform: translateZ(0); backface-visibility: hidden; }

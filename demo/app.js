@@ -581,6 +581,8 @@ function vibrar(patron) {
   } catch {}
 }
 const avisar = (texto) => { $("estado").textContent = texto; };
+let relojAviso = null;
+const avisarBreve = (texto) => { avisar(texto); clearTimeout(relojAviso); relojAviso = setTimeout(() => { if ($("estado").textContent === texto) avisar(""); }, 4000); };
 
 // Ubicacion y lugares
 const dentroDeQueretaro = (lat, lon) => Grieta.metros(lat, lon, QUERETARO[0], QUERETARO[1]) / 1000 <= RADIO_KM;
@@ -2767,7 +2769,7 @@ function procesarDictado(texto, revision) {
   $("campoBuscar").value = texto;
   estado.resultados = null; estado.buscado = false;
   if (texto.length < 3) {
-    avisar(textoFrase(frase("no_escuche")));
+    avisarBreve(textoFrase(frase("no_escuche")));
     return hablarAlCerrarDictado(frase("no_escuche"));
   }
   sugerir(texto, res => {
@@ -2808,7 +2810,7 @@ function dictar(boton) {
   rec.onerror = e => {
     if (dictadoActual !== rec) return;
     terminarDictado(rec);
-    if (e.error !== 'aborted') { avisar(textoFrase(frase("no_escuche"))); hablarAlCerrarDictado(frase("no_escuche")); }
+    if (e.error !== 'aborted') { avisarBreve(textoFrase(frase("no_escuche"))); hablarAlCerrarDictado(frase("no_escuche")); }
   };
   rec.onend = () => { if (dictadoActual === rec) terminarDictado(rec, false); };
   const iniciar = () => {
@@ -3269,8 +3271,7 @@ document.querySelector("#ajustes .logo-ajustes").addEventListener("click", () =>
   toquesLogo = 0;
   modoFeria = !modoFeria;
   escribir("grieta-feria", modoFeria);
-  avisar(modoFeria ? "Modo feria activado" : "Modo feria desactivado");
-  setTimeout(() => avisar(""), 3000);
+  avisarBreve(modoFeria ? "Modo feria activado" : "Modo feria desactivado");
   hablar(modoFeria ? "Modo feria activado" : "Modo feria desactivado");
 });
 
@@ -5618,18 +5619,20 @@ function pintarResumenPerfil() {
     `<button type="button" class="pf-corte pf-chica tono-${tono}${fichas.length % 2 && i === fichas.length - 1 ? " pf-sola" : ""}" data-ir-perfil="${grupo}" aria-haspopup="dialog" aria-label="${etiqueta}: ${escapar(valor)}">${picto(icono)}<span class="perfil-ficha-texto"><small>${etiqueta}</small><b>${escapar(valor)}</b></span></button>`).join("") + placaPierdo() + fichaSegura + gasolina;
   evitarCortePerfil();
 }
-// Si la ficha queda partida por la barra de abajo, baja completa a la siguiente vista.
+// Si la ficha queda partida por la barra de abajo, baja completa. Se mide sin contar el scroll para que no brinque.
 function evitarCortePerfil() {
   const caja = $("perfilFichas");
   if (document.body.dataset.pantalla !== "perfil") return;
   for (const f of caja.children) f.style.marginTop = "";
   const barra = document.querySelector("[data-tab]").parentElement.getBoundingClientRect().top;
+  const desplazado = (caja.closest(".hoja")?.scrollTop ?? 0) + scrollY;
   for (const f of caja.children) {
-    const r = f.getBoundingClientRect();
-    if (r.top < barra && r.bottom > barra - 6) { f.style.marginTop = `${Math.ceil(barra - r.top + 12)}px`; break; }
+    const r = f.getBoundingClientRect(), arriba = r.top + desplazado, abajo = r.bottom + desplazado;
+    if (arriba < barra && abajo > barra - 6) { f.style.marginTop = `${Math.ceil(barra - arriba + 12)}px`; break; }
   }
 }
-addEventListener("resize", evitarCortePerfil);
+let anchoPerfil = innerWidth;
+addEventListener("resize", () => { if (innerWidth !== anchoPerfil) { anchoPerfil = innerWidth; evitarCortePerfil(); } });
 new ResizeObserver(evitarCortePerfil).observe($("perfilFichas"));
 // La foto y el nombre se pintan al entrar: al arrancar la racha todavia no existe.
 function pintarCredencial() {
