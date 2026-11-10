@@ -2591,5 +2591,19 @@ html:has(dialog.hoja-perfil[open]) { background: var(--superficie); }
 .buscador:has(#abrirBuscar) .buscador-campo { min-height: 60px; color: var(--sobre-ambar); font-weight: 800; font-size: 1.12rem; }
 .buscador:has(#abrirBuscar) > .icono, .buscador:has(#abrirBuscar) .buscador-marca { width: 26px; height: 26px; color: var(--sobre-ambar); stroke-width: 2.6; }
 .buscador:has(#abrirBuscar):focus-within { outline: 3px solid var(--tinta); outline-offset: 2px; }
-.dictar-grande { background: var(--superficie); color: var(--tinta); border: 2.5px solid var(--ambar); }
-.dictar-grande .picto { color: var(--ambar); }
+/* El boton de voz es rosa: en reposo dice "Decir a donde voy"; al tocarlo se ilumina y muestra lo que va entendiendo */
+.dictar-grande { background: #d0306a; color: #fff; border: 0; }
+.dictar-grande .picto { color: #fff; }
+.dictar-grande .dg-escucha { display: none; align-items: center; gap: 14px; }
+.dictar-grande.oyendo, .dictar-grande.pensando { outline: none; box-shadow: 0 0 0 7px rgb(208 48 106 / 26%), 0 0 0 15px rgb(208 48 106 / 10%); }
+.dictar-grande:is(.oyendo, .pensando) > :not(.dg-escucha) { display: none; }
+.dictar-grande:is(.oyendo, .pensando) .dg-escucha { display: flex; }
+.dg-textos { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15; text-align: left; }
+.dg-sub { display: none; font-size: .8rem; font-weight: 600; opacity: .85; }
+.dictar-grande.entiende .dg-sub { display: block; }
+@media (prefers-reduced-motion: no-preference) {
+  .dictar-grande.oyendo:not(.pensando) .ondas i { animation: onda .9s ease-in-out infinite alternate; }
+  .dictar-grande.oyendo:not(.pensando) .ondas i:nth-child(2) { animation-delay: -.6s; } .dictar-grande.oyendo:not(.pensando) .ondas i:nth-child(3) { animation-delay: -.3s; }
+  .dictar-grande.oyendo:not(.pensando) .ondas i:nth-child(4) { animation-delay: -.8s; } .dictar-grande.oyendo:not(.pensando) .ondas i:nth-child(5) { animation-delay: -.45s; }
+  .dictar-grande.oyendo:not(.pensando) { animation: halo-voz 1.4s ease-in-out infinite alternate; }
+}

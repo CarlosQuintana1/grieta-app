@@ -2755,6 +2755,7 @@ function terminarDictado(rec, abortar = true) {
   const iniciado = dictadoIniciado;
   dictadoActual = null; dictadoIniciado = false;
   $("oyendoBuscar").hidden = true;
+  document.querySelectorAll(".dictar-grande").forEach((b) => b.classList.remove("pensando", "entiende"));
   document.querySelectorAll('.dictar.oyendo, #vozDestino.oyendo').forEach(b => { b.classList.remove('oyendo'); b.setAttribute('aria-pressed', 'false'); });
   $("respuestaVoz").textContent = '';
   $("respuestaVoz").setAttribute('aria-live', 'polite');
@@ -2825,16 +2826,22 @@ function dictar(boton) {
   if (detener) return;
   const rec = new Reconocer(), revision = revisionDictado;
   // Fuera del modo voz, dictar lleva a Buscar: ahi se ve el aviso de que escucha y lo que va entendiendo.
-  const enBuscar = !acc.modoVoz && (boton.classList.contains("dictar-grande") || Boolean(boton.closest("#buscar")));
+  // En Inicio el boton rosa se ilumina ahi mismo y muestra lo que va entendiendo; en Buscar sale el aviso abajo del campo.
+  const enInicio = !acc.modoVoz && boton.classList.contains("dictar-grande");
+  const enBuscar = !acc.modoVoz && !enInicio && Boolean(boton.closest("#buscar"));
+  const mostrar = (texto, parcial) => {
+    if (enBuscar) $("campoBuscar").value = texto;
+    if (enInicio) { boton.querySelector(".dg-texto").textContent = parcial ? `“${texto}…”` : texto; boton.classList.toggle("entiende", parcial); }
+  };
+  if (enInicio) mostrar(textoFrase("Te escucho, di a dónde vas"), false);
   if (enBuscar) {
-    if (document.body.dataset.pantalla !== "buscar") { ir("buscar"); prepararBuscar("hacia"); }
     $("campoBuscar").value = "";
     $("oyendoTexto").textContent = "Te escucho, di a dónde vas";
     $("oyendoBuscar").classList.remove("pensando");
     $("oyendoBuscar").hidden = false;
   }
   dictadoActual = rec; actualizarMicrofono();
-  rec.lang = "es-MX"; rec.continuous = false; rec.interimResults = enBuscar; rec.maxAlternatives = 1;
+  rec.lang = "es-MX"; rec.continuous = false; rec.interimResults = enBuscar || enInicio; rec.maxAlternatives = 1;
   boton.classList.add("oyendo"); boton.setAttribute("aria-pressed", "true");
   $("respuestaVoz").setAttribute('aria-live', 'off');
   detenerVoz();
@@ -2843,13 +2850,15 @@ function dictar(boton) {
     if (dictadoActual !== rec) return;
     boton.classList.remove("oyendo"); boton.setAttribute("aria-pressed", "false");
     if (enBuscar) { $("oyendoTexto").textContent = "Buscando lo que dijiste…"; $("oyendoBuscar").classList.add("pensando"); }
+    if (enInicio) { boton.classList.add("oyendo", "pensando"); boton.querySelector(".dg-texto").textContent = "Buscando lo que dijiste…"; boton.classList.remove("entiende"); }
     try { rec.stop(); } catch {}
   };
   rec.onresult = e => {
     if (dictadoActual !== rec) return;
     const texto = Array.from(e.results).filter(r => r.isFinal).map(r => r[0]?.transcript ?? '').join(' ').trim();
     if (!texto) {
-      if (enBuscar) $("campoBuscar").value = Array.from(e.results).map(r => r[0]?.transcript ?? '').join(' ').trim();
+      const parcial = Array.from(e.results).map(r => r[0]?.transcript ?? '').join(' ').trim();
+      if (parcial) mostrar(parcial, true);
       return;
     }
     terminarDictado(rec);
