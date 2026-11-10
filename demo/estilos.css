@@ -2607,3 +2607,8 @@ html:has(dialog.hoja-perfil[open]) { background: var(--superficie); }
   .dictar-grande.oyendo:not(.pensando) .ondas i:nth-child(4) { animation-delay: -.8s; } .dictar-grande.oyendo:not(.pensando) .ondas i:nth-child(5) { animation-delay: -.45s; }
   .dictar-grande.oyendo:not(.pensando) { animation: halo-voz 1.4s ease-in-out infinite alternate; }
 }
+
+/* Tu ahorro en azul para no juntar tanto ambar; la moneda se recorta con el mismo azul del fondo */
+.pastilla-inicio.azul { background: #3a4fb8; color: #fff; }
+.pastilla-inicio.azul small { color: #dbe0ff; }
+.pastilla-inicio.azul .moneda-corte { fill: #3a4fb8; }
