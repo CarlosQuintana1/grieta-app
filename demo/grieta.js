@@ -347,20 +347,20 @@ const Grieta = (() => {
   // Las reglas que el genetico apago no estan; si ninguna aplica, se pide la app.
   const CONJUNTOS = {
     precio: {
-      barato: (x) => trapecio(x, -INF, -INF, 0.898, 0.987),
-      normal: (x) => triangulo(x, 0.8, 1.004, 1.169),
-      caro: (x) => triangulo(x, 1.002, 1.297, 1.491),
-      "muy caro": (x) => trapecio(x, 1.327, 1.55, INF, INF),
+      barato: (x) => trapecio(x, -INF, -INF, 0.841, 0.961),
+      normal: (x) => triangulo(x, 0.8, 1.04, 1.2),
+      caro: (x) => triangulo(x, 1.003, 1.218, 1.46),
+      "muy caro": (x) => trapecio(x, 1.291, 1.497, INF, INF),
     },
     margen: {
-      poco: (x) => trapecio(x, -INF, -INF, 5.7, 27.984),
-      algo: (x) => triangulo(x, 19.844, 25.695, 30.972),
-      mucho: (x) => trapecio(x, 11.135, 36.74, INF, INF),
+      poco: (x) => trapecio(x, -INF, -INF, 4.197, 24.903),
+      algo: (x) => triangulo(x, 10.145, 28.273, 43.062),
+      mucho: (x) => trapecio(x, 10.505, 56.355, INF, INF),
     },
     camion: {
-      poco: (x) => trapecio(x, -INF, -INF, 11.498, 34.162),
-      algo: (x) => triangulo(x, 11.886, 16.502, 51.885),
-      mucho: (x) => trapecio(x, 38.098, 57.528, INF, INF),
+      poco: (x) => trapecio(x, -INF, -INF, 16.969, 34.984),
+      algo: (x) => triangulo(x, 10.735, 16.929, 51.762),
+      mucho: (x) => trapecio(x, 31.755, 41.909, INF, INF),
     },
   };
 
@@ -368,7 +368,7 @@ const Grieta = (() => {
     [{ precio: ["caro", "muy caro"], margen: ["poco"], camion: ["algo", "mucho"] }, "pedir ya"],
     [{ precio: ["muy caro"], margen: ["algo", "mucho"], camion: ["algo", "mucho"] }, "esperar"],
     [{ precio: ["caro", "muy caro"], camion: ["poco"] }, "camion"],
-    [{ precio: ["muy caro"], margen: ["algo", "mucho"], camion: ["algo"] }, "camion"],
+    [{ precio: ["muy caro"], margen: ["algo", "mucho"], camion: ["algo"] }, "esperar"],
     [{ precio: ["normal"], margen: ["mucho"], camion: ["poco"] }, "camion"],
   ];
 

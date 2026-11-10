@@ -50,17 +50,17 @@ tiempos): con ±0.2 ahorraba $14.83, pero "caro" terminaba empezando en 0.85 vec
 app explicaba sus razones con palabras que no eran ciertas. Población de 60, 120 generaciones,
 torneo de tres, cruce BLX y élite de dos.
 
-Con 262 casos de 21 días, calificado con días que no vio:
+Con 316 casos de 26 días, calificado con días que no vio:
 
 | Sistema | Costo por viaje | Elige lo mejor |
 |---|---|---|
-| Siempre pedir ya | $100.28 | 40% |
-| Camión si hay | $96.22 | 73% |
-| Difuso a mano | $96.72 | 49% |
-| Difuso genético | $84.64 | 82% |
-| Lo mejor posible | $79.50 | 100% |
+| Siempre pedir ya | $105.85 | 40% |
+| Camión si hay | $101.56 | 71% |
+| Difuso a mano | $101.91 | 48% |
+| Difuso genético | $90.07 | 81% |
+| Lo mejor posible | $84.77 | 100% |
 
-El genético ahorra $12.08 por viaje contra el sistema a mano (95% entre $7.51 y $14.81,
+El genético ahorra $11.84 por viaje contra el sistema a mano (95% entre $8.40 y $14.24,
 remuestreando días). Lo que más cambia son las reglas: deja una sola de esperar (muy caro, con
 tiempo y un camión lento) y manda al camión cuando el precio está caro y el camión tarda poco más.
 
