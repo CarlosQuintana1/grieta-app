@@ -2477,3 +2477,6 @@ html.modo-voz #verRecorrido { display: none; }
 #verEstimados { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px; }
 #verEstimados[hidden] { display: none; }
 #verEstimados .picto { width: 24px; height: 24px; }
+.recorrido.oscuro { background: #0b0a09; }
+.rc-credito { position: absolute; top: calc(12px + env(safe-area-inset-top)); left: 14px; z-index: 2; max-width: calc(100% - 92px); padding: 3px 8px; border-radius: 8px; background: rgb(255 255 255 / 86%); color: #16181d; font-size: .62rem; font-weight: 600; line-height: 1.25; }
+.recorrido.oscuro .rc-credito { background: rgb(22 24 29 / 86%); color: #fff; }

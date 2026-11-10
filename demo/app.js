@@ -1963,15 +1963,16 @@ async function abrirRecorrido() {
   try {
     const lib = await cargarMaplibre();
     if (!hoja.open) return;
+    const oscuro = !document.documentElement.classList.contains("claro");
+    hoja.classList.toggle("oscuro", oscuro);
     const limites = tramos.flatMap((t) => t.pts).reduce((b, p) => b.extend(p), new lib.LngLatBounds(tramos[0].pts[0], tramos[0].pts[0]));
-    const m = rc.mapa = new lib.Map({ container: "recorridoMapa", style: "https://tiles.openfreemap.org/styles/liberty", bounds: limites, fitBoundsOptions: { padding: 60 }, pitch: 50, maxPitch: 70, interactive: false, attributionControl: false });
-    m.addControl(new lib.AttributionControl({ compact: true }), "top-left");
+    const m = rc.mapa = new lib.Map({ container: "recorridoMapa", style: `https://tiles.openfreemap.org/styles/${oscuro ? "dark" : "liberty"}`, bounds: limites, fitBoundsOptions: { padding: 60 }, pitch: 50, maxPitch: 70, interactive: false, attributionControl: false });
     m.on("load", () => {
       if (rc.mapa !== m) return;
       m.addSource("todo", { type: "geojson", data: { type: "FeatureCollection", features: tramos.map((t) => lineaGeo(t.pts, t.tipo)) } });
       m.addSource("hecho", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
       const trazo = { "line-cap": "round", "line-join": "round" };
-      m.addLayer({ id: "todo", type: "line", source: "todo", layout: trazo, paint: { "line-color": "#16181d", "line-width": 5, "line-opacity": 0.32 } });
+      m.addLayer({ id: "todo", type: "line", source: "todo", layout: trazo, paint: { "line-color": oscuro ? "#ffffff" : "#16181d", "line-width": 5, "line-opacity": 0.32 } });
       m.addLayer({ id: "borde", type: "line", source: "hecho", layout: trazo, paint: { "line-color": "#16181d", "line-width": 10 } });
       m.addLayer({ id: "hecho", type: "line", source: "hecho", layout: trazo, paint: { "line-color": ["get", "color"], "line-width": 6 } });
       const el = document.createElement("span");
