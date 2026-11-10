@@ -2536,3 +2536,4 @@ html.grande .pf-cabeza b { font-size: 1.16rem; }
 .pf-lista > span > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pf-justo { gap: 6px; }
 .pf-justo .pf-precio { display: none; }
+.hp-titulo:focus { outline: none; }
