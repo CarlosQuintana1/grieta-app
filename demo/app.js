@@ -1,3 +1,4 @@
+// © 2026 Equipo Grieta. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
 const $ = (id) => document.getElementById(id);
 const pesos = (x) => `$${Math.round(x)}`;
 const QUERETARO = [20.6, -100.4];

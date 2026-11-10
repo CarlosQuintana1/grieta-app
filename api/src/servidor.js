@@ -24,4 +24,7 @@ console.log(`Base de datos: ${sequelize.getDialect()} · Fotos: ${almacenEnUso}`
 const sembrados = await sembrar();
 if (sembrados) console.log(`Catalogo cargado: ${sembrados} lugares y sus rutas`);
 
-app.listen(PUERTO, () => console.log(`API de Grieta en http://localhost:${PUERTO}/api`));
+const servidor = app.listen(PUERTO, () => console.log(`API de Grieta en http://localhost:${PUERTO}/api`));
+// Conexiones que mandan los datos muy despacio se cortan: asi nadie deja al servidor esperando para tumbarlo.
+servidor.headersTimeout = 15000;
+servidor.requestTimeout = 60000;

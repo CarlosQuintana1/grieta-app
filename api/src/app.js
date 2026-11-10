@@ -1,17 +1,21 @@
 import express from "express";
 import { CARPETA_LOCAL } from "./almacen.js";
 import { api } from "./rutas/index.js";
-import { encabezados, limiteCuentas, limiteEnvios, limiteRespaldos, permisos } from "./seguridad.js";
+import { bloqueoClave, encabezados, limiteBusquedas, limiteFotos, limiteCuentas, limiteEnvios, limiteGeneral, limiteRespaldos, origenPermitido, permisos } from "./seguridad.js";
 
 export const app = express();
 app.disable("x-powered-by");
 // Detras del balanceador de Azure, la IP real de quien pide viene en X-Forwarded-For.
 app.set("trust proxy", 1);
 app.use(encabezados);
+app.use(limiteGeneral);
+app.use(bloqueoClave);
 
 // La app web vive en otro dominio; sin esto el navegador bloquea las peticiones.
 app.use((req, res, next) => {
-  res.set("Access-Control-Allow-Origin", process.env.ORIGEN_PERMITIDO ?? "*");
+  const origen = origenPermitido(req.get("Origin"));
+  if (origen) res.set("Access-Control-Allow-Origin", origen);
+  res.set("Vary", "Origin");
   res.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type, X-Clave-Admin, Authorization");
   if (req.method === "OPTIONS") return res.status(204).end();
@@ -20,6 +24,8 @@ app.use((req, res, next) => {
 app.use(permisos);
 app.use(limiteEnvios);
 app.use("/api/cuentas", limiteCuentas);
+app.use("/api/buscar", limiteBusquedas);
+app.post(/^\/api\/reportes\/\d+\/foto\/?$/, limiteFotos);
 // La copia cifrada del progreso pesa mas que cualquier otro envio; solo esa ruta acepta hasta 400 KB.
 app.use("/api/respaldos", limiteRespaldos, express.json({ limit: "400kb" }));
 app.use(express.json({ limit: "20kb" }));

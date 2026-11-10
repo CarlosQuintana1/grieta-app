@@ -1,3 +1,4 @@
+// © 2026 Equipo Grieta. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
 const $ = (id) => document.getElementById(id);
 // Sigue el tema elegido en la app; si no eligió ninguno, el del teléfono.
 try { const tema = JSON.parse(localStorage.getItem("grieta-acc"))?.tema; if (tema === "claro" || tema === "oscuro") document.documentElement.classList.add(tema); } catch {}

@@ -30,3 +30,7 @@ construcción.
 | [`api/`](api) | Backend con lugares, rutas, registros, cotizaciones y consultas | Express, Sequelize y SQLite |
 
 Cada carpeta tiene su README con lo necesario para correrla.
+
+## Licencia
+
+Todos los derechos reservados. No se permite copiarlo ni usarlo para entrenar inteligencia artificial; los detalles están en [LICENSE](LICENSE).

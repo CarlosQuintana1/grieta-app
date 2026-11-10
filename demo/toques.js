@@ -1,3 +1,4 @@
+// © 2026 Equipo Grieta. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
 const ToquesGrieta = (() => {
   let puedeAnunciar = () => true;
   const INSTRUCCION = 'Toca una vez para escuchar. Toca dos veces seguidas el mismo control para activarlo.';

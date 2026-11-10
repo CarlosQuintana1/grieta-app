@@ -1,3 +1,4 @@
+// © 2026 Equipo Grieta. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
 // Mismos calculos que modelo/tarifa.py, camion.py y decision.py, con los datos de exportar_demo.py.
 const Grieta = (() => {
   const CORTES = [0, 6, 9, 12, 15, 18, 21, 24];

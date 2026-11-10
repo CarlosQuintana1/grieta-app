@@ -1,3 +1,4 @@
+// © 2026 Equipo Grieta. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
 // Cuenta opcional en la API de Grieta: la llave de seis palabras viaja cifrada con la contrasena.
 const VUELTAS_CUENTA = 600000;
 const MINIMO_CLAVE = 8;
