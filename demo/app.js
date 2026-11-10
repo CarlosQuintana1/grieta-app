@@ -1928,7 +1928,8 @@ function animarRecorrido(tramos, limites) {
     m.fitBounds(limites, { ...encuadre, duration: suave() ? 1800 : 0 });
   };
   $("recorridoRepetir").hidden = true;
-  if (!suave()) return terminar();
+  // Con movimiento reducido la cámara se queda quieta, pero el recorrido sí se dibuja: la persona lo pidió.
+  const quieto = !suave();
   const total = tramos.reduce((s, t) => s + t.largo, 0), segundos = Math.max(14, Math.min(26, total / 1000 * 1.4));
   for (const t of tramos) t.ms = (2200 + (t.largo / total) * segundos * 1000);
   let i = 0, inicio = null, rumbo = null, zoom = 15, etapa = "", cuadro = 0;
@@ -1941,7 +1942,7 @@ function animarRecorrido(tramos, limites) {
     const meta = rumboDe(p, adelante);
     if (Number.isFinite(meta) && (p[0] !== adelante[0] || p[1] !== adelante[1])) rumbo = rumbo === null ? meta : (rumbo + (((meta - rumbo + 540) % 360) - 180) * 0.06 + 360) % 360;
     zoom += ((t.tipo === "pie" ? 16.6 : 14.7) - zoom) * 0.05;
-    m.jumpTo({ center: p, bearing: rumbo ?? 0, pitch: 62, zoom });
+    if (!quieto) m.jumpTo({ center: p, bearing: rumbo ?? 0, pitch: 62, zoom });
     rc.marca.setLngLat(p);
     if (etapa !== t.etapa) { etapa = t.etapa; $("recorridoEtapa").textContent = etapa; rc.marca.getElement().querySelector("use").setAttribute("href", `#p-${t.tipo === "pie" ? "caminar" : t.tipo === "app" ? "carro" : "qrobus"}`); }
     if (!(cuadro++ % 3)) hecho.setData({ type: "FeatureCollection", features: [...hechos, lineaGeo([...t.pts.slice(0, k), p], t.tipo)] });
@@ -1949,6 +1950,7 @@ function animarRecorrido(tramos, limites) {
     rc.cuadro = requestAnimationFrame(paso);
   };
   m.fitBounds(limites, { ...encuadre, duration: 0 });
+  if (quieto) { rc.cuadro = requestAnimationFrame(paso); return; }
   setTimeout(() => {
     if (rc.mapa !== m) return;
     m.flyTo({ center: tramos[0].pts[0], zoom: 15, pitch: 62, duration: 1600 });
