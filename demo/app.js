@@ -2658,18 +2658,36 @@ function pintarAyudaPierdo() {
   if (lugar) $("pierdoCasaTexto").textContent = `Llévame a ${lugar.nombre}`;
 }
 const hojaPierdo = $("hojaPierdo");
+let lugarPierdo = null;
+const ICONO_LUGAR = { Casa: "casa", Trabajo: "maletin", Escuela: "escuela" };
+function pintarAvatarPierdo() {
+  const letra = inicialDe($("pierdoNombre").value);
+  if (letra) $("pierdoAvatar").textContent = letra;
+  else $("pierdoAvatar").innerHTML = ico("persona");
+}
+function pintarLugaresPierdo() {
+  $("pierdoLugares").innerHTML = guardados.map((g, i) => `<button type="button" data-lugar="${i}" aria-pressed="${g.nombre === lugarPierdo}">${ico(ICONO_LUGAR[g.nombre] ?? "pin")}<span translate="no">${escapar(g.nombre)}</span></button>`).join("");
+}
 function abrirHojaPierdo() {
-  const c = siMePierdo, select = $("pierdoLugar");
+  const c = siMePierdo;
   $("pierdoNombre").value = c?.nombre ?? "";
   $("pierdoTel").value = c?.telefono ?? "";
   $("pierdoError").hidden = true;
   $("pierdoQuitar").hidden = !c;
   $("pierdoLugarCampo").hidden = !guardados.length;
-  select.replaceChildren(...guardados.map((g) => new Option(g.nombre, g.nombre)));
-  const elegido = c?.lugar ?? guardados.find((g) => g.nombre === "Casa")?.nombre;
-  if (elegido && guardados.some((g) => g.nombre === elegido)) select.value = elegido;
+  const elegido = c?.lugar ?? "Casa";
+  lugarPierdo = guardados.some((g) => g.nombre === elegido) ? elegido : guardados[0]?.nombre ?? null;
+  pintarAvatarPierdo();
+  pintarLugaresPierdo();
   hojaPierdo.showModal();
 }
+$("pierdoNombre").addEventListener("input", pintarAvatarPierdo);
+$("pierdoLugares").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-lugar]");
+  if (!b) return;
+  lugarPierdo = guardados[Number(b.dataset.lugar)].nombre;
+  for (const o of $("pierdoLugares").children) o.setAttribute("aria-pressed", String(o === b));
+});
 function repintarPierdo() { pintarAyudaPierdo(); pintarResumenPerfil(); }
 $("pierdoForma").addEventListener("submit", (e) => {
   e.preventDefault();
@@ -2678,7 +2696,7 @@ $("pierdoForma").addEventListener("submit", (e) => {
   const error = !nombre ? "Escribe cómo se llama." : telefono.length !== 10 ? "Escribe su teléfono a 10 dígitos." : "";
   $("pierdoError").textContent = error; $("pierdoError").hidden = !error;
   if (error) return;
-  siMePierdo = { nombre, telefono, lugar: $("pierdoLugar").value || null };
+  siMePierdo = { nombre, telefono, lugar: lugarPierdo };
   escribir("grieta-si-me-pierdo", siMePierdo);
   hojaPierdo.close();
   repintarPierdo();
@@ -5581,10 +5599,11 @@ function fichasPerfil() {
     ["perfilLlegar", "anil", "flag", "Llegar", colchon ? `${colchon} min` : "Justo"],
   ].filter(Boolean);
 }
+const inicialDe = (nombre) => Array.from(nombre.trim())[0]?.toLocaleUpperCase("es-MX") ?? "";
 function placaPierdo() {
   const c = siMePierdo, lugar = lugarDeAyuda();
   const filas = [["pin", "Te digo tu calle"], ["telefono", "Le llamo con un toque"], lugar && ["casa", `Te llevo a ${lugar.nombre}`]].filter(Boolean);
-  return `<button type="button" class="pf-corte pf-pierdo" data-pierdo aria-haspopup="dialog"><span class="hv-partido">${PLACAS_VIAJE}<span class="hv-lado"><span class="pf-pt">${picto("donde")}<span><small>Si me pierdo</small><b>${c ? escapar(c.nombre) : "Elige a quién"}</b></span></span></span><span class="hv-lado der"><span class="pf-lista">${filas.map(([i, x]) => `<span>${ico(i)}<span>${escapar(x)}</span></span>`).join("")}</span></span></span>${ico("lapiz", "pf-lapiz")}</button>`;
+  return `<button type="button" class="pf-corte pf-pierdo" data-pierdo aria-haspopup="dialog"><span class="hv-partido">${PLACAS_VIAJE}<span class="hv-lado"><span class="pf-pt"><span class="pf-av">${c ? escapar(inicialDe(c.nombre)) : picto("donde")}</span><span><small>Si me pierdo</small><b>${c ? escapar(c.nombre) : "Elige a quién"}</b></span></span></span><span class="hv-lado der"><span class="pf-lista">${filas.map(([i, x]) => `<span>${ico(i)}<span>${escapar(x)}</span></span>`).join("")}</span></span></span>${ico("lapiz", "pf-lapiz")}</button>`;
 }
 function resumenCortoPerfil() {
   const vista = { vista: "Ves bien", poco: "Ves poco", voz: "Grieta te habla" }[vistaActual()];
@@ -5628,7 +5647,7 @@ function evitarCortePerfil() {
   const desplazado = (caja.closest(".hoja")?.scrollTop ?? 0) + scrollY;
   for (const f of caja.children) {
     const r = f.getBoundingClientRect(), arriba = r.top + desplazado, abajo = r.bottom + desplazado;
-    if (arriba < barra && abajo > barra - 6) { f.style.marginTop = `${Math.ceil(barra - arriba + 12)}px`; break; }
+    if (arriba < barra && abajo > barra) { f.style.marginTop = `${Math.ceil(barra - arriba + 12)}px`; break; }
   }
 }
 let anchoPerfil = innerWidth;

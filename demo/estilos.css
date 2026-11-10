@@ -1933,7 +1933,7 @@ html.grande .perfil-gasolina button { flex: 1; }
   .hoja-perfil[open] { animation: subir-hoja .26s cubic-bezier(.2, .9, .3, 1); }
   @keyframes subir-hoja { from { transform: translateY(100%); } }
 }
-@media (max-height: 640px) { .credencial { padding: 10px 14px; } .credencial-foto { width: 76px; height: 76px; border-radius: 20px; } .credencial strong { font-size: 1.9rem; } .perfil-ficha { min-height: 66px; padding: 7px 10px; } .perfil-ficha > .picto { width: 24px; height: 24px; } .perfil-ficha.ancha { min-height: 58px; } .perfil-fichas { grid-auto-rows: minmax(70px, 1fr); gap: 8px; } .perfil-fichas:has(> .ancha) { grid-template-rows: repeat(3, minmax(66px, 1fr)) auto auto; } }
+@media (max-height: 640px) { .credencial { padding: 10px 14px; } .credencial-foto { width: 76px; height: 76px; border-radius: 20px; } .credencial strong { font-size: 1.9rem; } .perfil-ficha { min-height: 66px; padding: 7px 10px; } .perfil-ficha > .picto { width: 24px; height: 24px; } .perfil-ficha.ancha { min-height: 58px; } .perfil-fichas:has(> .ancha) { grid-template-rows: repeat(3, minmax(66px, 1fr)) auto auto; } }
 
 /* Icono de gasolina en el color que eligio la persona */
 :is(.credencial-iconos, #textoPerfil) i.gas-magna { color: #5fc98c; }
@@ -2493,3 +2493,25 @@ html.modo-voz #verRecorrido { display: none; }
 .pf-tres > span { grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: 5px; }
 html.grande .pf-cabeza b { font-size: 1.16rem; }
 .pf-corte { transform: translateZ(0); backface-visibility: hidden; }
+
+/* Ficha de contacto de Si me pierdo */
+.pf-av { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #fff; color: #8e2a28; font-size: 1.4rem; font-weight: 800; }
+.pf-av .picto { width: 28px; height: 28px; }
+.pf-pierdo .hv-lado { padding-top: 7px; padding-bottom: 7px; }
+.pf-lista { gap: 3px; }
+#perfil .credencial strong:not(.largo) { font-size: 2.2rem; line-height: 1; }
+.pierdo-forma { gap: 9px; }
+.hp-avatar { justify-self: center; display: grid; place-items: center; width: 76px; height: 76px; border-radius: 50%; background: #8e2a28; color: #fff; font-size: 2.1rem; font-weight: 800; }
+.hp-avatar .icono { width: 38px; height: 38px; color: #fff; }
+.hp-titulo { margin: 0; color: var(--tinta); font-size: 1.36rem; font-weight: 800; line-height: 1.14; letter-spacing: -.01em; text-align: center; }
+.hp-campo { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; min-height: 60px; padding: 6px 14px; border: 1.5px solid transparent; border-radius: 18px; background: var(--superficie-2); }
+.hp-campo:focus-within { border-color: var(--ambar); }
+.hp-campo > .icono { width: 24px; height: 24px; color: var(--ambar); }
+.hp-campo small { display: block; color: var(--tenue); font-size: .76rem; font-weight: 700; }
+.hp-campo input { display: block; width: 100%; padding: 0; border: 0; outline: 0; background: none; color: var(--tinta); font: inherit; font-size: 1.14rem; font-weight: 700; }
+.hp-rotulo { margin: 2px 0 6px; color: var(--tenue); font-size: .84rem; font-weight: 700; }
+.hp-lugares { display: flex; flex-wrap: wrap; gap: 8px; }
+.hp-lugares button { display: flex; align-items: center; gap: 7px; max-width: 100%; min-height: 48px; padding: 0 16px; border-radius: 15px; background: var(--superficie-2); color: var(--tinta); font-size: 1rem; font-weight: 800; }
+.hp-lugares button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hp-lugares button[aria-pressed="true"] { background: var(--ambar); color: var(--sobre-ambar); }
+.hp-lugares .icono { flex: none; width: 20px; height: 20px; color: currentColor; }

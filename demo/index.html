@@ -839,10 +839,11 @@
       <dialog id="hojaPierdo" class="hoja-perfil" aria-labelledby="pierdoTitulo">
         <div class="hoja-asa" aria-hidden="true"></div>
         <form id="pierdoForma" class="pierdo-forma" novalidate>
-          <div class="fila-perfil"><span class="mini-ficha tono-salud" aria-hidden="true"><svg class="picto"><use href="#p-donde"/></svg></span><div class="fila-texto"><h3 id="pierdoTitulo">¿A quién le llamo si te pierdes?</h3></div></div>
-          <label class="campo"><span>Cómo se llama</span><input id="pierdoNombre" type="text" maxlength="24" autocomplete="off" enterkeyhint="next"></label>
-          <label class="campo"><span>Su teléfono</span><input id="pierdoTel" type="tel" inputmode="tel" maxlength="16" autocomplete="off" enterkeyhint="next"></label>
-          <label id="pierdoLugarCampo" class="campo"><span>A dónde te llevo</span><select id="pierdoLugar"></select></label>
+          <span id="pierdoAvatar" class="hp-avatar" aria-hidden="true"></span>
+          <h3 id="pierdoTitulo" class="hp-titulo">¿Quién te ayuda si te pierdes?</h3>
+          <label class="hp-campo"><svg class="icono" aria-hidden="true"><use href="#i-persona"/></svg><span><small>Cómo se llama</small><input id="pierdoNombre" type="text" maxlength="24" autocomplete="off" enterkeyhint="next"></span></label>
+          <label class="hp-campo"><svg class="icono" aria-hidden="true"><use href="#i-telefono"/></svg><span><small>Su teléfono</small><input id="pierdoTel" type="tel" inputmode="tel" maxlength="16" autocomplete="off" enterkeyhint="done"></span></label>
+          <div id="pierdoLugarCampo"><p id="pierdoLugarTitulo" class="hp-rotulo">A dónde te llevo</p><div id="pierdoLugares" class="hp-lugares" role="group" aria-labelledby="pierdoLugarTitulo"></div></div>
           <p id="pierdoError" class="nota" role="alert" hidden></p>
           <button type="submit" class="boton">Guardar</button>
           <div class="hr-pills"><button id="pierdoCancelar" type="button">Cancelar</button><button id="pierdoQuitar" type="button" hidden>Quitar</button></div>

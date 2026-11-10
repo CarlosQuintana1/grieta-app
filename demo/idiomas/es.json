@@ -17538,6 +17538,13 @@
       "contextos": [
         "demo/app.js"
       ]
+    },
+    {
+      "clave": "texto_63d0f4e136",
+      "es": "¿Quién te ayuda si te pierdes?",
+      "contextos": [
+        "demo/app.js"
+      ]
     }
   ]
 }
