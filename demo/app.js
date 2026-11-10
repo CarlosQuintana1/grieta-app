@@ -1107,7 +1107,7 @@ function calcular() {
   const r = Grieta.evaluar({
     ...base, ...normalizar(lista[estado.momento]),
     app: estado.app, precioVisto: Number($("precio").value), margen: estado.prisa, caminarMax: acc.camino ? 300 : undefined,
-    tarifa: acc.unidos ? { pasaje: 2, transbordo: 0 } : undefined, caminatas: estado.caminatas,
+    tarifa: acc.unidos ? { pasaje: 2, transbordos: [0, 1] } : undefined, caminatas: estado.caminatas,
   });
   estado.r = r;
   pintarOpciones(r);
@@ -1395,7 +1395,7 @@ async function estacionaYSigue(r) {
   let mejor = null;
   for (const e of candidatos) {
     const manejo = Math.round((e.ida * 1.3) / 1000 / 28 * 60) + 3;
-    const ops = Grieta.evaluar({ origen: [e.lat, e.lon], destino: [d.lat, d.lon], dia: r.ctx.dia, minuto: r.ctx.minuto + manejo, caminarMax: acc.camino ? 300 : undefined, tarifa: acc.unidos ? { pasaje: 2, transbordo: 0 } : undefined }).opciones
+    const ops = Grieta.evaluar({ origen: [e.lat, e.lon], destino: [d.lat, d.lon], dia: r.ctx.dia, minuto: r.ctx.minuto + manejo, caminarMax: acc.camino ? 300 : undefined, tarifa: acc.unidos ? { pasaje: 2, transbordos: [0, 1] } : undefined }).opciones
       .filter((x) => x.tipo === "caminando+caminando");
     const bus = ops.length && menor(ops, (x) => x.minutos);
     if (bus && (!mejor || manejo + bus.minutos < mejor.total)) mejor = { e, bus, manejo, total: manejo + bus.minutos };
@@ -4439,7 +4439,7 @@ const textoDia = (d) => (d === 0 ? "Hoy" : d === 1 ? "Mañana" : `El ${DIAS[diaD
 function* pasosSalidas({ origen, destino, kmCalle, caminatas, offset, meta: hora }) {
   const meta = hora - (acc.colchon ?? 0);
   const desde = offset === 0 ? ahoraMin() : 0;
-  const base = { origen: [origen.lat, origen.lon], destino: [destino.lat, destino.lon], kmCalle, dia: diaDeOffset(offset), caminarMax: acc.camino ? 300 : undefined, tarifa: acc.unidos ? { pasaje: 2, transbordo: 0 } : undefined, caminatas, camiones: 2 };
+  const base = { origen: [origen.lat, origen.lon], destino: [destino.lat, destino.lon], kmCalle, dia: diaDeOffset(offset), caminarMax: acc.camino ? 300 : undefined, tarifa: acc.unidos ? { pasaje: 2, transbordos: [0, 1] } : undefined, caminatas, camiones: 2 };
   const aTiempo = [];
   const probar = (t) => {
     for (const o of Grieta.evaluar({ ...base, minuto: t }).opciones) if (t + o.minutos <= meta) aTiempo.push({ t, o, conApp: o.tipo !== "app" && o.pasos.some((p) => p.tipo === "app") });

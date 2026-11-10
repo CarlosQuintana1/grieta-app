@@ -13,6 +13,7 @@ const Grieta = (() => {
   const LIBRE_BASE = 2.97, LIBRE_KM = 0.876;
   const TRAFICO = { "0-6": 1.1, "6-9": 1.45, "9-12": 1.25, "12-15": 1.3, "15-18": 1.35, "18-21": 1.45, "21-24": 1.15 };
   const RODEO = 1.3;
+  const VENTANA_TRANSBORDO = 90;
   const ESPERA_APP = 5;
   const VENTANA_MIN = 60;
   const TRANSBORDO_M = 250;
@@ -187,6 +188,17 @@ const Grieta = (() => {
     };
   }
 
+  // Tarifa oficial de Qrobus: el primer transbordo es gratis y el segundo a mitad de precio si te subes
+  // dentro de 90 min desde el primer camion; despues de eso, o en un tercero, se paga el pasaje completo.
+  function costoCamiones(tarifa, sales) {
+    const transbordos = tarifa.transbordos ?? Array(MAX_CAMIONES).fill(tarifa.transbordo ?? tarifa.pasaje);
+    let costo = tarifa.pasaje, inicio = sales[0], k = 0;
+    for (const sale of sales.slice(1)) {
+      if (sale - inicio > VENTANA_TRANSBORDO || k >= transbordos.length) { costo += tarifa.pasaje; inicio = sale; k = 0; } else costo += transbordos[k++];
+    }
+    return costo;
+  }
+
   function armar(ctx, o, d, acceso, sb, camiones, salida, sa, tarifa) {
     const pasos = [tramo(acceso, sb, true)];
     camiones.forEach((c, k) => {
@@ -198,7 +210,7 @@ const Grieta = (() => {
     return {
       tipo: `${acceso.modo}+${salida.modo}`,
       transbordos: camiones.length - 1,
-      costo: acceso.costo + tarifa.pasaje + tarifa.transbordo * (camiones.length - 1) + salida.costo,
+      costo: acceso.costo + costoCamiones(tarifa, camiones.map((c) => c.sale)) + salida.costo,
       minutos: ultimo.llega + salida.min - ctx.minuto,
       detalle: camiones.map((c) => `línea ${c.linea}: ${c.recorrido[0].nombre} (${hhmm(c.sale)}) a ${c.baja}`).join("; "),
       pasos,
@@ -282,7 +294,7 @@ const Grieta = (() => {
     return hayCerca;
   }
 
-  function opciones(ctx, o, d, kmCalle, caminarMax, tarifa = { pasaje: qrobus.pasaje, transbordo: qrobus.pasaje / 2 }, caminatas, maxCamiones = MAX_CAMIONES) {
+  function opciones(ctx, o, d, kmCalle, caminarMax, tarifa = { pasaje: qrobus.pasaje, transbordos: [0, qrobus.pasaje / 2] }, caminatas, maxCamiones = MAX_CAMIONES) {
     const directo = tramoApp(ctx, o, d, kmCalle);
     const filas = [{ opcion: `Solo app (${nombreApp(directo.mejor.app)})`, tipo: "app", costo: directo.mejor.precio, minutos: directo.minutos, detalle: "" }];
     const sube = alcanzables(ctx, o, true, caminarMax, caminatas?.sube);
@@ -309,7 +321,7 @@ const Grieta = (() => {
         if (!b) continue;
         for (const e of bolsa) {
           if (repiteLinea(e)) continue;
-          quedarse({ e, b, parada, minutos: e.t + b.min - ctx.minuto, costo: e.pago + tarifa.pasaje + tarifa.transbordo * (e.n - 1) + b.costo, pie: e.pie + (b.modo === "caminando" ? b.min : 0) });
+          quedarse({ e, b, parada, minutos: e.t + b.min - ctx.minuto, costo: e.pago + costoCamiones(tarifa, Array(e.n).fill(e.t)) + b.costo, pie: e.pie + (b.modo === "caminando" ? b.min : 0) });
         }
       }
     });
