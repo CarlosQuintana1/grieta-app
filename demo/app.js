@@ -4426,7 +4426,7 @@ $("miniMapa").addEventListener("click", (e) => {
 const llegarEstado = { origen: null, destino: null, kmCalle: null, caminatas: undefined, offset: 0, meta: 480 };
 const diaDeOffset = (d) => (hoyDia() + d) % 7;
 const textoDia = (d) => (d === 0 ? "Hoy" : d === 1 ? "Mañana" : `El ${DIAS[diaDeOffset(d)]}`);
-function salidasParaLlegar({ origen, destino, kmCalle, caminatas, offset, meta: hora }) {
+function* pasosSalidas({ origen, destino, kmCalle, caminatas, offset, meta: hora }) {
   const meta = hora - (acc.colchon ?? 0);
   const desde = offset === 0 ? ahoraMin() : 0;
   const base = { origen: [origen.lat, origen.lon], destino: [destino.lat, destino.lon], kmCalle, dia: diaDeOffset(offset), caminarMax: acc.camino ? 300 : undefined, tarifa: acc.unidos ? { pasaje: 2, transbordo: 0 } : undefined, caminatas, camiones: 2 };
@@ -4434,13 +4434,31 @@ function salidasParaLlegar({ origen, destino, kmCalle, caminatas, offset, meta: 
   const probar = (t) => {
     for (const o of Grieta.evaluar({ ...base, minuto: t }).opciones) if (t + o.minutos <= meta) aTiempo.push({ t, o, conApp: o.tipo !== "app" && o.pasos.some((p) => p.tipo === "app") });
   };
-  // Primero cada 10 minutos; luego se prueba 5 minutos despues de la ultima salida que funciono.
-  for (let t = Math.max(desde, meta - 240); t <= meta; t += 10) probar(t);
+  // Cada 10 minutos desde la hora de llegada hacia atrás: la salida más tardía es la que se muestra, las anteriores ya no cambian nada.
+  const inicio = Math.max(desde, meta - 240);
+  for (let t = inicio + Math.floor((meta - inicio) / 10) * 10; t >= inicio; t -= 10) {
+    probar(t);
+    yield;
+    if (aTiempo.some((x) => x.o.tipo === "app") && aTiempo.some((x) => x.o.tipo !== "app" && !x.conApp)) break;
+  }
   const ultima = (enApp) => Math.max(-1, ...aTiempo.filter((x) => (x.o.tipo === "app") === enApp).map((x) => x.t));
-  for (const t of new Set([ultima(false), ultima(true)])) if (t >= 0 && t + 5 <= meta) probar(t + 5);
+  for (const t of new Set([ultima(false), ultima(true)])) if (t >= 0 && t + 5 <= meta) { probar(t + 5); yield; }
   const camion = aTiempo.filter((x) => x.o.tipo !== "app").sort((a, b) => a.conApp - b.conApp || b.t - a.t || a.o.costo - b.o.costo)[0];
   const app = aTiempo.filter((x) => x.o.tipo === "app").sort((a, b) => b.t - a.t)[0];
   return { camion, app, base };
+}
+function salidasParaLlegar(datos) {
+  const pasos = pasosSalidas(datos);
+  for (;;) { const p = pasos.next(); if (p.done) return p.value; }
+}
+// La misma cuenta en partes, soltando la pantalla entre cada una para que no se trabe.
+async function salidasEnPartes(datos) {
+  const pasos = pasosSalidas(datos);
+  for (;;) {
+    const p = pasos.next();
+    if (p.done) return p.value;
+    await new Promise((listo) => setTimeout(listo));
+  }
 }
 const rangoAppEn = (base, t) => Grieta.cotizar({ origen: base.origen, destino: base.destino, kmCalle: base.kmCalle, dia: base.dia, minuto: t }).mejor;
 function abrirLlegarHora({ origen, destino, kmCalle, caminatas, offset, meta }) {
@@ -4542,7 +4560,8 @@ function llegarDesdeOpciones() {
 }
 
 // Mi horario: a que hora entras cada dia, para decirte cuando salir sin buscar el viaje.
-let miHorario = leer("grieta-horario", null), editandoHorario = null, calculoHorario = null, diaElegido = null;
+let miHorario = leer("grieta-horario", null), editandoHorario = null, diaElegido = null, ultimaClaveHorario = null, turnoPrevioHorario = 0;
+const calculosHorario = new Map();
 const horaCorta = (m) => hora(m).replace(/\s*[ap]\.?\s?m\.?$/i, "");
 const FLECHA_ABAJO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 function proximoHorario(h = miHorario) {
@@ -4553,11 +4572,31 @@ function proximoHorario(h = miHorario) {
   }
   return null;
 }
-function diaHorario() {
-  const meta = diaElegido === null ? null : miHorario.horas[diaElegido];
-  if (meta === null || meta === undefined) return proximoHorario();
-  const d = (diaElegido - hoyDia() + 7) % 7 || (meta <= ahoraMin() + 5 ? 7 : 0);
-  return { d, meta, dia: diaElegido };
+function diaDelHorario(dia) {
+  const meta = miHorario.horas[dia];
+  if (meta === null || meta === undefined) return null;
+  return { d: (dia - hoyDia() + 7) % 7 || (meta <= ahoraMin() + 5 ? 7 : 0), meta, dia };
+}
+const diaHorario = () => (diaElegido === null ? null : diaDelHorario(diaElegido)) ?? proximoHorario();
+const claveHorario = (p, origen) => JSON.stringify([acc.colchon, miHorario, p, origen?.lat, origen?.lon, new Date().toDateString(), Math.floor(ahoraMin() / 10)]);
+function calculoDelDia(p, origen) {
+  const clave = claveHorario(p, origen);
+  let c = calculosHorario.get(clave);
+  if (c) return c;
+  if (calculosHorario.size > 30) calculosHorario.clear();
+  c = { clave, r: undefined };
+  c.listo = salidasEnPartes({ origen, destino: miHorario.destino, kmCalle: miHorario.km ?? null, caminatas: undefined, offset: p.d, meta: p.meta }).catch(() => null).then((r) => (c.r = r));
+  calculosHorario.set(clave, c);
+  return c;
+}
+// Deja calculados los demás días para que al tocarlos salgan al instante.
+async function adelantarDiasHorario(origen) {
+  const turno = ++turnoPrevioHorario;
+  for (let dia = 0; dia < 7; dia++) {
+    if (turno !== turnoPrevioHorario || !miHorario || editandoHorario || document.body.dataset.pantalla !== "inicio") return;
+    const p = diaDelHorario(dia);
+    if (p) await calculoDelDia(p, origen).listo;
+  }
 }
 const nombreLugarHtml = (l, vacio) => (l ? `<span translate="no">${escapar(l.nombre)}</span>` : `<span>${vacio}</span>`);
 function pintarHorario() {
@@ -4574,27 +4613,33 @@ function pintarTarjetaHorario() {
   const caja = $("horarioCaja"), p = diaHorario();
   if (!p) { miHorario = null; escribir("grieta-horario", null); return pintarHorario(); }
   const origen = miHorario.origen ?? estado.gps ?? estado.origen ?? null;
-  const clave = JSON.stringify([acc.colchon, miHorario, p, origen?.lat, origen?.lon, new Date().toDateString(), Math.floor(ahoraMin() / 10)]);
   const titulo = `${textoDia(p.d)} a ${escapar(miHorario.destino.nombre)}, sal a las`;
   const tiras = `<div class="hr-dias">${miHorario.horas.map((m, i) => `<button type="button" data-h-elige="${i}" aria-pressed="${i === p.dia}" aria-label="${DIAS[i]}, ${m === null ? "libre" : hora(m)}" class="${m === null ? "" : "tiene"}${i === p.dia ? " sel" : ""}"><b>${DIAS[i][0].toUpperCase()}</b><small>${m === null ? "Libre" : horaCorta(m)}</small></button>`).join("")}</div>`;
   const pinta = (r) => {
     const sobra = r?.camion ? Math.round(p.meta - (r.camion.t + r.camion.o.minutos)) : null;
     const avisos = "Notification" in window && Notification.permission === "granted";
-    caja.innerHTML = `<button type="button" class="hr-boton" data-h-ver aria-label="${escapar(`${textoDia(p.d)} a ${miHorario.destino.nombre}. ${r?.camion ? `Sal a las ${hora(r.camion.t)}` : "Calculando"}. Entras a las ${hora(p.meta)}`)}"><span class="hv-caja hr-previa"><span class="hv-partido">${PLACAS_VIAJE}<span class="hv-lado hr-l"><span class="hv-nombre">${titulo}</span><span class="hv-precio pq">${r?.camion ? hora(r.camion.t) : "--:--"}</span>${r?.camion ? datoViaje(picto("qrobus"), escapar(tituloOpcion(r.camion.o).replace("Qrobus ", ""))) : ""}</span><span class="hv-lado der hr-l"><span class="hv-nombre">Entras a las</span><span class="hv-precio">${hora(p.meta)}</span>${r?.camion ? datoViaje(picto("flag"), `Llegas ${hora(r.camion.t + r.camion.o.minutos)}`) : ""}</span></span>${r === undefined ? "" : `<span class="hv-banda"><span>${!origen ? "Necesito saber de dónde sales" : !r?.camion ? "No encontré camión a esa hora" : sobra > 0 ? `Te sobran ${sobra} min` : "Llegas justo a tiempo"}</span>${r?.camion && avisos ? "<span>Te aviso 10 min antes</span>" : ""}</span>`}</span></button>${tiras}`;
+    const boton = `<button type="button" class="hr-boton" data-h-ver aria-label="${escapar(`${textoDia(p.d)} a ${miHorario.destino.nombre}. ${r?.camion ? `Sal a las ${hora(r.camion.t)}` : "Calculando"}. Entras a las ${hora(p.meta)}`)}"><span class="hv-caja hr-previa"><span class="hv-partido">${PLACAS_VIAJE}<span class="hv-lado hr-l"><span class="hv-nombre">${titulo}</span><span class="hv-precio pq">${r?.camion ? hora(r.camion.t) : "--:--"}</span>${r?.camion ? datoViaje(picto("qrobus"), escapar(tituloOpcion(r.camion.o).replace("Qrobus ", ""))) : ""}</span><span class="hv-lado der hr-l"><span class="hv-nombre">Entras a las</span><span class="hv-precio">${hora(p.meta)}</span>${r?.camion ? datoViaje(picto("flag"), `Llegas ${hora(r.camion.t + r.camion.o.minutos)}`) : ""}</span></span>${r === undefined ? "" : `<span class="hv-banda"><span>${!origen ? "Necesito saber de dónde sales" : !r?.camion ? "No encontré camión a esa hora" : sobra > 0 ? `Te sobran ${sobra} min` : "Llegas justo a tiempo"}</span>${r?.camion && avisos ? "<span>Te aviso 10 min antes</span>" : ""}</span>`}</span></button>`;
+    // Solo cambia la ficha: los días no se rehacen para que el dedo no los pierda.
+    const actual = caja.querySelector(".hr-boton"), dias = caja.querySelector(".hr-dias");
+    if (actual && dias) {
+      actual.outerHTML = boton;
+      for (const b of dias.children) { const si = Number(b.dataset.hElige) === p.dia; b.classList.toggle("sel", si); b.setAttribute("aria-pressed", String(si)); }
+    } else caja.innerHTML = boton + tiras;
     ajustarCifras();
   };
   if (!origen) { pinta(null); ubicar((ok) => { if (ok && document.body.dataset.pantalla === "inicio") pintarHorario(); }); return; }
-  if (calculoHorario?.clave === clave) return pinta(calculoHorario.r);
+  if (!Grieta.qrobus) { if (!caja.querySelector(".hr-dias")) pinta(undefined); return; }
+  const calculo = calculoDelDia(p, origen);
+  ultimaClaveHorario = calculo.clave;
+  if (calculo.r !== undefined) { pinta(calculo.r); adelantarDiasHorario(origen); return; }
   // Al cambiar de día la ficha actual se queda hasta tener el nuevo cálculo, sin brincar.
   if (!caja.querySelector(".hr-dias")) pinta(undefined);
-  if (!Grieta.qrobus) return;
-  setTimeout(() => {
-    if (document.body.dataset.pantalla !== "inicio" || !miHorario || editandoHorario) return;
-    const r = salidasParaLlegar({ origen, destino: miHorario.destino, kmCalle: miHorario.km ?? null, caminatas: undefined, offset: p.d, meta: p.meta });
-    calculoHorario = { clave, r };
+  calculo.listo.then((r) => {
+    if (ultimaClaveHorario !== calculo.clave || document.body.dataset.pantalla !== "inicio" || !miHorario || editandoHorario) return;
     pinta(r);
     programarHorario(false);
-  }, 60);
+    adelantarDiasHorario(origen);
+  });
 }
 function pintarEditorHorario() {
   const e = editandoHorario, h = e.horas[e.dia], lista = e.abierta;
@@ -4634,7 +4679,7 @@ async function guardarHorario() {
   miHorario = { origen: e.origen, destino: e.destino, horas: e.horas, km: null };
   escribir("grieta-horario", miHorario);
   editandoHorario = null;
-  calculoHorario = null;
+  calculosHorario.clear();
   localStorage.removeItem("grieta-horario-programado");
   pintarHorario();
   programarHorario(true);
@@ -4644,7 +4689,7 @@ async function guardarHorario() {
     const r = await (await fetch(`https://router.project-osrm.org/route/v1/driving/${o.lon},${o.lat};${e.destino.lon},${e.destino.lat}?overview=false`, { signal: AbortSignal.timeout(6000) })).json();
     miHorario.km = r.routes[0].distance / 1000;
     escribir("grieta-horario", miHorario);
-    calculoHorario = null;
+    calculosHorario.clear();
     if (document.body.dataset.pantalla === "inicio" && !editandoHorario) pintarHorario();
   } catch {}
 }
@@ -4663,7 +4708,7 @@ async function programarHorario(conPermiso) {
     for (let d = 0, n = 0; d < 8 && n < 3; d++) {
       const meta = miHorario.horas[diaDeOffset(d)];
       if (meta === null || meta === undefined) continue;
-      const { camion: k } = salidasParaLlegar({ origen, destino: miHorario.destino, kmCalle: miHorario.km ?? null, caminatas: undefined, offset: d, meta });
+      const { camion: k } = await salidasEnPartes({ origen, destino: miHorario.destino, kmCalle: miHorario.km ?? null, caminatas: undefined, offset: d, meta });
       if (!k) continue;
       const fecha = cuando(k.t, d), previa = cuando(k.t - 10, d), que = tituloOpcion(k.o);
       if (Date.parse(fecha) <= Date.now()) continue;
@@ -4674,7 +4719,7 @@ async function programarHorario(conPermiso) {
     if (!avisos.length) return;
     await llamar("/notificaciones", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ suscripcion: suscripcion.toJSON(), avisos }) });
     escribir("grieta-horario-programado", new Date().toDateString());
-    if (document.body.dataset.pantalla === "inicio" && !editandoHorario && calculoHorario) pintarHorario();
+    if (document.body.dataset.pantalla === "inicio" && !editandoHorario && calculosHorario.size) pintarHorario();
   } catch {}
 }
 $("horarioEditar").addEventListener("click", empezarEdicionHorario);
