@@ -2549,3 +2549,8 @@ html { touch-action: pan-x pan-y; -webkit-text-size-adjust: 100%; text-size-adju
 body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 :is(input, textarea, select, [contenteditable="true"]) { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
 img, svg { -webkit-user-drag: none; }
+/* En iPhone instalado la pantalla termina arriba de la barra de inicio; esa franja muestra el fondo de la pagina */
+html { background: var(--fondo); }
+html:has(dialog.hoja-perfil[open]) { background: var(--superficie); }
+/* Al volver de una hoja cerrada con el dedo, el boton recibe el foco sin el anillo de teclado */
+.sin-anillo:focus, .sin-anillo:focus-visible { outline: none !important; }

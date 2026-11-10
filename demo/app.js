@@ -6166,3 +6166,13 @@ function arrastreParaCerrar(hoja) {
   hoja.addEventListener("touchcancel", soltar);
 }
 document.querySelectorAll("dialog.hoja-perfil").forEach(arrastreParaCerrar);
+// Al cerrar una hoja con el dedo, el foco regresa al boton que la abrio sin dibujarle el anillo de teclado.
+let ultimoToque = 0;
+addEventListener("pointerdown", (e) => { if (e.pointerType !== "mouse") ultimoToque = Date.now(); }, true);
+addEventListener("keydown", () => { ultimoToque = 0; }, true);
+document.querySelectorAll("dialog.hoja-perfil").forEach((h) => h.addEventListener("close", () => setTimeout(() => {
+  const el = document.activeElement;
+  if (!el || el === document.body || Date.now() - ultimoToque > 5000) return;
+  el.classList.add("sin-anillo");
+  el.addEventListener("blur", () => el.classList.remove("sin-anillo"), { once: true });
+}, 0)));
