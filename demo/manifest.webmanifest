@@ -63,5 +63,6 @@
       ]
     }
   ],
-  "id": "./"
+  "id": "./",
+  "orientation": "portrait"
 }

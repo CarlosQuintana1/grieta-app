@@ -1,4 +1,6 @@
 // © 2026 Equipo Grieta. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
+// En iPhone el pellizco agranda la pagina aunque el viewport lo pida: aqui no hay mapas, nada se acerca.
+for (const ev of ["gesturestart", "gesturechange"]) document.addEventListener(ev, (e) => e.preventDefault(), { passive: false });
 const $ = (id) => document.getElementById(id);
 // Sigue el tema elegido en la app; si no eligió ninguno, el del teléfono.
 try { const tema = JSON.parse(localStorage.getItem("grieta-acc"))?.tema; if (tema === "claro" || tema === "oscuro") document.documentElement.classList.add(tema); } catch {}

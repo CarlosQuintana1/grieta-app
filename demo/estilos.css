@@ -2542,3 +2542,10 @@ html.grande .pf-cabeza b { font-size: 1.16rem; }
 :is(h2, h3, h4)[tabindex="-1"]:focus, :is(h2, h3, h4)[tabindex="-1"]:focus-visible, .hoja-perfil h2:focus, .hoja-perfil h3:focus { outline: none; }
 /* En iPhone instalado la hoja ya queda arriba de la barra de inicio: sin margen doble y sin franja abajo */
 .hoja-perfil { bottom: 0; margin-bottom: 0; padding-bottom: max(20px, calc(env(safe-area-inset-bottom) - 14px)); box-shadow: 0 160px 0 0 var(--superficie); }
+
+/* Se usa como app: la pagina no se agranda con pellizco ni doble toque (los mapas manejan su propio zoom) */
+html { touch-action: pan-x pan-y; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+/* Dejar presionado un boton no selecciona texto ni abre copiar o guardar imagen; en los campos si se puede */
+body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+:is(input, textarea, select, [contenteditable="true"]) { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
+img, svg { -webkit-user-drag: none; }
