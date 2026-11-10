@@ -56,6 +56,11 @@ Medido con lo que no vio (error promedio Uber / DiDi / inDrive):
 Se probaron y no ayudaron: lluvia, días festivos, franja por fin de semana, una superficie suave
 de la ciudad con las coordenadas y un clasificador directo de la app más barata.
 
+El tiempo en auto ya no es una constante de 28 km/h: sin tráfico tarda lo que OSRM en las rutas
+medidas (2.97 min + 0.876 por km, error promedio 1.2 min) y el tráfico se multiplica por franja
+(1.1 de madrugada a 1.45 en hora pico). Ese factor es un supuesto: no hay tiempos reales de viaje
+para medirlo.
+
 ## Algoritmo genético para la decisión
 
 `genetico.py` toma cada captura y la siguiente de la misma ruta ese mismo día (hasta 30 minutos
@@ -74,13 +79,13 @@ Con 316 casos de 26 días, calificado con días que no vio:
 
 | Sistema | Costo por viaje | Elige lo mejor |
 |---|---|---|
-| Siempre pedir ya | $105.85 | 42% |
-| Camión si hay | $103.43 | 70% |
-| Difuso a mano | $101.78 | 50% |
-| Difuso genético | $89.69 | 81% |
-| Lo mejor posible | $84.70 | 100% |
+| Siempre pedir ya | $105.85 | 49% |
+| Camión si hay | $122.38 | 59% |
+| Difuso a mano | $103.86 | 53% |
+| Difuso genético | $94.36 | 78% |
+| Lo mejor posible | $88.79 | 100% |
 
-El genético ahorra $12.09 por viaje contra el sistema a mano (95% entre $8.79 y $14.29,
+El genético ahorra $9.49 por viaje contra el sistema a mano (95% entre $6.72 y $12.15,
 remuestreando días). Lo que más cambia son las reglas: deja una sola de esperar (muy caro, con
 tiempo y un camión lento) y manda al camión cuando el precio está caro y el camión tarda poco más.
 

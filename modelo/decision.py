@@ -13,7 +13,7 @@ from datetime import datetime
 import h3
 import pandas as pd
 
-from camion import DIAS, RODEO, VEL_APP, Viaje, avisar_vigencia, cargar_gtfs, metros
+from camion import DIAS, RODEO, Viaje, minutos_libres, avisar_vigencia, cargar_gtfs, metros
 from entrenar_modelo import CORTES, MODELO, cargar
 from tarifa import H3_RES, ZONA, Tarifa
 
@@ -89,7 +89,7 @@ def describir(condiciones: dict) -> str:
 
 def esperado_para(viaje: Viaje, app: str, lat_o, lon_o, lat_d, lon_d) -> pd.Series:
     km = float(metros(lat_o, lon_o, lat_d, lon_d)) / 1000 * RODEO
-    d = pd.DataFrame([{"plataforma": app, "distancia_km": km, "duracion_libre_min": km / VEL_APP * 60,
+    d = pd.DataFrame([{"plataforma": app, "distancia_km": km, "duracion_libre_min": minutos_libres(km),
                        "h3_o": h3.latlng_to_cell(lat_o, lon_o, H3_RES), "h3_d": h3.latlng_to_cell(lat_d, lon_d, H3_RES),
                        "franja": viaje.franja, "finde": viaje.finde}])
     return viaje.modelo.predecir(d).iloc[0]

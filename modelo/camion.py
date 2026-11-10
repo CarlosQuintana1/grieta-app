@@ -22,7 +22,13 @@ PASAJE = 11.0
 CAMINAR_MAX_M = 700
 APP_MAX_KM = 5.0
 VEL_CAMINAR = 4.5
-VEL_APP = 28.0
+# Sin trafico tarda lo que OSRM en las rutas medidas: 3 min mas 0.88 por km. El trafico por franja es un supuesto.
+LIBRE_BASE, LIBRE_KM = 2.97, 0.876
+TRAFICO = {"0-6": 1.1, "6-9": 1.45, "9-12": 1.25, "12-15": 1.3, "15-18": 1.35, "18-21": 1.45, "21-24": 1.15}
+
+
+def minutos_libres(km):
+    return LIBRE_BASE + LIBRE_KM * km
 RODEO = 1.3
 ESPERA_APP = 5
 VENTANA_MIN = 60
@@ -74,7 +80,7 @@ class Viaje:
         lat_o, lon_o, lat_d, lon_d = np.broadcast_arrays(lat_o, lon_o, lat_d, lon_d)
         km = metros(lat_o, lon_o, lat_d, lon_d) / 1000 * RODEO
         tramos = pd.DataFrame({
-            "tramo": np.arange(len(km)), "distancia_km": km, "duracion_libre_min": km / VEL_APP * 60,
+            "tramo": np.arange(len(km)), "distancia_km": km, "duracion_libre_min": minutos_libres(km),
             "h3_o": [h3.latlng_to_cell(a, b, H3_RES) for a, b in zip(lat_o, lon_o)],
             "h3_d": [h3.latlng_to_cell(a, b, H3_RES) for a, b in zip(lat_d, lon_d)],
             "franja": self.franja, "finde": self.finde,
@@ -82,7 +88,7 @@ class Viaje:
         d = pd.concat([tramos.assign(plataforma=p) for p in self.modelo.apps], ignore_index=True)
         d["precio"] = self.modelo.predecir(d)["precio"].values
         mejor = d.loc[d.groupby("tramo")["precio"].idxmin()].set_index("tramo")
-        mejor["minutos"] = ESPERA_APP + mejor["duracion_libre_min"]
+        mejor["minutos"] = ESPERA_APP + mejor["duracion_libre_min"] * TRAFICO.get(self.franja, 1.3)
         return mejor[["precio", "minutos", "plataforma"]]
 
     def _tramo(self, lat, lon, hacia: bool) -> pd.DataFrame:

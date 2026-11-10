@@ -9,7 +9,9 @@ const Grieta = (() => {
   const LEJOS_M = 1500;
   const APP_MAX_KM = 5;
   const VEL_CAMINAR = 4.5;
-  const VEL_APP = 28;
+  // Sin trafico tarda lo que OSRM en las rutas medidas: 3 min mas 0.88 por km. El trafico por franja es un supuesto.
+  const LIBRE_BASE = 2.97, LIBRE_KM = 0.876;
+  const TRAFICO = { "0-6": 1.1, "6-9": 1.45, "9-12": 1.25, "12-15": 1.3, "15-18": 1.35, "18-21": 1.45, "21-24": 1.15 };
   const RODEO = 1.3;
   const ESPERA_APP = 5;
   const VENTANA_MIN = 60;
@@ -71,10 +73,11 @@ const Grieta = (() => {
 
   function tramoApp(ctx, o, d, kmCalle) {
     const km = kmCalle ?? (metros(o[0], o[1], d[0], d[1]) / 1000) * RODEO;
-    const min = (km / VEL_APP) * 60;
+    const libre = LIBRE_BASE + LIBRE_KM * km;
+    const min = libre * (TRAFICO[ctx.franja] ?? 1.3);
     const celdaO = h3.latLngToCell(o[0], o[1], modelo.h3_res);
     const celdaD = h3.latLngToCell(d[0], d[1], modelo.h3_res);
-    const porApp = Object.keys(modelo.apps).map((app) => ({ app, ...precio(app, km, min, celdaO, celdaD, ctx.franja, ctx.finde) }));
+    const porApp = Object.keys(modelo.apps).map((app) => ({ app, ...precio(app, km, libre, celdaO, celdaD, ctx.franja, ctx.finde) }));
     const mejor = porApp.reduce((a, b) => (b.precio < a.precio ? b : a));
     return { km, minutos: ESPERA_APP + min, porApp, mejor };
   }
@@ -350,28 +353,29 @@ const Grieta = (() => {
   // Las reglas que el genetico apago no estan; si ninguna aplica, se pide la app.
   const CONJUNTOS = {
     precio: {
-      barato: (x) => trapecio(x, -INF, -INF, 0.9, 0.911),
-      normal: (x) => triangulo(x, 0.8, 0.989, 1.13),
-      caro: (x) => triangulo(x, 1.007, 1.253, 1.49),
-      "muy caro": (x) => trapecio(x, 1.253, 1.469, INF, INF),
+      barato: (x) => trapecio(x, -INF, -INF, 0.881, 0.9),
+      normal: (x) => triangulo(x, 0.8, 0.993, 1.191),
+      caro: (x) => triangulo(x, 1.096, 1.3, 1.493),
+      "muy caro": (x) => trapecio(x, 1.267, 1.466, INF, INF),
     },
     margen: {
-      poco: (x) => trapecio(x, -INF, -INF, 3.418, 21.162),
-      algo: (x) => triangulo(x, 18.017, 31.74, 49.757),
-      mucho: (x) => trapecio(x, 16.715, 59.927, INF, INF),
+      poco: (x) => trapecio(x, -INF, -INF, 9.73, 20.547),
+      algo: (x) => triangulo(x, 19.912, 26.328, 49.339),
+      mucho: (x) => trapecio(x, 13.315, 59.733, INF, INF),
     },
     camion: {
-      poco: (x) => trapecio(x, -INF, -INF, 20.723, 30.131),
-      algo: (x) => triangulo(x, 12.32, 15.439, 54.499),
-      mucho: (x) => trapecio(x, 24.751, 56.399, INF, INF),
+      poco: (x) => trapecio(x, -INF, -INF, 18.921, 32.282),
+      algo: (x) => triangulo(x, 1.821, 17.874, 49.321),
+      mucho: (x) => trapecio(x, 26.801, 43.065, INF, INF),
     },
   };
 
   const REGLAS = [
+    [{ precio: ["normal"], margen: ["poco"] }, "pedir ya"],
     [{ precio: ["caro", "muy caro"], margen: ["poco"], camion: ["algo", "mucho"] }, "pedir ya"],
     [{ precio: ["muy caro"], margen: ["algo", "mucho"], camion: ["algo", "mucho"] }, "esperar"],
     [{ precio: ["caro", "muy caro"], camion: ["poco"] }, "camion"],
-    [{ precio: ["muy caro"], margen: ["algo", "mucho"], camion: ["algo"] }, "pedir ya"],
+    [{ precio: ["muy caro"], margen: ["algo", "mucho"], camion: ["algo"] }, "esperar"],
     [{ precio: ["normal"], margen: ["mucho"], camion: ["poco"] }, "camion"],
   ];
 
