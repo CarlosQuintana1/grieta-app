@@ -10,7 +10,7 @@
     "url": "https://www.bing.com/translator?from=es&to=otq",
     "fecha": "2026-11-03",
     "nota": "Traducción automática con adaptaciones breves; pendiente de revisión por hablantes.",
-    "actualizado": "2026-11-09"
+    "actualizado": "2026-11-10"
   },
   "mensajes": [
     {
@@ -10367,6 +10367,16 @@
       "clave": "texto_96bcbf5f85",
       "es": "Camiones estimados por su horario, no en vivo.",
       "otq": "Ya camiones estimados ir nge ár horario, hingi jar vivo."
+    },
+    {
+      "clave": "texto_148d4c38af",
+      "es": "Te escucho, di a dónde vas",
+      "otq": "Di 'mu̲i, gi xiki ho gir ma"
+    },
+    {
+      "clave": "texto_df1536f75c",
+      "es": "Buscando lo que dijiste…",
+      "otq": "Gi hyoni nä'ä xka mä…"
     }
   ],
   "adaptaciones": [

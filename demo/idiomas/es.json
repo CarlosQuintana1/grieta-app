@@ -17573,6 +17573,21 @@
       "contextos": [
         "demo/app.js"
       ]
+    },
+    {
+      "clave": "texto_148d4c38af",
+      "es": "Te escucho, di a dónde vas",
+      "contextos": [
+        "demo/index.html",
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_df1536f75c",
+      "es": "Buscando lo que dijiste…",
+      "contextos": [
+        "demo/app.js"
+      ]
     }
   ]
 }

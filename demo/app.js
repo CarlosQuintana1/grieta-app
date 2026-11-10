@@ -2754,6 +2754,7 @@ function terminarDictado(rec, abortar = true) {
   clearTimeout(inicioDictado);
   const iniciado = dictadoIniciado;
   dictadoActual = null; dictadoIniciado = false;
+  $("oyendoBuscar").hidden = true;
   document.querySelectorAll('.dictar.oyendo, #vozDestino.oyendo').forEach(b => { b.classList.remove('oyendo'); b.setAttribute('aria-pressed', 'false'); });
   $("respuestaVoz").textContent = '';
   $("respuestaVoz").setAttribute('aria-live', 'polite');
@@ -2823,8 +2824,17 @@ function dictar(boton) {
   cancelarDictado();
   if (detener) return;
   const rec = new Reconocer(), revision = revisionDictado;
+  // Fuera del modo voz, dictar lleva a Buscar: ahi se ve el aviso de que escucha y lo que va entendiendo.
+  const enBuscar = !acc.modoVoz && (boton.classList.contains("dictar-grande") || Boolean(boton.closest("#buscar")));
+  if (enBuscar) {
+    if (document.body.dataset.pantalla !== "buscar") { ir("buscar"); prepararBuscar("hacia"); }
+    $("campoBuscar").value = "";
+    $("oyendoTexto").textContent = "Te escucho, di a dónde vas";
+    $("oyendoBuscar").classList.remove("pensando");
+    $("oyendoBuscar").hidden = false;
+  }
   dictadoActual = rec; actualizarMicrofono();
-  rec.lang = "es-MX"; rec.continuous = false; rec.interimResults = false; rec.maxAlternatives = 1;
+  rec.lang = "es-MX"; rec.continuous = false; rec.interimResults = enBuscar; rec.maxAlternatives = 1;
   boton.classList.add("oyendo"); boton.setAttribute("aria-pressed", "true");
   $("respuestaVoz").setAttribute('aria-live', 'off');
   detenerVoz();
@@ -2832,12 +2842,16 @@ function dictar(boton) {
   rec.onspeechend = () => {
     if (dictadoActual !== rec) return;
     boton.classList.remove("oyendo"); boton.setAttribute("aria-pressed", "false");
+    if (enBuscar) { $("oyendoTexto").textContent = "Buscando lo que dijiste…"; $("oyendoBuscar").classList.add("pensando"); }
     try { rec.stop(); } catch {}
   };
   rec.onresult = e => {
     if (dictadoActual !== rec) return;
     const texto = Array.from(e.results).filter(r => r.isFinal).map(r => r[0]?.transcript ?? '').join(' ').trim();
-    if (!texto) return;
+    if (!texto) {
+      if (enBuscar) $("campoBuscar").value = Array.from(e.results).map(r => r[0]?.transcript ?? '').join(' ').trim();
+      return;
+    }
     terminarDictado(rec);
     procesarDictado(texto, revision);
   };
@@ -2857,6 +2871,7 @@ function dictar(boton) {
   iniciar();
 }
 document.addEventListener('visibilitychange', () => { if (document.hidden) cancelarDictado(); });
+$("oyendoBuscar").addEventListener("click", cancelarDictado);
 addEventListener('pagehide', cancelarDictado);
 if (Reconocer) {
   for (const b of document.querySelectorAll(".dictar")) {

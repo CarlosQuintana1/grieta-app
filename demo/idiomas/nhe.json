@@ -10,7 +10,7 @@
     "nombre": "Google Traductor",
     "url": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
     "fecha": "2026-11-04",
-    "actualizado": "2026-11-09"
+    "actualizado": "2026-11-10"
   },
   "estado": "Traducción automática provisional, sin revisión lingüística.",
   "mensajes": [
@@ -10368,6 +10368,16 @@
       "clave": "texto_96bcbf5f85",
       "es": "Camiones estimados por su horario, no en vivo.",
       "nhe": "Camiones tlen kiyejyekouaj ika inin horario, ax itstokej."
+    },
+    {
+      "clave": "texto_148d4c38af",
+      "es": "Te escucho, di a dónde vas",
+      "nhe": "Nimitztlacaquilía, xiquijto canque tiyas"
+    },
+    {
+      "clave": "texto_df1536f75c",
+      "es": "Buscando lo que dijiste…",
+      "nhe": "Nijtemoua tlen tikijtok…"
     }
   ],
   "adaptaciones": [
