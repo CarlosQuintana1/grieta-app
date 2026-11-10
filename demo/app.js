@@ -6120,3 +6120,43 @@ function pintarRenglonesGuia() {
   }));
 }
 new MutationObserver(pintarRenglonesGuia).observe($("guiaDetalle"), { childList: true, characterData: true, subtree: true });
+// Las hojas de abajo se cierran arrastrandolas hacia abajo, como en las apps; un toque normal sigue siendo toque.
+function arrastreParaCerrar(hoja) {
+  let y0 = null, x0 = 0, dy = 0, t0 = 0, arrastra = false;
+  hoja.addEventListener("touchstart", (e) => {
+    y0 = e.touches.length === 1 && hoja.scrollTop <= 0 ? e.touches[0].clientY : null;
+    if (y0 === null) return;
+    x0 = e.touches[0].clientX; dy = 0; t0 = performance.now(); arrastra = false;
+  }, { passive: true });
+  hoja.addEventListener("touchmove", (e) => {
+    if (y0 === null) return;
+    const t = e.touches[0], dx = Math.abs(t.clientX - x0);
+    dy = t.clientY - y0;
+    if (!arrastra) {
+      // Si va hacia arriba o de lado es scroll o carrusel: la hoja no se mueve.
+      if (dy < -6 || dx > 12) { y0 = null; return; }
+      if (dy < 8 || dx > dy) return;
+      arrastra = true;
+      hoja.style.transition = "none";
+    }
+    e.preventDefault();
+    hoja.style.transform = `translateY(${Math.max(0, dy - 8)}px)`;
+  }, { passive: false });
+  const soltar = () => {
+    if (y0 === null) return;
+    y0 = null;
+    if (!arrastra) return;
+    const rapido = dy / Math.max(1, performance.now() - t0) > 0.6;
+    hoja.style.transition = "transform .2s ease-out";
+    if (dy > Math.min(140, hoja.offsetHeight * 0.3) || (rapido && dy > 40)) {
+      hoja.style.transform = "translateY(100%)";
+      setTimeout(() => { hoja.close(); hoja.style.transform = ""; hoja.style.transition = ""; }, 190);
+    } else {
+      hoja.style.transform = "";
+      setTimeout(() => { hoja.style.transition = ""; }, 220);
+    }
+  };
+  hoja.addEventListener("touchend", soltar);
+  hoja.addEventListener("touchcancel", soltar);
+}
+document.querySelectorAll("dialog.hoja-perfil").forEach(arrastreParaCerrar);
