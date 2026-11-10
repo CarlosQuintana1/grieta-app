@@ -3906,7 +3906,7 @@ function pintarRachaInicio() {
   const nombre = racha.nombre || "Tu tlacuache";
   caja.setAttribute("aria-label", `${nombre}. ${titulo}. Esta semana: ${cuenta} de ${plural(racha.meta, "viaje", "viajes")} en camión.`);
   // Escena recortada y un renglon con el nombre, las semanas y la flecha: cabe sin empujar el buscador.
-  caja.innerHTML = `<svg class="heroe-escena" viewBox="0 36 640 254" aria-hidden="true">${escenaRacha(animoRacha(), 280, 0.78)}</svg>
+  caja.innerHTML = `<svg class="heroe-escena" viewBox="0 36 640 254" aria-hidden="true">${escenaRacha(animoRacha(), 280, 0.78, true)}</svg>
     <span class="heroe-fila" aria-hidden="true"><b>${escapar(nombre)}</b><svg class="racha-puntos" viewBox="0 0 320 10">${rayas}</svg>${ico("chevron", "heroe-ir")}</span>`;
 }function pintarRacha() {
   protectorDelMes();
@@ -3931,8 +3931,11 @@ function pintarRachaInicio() {
   }).join("");
 }
 // Querétaro de fondo (Figma) según la hora: acueducto, papel picado y nopal; con nubes si el tlacuache esta preocupado.
-function escenaRacha(e, pie = 330, tam = 1) {
-  return `${ARTE_ESC.racha[horario()]}${e < 2 ? ARTE_ESC.racha.nubes : ""}<g transform="translate(330 ${pie}) scale(${(tam / ESCALA_TL).toFixed(3)})">${tlacuache(e)}</g>`;
+function escenaRacha(e, pie = 330, tam = 1, vivo = false) {
+  const cuki = `<g transform="translate(330 ${pie}) scale(${(tam / ESCALA_TL).toFixed(3)})">${vivo ? `<g class="cuki-gesto"><g class="cuki-respira">${tlacuache(e)}</g></g>` : tlacuache(e)}</g>`;
+  // En Inicio Cuki camina, olfatea y brinca, y al fondo pasa un camion de Qrobus.
+  const camion = `<g class="bus-fondo"><g transform="translate(0 ${pie - 92})"><rect width="150" height="54" rx="12" fill="#1F8A52" stroke="#2B2420" stroke-width="3"/><rect y="38" width="150" height="7" fill="#E9A23B"/><g fill="#BFE8F2" stroke="#2B2420" stroke-width="2"><rect x="12" y="10" width="26" height="20" rx="4"/><rect x="44" y="10" width="26" height="20" rx="4"/><rect x="76" y="10" width="26" height="20" rx="4"/><rect x="108" y="10" width="30" height="24" rx="4"/></g><g fill="#2B2420"><circle cx="34" cy="56" r="10"/><circle cx="118" cy="56" r="10"/></g></g></g>`;
+  return `${ARTE_ESC.racha[horario()]}${e < 2 ? ARTE_ESC.racha.nubes : ""}${vivo ? `${camion}<g class="cuki-camina"><g class="cuki-voltea">${cuki}</g></g>` : cuki}`;
 }
 function abrirRacha() {
   pintarRacha();
