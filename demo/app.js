@@ -5717,8 +5717,9 @@ $("ajustesFichas").addEventListener("click", (e) => {
 });
 const hojaPerfil = $("hojaPerfil");
 let cierreHoja = 0;
-function abrirHojaPerfil(grupo) {
+function abrirHojaPerfil(grupo, porToque = false) {
   clearTimeout(cierreHoja);
+  hojaPerfil.classList.toggle("por-toque", porToque);
   for (const item of hojaPerfil.querySelectorAll(".item-perfil")) item.classList.toggle("actual", item.dataset.grupoPerfil === grupo);
   const item = hojaPerfil.querySelector(".item-perfil.actual");
   hojaPerfil.setAttribute("aria-labelledby", item.querySelector("h3").id);
@@ -5764,7 +5765,7 @@ $("perfilFichas").addEventListener("click", (e) => {
   }
   if (e.target.closest("[data-pierdo]")) return abrirHojaPierdo();
   const b = e.target.closest("[data-ir-perfil]");
-  if (b) abrirHojaPerfil(b.dataset.irPerfil);
+  if (b) abrirHojaPerfil(b.dataset.irPerfil, e.detail > 0);
 });
 // Lo que cambia cada respuesta, abajo de su pregunta
 const EFECTOS = {

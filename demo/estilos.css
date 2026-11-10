@@ -2520,3 +2520,11 @@ html.grande .pf-cabeza b { font-size: 1.16rem; }
 .pf-tres > span { padding: 6px; gap: 4px; font-size: .74rem; }
 .pf-tres .picto { width: 16px; height: 16px; }
 @media (max-width: 380px) { .pf-tres > span { grid-template-columns: minmax(0, 1fr); text-align: center; } .pf-tres .picto { display: none; } }
+
+/* Hojas del perfil con aire entre opciones y alineadas al encabezado */
+.hoja-perfil .fila-perfil { padding-bottom: 20px; }
+.hoja-perfil .opciones-perfil { padding: 0 0 8px; }
+.hoja-perfil .fichas, .hoja-perfil .fichas.dos { gap: 14px; }
+.hoja-perfil .ficha:focus-visible { outline-offset: -6px; outline-width: 2px; }
+.hoja-perfil .ficha[aria-checked="true"]:focus-visible { outline-color: var(--sobre-ambar); }
+.hoja-perfil.por-toque .ficha:focus-visible { outline: none; }
