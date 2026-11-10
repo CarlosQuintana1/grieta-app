@@ -17552,6 +17552,27 @@
       "contextos": [
         "demo/app.js"
       ]
+    },
+    {
+      "clave": "texto_d8f87baddb",
+      "es": "Digo tu calle",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_b429235168",
+      "es": "Le llamo",
+      "contextos": [
+        "demo/app.js"
+      ]
+    },
+    {
+      "clave": "texto_96bcbf5f85",
+      "es": "Camiones estimados por su horario, no en vivo.",
+      "contextos": [
+        "demo/app.js"
+      ]
     }
   ]
 }

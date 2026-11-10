@@ -2161,8 +2161,10 @@ function pintarParadasEnVista() {
     if (!yaPintadas.has(i) && area.contains([lat, lon])) visibles.push({ i, nombre, lat, lon, m: Grieta.metros(centro.lat, centro.lng, lat, lon) });
   });
   visibles.sort((a, b) => a.m - b.m);
+  // De lejos las paradas son puntos: que no tapen los camiones ni las calles.
+  const lejos = mapa.getZoom() < 16;
   capas.vista = L.layerGroup(visibles.slice(0, MAX_PARADAS_VISTA).map((x) => {
-    const m = L.marker([x.lat, x.lon], { icon: Grieta.tieneRecorridos(x.i) ? iconoParada(false) : iconoParadaSinHorario, keyboard: false });
+    const m = L.marker([x.lat, x.lon], { icon: lejos ? iconoPuntoParada : Grieta.tieneRecorridos(x.i) ? iconoParada(false) : iconoParadaSinHorario, keyboard: false });
     if (pantalla === "camiones" && estado.puntoCamiones) m.on("click", () => elegirParadaDelMapa(x));
     else if (estado.gps) m.on("click", () => abrirParadaDesdeAqui(x));
     return m;
@@ -2200,8 +2202,10 @@ function pintarEstimados() {
     if (m) m.setLatLng([x.lat, x.lon]);
     else estimados.set(x.id, L.marker([x.lat, x.lon], { icon: iconoEstimado(x.linea), keyboard: false, zIndexOffset: 300 }).bindTooltip(`${x.linea} hacia ${x.hacia}, estimado`, { direction: "top", className: "etiqueta-mapa" }).addTo(mapa));
   }
-  $("camionesHorario").hidden = !visibles.length;
-  $("verEstimados").hidden = visibles.length > 0 && mapa.getZoom() <= 15.5;
+  // Botón o nota, nunca los dos: ocupan el mismo lugar para que la hoja no brinque.
+  const lejos = visibles.length > 0 && mapa.getZoom() <= 15.5;
+  $("verEstimados").hidden = lejos;
+  $("camionesHorario").hidden = !lejos;
 }
 function detenerEstimados() { clearInterval(relojEstimados); relojEstimados = null; limpiarEstimados(); }
 function iniciarEstimados() { vistaEstimados = false; detenerEstimados(); pintarEstimados(); relojEstimados = setInterval(pintarEstimados, suave() ? 2000 : 8000); }
@@ -2231,6 +2235,7 @@ function elegirParadaDelMapa(x) {
 
 // Las paradas usan la misma ficha que la de "Subes a la" de los viajes.
 const fichaParada = (clase) => `<span class="parada-ruta ${clase}"><svg class="picto" aria-hidden="true"><use href="#p-qrobus"/></svg></span>`;
+const iconoPuntoParada = L.divIcon({ className: "punto-parada", iconSize: [12, 12] });
 const iconoParadaSinHorario = L.divIcon({ className: "", iconSize: [26, 26], html: fichaParada("chica sin-horario") });
 const iconoParada = (cerca) => L.divIcon({ className: "", iconSize: cerca ? [34, 34] : [26, 26], html: fichaParada(cerca ? "sube" : "sube chica") });
 // Las paradas en el mapa: tu ubicacion, la mas cercana resaltada con el camino a pie y las demas; tocar una baja a sus camiones.
@@ -5647,7 +5652,7 @@ function fichasPerfil() {
 const inicialDe = (nombre) => Array.from(nombre.trim())[0]?.toLocaleUpperCase("es-MX") ?? "";
 function placaPierdo() {
   const c = siMePierdo, lugar = lugarDeAyuda();
-  const filas = [["pin", "Te digo tu calle"], ["telefono", "Le llamo con un toque"], lugar && ["casa", `Te llevo a ${lugar.nombre}`]].filter(Boolean);
+  const filas = [["pin", "Digo tu calle"], ["telefono", "Le llamo"], lugar && ["casa", `Te llevo a ${lugar.nombre}`]].filter(Boolean);
   return `<button type="button" class="pf-corte pf-pierdo" data-pierdo aria-haspopup="dialog"><span class="hv-partido">${PLACAS_VIAJE}<span class="hv-lado"><span class="pf-pt"><span class="pf-av">${c ? escapar(inicialDe(c.nombre)) : picto("donde")}</span><span><small>Si me pierdo</small><b>${c ? escapar(c.nombre) : "Elige a quién"}</b></span></span></span><span class="hv-lado der"><span class="pf-lista">${filas.map(([i, x]) => `<span>${ico(i)}<span>${escapar(x)}</span></span>`).join("")}</span></span></span>${ico("lapiz", "pf-lapiz")}</button>`;
 }
 function resumenCortoPerfil() {
@@ -5688,8 +5693,11 @@ function evitarCortePerfil() {
   const caja = $("perfilFichas");
   if (document.body.dataset.pantalla !== "perfil") return;
   for (const f of caja.children) f.style.marginTop = "";
+  caja.classList.remove("pf-justo");
   const barra = document.querySelector("[data-tab]").parentElement.getBoundingClientRect().top;
   const desplazado = (caja.closest(".hoja")?.scrollTop ?? 0) + scrollY;
+  // En pantallas bajas se compacta antes de empujar, para que no quede un hueco.
+  if (caja.lastElementChild && caja.lastElementChild.getBoundingClientRect().bottom + desplazado > barra) caja.classList.add("pf-justo");
   for (const f of caja.children) {
     const r = f.getBoundingClientRect(), arriba = r.top + desplazado, abajo = r.bottom + desplazado;
     if (arriba < barra && abajo > barra) { f.style.marginTop = `${Math.ceil(barra - arriba + 12)}px`; break; }

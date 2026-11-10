@@ -10353,6 +10353,21 @@
       "clave": "texto_9c43899434",
       "es": "Paradas en avenida",
       "nhe": "Moketsa ipan ojtli"
+    },
+    {
+      "clave": "texto_d8f87baddb",
+      "es": "Digo tu calle",
+      "nhe": "Nikijtoua mo calle"
+    },
+    {
+      "clave": "texto_b429235168",
+      "es": "Le llamo",
+      "nhe": "Ni kinotsa"
+    },
+    {
+      "clave": "texto_96bcbf5f85",
+      "es": "Camiones estimados por su horario, no en vivo.",
+      "nhe": "Camiones tlen kiyejyekouaj ika inin horario, ax itstokej."
     }
   ],
   "adaptaciones": [

@@ -10352,6 +10352,21 @@
       "clave": "texto_9c43899434",
       "es": "Paradas en avenida",
       "otq": "Ya parada jar nga̲tho'bu̲"
+    },
+    {
+      "clave": "texto_d8f87baddb",
+      "es": "Digo tu calle",
+      "otq": "Di xi'i ir dä"
+    },
+    {
+      "clave": "texto_b429235168",
+      "es": "Le llamo",
+      "otq": "Nugu̲hu̲"
+    },
+    {
+      "clave": "texto_96bcbf5f85",
+      "es": "Camiones estimados por su horario, no en vivo.",
+      "otq": "Ya camiones estimados ir nge ár horario, hingi jar vivo."
     }
   ],
   "adaptaciones": [

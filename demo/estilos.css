@@ -2528,3 +2528,11 @@ html.grande .pf-cabeza b { font-size: 1.16rem; }
 .hoja-perfil .ficha:focus-visible { outline-offset: -6px; outline-width: 2px; }
 .hoja-perfil .ficha[aria-checked="true"]:focus-visible { outline-color: var(--sobre-ambar); }
 .hoja-perfil.por-toque .ficha:focus-visible { outline: none; }
+
+#camionesHorario { display: flex; align-items: center; min-height: 56px; margin: 16px 0 8px; }
+#camionesHorario[hidden] { display: none; }
+.punto-parada { border-radius: 50%; background: #2f9a5e; border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,.4); }
+.pf-lista > span { min-width: 0; }
+.pf-lista > span > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pf-justo { gap: 6px; }
+.pf-justo .pf-precio { display: none; }
