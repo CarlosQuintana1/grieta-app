@@ -2537,3 +2537,7 @@ html.grande .pf-cabeza b { font-size: 1.16rem; }
 .pf-justo { gap: 6px; }
 .pf-justo .pf-precio { display: none; }
 .hp-titulo:focus { outline: none; }
+/* Los títulos reciben el foco por código para el lector de pantalla: sin anillo visible */
+:is(h2, h3, h4)[tabindex="-1"]:focus, :is(h2, h3, h4)[tabindex="-1"]:focus-visible, .hoja-perfil h2:focus, .hoja-perfil h3:focus { outline: none; }
+/* En iPhone instalado la hoja ya queda arriba de la barra de inicio: sin margen doble y sin franja abajo */
+.hoja-perfil { bottom: 0; margin-bottom: 0; padding-bottom: max(20px, calc(env(safe-area-inset-bottom) - 14px)); box-shadow: 0 160px 0 0 var(--superficie); }
