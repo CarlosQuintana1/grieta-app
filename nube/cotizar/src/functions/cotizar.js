@@ -33,7 +33,9 @@ export function cotizar({ latO, lonO, latD, lonD, dia, hora, km }) {
   const celdaD = latLngToCell(latD, lonD, modelo.h3_res);
   const apps = Object.entries(modelo.apps).map(([id, a]) => {
     const base = a.formula[0] + a.formula[1] * distancia + a.formula[2] * minutos;
-    const log = a.intercepto + a.franjas[franja] + a.finde * (dia >= 5 ? 1 : 0) + (a.origen[celdaO] ?? 0) + (a.destino[celdaD] ?? 0);
+    const [dLog, dInv] = a.distancia ?? [0, 0];
+    const log = a.intercepto + a.franjas[franja] + a.finde * (dia >= 5 ? 1 : 0) + dLog * Math.log(Math.max(distancia, 0.1)) + dInv / Math.max(distancia, 0.5)
+      + (a.origen[celdaO] ?? 0) + (a.destino[celdaD] ?? 0) + (a.pares?.[`${celdaO}|${celdaD}`] ?? 0);
     return {
       app: NOMBRES[id],
       precio: Math.round(base * Math.exp(log)),

@@ -31,13 +31,15 @@ def modelo() -> dict:
     df = cargar(MODELO / "datos" / "dataset.csv")
     t = Tarifa(df)
     apps = {}
-    for p, (formula, tiempo, zo, zd, (bajo, alto)) in t.apps.items():
-        coef = dict(zip([f"f_{f}" for f in FRANJAS] + ["finde"], tiempo.coef_))
+    for p, (formula, tiempo, zo, zd, (bajo, alto), pares) in t.apps.items():
+        coef = dict(zip([f"f_{f}" for f in FRANJAS] + ["finde", "log_km", "inv_km"], tiempo.coef_))
         apps[p] = {
             "formula": [round(float(c), 4) for c in formula.coef],
             "intercepto": round(float(tiempo.intercept_), 4),
             "franjas": {f: round(float(coef[f"f_{f}"]), 4) for f in FRANJAS},
             "finde": round(float(coef["finde"]), 4),
+            "distancia": [round(float(coef["log_km"]), 4), round(float(coef["inv_km"]), 4)],
+            "pares": {k: round(float(v), 4) for k, v in sorted(pares.items()) if abs(v) > 1e-4},
             "origen": zonas(zo),
             "destino": zonas(zd),
             "rango": [round(float(bajo), 4), round(float(alto), 4)],

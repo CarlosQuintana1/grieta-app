@@ -121,7 +121,8 @@ def main():
 
     aciertos, siempre_didi, total = cual_conviene(df)
     if total:
-        print(f"\nCual sale mas barata: el modelo acierta {aciertos} de {total} ({aciertos / total:.0%});"
+        # Ojo: este es el modelo por ruta con el indice de la ciudad; el de la app se mide en tarifa.py.
+        print(f"\nCual sale mas barata (modelo por ruta con indice, no el de la app): {aciertos} de {total} ({aciertos / total:.0%});"
               f" 'siempre DiDi' acierta {siempre_didi} ({siempre_didi / total:.0%})")
 
     print("\nSi DiDi sale caro (+15%), normal o barato (-15%) contra su mediana en esa ruta, gana:")

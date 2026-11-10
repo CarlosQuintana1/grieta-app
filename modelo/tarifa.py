@@ -21,9 +21,11 @@ from sklearn.linear_model import Ridge
 from entrenar_modelo import CORTES, FRANJAS, MODELO, PLATAFORMAS, cargar
 
 H3_RES = 7
-ANILLOS = 3
-PESO_ANILLO = 0.5
+ANILLOS = 2
+PESO_ANILLO = 0.3
 PREVIO = 10.0
+# Un par de zonas con pocos viajes casi no se mueve de lo que dicen sus zonas.
+PREVIO_PAR = 5.0
 CUANTIL = 0.2
 ZONA = ZoneInfo("America/Mexico_City")
 
@@ -92,24 +94,34 @@ class Tarifa:
                 zd = Zonas(d["h3_d"], resto - origen)
                 destino = d["h3_d"].map(zd)
             residuo = y - tiempo.predict(hora) - origen - destino
-            self.apps[p] = (formula, tiempo, zo, zd, residuo.quantile([0.05, 0.95]).values)
+            # Lo que la ruta conocida tiene de propio, despues de hora, distancia y zonas.
+            clave = d["h3_o"] + "|" + d["h3_d"]
+            g = residuo.groupby(clave.values)
+            pares = (g.sum() / (PREVIO_PAR + g.size())).to_dict()
+            # El rango sale sin el par, para que no se angoste en rutas que no conoce.
+            self.apps[p] = (formula, tiempo, zo, zd, residuo.quantile([0.05, 0.95]).values, pares)
             self.rangos_habituales[p] = residuo.quantile([0.25, 0.75]).values
 
     @staticmethod
     def _hora(d: pd.DataFrame) -> pd.DataFrame:
         X = pd.DataFrame({f"f_{f}": (d["franja"].astype(str) == f).astype(float) for f in FRANJAS}, index=d.index)
         X["finde"] = d["finde"]
+        # La tarifa no crece en linea recta con la distancia: los viajes cortos pagan minimo y los largos salen mas baratos por km.
+        km = d["distancia_km"].astype(float)
+        X["log_km"] = np.log(km.clip(lower=0.1))
+        X["inv_km"] = 1 / km.clip(lower=0.5)
         return X
 
     def predecir(self, d: pd.DataFrame) -> pd.DataFrame:
         """Precio esperado y rango del 90% por fila; d necesita km, minutos, celdas, franja, finde y plataforma."""
         salida = pd.DataFrame(np.nan, index=d.index, columns=["precio", "bajo", "alto"])
-        for p, (formula, tiempo, zo, zd, (bajo, alto)) in self.apps.items():
+        for p, (formula, tiempo, zo, zd, (bajo, alto), pares) in self.apps.items():
             q = d[d["plataforma"] == p]
             if q.empty:
                 continue
             base = formula.predict(q[["distancia_km", "duracion_libre_min"]])
-            log_f = tiempo.predict(self._hora(q)) + q["h3_o"].map(zo).values + q["h3_d"].map(zd).values
+            log_f = (tiempo.predict(self._hora(q)) + q["h3_o"].map(zo).values + q["h3_d"].map(zd).values
+                     + np.array([pares.get(k, 0.0) for k in q["h3_o"] + "|" + q["h3_d"]]))
             salida.loc[q.index, "precio"] = base * np.exp(log_f)
             salida.loc[q.index, "bajo"] = base * np.exp(log_f + bajo)
             salida.loc[q.index, "alto"] = base * np.exp(log_f + alto)
@@ -137,6 +149,7 @@ def medir(df: pd.DataFrame):
                              for g in sorted(set(df["origen"]))],
     }
     print("Error promedio por app (con rango del 90%: que tanto cae el precio real dentro):")
+    barata = ""
     for nombre, cortes in pruebas.items():
         pred = pd.DataFrame(np.nan, index=df.index, columns=["precio", "bajo", "alto"])
         for entrena, prueba in cortes:
@@ -148,6 +161,15 @@ def medir(df: pd.DataFrame):
             dentro = df.loc[q, "precio_mxn"].between(pred.loc[q, "bajo"], pred.loc[q, "alto"]).mean()
             partes.append(f"{p} ${err.mean():5.1f} ({100 * (err / df.loc[q, 'precio_mxn']).mean():2.0f}%, rango {dentro:.0%})")
         print(f"  {nombre:17s} " + "   ".join(partes))
+        if nombre == "dia que no vio":
+            # La que la app marca como "Menor precio" contra la que de verdad salio mas barata en esa captura.
+            m = df.assign(pred=pred["precio"]).dropna(subset=["pred"]).groupby("momento_id").filter(lambda g: len(g) > 1)
+            g = m.groupby("momento_id")
+            acierta = (g["precio_mxn"].idxmin() == g["pred"].idxmin()).mean()
+            didi = (m.loc[g["precio_mxn"].idxmin(), "plataforma"] == "didi").mean()
+            barata = f"  cual sale mas barata: acierta {acierta:.1%}; siempre DiDi {didi:.1%}"
+
+    print(barata)
 
 
 def cotizar(modelo: Tarifa, lat_o, lon_o, lat_d, lon_d, cuando: datetime, finde: bool) -> pd.DataFrame:

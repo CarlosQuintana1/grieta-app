@@ -36,6 +36,26 @@ Los horarios de Qrobus son el GTFS oficial que publica la Agencia de Movilidad, 
 [hdtp.codeandomexico.org](https://hdtp.codeandomexico.org/datos/mex-qro-queretaro-qrobus). Se
 descomprimen en `datos/gtfs_qrobus/`.
 
+## Modelo de precios que usa la app
+
+`tarifa.py` estima el precio de cualquier viaje: tarifa de cada app por km y minuto, por un factor en
+logaritmo que suma la franja, el fin de semana, la distancia (logaritmo e inverso: los viajes cortos
+pagan mínimo y los largos salen más baratos por km), la zona H3 de salida y la de llegada (las zonas
+con pocos datos toman el valor de sus vecinas) y, para las rutas conocidas, el par de zonas. El rango
+se calcula sin el par para que no se angoste en rutas que no conoce.
+
+Medido con lo que no vio (error promedio Uber / DiDi / inDrive):
+
+| Prueba | Antes | Ahora |
+|---|---|---|
+| Día que no vio | $18.3 / $21.7 / $13.1 | $16.8 / $20.9 / $12.3 |
+| Ruta que no vio | $19.3 / $23.1 / $13.8 | $18.9 / $22.5 / $13.9 |
+| Lugar que no vio | $21.3 / $24.0 / $14.5 | $20.6 / $23.5 / $14.7 |
+| Acierta la app más barata | 50.6% | 55.7% (siempre DiDi: 49.5%) |
+
+Se probaron y no ayudaron: lluvia, días festivos, franja por fin de semana, una superficie suave
+de la ciudad con las coordenadas y un clasificador directo de la app más barata.
+
 ## Algoritmo genético para la decisión
 
 `genetico.py` toma cada captura y la siguiente de la misma ruta ese mismo día (hasta 30 minutos
@@ -48,19 +68,19 @@ Cada individuo son los puntos de los conjuntos difusos y la acción de cada regl
 apagarse. Los puntos solo se mueven un poco desde los valores a mano (±0.05 en precio, ±15 min en
 tiempos): con ±0.2 ahorraba $14.83, pero "caro" terminaba empezando en 0.85 veces lo normal y la
 app explicaba sus razones con palabras que no eran ciertas. Población de 60, 120 generaciones,
-torneo de tres, cruce BLX y élite de dos.
+torneo de tres, cruce BLX y élite de dos; ahora con población de 80, 150 generaciones y cuatro corridas con semillas distintas, de las que se queda la mejor.
 
 Con 316 casos de 26 días, calificado con días que no vio:
 
 | Sistema | Costo por viaje | Elige lo mejor |
 |---|---|---|
-| Siempre pedir ya | $105.85 | 40% |
-| Camión si hay | $101.56 | 71% |
-| Difuso a mano | $101.91 | 48% |
-| Difuso genético | $90.07 | 81% |
-| Lo mejor posible | $84.77 | 100% |
+| Siempre pedir ya | $105.85 | 42% |
+| Camión si hay | $103.43 | 70% |
+| Difuso a mano | $101.78 | 50% |
+| Difuso genético | $89.69 | 81% |
+| Lo mejor posible | $84.70 | 100% |
 
-El genético ahorra $11.84 por viaje contra el sistema a mano (95% entre $8.40 y $14.24,
+El genético ahorra $12.09 por viaje contra el sistema a mano (95% entre $8.79 y $14.29,
 remuestreando días). Lo que más cambia son las reglas: deja una sola de esperar (muy caro, con
 tiempo y un camión lento) y manda al camión cuando el precio está caro y el camión tarda poco más.
 

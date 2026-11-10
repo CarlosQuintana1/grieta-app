@@ -23,7 +23,7 @@ SALIDA = MODELO / "datos" / "decision_genetica.json"
 ESPERA = (10, 90)
 MARGENES = [5, 20, 45]
 ACCIONES = ["pedir ya", "esperar", "camion"]
-POBLACION, GENERACIONES, ELITE = 60, 120, 2
+POBLACION, GENERACIONES, ELITE, REINICIOS = 80, 150, 2, 4
 SEMILLA = 7
 
 # Puntos de cada conjunto en el mismo orden que decision.py; los infinitos de las orillas no se mueven.
@@ -217,6 +217,13 @@ def evolucionar(c: pd.DataFrame, cst: np.ndarray, rng, verbose=False):
     return poblacion[int(np.argmin(notas))]
 
 
+def evolucionar_varias(c: pd.DataFrame, cst: np.ndarray, rng):
+    # Varias corridas con semillas distintas: se queda la que cuesta menos con sus propios casos, para no depender de la suerte.
+    x, filas = entradas(c), np.arange(len(c))
+    corridas = [evolucionar(c, cst, np.random.default_rng(int(rng.integers(10**9)))) for _ in range(REINICIOS)]
+    return min(corridas, key=lambda ind: cst[filas, decidir_todos(ind[0], ind[1], x)].mean())
+
+
 def comprobar(c: pd.DataFrame):
     """El sistema vectorizado con los valores a mano tiene que decidir igual que decision.py."""
     mano = ({v: np.array(p, dtype=float) for v, p in A_MANO.items()}, np.array(ACCION_A_MANO))
@@ -271,7 +278,7 @@ def main():
     for k, prueba in enumerate(grupos):
         en_prueba = c["dia"].isin(prueba).values
         print(f"  grupo {k + 1}: aprende con {(~en_prueba).sum()} casos, se califica con {en_prueba.sum()}")
-        mejor = evolucionar(c[~en_prueba].reset_index(drop=True), cst[~en_prueba], rng)
+        mejor = evolucionar_varias(c[~en_prueba].reset_index(drop=True), cst[~en_prueba], rng)
         elegido["genetico"][en_prueba] = decidir_todos(*mejor, entradas(c[en_prueba]))
 
     filas = np.arange(len(c))
@@ -294,7 +301,7 @@ def main():
 
     if args.sin_guardar:
         return
-    final = evolucionar(c, cst, rng)
+    final = evolucionar_varias(c, cst, rng)
     SALIDA.write_text(json.dumps({"minuto": args.minuto, "tarde": args.tarde, "espera_max": args.espera_max,
                                   "libre": libre, **describir(final)}, ensure_ascii=False, indent=1))
     print(f"Ajuste con todos los dias guardado en {SALIDA.relative_to(MODELO)}")
