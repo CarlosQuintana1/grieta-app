@@ -8,7 +8,7 @@ const catalogo={codigo:'nhe',completa:true,revision:'Prueba técnica sintética;
  async function pagina({ancho=390,acc={},bienvenida=false,sintetico=false,lector=false}={}){
   const c=await b.newContext({viewport:{width:ancho,height:844},isMobile:true,hasTouch:true,serviceWorkers:'block'});
   await c.addInitScript(({acc,bienvenida})=>{
-   if(bienvenida)localStorage.setItem('grieta-bienvenida','true');
+   if(bienvenida)localStorage.setItem('grieta-reinicio','"2026-11-10"');localStorage.setItem('grieta-bienvenida','true');
    if(!localStorage.getItem('grieta-acc'))localStorage.setItem('grieta-acc',JSON.stringify({voz:true,tema:'oscuro',...acc}));
    window.__voz=[];window.__permisos=[];
    window.SpeechSynthesisUtterance=function(text){this.text=text;};

@@ -8,7 +8,7 @@ const assert = require('node:assert/strict');
       viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'block',
     });
     await contexto.addInitScript(() => {
-      localStorage.setItem('grieta-bienvenida', 'true');
+      localStorage.setItem('grieta-reinicio','"2026-11-10"');localStorage.setItem('grieta-bienvenida', 'true');
       if (!localStorage.getItem('grieta-acc')) {
         localStorage.setItem('grieta-acc', JSON.stringify({ tema: 'oscuro', toques: false }));
       }

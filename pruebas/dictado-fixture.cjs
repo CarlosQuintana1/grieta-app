@@ -3,7 +3,7 @@ async function preparar(browser, acc = {}, demoraAudio = 0) {
   const http = process.env.GRIETA_URL ? { url: process.env.GRIETA_URL, cerrar: async () => {} } : await servidor();
   const c = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
   await c.addInitScript(({ acc, demoraAudio }) => {
-    localStorage.setItem('grieta-bienvenida', 'true');
+    localStorage.setItem('grieta-reinicio','"2026-11-10"');localStorage.setItem('grieta-bienvenida', 'true');
     if (!localStorage.getItem('grieta-acc')) localStorage.setItem('grieta-acc', JSON.stringify({ modoVoz: false, voz: false, tema: 'oscuro', ...acc }));
     window.__voz = []; window.__eco = []; window.__sesiones = []; window.__osciladores = 0; window.__busquedas = [];
     navigator.geolocation.getCurrentPosition = (_, error) => error?.({ code: 1 });

@@ -24,6 +24,12 @@ let siMePierdo = leer("grieta-si-me-pierdo", null);
 // llave.js lo cambia para anotar la hora de cada cambio y guardar la copia cifrada.
 let alEscribir = () => {};
 const escribir = (clave, valor) => { try { localStorage.setItem(clave, JSON.stringify(valor)); } catch {} alEscribir(clave); };
+// Reinicio unico del 10 nov 2026: todos vuelven a la bienvenida y al perfil; ahorro, racha, lugares y Cuki se quedan.
+const REINICIO = "2026-11-10";
+if (leer("grieta-reinicio", null) !== REINICIO) {
+  for (const clave of ["grieta-bienvenida", "grieta-perfil", "grieta-tutorial", "grieta-invita-cerrada"]) { try { localStorage.removeItem(clave); } catch {} }
+  try { localStorage.setItem("grieta-reinicio", JSON.stringify(REINICIO)); } catch {}
+}
 const sinAcentos = (t) => t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
 // Los colores del mapa siguen al tema: con alto contraste o colores para daltonismo cambian igual que la pantalla.
 const tono = (nombre) => getComputedStyle(document.documentElement).getPropertyValue(nombre).trim();

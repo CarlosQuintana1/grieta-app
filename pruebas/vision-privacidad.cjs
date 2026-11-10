@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
   const navegador = await chromium.launch({ executablePath: process.env.CHROMIUM_EXECUTABLE, headless: true });
   const contexto = await navegador.newContext({ serviceWorkers: 'block' });
   await contexto.addInitScript(() => {
-    localStorage.setItem('grieta-bienvenida', 'true');
+    localStorage.setItem('grieta-reinicio','"2026-11-10"');localStorage.setItem('grieta-bienvenida', 'true');
     localStorage.setItem('grieta-acc', JSON.stringify({ voz: false, vozElegida: true, lector: 'no' }));
     window.__voces = [{ name: 'remota', lang: 'es-MX', localService: false }, { name: 'local', lang: 'es-ES', localService: true }];
     window.__dichos = [];

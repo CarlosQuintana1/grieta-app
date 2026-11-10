@@ -510,6 +510,17 @@ describe("Cuentas", () => {
   const alta = { nombre: "Persona de prueba", correo: "Prueba@Grieta.test", clave, llave_cifrada: llave, prueba_llave: prueba };
   const conToken = (t) => ({ Authorization: `Bearer ${t}` });
   let token;
+  test("una sesion abierta antes del corte ya no vale y una nueva si", async () => {
+    const { Sesion } = await import("../src/modelos.js");
+    const r = await publico().post("/api/cuentas").send({ ...alta, correo: "corte@grieta.test" }).expect(201);
+    await publico().get("/api/cuentas/yo").set(conToken(r.body.token)).expect(200);
+    await Sesion.update({ createdAt: new Date("2026-11-01T00:00:00Z") }, { where: {}, silent: true });
+    const vieja = await publico().get("/api/cuentas/yo").set(conToken(r.body.token)).expect(401);
+    assert.match(vieja.body.error, /Vuelve a entrar/);
+    const otra = await publico().post("/api/cuentas/entrar").send({ correo: "corte@grieta.test", clave }).expect(200);
+    await publico().get("/api/cuentas/yo").set(conToken(otra.body.token)).expect(200);
+  });
+
   test("crea la cuenta sin devolver nada secreto", async () => {
     const r = await publico().post("/api/cuentas").send(alta).expect(201);
     token = r.body.token;

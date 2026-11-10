@@ -10,7 +10,7 @@ const assert = require('node:assert/strict');
   try {
     const contexto = await navegador.newContext();
     await contexto.addInitScript(() => {
-      localStorage.setItem('grieta-bienvenida', 'true');
+      localStorage.setItem('grieta-reinicio','"2026-11-10"');localStorage.setItem('grieta-bienvenida', 'true');
       localStorage.setItem('grieta-acc', JSON.stringify({ voz: false }));
     });
     const pagina = await contexto.newPage();

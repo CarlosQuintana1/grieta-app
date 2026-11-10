@@ -12,7 +12,7 @@ const { servidor } = require('./hoyos-servidor.cjs');
     const base=process.env.HOYOS_DATOS??'/private/tmp/grieta-hoyos';
     const imagenes=['img-1.jpg','commons-05.jpg'].map(n=>'data:image/jpeg;base64,'+fs.readFileSync(path.join(base,'muestra',n)).toString('base64'));
     await c.addInitScript(({imagenes})=>{
-      localStorage.setItem('grieta-bienvenida','true');localStorage.setItem('grieta-acc',JSON.stringify({voz:true,vozElegida:true,lector:'no',modoVoz:false,tema:'oscuro'}));
+      localStorage.setItem('grieta-reinicio','"2026-11-10"');localStorage.setItem('grieta-bienvenida','true');localStorage.setItem('grieta-acc',JSON.stringify({voz:true,vozElegida:true,lector:'no',modoVoz:false,tema:'oscuro'}));
       if(!localStorage.getItem('grieta-camara'))localStorage.setItem('grieta-camara',JSON.stringify({modelo:'ligero'}));
       window.__voz=[];window.__vibraciones=[];window.__terminados=[];window.__enviados=[];
       window.SpeechSynthesisUtterance=function(text){this.text=text;};

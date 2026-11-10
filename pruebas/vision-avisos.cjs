@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
   const navegador = await chromium.launch({ executablePath: process.env.CHROMIUM_EXECUTABLE, headless: true });
   const contexto = await navegador.newContext({ viewport: { width: 390, height: 844 }, serviceWorkers: 'block' });
   await contexto.addInitScript(() => {
-    localStorage.setItem('grieta-bienvenida', 'true');
+    localStorage.setItem('grieta-reinicio','"2026-11-10"');localStorage.setItem('grieta-bienvenida', 'true');
     localStorage.setItem('grieta-acc', JSON.stringify({ voz: false, tema: 'oscuro' }));
     window.__vibraciones = []; window.__liberaciones = 0;
     Object.defineProperty(navigator, 'vibrate', { configurable: true, value: (patron) => { window.__vibraciones.push(patron); return true; } });

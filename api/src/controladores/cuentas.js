@@ -50,9 +50,12 @@ async function abrirSesion(usuario) {
   return token;
 }
 
+// Las sesiones abiertas antes de este momento ya no valen: todos vuelven a entrar con su contrasena.
+const SESIONES_DESDE = new Date(process.env.SESIONES_DESDE ?? "2026-11-10T23:05:00Z");
+
 export async function conSesion(req, res, next) {
   const token = /^Bearer (\S+)$/.exec(req.get("Authorization") ?? "")?.[1];
-  const sesion = token ? await Sesion.findOne({ where: { token_hash: huella(token), expira: { [Op.gt]: new Date() } } }) : null;
+  const sesion = token ? await Sesion.findOne({ where: { token_hash: huella(token), expira: { [Op.gt]: new Date() }, createdAt: { [Op.gte]: SESIONES_DESDE } } }) : null;
   const usuario = sesion ? await Usuario.scope("conClave").findByPk(sesion.usuario_id) : null;
   if (!usuario) return res.status(401).json({ error: "Tu sesión terminó. Vuelve a entrar." });
   Object.assign(req, { sesion, usuario });
