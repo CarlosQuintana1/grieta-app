@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
   try {
     const contexto = await navegador.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
     await contexto.addInitScript(() => {
-      if (!sessionStorage.getItem('probar-bienvenida')) { localStorage.setItem('grieta-reinicio','"2026-11-10"');localStorage.setItem('grieta-bienvenida', 'true'); if (!localStorage.getItem('grieta-acc')) localStorage.setItem('grieta-acc', JSON.stringify({ modoVoz: true, voz: true, lector: 'no', tema: 'oscuro' })); }
+      if (!sessionStorage.getItem('probar-bienvenida')) { localStorage.setItem('grieta-reinicio','"2026-11-10b"');localStorage.setItem('grieta-bienvenida', 'true'); if (!localStorage.getItem('grieta-acc')) localStorage.setItem('grieta-acc', JSON.stringify({ modoVoz: true, voz: true, lector: 'no', tema: 'oscuro' })); }
       window.__voces = [];
       window.SpeechSynthesisUtterance = function (text) { this.text = text; };
       Object.defineProperty(window, 'speechSynthesis', { value: { speaking: false, getVoices: () => [{ lang: 'es-MX', localService: true }], cancel() { this.speaking = false; }, speak(m) { window.__voces.push(m.text); this.speaking = Boolean(window.__retenerVoz); if (!this.speaking) m.onend?.(); } } });

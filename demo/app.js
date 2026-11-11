@@ -25,7 +25,7 @@ let siMePierdo = leer("grieta-si-me-pierdo", null);
 let alEscribir = () => {};
 const escribir = (clave, valor) => { try { localStorage.setItem(clave, JSON.stringify(valor)); } catch {} alEscribir(clave); };
 // Reinicio unico del 10 nov 2026: todos vuelven a la bienvenida y al perfil; ahorro, racha, lugares y Cuki se quedan.
-const REINICIO = "2026-11-10";
+const REINICIO = "2026-11-10b";
 if (leer("grieta-reinicio", null) !== REINICIO) {
   for (const clave of ["grieta-bienvenida", "grieta-perfil", "grieta-tutorial", "grieta-invita-cerrada"]) { try { localStorage.removeItem(clave); } catch {} }
   try { localStorage.setItem("grieta-reinicio", JSON.stringify(REINICIO)); } catch {}
@@ -5568,6 +5568,8 @@ function irPaso(p) {
   $("numeroPregunta").textContent = p === "cuenta" ? "Último paso" : `Pregunta ${numero} de ${orden.filter((x) => x !== "cuenta").length}`;
   $("regresarBienvenida").classList.toggle("oculta", numero === 1);
   $("saltarBienvenida").hidden = p === "cuenta";
+  // Quien ya tiene sesion abierta no necesita volver a elegir cuenta.
+  if (p === "cuenta" && typeof cuentaActual !== "undefined" && cuentaActual.datos) return terminarBienvenida();
   progreso.setAttribute("aria-valuemax", String(orden.length));
   progreso.setAttribute("aria-valuenow", String(numero));
   progreso.setAttribute("aria-valuetext", `Paso ${numero} de ${orden.length}`);
@@ -5599,6 +5601,13 @@ function terminarBienvenida() {
   ir("inicio", true);
   if (acc.modoVoz) hablar(ayudaVoz(), false, true);
 }
+// Salida para la feria: cinco toques seguidos al titulo del ultimo paso dejan entrar sin cuenta.
+let toquesEscape = [];
+$("tituloCuentaPaso").addEventListener("click", () => {
+  const ahora = Date.now();
+  toquesEscape = [...toquesEscape.filter((t) => ahora - t < 3000), ahora];
+  if (toquesEscape.length >= 5) { toquesEscape = []; terminarBienvenida(); }
+});
 $("saltarBienvenida").addEventListener("click", () => {
   if (!leer("grieta-tutorial", false)) escribir("grieta-tutorial", { version: 1, completado: false });
   // Saltar lleva directo al ultimo paso: ahi cada quien elige cuenta, entrar o solo su nombre. En modo voz no hay ese paso.

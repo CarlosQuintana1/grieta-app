@@ -17,7 +17,7 @@ const assert = require('node:assert/strict');
   const navegador = await chromium.launch({ executablePath: process.env.CHROMIUM_EXECUTABLE, headless: true, args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream'] });
   try {
     const contexto = await navegador.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
-    await contexto.addInitScript(() => { localStorage.setItem('grieta-camara', JSON.stringify({escalones:true})); localStorage.setItem('grieta-reinicio','"2026-11-10"');localStorage.setItem('grieta-bienvenida', 'true'); localStorage.setItem('grieta-acc', JSON.stringify({ voz: false })); });
+    await contexto.addInitScript(() => { localStorage.setItem('grieta-camara', JSON.stringify({escalones:true})); localStorage.setItem('grieta-reinicio','"2026-11-10b"');localStorage.setItem('grieta-bienvenida', 'true'); localStorage.setItem('grieta-acc', JSON.stringify({ voz: false })); });
     const pagina = await contexto.newPage(); const errores = [];
     pagina.on('pageerror', (e) => errores.push(e.message));
     await pagina.goto('http://127.0.0.1:8806');

@@ -2612,3 +2612,21 @@ html:has(dialog.hoja-perfil[open]) { background: var(--superficie); }
 .pastilla-inicio.azul { background: #3a4fb8; color: #fff; }
 .pastilla-inicio.azul small { color: #dbe0ff; }
 .pastilla-inicio.azul .moneda-corte { fill: #3a4fb8; }
+/* Bienvenida: cada opcion es una ficha de su color, como las de Tu perfil de viaje (con alto contraste se queda sobria) */
+html:not(.contraste) #bienvenida .opcion-vista { --ficha: #3a4fb8; --letra: #fff; min-height: 84px; padding: 14px 16px; gap: 16px; border: 0; border-radius: 22px; background: var(--ficha); color: var(--letra);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 22px 100%, 0 calc(100% - 22px)); }
+html:not(.contraste) #bienvenida .opcion-vista:has(.tono-maiz) { --ficha: #e0a03c; --letra: #1c1408; }
+html:not(.contraste) #bienvenida .opcion-vista:has(.tono-ciruela) { --ficha: #d0306a; }
+html:not(.contraste) #bienvenida .opcion-vista:has(.tono-casa) { --ficha: #a4512f; }
+html:not(.contraste) #bienvenida .opcion-vista:has(.tono-escuela) { --ficha: #a8346f; }
+html:not(.contraste) #bienvenida .opcion-vista:has(.tono-trabajo) { --ficha: #1d6f99; }
+html:not(.contraste) #bienvenida .opcion-vista:has(.tono-hospital) { --ficha: #1f7a52; }
+html:not(.contraste) #bienvenida .opcion-vista:has(.tono-salud) { --ficha: #b83a37; }
+html:not(.contraste) #bienvenida .opcion-vista:has(.tono-obsidiana) { --ficha: #4a5557; }
+html:not(.contraste) #bienvenida .opcion-vista .mini-ficha { width: 46px; height: 46px; background: none; box-shadow: none; clip-path: none; color: var(--letra); }
+html:not(.contraste) #bienvenida .opcion-vista .mini-ficha .picto { width: 42px; height: 42px; color: var(--letra); }
+html:not(.contraste) #bienvenida .opcion-vista strong { font-size: 1.12rem; font-weight: 800; color: var(--letra); }
+html:not(.contraste) #bienvenida .opcion-vista small { color: var(--letra); opacity: .88; }
+html:not(.contraste) #bienvenida .flecha-opcion { color: var(--letra); }
+html:not(.contraste) #bienvenida .opcion-vista:active { transform: scale(.98); }
+#bienvenida .opcion-vista[hidden] { display: none !important; }

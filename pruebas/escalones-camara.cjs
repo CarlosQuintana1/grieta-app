@@ -9,7 +9,7 @@ const path = require('node:path');
  try {
   const contexto = await navegador.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,serviceWorkers:'block'});
   await contexto.addInitScript(({imagenes}) => {
-   localStorage.setItem('grieta-reinicio','"2026-11-10"');localStorage.setItem('grieta-bienvenida','true');
+   localStorage.setItem('grieta-reinicio','"2026-11-10b"');localStorage.setItem('grieta-bienvenida','true');
    localStorage.setItem('grieta-acc',JSON.stringify({voz:true,vozElegida:true,lector:'no',modoVoz:false,tema:'oscuro'}));
    window.__dichos=[];window.__vibraciones=[];window.__terminados=[];
    window.SpeechSynthesisUtterance=function(text){this.text=text;};

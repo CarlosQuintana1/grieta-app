@@ -7,7 +7,7 @@ const assert = require('node:assert/strict');
   const c = await b.newContext({ geolocation: mia, permissions: ['geolocation', 'accelerometer', 'gyroscope', 'magnetometer'] });
   const p = await c.newPage(), errores = [];
   p.on('pageerror', (e) => errores.push(e.message));
-  await p.addInitScript(() => { localStorage.setItem('grieta-tutorial', JSON.stringify({ version: 1, completado: true })); localStorage.setItem('grieta-reinicio','"2026-11-10"');localStorage.setItem('grieta-bienvenida', 'true'); });
+  await p.addInitScript(() => { localStorage.setItem('grieta-tutorial', JSON.stringify({ version: 1, completado: true })); localStorage.setItem('grieta-reinicio','"2026-11-10b"');localStorage.setItem('grieta-bienvenida', 'true'); });
   await p.goto(process.env.GRIETA_URL ?? 'http://127.0.0.1:8829/');
   await p.waitForFunction(() => Grieta.qrobus);
   const r = await p.evaluate(() => {
