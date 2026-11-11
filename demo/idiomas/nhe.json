@@ -10383,6 +10383,16 @@
       "clave": "texto_ffd9f387e2",
       "es": "Te escucho, sigue hablando",
       "nhe": "Nimitskaki, xijsenkaua tlajtoli"
+    },
+    {
+      "clave": "texto_557d90aae8",
+      "es": "Llamar al 911",
+      "nhe": "Xijnotsati 911"
+    },
+    {
+      "clave": "texto_1bc5b84eac",
+      "es": "Ejemplo: qué pasó y a qué hora",
+      "nhe": "Se neskayotl: tlen panok uan ipan tlake hora"
     }
   ],
   "adaptaciones": [

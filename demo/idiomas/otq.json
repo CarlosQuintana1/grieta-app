@@ -10382,6 +10382,16 @@
       "clave": "texto_ffd9f387e2",
       "es": "Te escucho, sigue hablando",
       "otq": "Di 'mu̲ise̲, te̲ni ñähwi"
+    },
+    {
+      "clave": "texto_557d90aae8",
+      "es": "Llamar al 911",
+      "otq": "Xekwi 911"
+    },
+    {
+      "clave": "texto_1bc5b84eac",
+      "es": "Ejemplo: qué pasó y a qué hora",
+      "otq": "Ejemplo: Temu̲ thogi ne Temu̲ ora"
     }
   ],
   "adaptaciones": [

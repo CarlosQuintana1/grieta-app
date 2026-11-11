@@ -5200,12 +5200,13 @@ const marcarReporte = radios("tipoReporte", (v) => {
   $("quejaCamion").hidden = !esQueja(v);
   $("quejaAcoso").hidden = v !== "acoso";
   $("fotoReporte").hidden = esQueja(v);
-  $("descripcion").placeholder = esQueja(v) ? "Ejemplo: le hice la parada y siguió de largo" : "Ejemplo: la parada está frente al OXXO, junto al poste amarillo";
+  $("descripcion").placeholder = v === "acoso" ? "Ejemplo: qué pasó y a qué hora" : esQueja(v) ? "Ejemplo: le hice la parada y siguió de largo" : "Ejemplo: la parada está frente al OXXO, junto al poste amarillo";
   if (v) $("quejaListo").hidden = true;
   const nuevo = $("reporteResto").hidden && v;
   $("reporteResto").hidden = !v;
   if (v) $("reporteEstado").className = "nota";
-  if (nuevo) setTimeout(() => $("enviarReporte").scrollIntoView({ block: "nearest", behavior: "smooth" }), 50);
+  // El formulario se ve desde su primer campo; antes bajaba hasta el boton y cortaba el aviso del 911.
+  if (nuevo) setTimeout(() => $("reporteResto").scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }), 50);
 });
 // En una parada lo probable es reportar la parada; arriba o en el camion, el servicio.
 function ordenarReporte(enParada) {

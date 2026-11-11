@@ -2689,3 +2689,19 @@ html:not(.contraste) #bienvenida .opcion-vista:active { transform: scale(.98); }
 .credencial-iconos i:nth-child(1) { color: #8fb0ff; }
 .credencial-iconos i:nth-child(2) { color: #c9a2ff; }
 .credencial-iconos i:nth-child(3) { color: #5fd0c8; }
+/* La orilla de la moneda toma el color de la ficha donde esta, para que no se vea un aro de otro color */
+.moneda-corte { fill: var(--corte, #e0a03c); }
+.equivale-color .eq-pantalla { --corte: #a8362c; }
+.equivale-color .eq-gasolina { --corte: #7a5a18; }
+/* Reportar acoso: el 911 es un boton rojo que marca directo */
+.boton-911 { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 4px 0 16px; background: #c62828; border-color: #c62828; color: #fff; text-decoration: none; }
+.boton-911 .icono { width: 24px; height: 24px; color: #fff; }
+html.contraste .boton-911 { background: #ff3b30; border-color: #fff; color: #000; } html.contraste .boton-911 .icono { color: #000; }
+#reporteResto { scroll-margin-top: 84px; }
+/* Buscar: el punto de salida y el buscador con letra pareja; las distancias en azul */
+#buscar .desde { font-size: .95rem; min-height: 52px; }
+#buscar .buscador { min-height: 58px; }
+#buscar .buscador input { font-size: 1rem; font-weight: 700; }
+#buscar .buscador > .icono { width: 22px; height: 22px; }
+#buscar #resultados .fila-texto small { background: #3a4fb8; color: #fff; }
+html.contraste #buscar #resultados .fila-texto small { background: #000; color: #fff; border: 1px solid #fff; }

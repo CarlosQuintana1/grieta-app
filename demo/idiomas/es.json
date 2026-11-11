@@ -17595,6 +17595,20 @@
       "contextos": [
         "demo/index.html"
       ]
+    },
+    {
+      "clave": "texto_557d90aae8",
+      "es": "Llamar al 911",
+      "contextos": [
+        "demo/index.html"
+      ]
+    },
+    {
+      "clave": "texto_1bc5b84eac",
+      "es": "Ejemplo: qué pasó y a qué hora",
+      "contextos": [
+        "demo/app.js · marcarReporte"
+      ]
     }
   ]
 }
