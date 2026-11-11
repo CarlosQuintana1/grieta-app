@@ -2828,3 +2828,12 @@ html.contraste .ev-vistas button[aria-selected="true"], html.contraste .ev-chips
 .ev-vistas button { display: flex; align-items: center; justify-content: center; padding: 0 4px; text-align: center; line-height: 1.15; font-size: .78rem; }
 #evFiltros, #evRutas, #evRapidos { flex-wrap: wrap; overflow: visible; }
 .ev-quien small span + span::before { content: ", "; }
+
+/* La flecha de la escena se ve como antes: circulo ambar de 30 px en su lugar, con 44 px para el dedo */
+.heroe-envivo { right: 5px; bottom: 3px; width: 44px; height: 44px; background: none; box-shadow: none; animation: none; }
+.heroe-envivo > span { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: var(--ambar); color: var(--sobre-ambar, #0b0a09); }
+.heroe-envivo .icono { width: 18px; height: 18px; stroke-width: 2.6; }
+/* La cara de Cuki centrada en su circulo */
+.boton-cuki { background: #f6efe4; box-shadow: 0 0 0 2.5px var(--ambar); }
+/* Botones de Qro en vivo con el texto centrado */
+.ev-avisar { display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px; line-height: 1.2; font-size: .86rem; }
