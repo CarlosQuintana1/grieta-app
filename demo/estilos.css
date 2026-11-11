@@ -2836,3 +2836,6 @@ html.contraste .ev-vistas button[aria-selected="true"], html.contraste .ev-chips
 .boton-cuki { background: #f6efe4; box-shadow: 0 0 0 2.5px var(--ambar); }
 /* Botones de Qro en vivo con el texto centrado */
 .ev-avisar { display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px; line-height: 1.2; font-size: .86rem; }
+/* Icono de Cuki: fondo de atardecer como la escena, aro blanco por dentro y ambar por fuera */
+.boton-cuki { position: relative; background: radial-gradient(circle at 50% 30%, #fff1df 0%, #f9d7b8 55%, #f1b595 100%); box-shadow: 0 0 0 2px #fff, 0 0 0 4.5px var(--ambar), 0 6px 14px rgba(0,0,0,.35); }
+.boton-cuki .cuki-cara { width: 52px; height: 52px; }
