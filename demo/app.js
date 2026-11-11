@@ -1553,7 +1553,7 @@ function pintarOpciones(r) {
     <span class="hv-precio${tag ? " pq" : ""}${tag && azul ? " azul" : ""}${chica ? " chica" : ""}">${cifra}</span>${datos.map(([i, t]) => datoViaje(i, t)).join("")}</button>`;
   const heroViaje = (id, { o, etiquetas }, i) => {
     const rango = rangoOpcion(o), precio = rango ? rangoTexto(rango) : pesos(o.costo), dif = diferencia(o);
-    const iz = { attrs: `data-i="${i}"`, voz: vozOpcion(o, etiquetas), icono: rango ? `<span class="hv-iconos">${picto("qrobus")}${picto("app")}</span>` : picto("qrobus"), nombre: rango ? "Combinado, aprox." : "Qrobus" };
+    const iz = { attrs: `data-i="${i}"`, voz: vozOpcion(o, etiquetas), icono: rango ? `<span class="hv-iconos">${picto("qrobus")}${picto("app")}</span>` : picto("qrobus"), nombre: rango ? "Combinado" : "Qrobus" };
     const de = { der: true, attrs: "data-abrir-app", voz: vozApp, icono: picto("app"), nombre: nApp };
     const evita = sinAuto(o) && `<span class="hv-co2">${ico("planta")}<span>Evitas ${kgAuto} de CO₂</span></span>`;
     const llegaO = lleg(hora(llegada(o)));
