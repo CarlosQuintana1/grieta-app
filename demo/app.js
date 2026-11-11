@@ -464,8 +464,20 @@ function vozEspanol(texto, alTerminar) {
   u.lang = "es-MX";
   u.rate = acc.lenta ? 0.8 : 1;
   u.onend = u.onerror = alTerminar;
+  // Safari deja la voz en pausa si la app se fue a segundo plano.
+  if (speechSynthesis.paused) speechSynthesis.resume();
   speechSynthesis.speak(u);
 }
+// iPhone: la primera voz solo suena dentro de un toque y el interruptor de silencio la apaga; el primer toque lo arregla.
+let vozDesbloqueada = false;
+function desbloquearVoz() {
+  if (vozDesbloqueada || !vozActiva() || !("speechSynthesis" in window)) return;
+  vozDesbloqueada = true;
+  try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch {}
+  const u = new SpeechSynthesisUtterance(" "); u.lang = "es-MX"; u.volume = 0; speechSynthesis.speak(u);
+}
+addEventListener("pointerdown", desbloquearVoz, { capture: true, passive: true });
+addEventListener("touchend", desbloquearVoz, { capture: true, passive: true });
 function esperarVoz(texto) {
   if (!/[\p{L}\p{N}]/u.test(texto)) return Promise.resolve();
   return new Promise((resolve) => {
@@ -759,7 +771,13 @@ function sugerir(texto, alCompletar = null) {
       }
     }
     if (osm.status === "rejected" && azure.status === "rejected") {
-      return pintarResultados([], "No hay conexión con el buscador. Elige un lugar guardado o elígelo en el mapa.");
+      // Sin internet se busca entre las paradas de Qrobus, que viven en el telefono.
+      const vistas = new Set(), paradas = [];
+      for (const [lat, lon, nombre] of Grieta.qrobus?.paradas ?? []) {
+        if (paradas.length >= 6 || !nombre || vistas.has(nombre) || !sinAcentos(nombre).includes(buscado)) continue;
+        vistas.add(nombre); paradas.push(conDistancia({ nombre, lat, lon }));
+      }
+      return pintarResultados(paradas, "No hay conexión con el buscador. Elige un lugar guardado o elígelo en el mapa.");
     }
     pintarResultados(res, `No encontré "${escapar(texto)}". Prueba con la calle y la colonia, o elígelo en el mapa.`);
   }, alCompletar ? 0 : 350);
@@ -2659,7 +2677,10 @@ function abrirUbicacion() {
       const p = r.features[0]?.properties ?? {};
       const calle = p.street ?? p.name;
       if (calle && document.body.dataset.pantalla === "ubicacion") { $("ubicacionCalle").textContent = calle; $("ubicacionAqui").hidden = false; }
-    }).catch(() => {});
+    }).catch(() => {
+      // Sin internet no hay nombre de calle: se dice la parada mas cercana, que si esta en el telefono.
+      if (parada && document.body.dataset.pantalla === "ubicacion" && !$("ubicacionCalle").textContent) { $("ubicacionCalle").textContent = cruce(parada.nombre); $("ubicacionAqui").hidden = false; }
+    });
   }, true);
 }
 // Si me pierdo: el contacto se queda solo en este teléfono, fuera del respaldo de la cuenta.

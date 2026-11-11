@@ -1,5 +1,12 @@
 // Guarda la app y los horarios para que funcione sin internet. Cambiar la version renueva todo.
-const VERSION = "grieta-286";
+const VERSION = "grieta-287";
+const MAPA = "grieta-mapa-1";
+// Hasta 800 cuadros de mapa (unos 15 MB); se van los mas viejos.
+let recortando = false;
+async function recortarMapa(cache) {
+  if (recortando) return; recortando = true;
+  try { const claves = await cache.keys(); for (const k of claves.slice(0, Math.max(0, claves.length - 800))) await cache.delete(k); } finally { recortando = false; }
+}
 const BASE = [
   "./", "index.html", "observatorio.html", "observatorio.css", "observatorio.js", "arranque.js", "estilos.css", "app.js", "llave.js", "cuenta.js", "envivo.js", "tlacuache-arte.js", "escenas-arte.js", "toques.js", "practica.js", "tutorial.js", "vision/transporte.js?v=73", "grieta.js", "idioma.js", "camara.js", "vision/desniveles.js?v=74", "vision/camara-suelo.js?v=81", "vision/hoyos.js?v=76", "vision/hoyos-worker.js?v=76", "vision/escalones-worker.js?v=74", "vision/observaciones.js?v=3", "vision/seguimiento.js?v=4", "vision/movimiento.js?v=3", "vision/detector-worker.js?v=3", "vision/lector-worker.js?v=3", "vision/activos.json?v=5", "logo.png", "icono-192.png", "manifest.webmanifest",
   "idiomas/es.json", "idiomas/otq.json", "idiomas/nhe.json",
@@ -15,7 +22,7 @@ self.addEventListener("install", (e) => {
 
 self.addEventListener("activate", (e) => {
   e.waitUntil(caches.keys()
-    .then((claves) => Promise.all(claves.filter((k) => k !== VERSION && k !== "grieta-vision-1").map((k) => caches.delete(k))))
+    .then((claves) => Promise.all(claves.filter((k) => k !== VERSION && k !== "grieta-vision-1" && k !== MAPA).map((k) => caches.delete(k))))
     .then(() => self.clients.claim()));
 });
 
@@ -43,6 +50,14 @@ self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
   if (url.origin === location.origin && (url.pathname.includes("/vision/vendor/") || url.pathname.includes("/vision/modelos/")) && e.request.method === "GET") {
     e.respondWith(caches.open("grieta-vision-1").then(async (cache) => (await cache.match(e.request)) ?? (await (await caches.open(VERSION)).match(e.request)) ?? fetch(e.request)));
+    return;
+  }
+  // El mapa que ya viste se guarda para verlo sin internet; no se descargan zonas por adelantado.
+  if (url.hostname === "tile.openstreetmap.org" && e.request.method === "GET") {
+    e.respondWith(caches.open(MAPA).then((cache) => fetch(e.request).then((r) => {
+      if (r.ok || r.type === "opaque") { cache.put(e.request, r.clone()); recortarMapa(cache); }
+      return r;
+    }).catch(() => cache.match(e.request).then((r) => r ?? Response.error()))));
     return;
   }
   const propio = url.origin === location.origin || url.hostname === "cdnjs.cloudflare.com" || url.hostname === "cdn.jsdelivr.net";
