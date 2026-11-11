@@ -243,7 +243,9 @@ function pintarLlave() {
   const con = !!respaldo.palabras;
   $("llaveSin").hidden = con;
   $("llaveCon").hidden = !con;
-  $("textoLlave").textContent = !con ? "Guárdalo con una llave de seis palabras" : respaldo.guardada ? `Guardado ${hace(respaldo.guardada)}` : "Se guarda cuando haya internet";
+  // Con cuenta, las palabras sirven para recuperarla si se olvida la contraseña.
+  const llaveConCuenta = typeof cuentaActual !== "undefined" && Boolean(cuentaActual.datos);
+  $("textoLlave").textContent = !con ? "Guárdalo con una llave de seis palabras" : llaveConCuenta ? "Por si olvidas tu contraseña" : respaldo.guardada ? `Guardado ${hace(respaldo.guardada)}` : "Se guarda cuando haya internet";
   $("llavePalabras").innerHTML = con ? respaldo.palabras.map((p) => `<li>${escapar(p)}</li>`).join("") : "";
   // Con cuenta, la llave es parte de ella: quitarla aqui la dejaria sin copia.
   const conCuenta = !!leer("grieta-cuenta", null);

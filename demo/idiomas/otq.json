@@ -10392,6 +10392,11 @@
       "clave": "texto_1bc5b84eac",
       "es": "Ejemplo: qué pasó y a qué hora",
       "otq": "Ejemplo: Temu̲ thogi ne Temu̲ ora"
+    },
+    {
+      "clave": "texto_1e73361a4e",
+      "es": "Por si olvidas tu contraseña",
+      "otq": "En caso ja da olvides ir contraseña"
     }
   ],
   "adaptaciones": [
