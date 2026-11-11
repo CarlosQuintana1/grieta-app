@@ -3918,7 +3918,6 @@ function tlacuacheDormido(texto, detalle = "") {
 function pintarRachaInicio() {
   const caja = $("rachaInicio");
   caja.hidden = acc.modoVoz || acc.facil;
-  $("abrirEnVivo").hidden = caja.hidden;
   $("inicioCuki").innerHTML = tlacuache(3, racha.puestos, false);
   if (caja.hidden) return;
   protectorDelMes();
@@ -3932,7 +3931,7 @@ function pintarRachaInicio() {
     return `<rect class="fondo${i === actual ? " actual" : ""}" x="${x}" y="1" width="49" height="8" rx="4"/>${llena ? `<rect class="lleno" x="${x}" y="1" width="${Math.max(8, 49 * llena).toFixed(1)}" height="8" rx="4"/>` : ""}`;
   }).join("");
   const nombre = racha.nombre || "Tu tlacuache";
-  caja.setAttribute("aria-label", `${nombre}. ${titulo}. Esta semana: ${cuenta} de ${plural(racha.meta, "viaje", "viajes")} en camión.`);
+  caja.setAttribute("aria-label", "Abrir Qro en vivo");
   // Escena recortada y un renglon con el nombre, las semanas y la flecha: cabe sin empujar el buscador.
   caja.innerHTML = `<svg class="heroe-escena" viewBox="0 36 640 254" aria-hidden="true">${escenaRacha(animoRacha(), 280, 0.78, true)}</svg>
     <span class="heroe-fila" aria-hidden="true"><b class="heroe-lugar" translate="no">${ico("pin")}<span>Santiago de Querétaro<span class="heroe-pais">, México</span></span></b><svg class="racha-puntos" viewBox="0 0 320 10">${rayas}</svg>${ico("chevron", "heroe-ir")}</span>`;
@@ -3969,8 +3968,8 @@ function abrirRacha() {
   pintarRacha();
   ir("racha");
 }
-$("rachaInicio").addEventListener("click", abrirRacha);
-$("abrirEnVivo").addEventListener("click", () => ir("envivo"));
+// La escena de Cuki abre Qro en vivo; la cara de Cuki de la esquina abre Tu tlacuache.
+$("rachaInicio").addEventListener("click", () => ir("envivo"));
 // Sin groserias: se compara sin acentos, sin numeros disfrazados de letra y sin letras repetidas.
 const GROSERIAS_DENTRO = ["pendej", "chinga", "chingon", "chupaverg", "culer", "cabron", "mamon", "mamad", "pinche", "maricon", "mierd", "panoch", "ojete", "idiot", "imbecil", "estupid", "retrasad", "violad", "hitler", "narco", "sicari", "hijodeput", "fuck", "shit", "bitch", "ashole", "pusy", "cunt", "whore", "slut", "gilipo"];
 const GROSERIAS_EXACTAS = new Set(["puto", "puta", "putos", "putas", "putito", "putita", "pvto", "pvta", "culo", "culos", "culito", "pito", "pitote", "pene", "penes", "teta", "tetas", "tetona", "chichi", "chichis", "nalga", "nalgas", "nalgon", "nalgona", "caca", "pedo", "pedos", "joto", "jotos", "jota", "marica", "zorra", "zorras", "perra", "perras", "mayate", "naco", "naca", "indio", "india", "sida", "coger", "cogida", "cogido", "follar", "polla", "tarado", "tarada", "baboso", "babosa", "verga", "vergas", "vergon", "vergota", "vergazo", "vagina", "semen", "ano", "punal", "nazi", "niga", "nigga", "niger", "nigger", "dick", "cock", "ptm", "alv", "hdp", "ctm", "vrg", "wtf"]);
