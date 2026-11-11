@@ -5567,6 +5567,7 @@ function irPaso(p) {
   [...progreso.children].forEach((punto, i) => punto.classList.toggle("hecho", i < numero));
   $("numeroPregunta").textContent = p === "cuenta" ? "Último paso" : `Pregunta ${numero} de ${orden.filter((x) => x !== "cuenta").length}`;
   $("regresarBienvenida").classList.toggle("oculta", numero === 1);
+  $("saltarBienvenida").hidden = p === "cuenta";
   progreso.setAttribute("aria-valuemax", String(orden.length));
   progreso.setAttribute("aria-valuenow", String(numero));
   progreso.setAttribute("aria-valuetext", `Paso ${numero} de ${orden.length}`);
@@ -5600,8 +5601,8 @@ function terminarBienvenida() {
 }
 $("saltarBienvenida").addEventListener("click", () => {
   if (!leer("grieta-tutorial", false)) escribir("grieta-tutorial", { version: 1, completado: false });
-  // Ya en las preguntas del perfil, saltarlas todavia ofrece guardar el progreso.
-  if (ordenPasos().includes("cuenta") && !["vista", "forma", "lector", "cuenta"].includes(pasoActual)) return irPaso("cuenta");
+  // Saltar lleva directo al ultimo paso: ahi cada quien elige cuenta, entrar o solo su nombre. En modo voz no hay ese paso.
+  if (ordenPasos().includes("cuenta")) return irPaso("cuenta");
   terminarBienvenida();
 });
 document.querySelector('#bienvenida [data-paso="vista"]').addEventListener("click", (e) => {
