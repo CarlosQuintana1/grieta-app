@@ -6073,7 +6073,9 @@ Promise.all([
   pintarGuardados();
   if (document.body.dataset.pantalla === "inicio") pintarHorario();
   avisoConexion();
-  sincronizarRespaldo();
+  // llave.js carga despues de app.js: con red lenta los datos llegan antes y la funcion aun no existe.
+  if (typeof sincronizarRespaldo === "function") sincronizarRespaldo();
+  else addEventListener("load", () => sincronizarRespaldo(), { once: true });
   if (!primeraVez) ubicar();
   accionInicial();
   document.documentElement.classList.add("inicio-listo");
