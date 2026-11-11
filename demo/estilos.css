@@ -2630,3 +2630,9 @@ html:not(.contraste) #bienvenida .opcion-vista small { color: var(--letra); opac
 html:not(.contraste) #bienvenida .flecha-opcion { color: var(--letra); }
 html:not(.contraste) #bienvenida .opcion-vista:active { transform: scale(.98); }
 #bienvenida .opcion-vista[hidden] { display: none !important; }
+/* Tu ahorro va en azul, igual que su ficha en Inicio */
+.bloque-ambar { background: #3a4fb8; color: #fff; }
+#ahorroVista button[aria-checked="true"] { background: #3a4fb8; color: #fff; }
+.meta-cambiar, .meta-otra { background: #1c2766; color: #fff; }
+.meta-forma .campo { background: #1c2766; }
+.bloque-ambar .m-anil { background: #6b3fd0; }
