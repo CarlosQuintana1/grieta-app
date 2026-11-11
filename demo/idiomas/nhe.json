@@ -3857,7 +3857,7 @@
     {
       "clave": "texto_f74f2fcb6b",
       "es": "El botón del centro, Camiones cerca, busca paradas desde tu ubicación.",
-      "nhe": "Nopa botón tlen eltok tlatlajko, Trucks Nearby, kitemoua kanke timoketsas kampa ti itstok."
+      "nhe": "Nopa botón tlen eltok tlatlajko, Camiones tlen eltok nechka, kitemoua kanke timoketsas kampa ti itstok."
     },
     {
       "clave": "texto_2faed2d87b",
@@ -7372,7 +7372,7 @@
     {
       "clave": "texto_349bd378b6",
       "es": "VIAJERO DE QUERÉTARO",
-      "nhe": "QUERÉTARO TRAVELER"
+      "nhe": "SE PAXALOJKETL TLEN QUERÉTARO"
     },
     {
       "clave": "texto_a60b5f318d",
@@ -9242,7 +9242,7 @@
     {
       "clave": "texto_dc8904594f",
       "es": "Hace {v1} min",
-      "nhe": "{v1} min ago"
+      "nhe": "{v1} min tlen panotok"
     },
     {
       "clave": "texto_08c4de06fb",
@@ -10680,26 +10680,6 @@
       "nhe": "Temitok"
     },
     {
-      "clave": "texto_0e43da62ec",
-      "es": "Viajera de El Pueblito",
-      "nhe": "Tlapaxalojketl tlen El Pueblito"
-    },
-    {
-      "clave": "texto_7a1413dff5",
-      "es": "Viajera de la C69",
-      "nhe": "C69 paxalojketl"
-    },
-    {
-      "clave": "texto_8b6102df00",
-      "es": "Viajero de Centro Sur",
-      "nhe": "Sur Central Traveler"
-    },
-    {
-      "clave": "texto_ea4df2f325",
-      "es": "Viajero de Juriquilla",
-      "nhe": "Juriquilla Traveler"
-    },
-    {
       "clave": "texto_90782dd421",
       "es": "Viajeros",
       "nhe": "paxalohuani"
@@ -11150,6 +11130,21 @@
       "clave": "texto_53366d6473",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "Se conserva la fórmula CO₂ del texto fuente."
+    },
+    {
+      "clave": "texto_f74f2fcb6b",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "El nombre del botón venía en inglés; se usa su traducción automática de «Camiones cerca»."
+    },
+    {
+      "clave": "texto_349bd378b6",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Venía en inglés; traducción automática de «Viajero de Querétaro» en mayúsculas."
+    },
+    {
+      "clave": "texto_dc8904594f",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Venía en inglés; se toma la traducción automática de «hace 11 min» con el número como variable."
     }
   ]
 }

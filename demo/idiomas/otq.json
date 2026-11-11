@@ -9241,12 +9241,12 @@
     {
       "clave": "texto_dc8904594f",
       "es": "Hace {v1} min",
-      "otq": "{v1} min ago"
+      "otq": "Xí {v1} ya t'olo ora"
     },
     {
       "clave": "texto_08c4de06fb",
       "es": "Hace {v1} h",
-      "otq": "{v1} h ago"
+      "otq": "Hace {v1} h"
     },
     {
       "clave": "texto_cb3240a351",
@@ -9501,7 +9501,7 @@
     {
       "clave": "texto_7095fc962e",
       "es": "Está arriba, en Inicio.",
-      "otq": "'Bu̲i jar xeni mäs xi ngu, jar Home"
+      "otq": "'Bu̲i jar xeni mäs xi ngu, jar Mudi"
     },
     {
       "clave": "texto_557d1d97dd",
@@ -10679,26 +10679,6 @@
       "otq": "Xi ñuts'i"
     },
     {
-      "clave": "texto_0e43da62ec",
-      "es": "Viajera de El Pueblito",
-      "otq": "Ar 'ñu ndezu̲ nu pueblito"
-    },
-    {
-      "clave": "texto_7a1413dff5",
-      "es": "Viajera de la C69",
-      "otq": "Viajero ndezu̲ ar C69"
-    },
-    {
-      "clave": "texto_8b6102df00",
-      "es": "Viajero de Centro Sur",
-      "otq": "Viajero made sur"
-    },
-    {
-      "clave": "texto_ea4df2f325",
-      "es": "Viajero de Juriquilla",
-      "otq": "Ar 'ñu Juritx'a"
-    },
-    {
       "clave": "texto_90782dd421",
       "es": "Viajeros",
       "otq": "Ya ze̲fi"
@@ -11274,6 +11254,21 @@
       "clave": "texto_6967e1f9b0",
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "Se conserva el nombre Qrobus."
+    },
+    {
+      "clave": "texto_dc8904594f",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Venía en inglés; se toma la traducción automática de «hace 11 min» con el número como variable."
+    },
+    {
+      "clave": "texto_08c4de06fb",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Venía en inglés y no hay salida automática en otomí; se deja el texto en español."
+    },
+    {
+      "clave": "texto_7095fc962e",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "El nombre de la pantalla venía en inglés; se usa su traducción automática de «Inicio»."
     }
   ],
   "parcial": false

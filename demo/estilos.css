@@ -2839,3 +2839,18 @@ html.contraste .ev-vistas button[aria-selected="true"], html.contraste .ev-chips
 /* Icono de Cuki: fondo de atardecer como la escena, aro blanco por dentro y ambar por fuera */
 .boton-cuki { position: relative; background: radial-gradient(circle at 50% 30%, #fff1df 0%, #f9d7b8 55%, #f1b595 100%); box-shadow: 0 0 0 2px #fff, 0 0 0 4.5px var(--ambar), 0 6px 14px rgba(0,0,0,.35); }
 .boton-cuki .cuki-cara { width: 52px; height: 52px; }
+/* Textos largos en otomi y nahuatl: las columnas se encogen y las palabras largas bajan de renglon */
+.dos-botones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.dos-botones .boton { min-width: 0; overflow-wrap: anywhere; text-align: center; }
+.parada-alternativa strong { min-width: 0; overflow-wrap: anywhere; }
+.parada-alternativa .tenue { flex: 0 1 auto; min-width: 0; text-align: right; }
+.ajustes-cabecera h1 { min-width: 0; overflow-wrap: anywhere; }
+.ajustes-cabecera img { flex: none; }
+.ev-avisos { grid-template-columns: minmax(0, 1fr); }
+.ev-avisos li b, .ev-avisos li small, .ev-post p, .ev-falta b, .ev-top span { overflow-wrap: anywhere; }
+.ev-vistas button, .ev-chips button { overflow-wrap: anywhere; }
+/* Ahora en la ciudad: el tiempo baja de renglon si no cabe y las palabras solo se parten si de plano no caben */
+.ev-avisos li { flex-wrap: wrap; }
+.ev-avisos li > span:nth-child(2) { flex: 1 1 160px; }
+.ev-hace { margin-left: auto; white-space: normal; text-align: right; }
+.ev-avisos li b, .ev-avisos li small, .ev-post p, .ev-falta b, .ev-top span, .ev-vistas button, .ev-chips button { overflow-wrap: break-word; }

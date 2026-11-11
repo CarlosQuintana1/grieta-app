@@ -44,7 +44,7 @@ const EnVivo = (() => {
     $("evBarras").innerHTML = r.barras.map((v, i) => `<rect class="ev-barra d${i % 5}" x="${i * 27}" y="${56 - v * 0.56}" width="22" height="${v * 0.56}" rx="5"/>`).join("");
     const mios = propios.posts.filter((p) => p.ruta === ruta).slice(-3).reverse();
     $("evPosts").innerHTML = [...mios, ...r.publicaciones].map((p, i) => `<li class="ev-post d${i % 5}${p.tuyo ? " tuyo" : ""}">
-      <span class="ev-quien"><span class="ev-av" translate="no">${esc(p.inicial)}</span><span><b>${esc(p.quien)}</b><small><span${p.tuyo ? "" : ' translate="no"'}>${esc(p.donde)}</span><span>${esc(p.hace)}</span></small></span></span>
+      <span class="ev-quien"><span class="ev-av" translate="no">${esc(p.inicial)}</span><span><b${p.tuyo ? "" : ' translate="no"'}>${esc(p.quien)}</b><small><span${p.tuyo ? "" : ' translate="no"'}>${esc(p.donde)}</span><span>${esc(p.hace)}</span></small></span></span>
       <p>${esc(p.texto)}</p>${p.tags.length ? `<span class="ev-tags">${p.tags.map((t) => `<span>${esc(t)}</span>`).join("")}</span>` : ""}
       <span class="ev-reac"><span>Útil <b translate="no">${p.util}</b></span><span>Yo también <b translate="no">${p.tambien}</b></span></span></li>`).join("");
   }
