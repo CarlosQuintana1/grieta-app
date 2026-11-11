@@ -2820,3 +2820,11 @@ html.contraste .ev-vistas button[aria-selected="true"], html.contraste .ev-chips
 .ev-quien small span + span::before { content: ", "; }
 .ev-falta .ev-dato { display: inline; } .ev-falta .ev-dato + .ev-dato::before { content: ", "; } .ev-falta .ev-dato b { display: inline; font-size: inherit; color: var(--tinta); }
 .ev-reac span b { margin-left: 4px; }
+
+/* Inicio: la cara de Cuki en la esquina abre Tu tlacuache para personalizarlo */
+.boton-cuki { padding: 0; border: 0; overflow: hidden; background: #f6efe4; box-shadow: 0 0 0 3px var(--ambar); }
+.boton-cuki .cuki-cara { width: 52px; height: 52px; display: block; }
+/* Qro en vivo: pestañas centradas y filtros que bajan de renglón en vez de cortarse */
+.ev-vistas button { display: flex; align-items: center; justify-content: center; padding: 0 4px; text-align: center; line-height: 1.15; font-size: .78rem; }
+#evFiltros, #evRutas, #evRapidos { flex-wrap: wrap; overflow: visible; }
+.ev-quien small span + span::before { content: ", "; }

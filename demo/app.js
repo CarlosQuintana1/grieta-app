@@ -3919,6 +3919,7 @@ function pintarRachaInicio() {
   const caja = $("rachaInicio");
   caja.hidden = acc.modoVoz || acc.facil;
   $("abrirEnVivo").hidden = caja.hidden;
+  $("inicioCuki").innerHTML = tlacuache(3, racha.puestos, false);
   if (caja.hidden) return;
   protectorDelMes();
   const semanas = semanasSeguidas(), cuenta = viajesDeSemana(claveSemana(new Date()));
@@ -6031,7 +6032,8 @@ function abrirPerfil() {
   fichas.style.minHeight = "";
   fichas.style.minHeight = `${Math.max(0, (barra.hidden ? innerHeight : barra.getBoundingClientRect().top) - (fichas.getBoundingClientRect().top - new DOMMatrix(getComputedStyle($("perfil")).transform).m42) - 12)}px`;
 }
-$("abrirPerfil").addEventListener("click", abrirPerfil);
+// La cara de Cuki en Inicio lleva a personalizarlo; el perfil de viaje vive en Ajustes.
+$("abrirPerfil").addEventListener("click", abrirRacha);
 $("resumenPerfil").addEventListener("click", abrirPerfil);
 $("completarPerfil").addEventListener("click", abrirPerfil);
 $("cerrarInvita").addEventListener("click", () => {
