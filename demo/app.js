@@ -5760,6 +5760,24 @@ function pintarCredencial() {
   $("credencialFoto").innerHTML = `<g transform="translate(76 134) scale(${(0.38 / ESCALA_TL).toFixed(3)})">${tlacuache(4, racha.puestos, false)}</g>`;
   $("credencialNombre").textContent = nombre;
   $("credencialNombre").classList.toggle("largo", nombre.length > 9);
+  requestAnimationFrame(ajustarNombreCredencial);
+}
+// Ninguna palabra del nombre se parte: si no cabe, la letra se achica hasta que quepa.
+function ajustarNombreCredencial() {
+  const el = $("credencialNombre");
+  el.style.fontSize = "";
+  if (!el.offsetWidth) return;
+  const ancho = el.clientWidth, palabras = el.textContent.split(/\s+/), medida = document.createElement("span");
+  medida.style.cssText = "position:absolute;visibility:hidden;white-space:nowrap;font:inherit;letter-spacing:inherit";
+  el.append(medida);
+  let tam = parseFloat(getComputedStyle(el).fontSize);
+  for (let i = 0; i < 20 && tam > 14; i++) {
+    medida.style.fontSize = `${tam}px`;
+    if (Math.max(...palabras.map((w) => { medida.textContent = w; return medida.offsetWidth; })) <= ancho) break;
+    tam *= 0.92;
+  }
+  medida.remove();
+  el.style.fontSize = `${Math.round(tam)}px`;
 }
 // Cada ficha de Ajustes abre su panel en una pantalla con flecha de regreso.
 const TITULOS_AJUSTE = { pantalla: "Pantalla", accesibilidad: "Accesibilidad", voz: "Voz", viajes: "Tus viajes", progreso: "Tu cuenta", ayuda: "Ayuda", seguro: "Modo seguro" };

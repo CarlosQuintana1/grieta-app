@@ -2636,3 +2636,14 @@ html:not(.contraste) #bienvenida .opcion-vista:active { transform: scale(.98); }
 .meta-cambiar, .meta-otra { background: #1c2766; color: #fff; }
 .meta-forma .campo { background: #1c2766; }
 .bloque-ambar .m-anil { background: #6b3fd0; }
+/* Modo voz a 320 px con letra grande: la columna no se estira mas que la pantalla */
+.inicio-voz { grid-template-columns: minmax(0, 1fr); }
+.inicio-voz .ajustes-cabecera h1 { min-width: 0; overflow-wrap: anywhere; }
+.inicio-voz .logo-ajustes { flex: none; }
+/* Si me pierdo: un lugar con nombre largo se corta con puntos en vez de salirse de la ficha */
+.pf-pierdo .hv-lado.der { min-width: 0; overflow: hidden; }
+.pf-lista { min-width: 0; max-width: 100%; }
+/* Botones para tocar con el dedo: 44 px como minimo */
+.ca-dias button { min-height: 44px; }
+.pf-carta .perfil-gasolina button { min-width: 44px; }
+.pf-lista { justify-items: stretch; } .pf-lista > span { max-width: 100%; overflow: hidden; }
