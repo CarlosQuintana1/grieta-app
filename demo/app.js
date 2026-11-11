@@ -1597,7 +1597,7 @@ function pintarOpciones(r) {
     return `<button type="button" class="tarjeta tarjeta-camion otra-forma${segura ? " tarjeta-segura" : ""}" data-i="${i}" aria-label="${vozOpcion(o, etiquetas)}">
       <span class="tarjeta-cabeza">${fichaOpcion(o)}
         <span class="fila-texto">${etiquetas.length ? `<span class="etiqueta">${etiquetas.join(", ")}</span>` : ""}<strong>${escapar(tituloOpcion(o).replace("Qrobus ", ""))}</strong></span>
-        <span class="precio${rango ? " precio-rango" : " precio-camion"}">${rango ? `<small class="precio-nota">Aprox.</small>${partesRango(rango)}` : pesos(o.costo)}</span></span>
+        <span class="precio${rango ? " precio-rango" : " precio-camion"}">${rango ? partesRango(rango) : pesos(o.costo)}</span></span>
       ${segura ? razonesSeguras(o) : ""}<span class="of-datos" aria-hidden="true">${datos}</span>
       ${rielViaje(o)}
       ${sinAuto(o) ? `<span class="co2" aria-hidden="true">${ico("planta")}<span>En auto emitiría ${kgAuto} de CO₂</span></span>` : ""}
@@ -1712,10 +1712,10 @@ function pintarEspera(lista, precios, base) {
     if (m.vacia) return "";
     const d = Math.round(precios[i].mejor.precio) - base0;
     const tipo = i === 0 ? "" : d <= -3 ? "baja" : d >= 3 ? "sube" : "igual";
-    const nota = i === 0 ? "Aprox." : tipo === "baja" ? `${pesos(-d)} menos` : tipo === "sube" ? `${pesos(d)} más` : "Igual";
+    const nota = i === 0 ? "" : tipo === "baja" ? `${pesos(-d)} menos` : tipo === "sube" ? `${pesos(d)} más` : "Igual";
     return `<button type="button" data-i="${i}" aria-pressed="${i === estado.momento}" class="${tipo}"
       aria-label="${m.etiqueta}, precio estimado ${rangoVoz(limitesPrecio(precios[i].mejor))}">
-      <strong>${rangoTexto(limitesPrecio(precios[i].mejor))}</strong><i aria-hidden="true"></i><span>${m.corta ?? m.etiqueta}</span><small>${nota}</small>
+      <strong>${rangoTexto(limitesPrecio(precios[i].mejor))}</strong><i aria-hidden="true"></i><span>${m.corta ?? m.etiqueta}</span>${nota ? `<small>${nota}</small>` : ""}
     </button>`;
   }).join("");
   // Lo que cambia es la franja de 3 horas del modelo, no el trafico de este momento.
@@ -4548,9 +4548,9 @@ function pintarLlegar() {
   const enCasa = c.origen.nombre === "Casa";
   const ladoCamion = k && `<button type="button" class="hv-lado ca-l" data-ca-ver="${k.t}" aria-label="${escapar(`Sal a las ${hora(k.t)}. ${tituloOpcion(k.o)}. Ver esta ruta`)}"><span class="hv-nombre">${enCasa ? "Sal de tu casa a las" : "Sal a las"}</span><span class="hv-precio pq">${hora(k.t)}</span>${datoViaje(picto("qrobus"), escapar(tituloOpcion(k.o).replace("Qrobus ", "")))}</button>`;
   const mejor = a && rangoAppEn(base, a.t);
-  const ladoApp = a && `<button type="button" class="hv-lado${k ? " der" : ""} ca-l" data-ca-ver="${a.t}" aria-label="${escapar(`Pide ${Grieta.nombreApp(mejor.app)} a las ${hora(a.t)}, precio estimado ${rangoVoz(limitesPrecio(mejor))}. Ver esta ruta`)}"><span class="hv-nombre">${k ? `O pide ${Grieta.nombreApp(mejor.app)} a las` : `Pide ${Grieta.nombreApp(mejor.app)} a las`}</span><span class="hv-precio${k ? "" : " pq azul"}">${hora(a.t)}</span>${datoViaje("", `Aprox. ${rangoTexto(limitesPrecio(mejor))}`)}</button>`;
+  const ladoApp = a && `<button type="button" class="hv-lado${k ? " der" : ""} ca-l" data-ca-ver="${a.t}" aria-label="${escapar(`Pide ${Grieta.nombreApp(mejor.app)} a las ${hora(a.t)}, precio estimado ${rangoVoz(limitesPrecio(mejor))}. Ver esta ruta`)}"><span class="hv-nombre">${k ? `O pide ${Grieta.nombreApp(mejor.app)} a las` : `Pide ${Grieta.nombreApp(mejor.app)} a las`}</span><span class="hv-precio${k ? "" : " pq azul"}">${hora(a.t)}</span>${datoViaje("", rangoTexto(limitesPrecio(mejor)))}</button>`;
   const base2 = { dia: base.dia, minuto: k?.t ?? 0 };
-  const precioK = k ? (k.conApp ? `Aprox. ${rangoOpcion(k.o, base2) ? rangoTexto(rangoOpcion(k.o, base2)) : pesos(k.o.costo)}` : `${pesos(k.o.costo)} en Qrobus`) : "";
+  const precioK = k ? (k.conApp ? `${rangoOpcion(k.o, base2) ? rangoTexto(rangoOpcion(k.o, base2)) : pesos(k.o.costo)}` : `${pesos(k.o.costo)} en Qrobus`) : "";
   const sobra = k ? Math.round(c.meta - (k.t + k.o.minutos)) : Math.round(c.meta - (a.t + a.o.minutos));
   const textoSobra = sobra > 0 ? `Te sobran ${sobra} min` : "Llegas justo a tiempo";
   const lista = k ? [...pasosConHora(k, enCasa ? "Sal de tu casa" : "Sal de donde estás"), { h: k.t + k.o.minutos, t: "Llegas", s: textoSobra, k: "fin", ic: picto("flag") }] : [];
