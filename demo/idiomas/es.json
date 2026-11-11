@@ -17616,6 +17616,13 @@
       "contextos": [
         "demo/llave.js · pintarLlave"
       ]
+    },
+    {
+      "clave": "texto_eb80ecb6da",
+      "es": "Me habla",
+      "contextos": [
+        "demo/app.js · fichasPerfil"
+      ]
     }
   ]
 }

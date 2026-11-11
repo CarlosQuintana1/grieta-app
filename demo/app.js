@@ -5691,9 +5691,9 @@ function vistaActual() {
 function fichasPerfil() {
   const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal"), colchon = acc.colchon ?? 0;
   return [
+    ["perfilVista", "anil", "ojo", "Ver", { vista: "Bien", poco: "Poco", voz: "Me habla" }[vistaActual()]],
     acc.modoVoz && ["perfilLectorOpciones", "obsidiana", "decir", "Lector", acc.lector === "si" ? "Uso lector" : "Me lee"],
     ["perfilMovilidad", "naranja", movilidad === "silla" ? "silla" : "caminar", "Caminar", { normal: "Bien", poco: "Poco", silla: "Silla" }[movilidad]],
-    ["perfilOido", "ciruela", "decir", "Avisos", acc.oido === "poco" ? "Vibra" : "Con voz"],
     ["perfilTarifa", "rosa", "qrobus", "Tarifa", acc.unidos ? "Unidos" : "Normal"],
     ["perfilLlegar", "anil", "flag", "Llegar", colchon ? `${colchon} min` : "Justo"],
   ].filter(Boolean);
@@ -5720,7 +5720,8 @@ function pintarResumenPerfil() {
   const [vista, movimiento, , , tarifa] = resumenCortoPerfil();
   // Tres iconos a la vista; el lector de pantalla escucha la frase completa.
   const frasePerfil = [vista, movimiento, tarifa].map(([, t], i) => (i ? t.charAt(0).toLowerCase() + t.slice(1) : t)).join(", ");
-  $("textoPerfil").innerHTML = [acc.modoVoz ? "altavoz" : vista[0], movimiento[0], tarifa[0]].map((i) => `<i aria-hidden="true">${ico(i)}</i>`).join("") + `<span class="oculto">${escapar(frasePerfil)}</span>`;
+  // Los mismos dibujos y colores que la credencial del perfil.
+  $("textoPerfil").innerHTML = [acc.modoVoz ? "decir" : "ojo", movimiento[0] === "silla" ? "silla" : "caminar", "qrobus"].map((p) => `<i aria-hidden="true">${picto(p)}</i>`).join("") + `<span class="oculto">${escapar(frasePerfil)}</span>`;
   const elegida = acc.gasolina ?? "magna";
   // Solo quien tiene carro lleva el icono, en el color de su gasolina.
   const iconoGasolina = acc.modoVoz || elegida === "no" ? "" : `<i class="gas-${elegida}">${picto("gasolina")}</i>`;

@@ -10398,6 +10398,11 @@
       "clave": "texto_1e73361a4e",
       "es": "Por si olvidas tu contraseña",
       "nhe": "Tlaj tikilkauas mo tlajtoli"
+    },
+    {
+      "clave": "texto_eb80ecb6da",
+      "es": "Me habla",
+      "nhe": "nechnojnotsa"
     }
   ],
   "adaptaciones": [

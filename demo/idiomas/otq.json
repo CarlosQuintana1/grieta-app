@@ -10397,6 +10397,11 @@
       "clave": "texto_1e73361a4e",
       "es": "Por si olvidas tu contraseña",
       "otq": "En caso ja da olvides ir contraseña"
+    },
+    {
+      "clave": "texto_eb80ecb6da",
+      "es": "Me habla",
+      "otq": "Ñä ko ngekagi"
     }
   ],
   "adaptaciones": [
