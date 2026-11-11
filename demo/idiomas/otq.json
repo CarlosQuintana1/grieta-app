@@ -2,7 +2,7 @@
   "codigo": "otq",
   "nombre": "Hñöñho (Otomí)",
   "revision": null,
-  "completa": false,
+  "completa": true,
   "provisional": true,
   "fuente": {
     "tipo": "automatica",
@@ -10407,6 +10407,396 @@
       "clave": "texto_39f33dc18d",
       "es": "Combinado",
       "otq": "Combinado"
+    },
+    {
+      "clave": "texto_8c9f1b58d9",
+      "es": "3 viajeros lo confirmaron. Te sugiero otra ruta.",
+      "otq": "3 viajeros bí confirmaron. Sugiero gi ruta."
+    },
+    {
+      "clave": "texto_9168b00e99",
+      "es": "A tiempo",
+      "otq": "Tso̲ngwa"
+    },
+    {
+      "clave": "texto_f2b7f8f195",
+      "es": "Abrir Qro en vivo",
+      "otq": "Abra Qro jar vivo"
+    },
+    {
+      "clave": "texto_eb416cc17c",
+      "es": "Acueducto de Querétaro",
+      "otq": "Ar Äkuä Maxei"
+    },
+    {
+      "clave": "texto_636d23cb31",
+      "es": "Ahora en la ciudad",
+      "otq": "Nu'bya 'bu̲i jar dähnini"
+    },
+    {
+      "clave": "texto_c1c981ad7c",
+      "es": "Avisar tráfico",
+      "otq": "Gi mfädi ar tráfico"
+    },
+    {
+      "clave": "texto_883e45b748",
+      "es": "Avisar un choque",
+      "otq": "Reporte 'nar bloqueo"
+    },
+    {
+      "clave": "texto_d33127528c",
+      "es": "Avisaste tráfico",
+      "otq": "Gi denunciado tráfico"
+    },
+    {
+      "clave": "texto_b6176709d6",
+      "es": "Avisaste un choque",
+      "otq": "Informaste 'nar desplome"
+    },
+    {
+      "clave": "texto_213e7afb5a",
+      "es": "Avisos de ejemplo para la feria. Lo que avises se queda en este teléfono.",
+      "otq": "Avisos muestra pa ar feria. Nä'ä gi mfädi ar queda jar nuna ar teléfono."
+    },
+    {
+      "clave": "texto_76c378400e",
+      "es": "C69 a tiempo",
+      "otq": "C69 tso̲ngar ora"
+    },
+    {
+      "clave": "texto_fe0fe77ad4",
+      "es": "CO₂ de viajes en app",
+      "otq": "CO₂ ar viajes jar nt'ot'e"
+    },
+    {
+      "clave": "texto_53366d6473",
+      "es": "CO₂ estimado de los viajes en app",
+      "otq": "CO₂ estimado viajes jar nt'ot'e"
+    },
+    {
+      "clave": "texto_d54c405f1f",
+      "es": "Choque en Bernardo Quintana",
+      "otq": "Choque Bernardo Quintana"
+    },
+    {
+      "clave": "texto_25d527c3e7",
+      "es": "Choques",
+      "otq": "Bloqueos"
+    },
+    {
+      "clave": "texto_a9874010ea",
+      "es": "Comentarios de ejemplo para la feria. Lo que escribas se queda en este teléfono.",
+      "otq": "Comentarios muestra pa ar feria. Nä'ä gi 'yot'i ar queda jar nuna ar teléfono."
+    },
+    {
+      "clave": "texto_278ed861bd",
+      "es": "Compartir con AMEQ",
+      "otq": "T'uni ko ya AMEQ"
+    },
+    {
+      "clave": "texto_b1ee3ce63a",
+      "es": "Con lugar",
+      "otq": "Ko ar ja yá 'mui"
+    },
+    {
+      "clave": "texto_906e072b4b",
+      "es": "Copiado para compartir.",
+      "otq": "Copiar pa da t'uni."
+    },
+    {
+      "clave": "texto_859abf4d1e",
+      "es": "Cuéntale a los demás",
+      "otq": "Xifi ma 'ra"
+    },
+    {
+      "clave": "texto_58aff5b44e",
+      "es": "Cómo va tu viaje",
+      "otq": "Temu̲ gi thogi ir 'be̲fi"
+    },
+    {
+      "clave": "texto_5039ec2067",
+      "es": "Elige cómo va tu viaje o escribe algo.",
+      "otq": "Gi jwahni honja ir viaje wa gi 'yot'i 'naxtu̲i."
+    },
+    {
+      "clave": "texto_33c9b86067",
+      "es": "En vivo",
+      "otq": "'Bu̲i"
+    },
+    {
+      "clave": "texto_e1d12d1a29",
+      "es": "Enviar",
+      "otq": "Pe̲hni"
+    },
+    {
+      "clave": "texto_9ebce3aa45",
+      "es": "Estimado con las cotizaciones de Grieta y las paradas oficiales de Qrobus.",
+      "otq": "Estimación ko ya citas Grieta ne ya parada oficiales Qrobus."
+    },
+    {
+      "clave": "texto_840fa46716",
+      "es": "Estimado: km por calle por 135.7 g por km, la meta de la norma NOM-163.",
+      "otq": "Estimación: km ya dä'ñu pa 135.7 g ya km, objetivo estándar NOM — 163."
+    },
+    {
+      "clave": "texto_cf4b031fd5",
+      "es": "Está lloviendo y no hay dónde cubrirse.",
+      "otq": "'Bu̲i 'wäi ne otho ho 'be̲ni"
+    },
+    {
+      "clave": "texto_9bdf8c8340",
+      "es": "Faltan rutas",
+      "otq": "Be̲di rutas"
+    },
+    {
+      "clave": "texto_b9b0212e03",
+      "es": "Gracias. Guardamos tu propuesta en este teléfono.",
+      "otq": "Di jamädi. Guardamos ár sugerencia nuna ar teléfono."
+    },
+    {
+      "clave": "texto_068161fffa",
+      "es": "Gracias. Tu aviso ya está en el mapa.",
+      "otq": "Di jamädi. Ir aviso ya 'bu̲i jar 'me̲ni."
+    },
+    {
+      "clave": "texto_a48d4d375c",
+      "es": "Hoy, según los viajeros",
+      "otq": "Nu'bya nä'ä mä ya viajeros"
+    },
+    {
+      "clave": "texto_ba01ba1d6d",
+      "es": "La C48 viene llena desde El Pueblito.",
+      "otq": "Ar C48 xi ñut'i ar Pueblito."
+    },
+    {
+      "clave": "texto_c3553db7c1",
+      "es": "La C55 va 12 min tarde.",
+      "otq": "Ar C55 bi hñuts'i 12 ya t'olo ora bi hñuts'i."
+    },
+    {
+      "clave": "texto_13cb657744",
+      "es": "La parada no tiene techo y está lloviendo.",
+      "otq": "Ar parada hingi pe̲ts'i ar techo ne 'wäi."
+    },
+    {
+      "clave": "texto_1ae144117d",
+      "es": "Listo, ya se ve en la ruta.",
+      "otq": "Ga̲tho hñoki, ya ar visible ja ar ruta."
+    },
+    {
+      "clave": "texto_e490844c0c",
+      "es": "Llegó a tiempo y con lugar para sentarse.",
+      "otq": "Bí zo̲ho̲ tso̲kwa ora ne ko 'nar thuhni da 'mui."
+    },
+    {
+      "clave": "texto_1b15d69e1d",
+      "es": "Llegó justo a la hora, dicen 8 viajeros.",
+      "otq": "Bí zo̲ho̲ xi ngut'a, mä 8 'be̲fi."
+    },
+    {
+      "clave": "texto_022c111831",
+      "es": "Mapa de Querétaro con avisos de ejemplo",
+      "otq": "'Me̲ni ar Querétaro ko ya alertas muestras"
+    },
+    {
+      "clave": "texto_1af4abf1b3",
+      "es": "Mucho tráfico, va 12 minutos tarde.",
+      "otq": "Tráfico intenso, funcionando 12 ya t'olo ora bi hñuts'i ya tarde."
+    },
+    {
+      "clave": "texto_d3de30eb56",
+      "es": "Paradas",
+      "otq": "Ya parada"
+    },
+    {
+      "clave": "texto_1894dc4d5d",
+      "es": "Por zona",
+      "otq": "'Bu̲ ya xe̲ni"
+    },
+    {
+      "clave": "texto_5d924bb2aa",
+      "es": "Proponer ruta",
+      "otq": "Sugerir 'nar ruta"
+    },
+    {
+      "clave": "texto_c27e7b8478",
+      "es": "Qué ver en el mapa",
+      "otq": "Temu̲ ga ja ar 'me̲ni"
+    },
+    {
+      "clave": "texto_584757eeee",
+      "es": "Respira",
+      "otq": "Hwäi"
+    },
+    {
+      "clave": "texto_9ff9bd1106",
+      "es": "Ruta",
+      "otq": "Ruta"
+    },
+    {
+      "clave": "texto_6967e1f9b0",
+      "es": "Se mandó a Qrobus",
+      "otq": "Bí pe̲hni nu ar Qrobus"
+    },
+    {
+      "clave": "texto_5eae89c160",
+      "es": "Se ve en el mapa de este teléfono.",
+      "otq": "Visible jar 'me̲ni nuna ar teléfono."
+    },
+    {
+      "clave": "texto_b17b02fc70",
+      "es": "Solo en este teléfono",
+      "otq": "Ho̲ntho jar nuna ar teléfono"
+    },
+    {
+      "clave": "texto_3841ea91e3",
+      "es": "Tarde",
+      "otq": "Ya nde"
+    },
+    {
+      "clave": "texto_4ff402d768",
+      "es": "Todo",
+      "otq": "Ga̲tho"
+    },
+    {
+      "clave": "texto_d2919c4fd6",
+      "es": "Tráfico",
+      "otq": "Tráfico"
+    },
+    {
+      "clave": "texto_e8c1febfe1",
+      "es": "Tráfico lento en 5 de Febrero",
+      "otq": "Tráfico lento jar 5 ar febrero"
+    },
+    {
+      "clave": "texto_b02c02324c",
+      "es": "Tú",
+      "otq": "Nu'i"
+    },
+    {
+      "clave": "texto_5629df3faf",
+      "es": "Va lleno",
+      "otq": "Xi ñuts'i"
+    },
+    {
+      "clave": "texto_0e43da62ec",
+      "es": "Viajera de El Pueblito",
+      "otq": "Ar 'ñu ndezu̲ nu pueblito"
+    },
+    {
+      "clave": "texto_7a1413dff5",
+      "es": "Viajera de la C69",
+      "otq": "Viajero ndezu̲ ar C69"
+    },
+    {
+      "clave": "texto_8b6102df00",
+      "es": "Viajero de Centro Sur",
+      "otq": "Viajero made sur"
+    },
+    {
+      "clave": "texto_ea4df2f325",
+      "es": "Viajero de Juriquilla",
+      "otq": "Ar 'ñu Juritx'a"
+    },
+    {
+      "clave": "texto_90782dd421",
+      "es": "Viajeros",
+      "otq": "Ya ze̲fi"
+    },
+    {
+      "clave": "texto_64f561532e",
+      "es": "Viene lleno, mejor espera el siguiente.",
+      "otq": "Xi ñut'i, hño to̲'mi da ku̲hu̲."
+    },
+    {
+      "clave": "texto_8b550da997",
+      "es": "Yo también",
+      "otq": "Nuga̲ga̲ 'nehe"
+    },
+    {
+      "clave": "texto_3f29972024",
+      "es": "Zonas donde mucha gente se va en app y hay pocas paradas de Qrobus.",
+      "otq": "Áreas ho ndunthe ya jä'i po̲ni jar nt'ot'e ne 'bu̲i tx'u̲tho paradas Qrobus."
+    },
+    {
+      "clave": "texto_398b31642f",
+      "es": "a tiempo",
+      "otq": "Tso̲ngwa"
+    },
+    {
+      "clave": "texto_078f91fbc8",
+      "es": "ahora",
+      "otq": "Nu'bya"
+    },
+    {
+      "clave": "texto_6b1e97ad3d",
+      "es": "en los",
+      "otq": "Ja ar"
+    },
+    {
+      "clave": "texto_cd8717a079",
+      "es": "hace 11 min",
+      "otq": "Xí 11 ya t'olo ora"
+    },
+    {
+      "clave": "texto_d44212aec1",
+      "es": "hace 14 min",
+      "otq": "Xí 14 ya t'olo ora"
+    },
+    {
+      "clave": "texto_834ac7494a",
+      "es": "hace 2 min",
+      "otq": "Xí thogi 2 t'olo ora"
+    },
+    {
+      "clave": "texto_a0fbad20ae",
+      "es": "hace 4 min",
+      "otq": "Xí 4 t'olo ora"
+    },
+    {
+      "clave": "texto_fa6f48b79d",
+      "es": "hace 5 min",
+      "otq": "Xí thogi 5 t'olo ora"
+    },
+    {
+      "clave": "texto_4365be921a",
+      "es": "hace 6 min",
+      "otq": "Xí 6 t'olo ora"
+    },
+    {
+      "clave": "texto_4ba9c0f3c7",
+      "es": "hace 7 min",
+      "otq": "Xí thogi 7 t'olo ora"
+    },
+    {
+      "clave": "texto_0705e4d613",
+      "es": "menos",
+      "otq": "Menu"
+    },
+    {
+      "clave": "texto_5abe317bcd",
+      "es": "más",
+      "otq": "Mäs"
+    },
+    {
+      "clave": "texto_3824d2853c",
+      "es": "paradas",
+      "otq": "Ya parada"
+    },
+    {
+      "clave": "texto_001a811121",
+      "es": "viajes en app",
+      "otq": "Viajes ya nt'ot'e"
+    },
+    {
+      "clave": "texto_f92e95db4c",
+      "es": "viajes que registramos en Uber, DiDi e inDrive",
+      "otq": "viajes grabamos jar Uber, ar DiDi ne ar InDrive"
+    },
+    {
+      "clave": "texto_13ec434f5e",
+      "es": "Útil",
+      "otq": "Útil"
     }
   ],
   "adaptaciones": [
@@ -10874,7 +11264,17 @@
       "clave": "texto_d0b6dfe99c",
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "Compone las traducciones automáticas de «En tu carro» y «Al menos»."
+    },
+    {
+      "clave": "texto_840fa46716",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Se conserva el número 135.7 como en el texto fuente."
+    },
+    {
+      "clave": "texto_6967e1f9b0",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Se conserva el nombre Qrobus."
     }
   ],
-  "parcial": true
+  "parcial": false
 }
