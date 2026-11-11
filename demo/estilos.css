@@ -2663,3 +2663,29 @@ html:not(.contraste) #bienvenida .opcion-vista:active { transform: scale(.98); }
 .racha-heroe .heroe-fila .racha-puntos { display: none; }
 .heroe-fila b.heroe-lugar { flex: 1 1 auto; max-width: none; }
 .heroe-fila b.heroe-lugar { font-size: .86rem; gap: 5px; } .heroe-fila { gap: 8px; }
+
+/* Buscar: el buscador en ambar como en Inicio y una linea de viaje del punto de salida al destino */
+.ruta-busqueda { position: relative; padding-left: 30px; }
+.ruta-busqueda .punto { position: absolute; left: 4px; width: 16px; height: 16px; border-radius: 50%; border: 3px solid var(--fondo); }
+.ruta-busqueda .p1 { top: 15px; background: #2fbf71; box-shadow: 0 0 0 2px #2fbf71; }
+.ruta-busqueda .p2 { bottom: 24px; background: var(--ambar); box-shadow: 0 0 0 2px var(--ambar); }
+.ruta-busqueda::before { content: ""; position: absolute; left: 11px; top: 36px; bottom: 44px; border-left: 3px dotted var(--tenue); }
+.ruta-busqueda:has(#filaDesde[hidden]) { padding-left: 0; }
+.ruta-busqueda:has(#filaDesde[hidden]) .punto, .ruta-busqueda:has(#filaDesde[hidden])::before { display: none; }
+#buscar .buscador { min-height: 64px; border: 0; background: var(--ambar); box-shadow: 0 6px 16px color-mix(in srgb, var(--ambar) 35%, transparent); }
+#buscar .buscador:focus-within { outline: 3px solid var(--tinta); outline-offset: 2px; }
+#buscar .buscador input { color: var(--sobre-ambar); font-weight: 800; font-size: 1.1rem; }
+#buscar .buscador input::placeholder { color: color-mix(in srgb, var(--sobre-ambar) 72%, transparent); }
+#buscar .buscador > .icono { width: 26px; height: 26px; color: var(--sobre-ambar); stroke-width: 2.6; }
+#buscar .buscador .mic { min-height: 46px; height: 46px; padding: 0 14px; border: 0; border-radius: 999px; background: #1c1408; color: #fff; }
+#buscar .buscador .mic .icono { color: #fff; }
+#buscar .buscador .mic.oyendo { background: #1c1408; color: #fff; }
+/* Los lugares son tarjetas con la distancia marcada */
+#buscar #resultados { display: grid; gap: 8px; }
+#buscar #resultados > li { border: 0; }
+#buscar #resultados > li > button { min-height: 72px; padding: 12px 14px; border-radius: 20px; background: var(--superficie); }
+#buscar #resultados .fila-texto small { display: inline-block; margin-top: 4px; padding: 2px 10px; border-radius: 999px; background: var(--fondo); color: var(--tinta); font-weight: 700; }
+/* Credencial: cada icono con su color para que no se repita el ambar de la tarjeta */
+.credencial-iconos i:nth-child(1) { color: #8fb0ff; }
+.credencial-iconos i:nth-child(2) { color: #c9a2ff; }
+.credencial-iconos i:nth-child(3) { color: #5fd0c8; }

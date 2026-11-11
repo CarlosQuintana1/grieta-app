@@ -348,12 +348,14 @@
     </section>
 
     <section id="buscar" class="pantalla" aria-labelledby="tituloPantalla" hidden>
+      <div class="ruta-busqueda"><i class="punto p1" aria-hidden="true"></i><i class="punto p2" aria-hidden="true"></i>
       <p id="filaDesde" class="desde"><svg class="icono ambar"><use href="#i-localizar"/></svg><span id="desdeTexto">Buscando tu ubicación...</span><button id="cambiarDesde" type="button" class="cambiar-desde">Cambiar</button></p>
       <div class="buscador">
         <svg class="icono tenue"><use href="#i-lupa"/></svg>
         <label for="campoBuscar" class="oculto">Lugar o calle</label>
         <input id="campoBuscar" type="search" autocomplete="off" placeholder="Lugar o calle" enterkeyhint="search">
         <button type="button" class="mic dictar" aria-label="Dictar el lugar" hidden><svg class="icono"><use href="#i-microfono"/></svg><span>Dictar</span></button>
+      </div>
       </div>
       <button id="oyendoBuscar" type="button" class="oyendo-aviso" hidden><span class="ondas" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span id="oyendoTexto">Te escucho, di a dónde vas</span></button>
       <h2 id="tituloResultados">Resultados cerca de ti</h2>

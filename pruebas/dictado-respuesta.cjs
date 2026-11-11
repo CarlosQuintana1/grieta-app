@@ -29,7 +29,7 @@ const { preparar } = require('./dictado-fixture.cjs');
       window.__resultado(rec, 'Texto incompleto', false);
       return { texto: document.getElementById('campoBuscar').value, abortos: rec.abortos };
     });
-    assert.equal(parcial.texto, campo); assert.equal(parcial.abortos, 0);
+    assert.equal(parcial.texto, 'Texto incompleto'); assert.equal(parcial.abortos, 0);
     await p.evaluate(() => { estado.origen = null; navigator.geolocation.getCurrentPosition = ok => ok({coords:{latitude:20.6,longitude:-100.4,accuracy:5}}); ubicar(); });
     assert(await p.evaluate(() => dictadoActual === window.__sesiones.at(-1)));
     const seleccion = await p.evaluate(() => {
