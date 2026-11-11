@@ -3,13 +3,13 @@ const TutorialGrieta = (() => {
   const $ = id => document.getElementById(id);
   const pasos = [
     { titulo: 'Busca a dónde vas', escena: 'buscar',
-      texto: 'En Inicio, toca Busca un lugar o Decir a dónde voy y elige tu destino.',
+      texto: 'En Inicio, toca Busca un lugar o Decir a dónde voy y elige tu destino.', botones: ['Busca un lugar', 'Decir a dónde voy'],
       detalle: 'Compara Qrobus, Uber, DiDi e inDrive. Si eliges camión, toca Empezar viaje con avisos para recibir la guía.' },
     { titulo: 'Encuentra camiones cerca', escena: 'camiones', aviso: 'Los horarios son estimados: no vemos los camiones en tiempo real.',
-      texto: 'El botón del centro, Camiones cerca, busca paradas desde tu ubicación.',
+      texto: 'El botón del centro, Camiones cerca, busca paradas desde tu ubicación.', botones: ['Camiones cerca'],
       detalle: 'Elige una parada para consultar rutas y horarios o Reportar algo en esta parada. Los horarios son estimados; no vemos los camiones en tiempo real.' },
     { titulo: 'Usa la cámara y la voz', escena: 'camara', aviso: 'Puede omitir obstáculos: usa tu bastón o acompañamiento.',
-      texto: 'En Inicio o Ajustes, abre Describir con la cámara. En Ajustes, en Pantalla, puedes elegir el modo Voz.',
+      texto: 'En Inicio o Ajustes, abre Describir con la cámara. En Ajustes, en Pantalla, puedes elegir el modo Voz.', botones: ['Describir con la cámara', 'modo Voz'],
       detalle: 'La cámara puede describir algunos objetos y leer letreros. Analiza las imágenes en tu teléfono y puede omitir obstáculos; usa tu bastón o acompañamiento.' },
   ];
   const enIdioma = t => Interfaz.traducirTexto(t);
@@ -99,7 +99,10 @@ const TutorialGrieta = (() => {
     const actual = pasos[paso];
     $('tutorialProgreso').textContent = `Paso ${paso + 1} de ${pasos.length}`;
     $('tutorialTitulo').textContent = actual.titulo;
-    $('tutorialTexto').textContent = actual.texto;
+    // En español los nombres de los botones van resaltados para encontrarlos rápido en la pantalla.
+    const texto = $('tutorialTexto');
+    texto.textContent = actual.texto;
+    if (enIdioma(actual.texto) === actual.texto && actual.botones) texto.innerHTML = actual.botones.reduce((h, b) => h.replace(b, `<b class="tut-boton">${b}</b>`), texto.innerHTML);
     $('tutorialDetalle').textContent = actual.detalle;
     $('tutorialAviso').textContent = actual.aviso ?? '';
     $('tutorialAviso').hidden = !actual.aviso;

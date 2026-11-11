@@ -2710,3 +2710,8 @@ html.contraste #buscar #resultados .fila-texto small { background: #000; color: 
 #textoPerfil i:nth-child(1) { color: #8fb0ff; }
 #textoPerfil i:nth-child(2) { color: #c9a2ff; }
 #textoPerfil i:nth-child(3) { color: #5fd0c8; }
+/* Tutorial: titulo con aire, texto mas legible y los botones que menciona resaltados */
+.tutorial h1 { margin: 0 0 12px; text-wrap: balance; }
+.tutorial-texto { font-size: 1.14rem; line-height: 1.5; color: color-mix(in srgb, var(--tinta) 88%, transparent); text-wrap: pretty; }
+.tut-boton { color: var(--ambar); font-weight: 800; white-space: nowrap; }
+html.contraste .tut-boton { color: var(--tinta); text-decoration: underline; }
