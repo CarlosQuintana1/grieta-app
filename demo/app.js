@@ -3931,7 +3931,7 @@ function pintarRachaInicio() {
   caja.setAttribute("aria-label", `${nombre}. ${titulo}. Esta semana: ${cuenta} de ${plural(racha.meta, "viaje", "viajes")} en camión.`);
   // Escena recortada y un renglon con el nombre, las semanas y la flecha: cabe sin empujar el buscador.
   caja.innerHTML = `<svg class="heroe-escena" viewBox="0 36 640 254" aria-hidden="true">${escenaRacha(animoRacha(), 280, 0.78, true)}</svg>
-    <span class="heroe-fila" aria-hidden="true"><b>${escapar(nombre)}</b><svg class="racha-puntos" viewBox="0 0 320 10">${rayas}</svg>${ico("chevron", "heroe-ir")}</span>`;
+    <span class="heroe-fila" aria-hidden="true"><b class="heroe-lugar" translate="no">${ico("pin")}<span>Santiago de Querétaro<span class="heroe-pais">, México</span></span></b><svg class="racha-puntos" viewBox="0 0 320 10">${rayas}</svg>${ico("chevron", "heroe-ir")}</span>`;
 }function pintarRacha() {
   protectorDelMes();
   semanasSeguidas();

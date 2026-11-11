@@ -2647,3 +2647,19 @@ html:not(.contraste) #bienvenida .opcion-vista:active { transform: scale(.98); }
 .ca-dias button { min-height: 44px; }
 .pf-carta .perfil-gasolina button { min-width: 44px; }
 .pf-lista { justify-items: stretch; } .pf-lista > span { max-width: 100%; overflow: hidden; }
+
+/* Inicio: el renglon de la escena dice donde estas en vez del nombre del tlacuache */
+.heroe-fila b.heroe-lugar { display: flex; align-items: center; gap: 6px; max-width: 78%; font-size: .95rem; }
+.heroe-lugar .icono { flex: none; width: 20px; height: 20px; stroke-width: 2.4; }
+.heroe-lugar > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 370px) { .heroe-pais { display: none; } }
+/* Tu cuenta: la escena guarda su proporcion para que Cuki no quede cortado abajo */
+#cuenta .escena-pregunta { height: auto; aspect-ratio: 360 / 176; max-height: 220px; }
+/* Los enlaces de la cuenta no quedan pegados cuando bajan de renglon */
+.cuenta-enlaces { gap: 10px 16px; }
+/* El boton de voz no se ilumina al escuchar: solo cambia el texto y se mueven las barras */
+.dictar-grande.oyendo, .dictar-grande.pensando { box-shadow: none !important; animation: none !important; }
+/* El lugar completo cabe en el renglon: las rayas de la racha se ven al abrir la tarjeta */
+.racha-heroe .heroe-fila .racha-puntos { display: none; }
+.heroe-fila b.heroe-lugar { flex: 1 1 auto; max-width: none; }
+.heroe-fila b.heroe-lugar { font-size: .86rem; gap: 5px; } .heroe-fila { gap: 8px; }
