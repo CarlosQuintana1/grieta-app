@@ -17630,6 +17630,552 @@
       "contextos": [
         "demo/app.js · tarjetas"
       ]
+    },
+    {
+      "clave": "texto_8c9f1b58d9",
+      "es": "3 viajeros lo confirmaron. Te sugiero otra ruta.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_9168b00e99",
+      "es": "A tiempo",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_f2b7f8f195",
+      "es": "Abrir Qro en vivo",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_eb416cc17c",
+      "es": "Acueducto de Querétaro",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_636d23cb31",
+      "es": "Ahora en la ciudad",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_c1c981ad7c",
+      "es": "Avisar tráfico",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_883e45b748",
+      "es": "Avisar un choque",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_d33127528c",
+      "es": "Avisaste tráfico",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_b6176709d6",
+      "es": "Avisaste un choque",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_213e7afb5a",
+      "es": "Avisos de ejemplo para la feria. Lo que avises se queda en este teléfono.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_76c378400e",
+      "es": "C69 a tiempo",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_fe0fe77ad4",
+      "es": "CO₂ de viajes en app",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_53366d6473",
+      "es": "CO₂ estimado de los viajes en app",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_d54c405f1f",
+      "es": "Choque en Bernardo Quintana",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_25d527c3e7",
+      "es": "Choques",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_a9874010ea",
+      "es": "Comentarios de ejemplo para la feria. Lo que escribas se queda en este teléfono.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_278ed861bd",
+      "es": "Compartir con AMEQ",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_b1ee3ce63a",
+      "es": "Con lugar",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_906e072b4b",
+      "es": "Copiado para compartir.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_859abf4d1e",
+      "es": "Cuéntale a los demás",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_58aff5b44e",
+      "es": "Cómo va tu viaje",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_5039ec2067",
+      "es": "Elige cómo va tu viaje o escribe algo.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_33c9b86067",
+      "es": "En vivo",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_e1d12d1a29",
+      "es": "Enviar",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_9ebce3aa45",
+      "es": "Estimado con las cotizaciones de Grieta y las paradas oficiales de Qrobus.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_840fa46716",
+      "es": "Estimado: km por calle por 135.7 g por km, la meta de la norma NOM-163.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_cf4b031fd5",
+      "es": "Está lloviendo y no hay dónde cubrirse.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_9bdf8c8340",
+      "es": "Faltan rutas",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_b9b0212e03",
+      "es": "Gracias. Guardamos tu propuesta en este teléfono.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_068161fffa",
+      "es": "Gracias. Tu aviso ya está en el mapa.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_a48d4d375c",
+      "es": "Hoy, según los viajeros",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_ba01ba1d6d",
+      "es": "La C48 viene llena desde El Pueblito.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_c3553db7c1",
+      "es": "La C55 va 12 min tarde.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_13cb657744",
+      "es": "La parada no tiene techo y está lloviendo.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_1ae144117d",
+      "es": "Listo, ya se ve en la ruta.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_e490844c0c",
+      "es": "Llegó a tiempo y con lugar para sentarse.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_1b15d69e1d",
+      "es": "Llegó justo a la hora, dicen 8 viajeros.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_022c111831",
+      "es": "Mapa de Querétaro con avisos de ejemplo",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_1af4abf1b3",
+      "es": "Mucho tráfico, va 12 minutos tarde.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_d3de30eb56",
+      "es": "Paradas",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_1894dc4d5d",
+      "es": "Por zona",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_5d924bb2aa",
+      "es": "Proponer ruta",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_c27e7b8478",
+      "es": "Qué ver en el mapa",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_584757eeee",
+      "es": "Respira",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_9ff9bd1106",
+      "es": "Ruta",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_6967e1f9b0",
+      "es": "Se mandó a Qrobus",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_5eae89c160",
+      "es": "Se ve en el mapa de este teléfono.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_b17b02fc70",
+      "es": "Solo en este teléfono",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_3841ea91e3",
+      "es": "Tarde",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_4ff402d768",
+      "es": "Todo",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_d2919c4fd6",
+      "es": "Tráfico",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_e8c1febfe1",
+      "es": "Tráfico lento en 5 de Febrero",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_b02c02324c",
+      "es": "Tú",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_5629df3faf",
+      "es": "Va lleno",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_0e43da62ec",
+      "es": "Viajera de El Pueblito",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_7a1413dff5",
+      "es": "Viajera de la C69",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_8b6102df00",
+      "es": "Viajero de Centro Sur",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_ea4df2f325",
+      "es": "Viajero de Juriquilla",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_90782dd421",
+      "es": "Viajeros",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_64f561532e",
+      "es": "Viene lleno, mejor espera el siguiente.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_8b550da997",
+      "es": "Yo también",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_3f29972024",
+      "es": "Zonas donde mucha gente se va en app y hay pocas paradas de Qrobus.",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_398b31642f",
+      "es": "a tiempo",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_078f91fbc8",
+      "es": "ahora",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_6b1e97ad3d",
+      "es": "en los",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_cd8717a079",
+      "es": "hace 11 min",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_d44212aec1",
+      "es": "hace 14 min",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_834ac7494a",
+      "es": "hace 2 min",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_a0fbad20ae",
+      "es": "hace 4 min",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_fa6f48b79d",
+      "es": "hace 5 min",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_4365be921a",
+      "es": "hace 6 min",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_4ba9c0f3c7",
+      "es": "hace 7 min",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_0705e4d613",
+      "es": "menos",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_5abe317bcd",
+      "es": "más",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_3824d2853c",
+      "es": "paradas",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_001a811121",
+      "es": "viajes en app",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_f92e95db4c",
+      "es": "viajes que registramos en Uber, DiDi e inDrive",
+      "contextos": [
+        "demo/envivo.js"
+      ]
+    },
+    {
+      "clave": "texto_13ec434f5e",
+      "es": "Útil",
+      "contextos": [
+        "demo/envivo.js"
+      ]
     }
   ]
 }

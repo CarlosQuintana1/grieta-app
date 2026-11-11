@@ -10,7 +10,7 @@
     "nombre": "Google Traductor",
     "url": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
     "fecha": "2026-11-04",
-    "actualizado": "2026-11-10"
+    "actualizado": "2026-11-11"
   },
   "estado": "Traducción automática provisional, sin revisión lingüística.",
   "mensajes": [
@@ -10408,6 +10408,396 @@
       "clave": "texto_39f33dc18d",
       "es": "Combinado",
       "nhe": "San sekan"
+    },
+    {
+      "clave": "texto_8c9f1b58d9",
+      "es": "3 viajeros lo confirmaron. Te sugiero otra ruta.",
+      "nhe": "3 paxalohuani ki neltokakej.Nimechilhuis seyoc ojtli."
+    },
+    {
+      "clave": "texto_9168b00e99",
+      "es": "A tiempo",
+      "nhe": "ipan tonali"
+    },
+    {
+      "clave": "texto_f2b7f8f195",
+      "es": "Abrir Qro en vivo",
+      "nhe": "Xijtlapo Qro ipan nemilistli"
+    },
+    {
+      "clave": "texto_eb416cc17c",
+      "es": "Acueducto de Querétaro",
+      "nhe": "Querétaro Aqueduct"
+    },
+    {
+      "clave": "texto_636d23cb31",
+      "es": "Ahora en la ciudad",
+      "nhe": "Ama ipan altepetl"
+    },
+    {
+      "clave": "texto_c1c981ad7c",
+      "es": "Avisar tráfico",
+      "nhe": "Xikin ilhui tlauilankayotl"
+    },
+    {
+      "clave": "texto_883e45b748",
+      "es": "Avisar un choque",
+      "nhe": "Xikijto se tlauilankayotl"
+    },
+    {
+      "clave": "texto_d33127528c",
+      "es": "Avisaste tráfico",
+      "nhe": "Ti kin tlajtolmakak tlauilankayotl"
+    },
+    {
+      "clave": "texto_b6176709d6",
+      "es": "Avisaste un choque",
+      "nhe": "Titeyolmelajki se tlauilankayotl"
+    },
+    {
+      "clave": "texto_213e7afb5a",
+      "es": "Avisos de ejemplo para la feria. Lo que avises se queda en este teléfono.",
+      "nhe": "Se neskayotl tlen tlajtoli tlen nopa feria.Tlen tijpoua mokaua ipan ni teléfono."
+    },
+    {
+      "clave": "texto_76c378400e",
+      "es": "C69 a tiempo",
+      "nhe": "C69 ipan tonali"
+    },
+    {
+      "clave": "texto_fe0fe77ad4",
+      "es": "CO₂ de viajes en app",
+      "nhe": "CO₂ tlen paxaloua ipan app"
+    },
+    {
+      "clave": "texto_53366d6473",
+      "es": "CO₂ estimado de los viajes en app",
+      "nhe": "CO₂ tlen moijtoua tlen viajes ipan app"
+    },
+    {
+      "clave": "texto_d54c405f1f",
+      "es": "Choque en Bernardo Quintana",
+      "nhe": "Tlatepacholi ipan Bernardo Quintana"
+    },
+    {
+      "clave": "texto_25d527c3e7",
+      "es": "Choques",
+      "nhe": "Tlatepacholi"
+    },
+    {
+      "clave": "texto_a9874010ea",
+      "es": "Comentarios de ejemplo para la feria. Lo que escribas se queda en este teléfono.",
+      "nhe": "Se neskayotl tlen tlajtoli tlen nopa feria.Tlen tij ijkuilos mokaua ipan ni teléfono."
+    },
+    {
+      "clave": "texto_278ed861bd",
+      "es": "Compartir con AMEQ",
+      "nhe": "Xijxelo ika AMEQ"
+    },
+    {
+      "clave": "texto_b1ee3ce63a",
+      "es": "Con lugar",
+      "nhe": "Ika tlali"
+    },
+    {
+      "clave": "texto_906e072b4b",
+      "es": "Copiado para compartir.",
+      "nhe": "Kiixkopina para tijxelos."
+    },
+    {
+      "clave": "texto_859abf4d1e",
+      "es": "Cuéntale a los demás",
+      "nhe": "xikin ilui sekinok"
+    },
+    {
+      "clave": "texto_58aff5b44e",
+      "es": "Cómo va tu viaje",
+      "nhe": "¿Kenijkatsa yaui mo ojtli?"
+    },
+    {
+      "clave": "texto_5039ec2067",
+      "es": "Elige cómo va tu viaje o escribe algo.",
+      "nhe": "Xijtlapejpeni kenijkatsa panos moojhui o xikijkuilo se tlamantli."
+    },
+    {
+      "clave": "texto_33c9b86067",
+      "es": "En vivo",
+      "nhe": "itstok"
+    },
+    {
+      "clave": "texto_e1d12d1a29",
+      "es": "Enviar",
+      "nhe": "Xititlani"
+    },
+    {
+      "clave": "texto_9ebce3aa45",
+      "es": "Estimado con las cotizaciones de Grieta y las paradas oficiales de Qrobus.",
+      "nhe": "Kiixtoma ika tlajtoli tlen Grieta uan ika Qrobus moketsa."
+    },
+    {
+      "clave": "texto_840fa46716",
+      "es": "Estimado: km por calle por 135.7 g por km, la meta de la norma NOM-163.",
+      "nhe": "Kiixtoma: km por calle ika 135.7 g por km, nopa meta tlen nopa NOM-163 norma."
+    },
+    {
+      "clave": "texto_cf4b031fd5",
+      "es": "Está lloviendo y no hay dónde cubrirse.",
+      "nhe": "Tlahuel tlaquiyahui huan amo cana timotlatzquiltise."
+    },
+    {
+      "clave": "texto_9bdf8c8340",
+      "es": "Faltan rutas",
+      "nhe": "Amo onka ojtli"
+    },
+    {
+      "clave": "texto_b9b0212e03",
+      "es": "Gracias. Guardamos tu propuesta en este teléfono.",
+      "nhe": "Tlaskamati.Ti tlaatitok mo tlajtoli ipan ni teléfono."
+    },
+    {
+      "clave": "texto_068161fffa",
+      "es": "Gracias. Tu aviso ya está en el mapa.",
+      "nhe": "Tlaskamati.Mo tlajtoli ya eltok ipan mapa."
+    },
+    {
+      "clave": "texto_a48d4d375c",
+      "es": "Hoy, según los viajeros",
+      "nhe": "Axkan, kej kiijtouaj paxalohuani"
+    },
+    {
+      "clave": "texto_ba01ba1d6d",
+      "es": "La C48 viene llena desde El Pueblito.",
+      "nhe": "Nopa C48 temitok tlen El Pueblito."
+    },
+    {
+      "clave": "texto_c3553db7c1",
+      "es": "La C55 va 12 min tarde.",
+      "nhe": "Nopa C55 eltok 12 minutos tlayoua."
+    },
+    {
+      "clave": "texto_13cb657744",
+      "es": "La parada no tiene techo y está lloviendo.",
+      "nhe": "Nopa parada ax kipia tepamitl uan tlaajaka."
+    },
+    {
+      "clave": "texto_1ae144117d",
+      "es": "Listo, ya se ve en la ruta.",
+      "nhe": "Ya eltok, uelis tikitas ipan ojtli."
+    },
+    {
+      "clave": "texto_e490844c0c",
+      "es": "Llegó a tiempo y con lugar para sentarse.",
+      "nhe": "Ajsito ipan nopa tonali uan ika se tlali kampa moseuis."
+    },
+    {
+      "clave": "texto_1b15d69e1d",
+      "es": "Llegó justo a la hora, dicen 8 viajeros.",
+      "nhe": "Ajsito ipan nopa tonali, kiijtouaj 8 paxalohuani."
+    },
+    {
+      "clave": "texto_022c111831",
+      "es": "Mapa de Querétaro con avisos de ejemplo",
+      "nhe": "Mapa tlen Querétaro ika se neskayotl tlen tlajtoli"
+    },
+    {
+      "clave": "texto_1af4abf1b3",
+      "es": "Mucho tráfico, va 12 minutos tarde.",
+      "nhe": "Miak tlauilankayotl, 12 minutos tlayoua."
+    },
+    {
+      "clave": "texto_d3de30eb56",
+      "es": "Paradas",
+      "nhe": "moketsa"
+    },
+    {
+      "clave": "texto_1894dc4d5d",
+      "es": "Por zona",
+      "nhe": "Ika tlali"
+    },
+    {
+      "clave": "texto_5d924bb2aa",
+      "es": "Proponer ruta",
+      "nhe": "Xikijto ojtli"
+    },
+    {
+      "clave": "texto_c27e7b8478",
+      "es": "Qué ver en el mapa",
+      "nhe": "Tlen tikitas ipan mapa"
+    },
+    {
+      "clave": "texto_584757eeee",
+      "es": "Respira",
+      "nhe": "Ximoyoltlali"
+    },
+    {
+      "clave": "texto_9ff9bd1106",
+      "es": "Ruta",
+      "nhe": "ojtli"
+    },
+    {
+      "clave": "texto_6967e1f9b0",
+      "es": "Se mandó a Qrobus",
+      "nhe": "Kititlankej ipan Qrobus"
+    },
+    {
+      "clave": "texto_5eae89c160",
+      "es": "Se ve en el mapa de este teléfono.",
+      "nhe": "Nesi ipan nopa mapa tlen ni teléfono."
+    },
+    {
+      "clave": "texto_b17b02fc70",
+      "es": "Solo en este teléfono",
+      "nhe": "San ipan ni teléfono"
+    },
+    {
+      "clave": "texto_3841ea91e3",
+      "es": "Tarde",
+      "nhe": "tiotlak"
+    },
+    {
+      "clave": "texto_4ff402d768",
+      "es": "Todo",
+      "nhe": "nochi"
+    },
+    {
+      "clave": "texto_d2919c4fd6",
+      "es": "Tráfico",
+      "nhe": "Tráfico"
+    },
+    {
+      "clave": "texto_e8c1febfe1",
+      "es": "Tráfico lento en 5 de Febrero",
+      "nhe": "Tlauilankayotl ipan 5 de febrero"
+    },
+    {
+      "clave": "texto_b02c02324c",
+      "es": "Tú",
+      "nhe": "ta"
+    },
+    {
+      "clave": "texto_5629df3faf",
+      "es": "Va lleno",
+      "nhe": "Temitok"
+    },
+    {
+      "clave": "texto_0e43da62ec",
+      "es": "Viajera de El Pueblito",
+      "nhe": "Tlapaxalojketl tlen El Pueblito"
+    },
+    {
+      "clave": "texto_7a1413dff5",
+      "es": "Viajera de la C69",
+      "nhe": "C69 paxalojketl"
+    },
+    {
+      "clave": "texto_8b6102df00",
+      "es": "Viajero de Centro Sur",
+      "nhe": "Sur Central Traveler"
+    },
+    {
+      "clave": "texto_ea4df2f325",
+      "es": "Viajero de Juriquilla",
+      "nhe": "Juriquilla Traveler"
+    },
+    {
+      "clave": "texto_90782dd421",
+      "es": "Viajeros",
+      "nhe": "paxalohuani"
+    },
+    {
+      "clave": "texto_64f561532e",
+      "es": "Viene lleno, mejor espera el siguiente.",
+      "nhe": "Uala temitok, achi kuali xijchiya nopa seyok."
+    },
+    {
+      "clave": "texto_8b550da997",
+      "es": "Yo también",
+      "nhe": "na nojkia"
+    },
+    {
+      "clave": "texto_3f29972024",
+      "es": "Zonas donde mucha gente se va en app y hay pocas paradas de Qrobus.",
+      "nhe": "Nopa tlali kampa miakej maseualmej yauij ika app uan onka se keski Qrobus paradas."
+    },
+    {
+      "clave": "texto_398b31642f",
+      "es": "a tiempo",
+      "nhe": "ipan tonali"
+    },
+    {
+      "clave": "texto_078f91fbc8",
+      "es": "ahora",
+      "nhe": "axkan"
+    },
+    {
+      "clave": "texto_6b1e97ad3d",
+      "es": "en los",
+      "nhe": "ipan nopa"
+    },
+    {
+      "clave": "texto_cd8717a079",
+      "es": "hace 11 min",
+      "nhe": "11 min tlen panotok"
+    },
+    {
+      "clave": "texto_d44212aec1",
+      "es": "hace 14 min",
+      "nhe": "14 min tlen panotok"
+    },
+    {
+      "clave": "texto_834ac7494a",
+      "es": "hace 2 min",
+      "nhe": "2 minutos achtoui"
+    },
+    {
+      "clave": "texto_a0fbad20ae",
+      "es": "hace 4 min",
+      "nhe": "4 min tlen panotok"
+    },
+    {
+      "clave": "texto_fa6f48b79d",
+      "es": "hace 5 min",
+      "nhe": "5 minutos achtoui"
+    },
+    {
+      "clave": "texto_4365be921a",
+      "es": "hace 6 min",
+      "nhe": "6 min tlen panotok"
+    },
+    {
+      "clave": "texto_4ba9c0f3c7",
+      "es": "hace 7 min",
+      "nhe": "7 minutos achtoui"
+    },
+    {
+      "clave": "texto_0705e4d613",
+      "es": "menos",
+      "nhe": "achitzin"
+    },
+    {
+      "clave": "texto_5abe317bcd",
+      "es": "más",
+      "nhe": "más"
+    },
+    {
+      "clave": "texto_3824d2853c",
+      "es": "paradas",
+      "nhe": "moketsa"
+    },
+    {
+      "clave": "texto_001a811121",
+      "es": "viajes en app",
+      "nhe": "xinejnemi ipan app"
+    },
+    {
+      "clave": "texto_f92e95db4c",
+      "es": "viajes que registramos en Uber, DiDi e inDrive",
+      "nhe": "viajes tlen timo ijkuilouaj ipan Uber, DiDi uan inDrive"
+    },
+    {
+      "clave": "texto_13ec434f5e",
+      "es": "Útil",
+      "nhe": "Tlauel ipati"
     }
   ],
   "adaptaciones": [
@@ -10750,6 +11140,16 @@
       "clave": "texto_0d03a4d912",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe",
       "criterio": "Reusa la traducción automática de «Aprox.»."
+    },
+    {
+      "clave": "texto_fe0fe77ad4",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se conserva la fórmula CO₂ del texto fuente."
+    },
+    {
+      "clave": "texto_53366d6473",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se conserva la fórmula CO₂ del texto fuente."
     }
   ]
 }

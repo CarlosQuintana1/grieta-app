@@ -2,7 +2,7 @@
   "codigo": "otq",
   "nombre": "Hñöñho (Otomí)",
   "revision": null,
-  "completa": true,
+  "completa": false,
   "provisional": true,
   "fuente": {
     "tipo": "automatica",
@@ -10,7 +10,7 @@
     "url": "https://www.bing.com/translator?from=es&to=otq",
     "fecha": "2026-11-03",
     "nota": "Traducción automática con adaptaciones breves; pendiente de revisión por hablantes.",
-    "actualizado": "2026-11-10"
+    "actualizado": "2026-11-11"
   },
   "mensajes": [
     {
@@ -10876,5 +10876,5 @@
       "criterio": "Compone las traducciones automáticas de «En tu carro» y «Al menos»."
     }
   ],
-  "parcial": false
+  "parcial": true
 }

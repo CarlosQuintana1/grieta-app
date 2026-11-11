@@ -292,7 +292,7 @@
         </button>
       </div>
       <div id="salidaInicio" class="salida-inicio" role="status" hidden></div>
-      <button id="rachaInicio" type="button" class="racha-heroe" hidden></button>
+      <div class="heroe-caja"><button id="rachaInicio" type="button" class="racha-heroe" hidden></button><button id="abrirEnVivo" type="button" class="heroe-envivo" aria-label="Abrir Qro en vivo" hidden><svg class="icono" aria-hidden="true"><use href="#i-chevron"/></svg></button></div>
       <div class="pastillas-inicio">
         <button id="impactoTodos" type="button" class="pastilla-inicio verde"><span class="pastilla-texto"><b>Tu CO₂</b><small>lo que evitamos</small></span><svg class="picto pastilla-dibujo" aria-hidden="true"><use href="#p-hoja"/></svg></button>
         <button id="ahorroMes" type="button" class="pastilla-inicio azul"><span class="pastilla-texto"><b>Tu ahorro</b><small>y qué bono te conviene</small></span><svg class="picto pastilla-dibujo" viewBox="0 0 48 48" aria-hidden="true"><path d="M3.5 37.5v5.2a11.5 4.6 0 0 0 23 0V37.5a11.5 4.6 0 0 1-23 0zM3.5 30.5v5.2a11.5 4.6 0 0 0 23 0V30.5a11.5 4.6 0 0 1-23 0zM3.5 23.5v5.2a11.5 4.6 0 0 0 23 0V23.5a11.5 4.6 0 0 1-23 0z" fill-rule="evenodd"/><path d="M3.5 19a11.5 4.6 0 1 0 23 0a11.5 4.6 0 1 0-23 0z" opacity=".42"/><circle class="moneda-corte" cx="33.5" cy="23" r="14.3"/><path d="M21 23a12.5 12.5 0 1 0 25 0a12.5 12.5 0 1 0 -25 0zM23.75 23a9.75 9.75 0 1 0 19.5 0a9.75 9.75 0 1 0 -19.5 0z" fill-rule="evenodd"/><path d="M23.75 23a9.75 9.75 0 1 0 19.5 0a9.75 9.75 0 1 0 -19.5 0z" opacity=".42"/><path d="M37.7 19.32C36.65 17.75 35.08 17.49 33.5 17.49C30.61 17.49 29.04 18.8 29.04 20.38C29.04 22.21 30.88 22.74 33.5 23C36.12 23.26 37.96 23.79 37.96 25.62C37.96 27.2 36.39 28.51 33.5 28.51C31.93 28.51 30.35 28.25 29.3 26.68M33.5 15.12V30.88" fill="none" stroke="currentColor" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -736,6 +736,47 @@
         <summary>¿De dónde salen estas cifras?</summary>
         <p>El CO₂ de cada viaje es la distancia por calle por 135.7 g por kilómetro, la meta para autos nuevos de la norma NOM-163. Lo que absorbe un árbol y lo que emite la gasolina salen de la Agencia de Protección Ambiental de Estados Unidos (EPA). El hielo ártico, de Notz y Stroeve (Science, 2016).</p>
       </details>
+    </section>
+
+    <section id="envivo" class="pantalla envivo" aria-labelledby="tituloPantalla" hidden>
+      <div id="evVistas" class="ev-vistas" role="tablist" aria-label="Qro en vivo">
+        <button type="button" role="tab" aria-selected="true" data-ev="mapa">En vivo</button>
+        <button type="button" role="tab" aria-selected="false" data-ev="red" tabindex="-1">Viajeros</button>
+        <button type="button" role="tab" aria-selected="false" data-ev="respira" tabindex="-1">Respira</button>
+        <button type="button" role="tab" aria-selected="false" data-ev="rutas" tabindex="-1">Faltan rutas</button>
+      </div>
+      <div id="evMapa" class="ev-vista" role="tabpanel">
+        <div id="evFiltros" class="ev-chips" role="group" aria-label="Qué ver en el mapa">
+          <button type="button" aria-pressed="true" data-f="todo">Todo</button><button type="button" aria-pressed="false" data-f="choque">Choques</button><button type="button" aria-pressed="false" data-f="trafico">Tráfico</button><button type="button" aria-pressed="false" data-f="techo">Paradas</button><button type="button" aria-pressed="false" data-f="comentario">Viajeros</button>
+        </div>
+        <div class="ev-mapa"><svg id="evMapaSvg" viewBox="0 0 390 400" role="img" aria-label="Mapa de Querétaro con avisos de ejemplo"></svg>
+          <button id="evCo2" type="button" class="ev-co2"><span><b id="evCo2Cifra" translate="no"></b><small>CO₂ de viajes en app</small></span></button></div>
+        <div class="ev-hoja"><h2>Ahora en la ciudad</h2><ul id="evAvisos" class="ev-avisos"></ul>
+          <div class="ev-botones"><button type="button" class="ev-avisar choque" data-avisar="choque">Avisar un choque</button><button type="button" class="ev-avisar trafico" data-avisar="trafico">Avisar tráfico</button></div>
+          <p class="ev-nota">Avisos de ejemplo para la feria. Lo que avises se queda en este teléfono.</p></div>
+      </div>
+      <div id="evRed" class="ev-vista" role="tabpanel" hidden>
+        <div id="evRutas" class="ev-chips" role="group" aria-label="Ruta"></div>
+        <div class="ev-medidor"><small>Hoy, según los viajeros</small><div class="ev-medidor-fila"><p><b id="evAtiempo" translate="no"></b> a tiempo</p><svg id="evBarras" viewBox="0 0 160 56" aria-hidden="true"></svg></div></div>
+        <ul id="evPosts" class="ev-posts"></ul>
+        <div class="ev-escribe"><div id="evRapidos" class="ev-chips" role="group" aria-label="Cómo va tu viaje"><button type="button" aria-pressed="false" data-t="A tiempo">A tiempo</button><button type="button" aria-pressed="false" data-t="Va lleno">Va lleno</button><button type="button" aria-pressed="false" data-t="Tarde">Tarde</button><button type="button" aria-pressed="false" data-t="Con lugar">Con lugar</button></div>
+          <div class="ev-campo"><label for="evTexto" class="oculto">Cuéntale a los demás</label><input id="evTexto" maxlength="140" autocomplete="off" placeholder="Cuéntale a los demás"><button id="evEnviar" type="button">Enviar</button></div></div>
+        <p class="ev-nota">Comentarios de ejemplo para la feria. Lo que escribas se queda en este teléfono.</p>
+      </div>
+      <div id="evRespira" class="ev-vista" role="tabpanel" hidden>
+        <div class="ev-acueducto"><svg id="evAcueducto" viewBox="0 0 358 236" aria-hidden="true"></svg><span class="ev-sello">Acueducto de Querétaro</span></div>
+        <p class="ev-k">CO₂ estimado de los viajes en app</p><p class="ev-cifra"><b id="evTotal" translate="no"></b></p>
+        <p class="ev-sub">en los <b id="evViajes" translate="no"></b> viajes que registramos en Uber, DiDi e inDrive</p>
+        <div class="ev-tarjeta"><h2>Por zona</h2><div class="ev-zona-fila"><svg id="evCo2Mapa" viewBox="0 0 200 200" aria-hidden="true"></svg><ul id="evCo2Top" class="ev-top"></ul></div><div class="ev-escala"><span>menos</span><i></i><span>más</span></div></div>
+        <p class="ev-nota">Estimado: km por calle por 135.7 g por km, la meta de la norma NOM-163.</p>
+      </div>
+      <div id="evRutasVista" class="ev-vista" role="tabpanel" hidden>
+        <p class="ev-sub">Zonas donde mucha gente se va en app y hay pocas paradas de Qrobus.</p>
+        <svg id="evFaltaMapa" class="ev-falta-mapa" viewBox="0 0 390 300" aria-hidden="true"></svg>
+        <ol id="evFalta" class="ev-falta"></ol>
+        <div class="ev-botones"><button type="button" id="evProponer" class="ev-avisar azul">Proponer ruta</button><button type="button" id="evCompartir" class="ev-avisar">Compartir con AMEQ</button></div>
+        <p class="ev-nota">Estimado con las cotizaciones de Grieta y las paradas oficiales de Qrobus.</p>
+      </div>
     </section>
 
     <section id="ubicacion" class="pantalla" aria-labelledby="tituloPantalla" hidden>
@@ -1332,5 +1373,6 @@
   <script src="app.js"></script>
   <script src="llave.js"></script>
   <script src="cuenta.js"></script>
+  <script src="envivo.js"></script>
 </body>
 </html>

@@ -227,12 +227,13 @@ const PANTALLAS = {
   reporte: { tab: "inicio", encabezado: true },
   ahorro: { tab: "inicio", encabezado: true },
   co2: { tab: "inicio", encabezado: true },
+  envivo: { tab: "inicio", encabezado: true },
   racha: { tab: "inicio", encabezado: true },
   ajustes: { tab: "ajustes" },
   perfil: { tab: "ajustes", encabezado: true },
   ajuste: { tab: "ajustes", encabezado: true },
 };
-const titulos = { llegarHora: "Llegar a tiempo", cuenta: "Tu cuenta", reporte: "Reportar", racha: "Tu tlacuache", nombrar: "Guardar un lugar", co2: "Lo que evitamos", ahorro: "Tu ahorro", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
+const titulos = { envivo: "Qro en vivo", llegarHora: "Llegar a tiempo", cuenta: "Tu cuenta", reporte: "Reportar", racha: "Tu tlacuache", nombrar: "Guardar un lugar", co2: "Lo que evitamos", ahorro: "Tu ahorro", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
 
 function actualizarVozEncabezado() {
   const boton = $("vozEncabezado"), enCamara = document.body.dataset.pantalla === "camara";
@@ -280,6 +281,7 @@ function mostrar(nombre) {
   if ($("hojaPerfil").open) $("hojaPerfil").close();
   if ($("hojaAyuda").open) $("hojaAyuda").close();
   if (nombre === "perfil") { pintarCredencial(); requestAnimationFrame(pintarResumenPerfil); }
+  if (nombre === "envivo") window.EnVivo?.abrir();
   if (nombre === "ajustes") $("perfilTlacuache").innerHTML = tlacuache(3, racha.puestos, false);
   if (nombre === "opciones") {
     quitarTrazo();
@@ -3916,6 +3918,7 @@ function tlacuacheDormido(texto, detalle = "") {
 function pintarRachaInicio() {
   const caja = $("rachaInicio");
   caja.hidden = acc.modoVoz || acc.facil;
+  $("abrirEnVivo").hidden = caja.hidden;
   if (caja.hidden) return;
   protectorDelMes();
   const semanas = semanasSeguidas(), cuenta = viajesDeSemana(claveSemana(new Date()));
@@ -3966,6 +3969,7 @@ function abrirRacha() {
   ir("racha");
 }
 $("rachaInicio").addEventListener("click", abrirRacha);
+$("abrirEnVivo").addEventListener("click", () => ir("envivo"));
 // Sin groserias: se compara sin acentos, sin numeros disfrazados de letra y sin letras repetidas.
 const GROSERIAS_DENTRO = ["pendej", "chinga", "chingon", "chupaverg", "culer", "cabron", "mamon", "mamad", "pinche", "maricon", "mierd", "panoch", "ojete", "idiot", "imbecil", "estupid", "retrasad", "violad", "hitler", "narco", "sicari", "hijodeput", "fuck", "shit", "bitch", "ashole", "pusy", "cunt", "whore", "slut", "gilipo"];
 const GROSERIAS_EXACTAS = new Set(["puto", "puta", "putos", "putas", "putito", "putita", "pvto", "pvta", "culo", "culos", "culito", "pito", "pitote", "pene", "penes", "teta", "tetas", "tetona", "chichi", "chichis", "nalga", "nalgas", "nalgon", "nalgona", "caca", "pedo", "pedos", "joto", "jotos", "jota", "marica", "zorra", "zorras", "perra", "perras", "mayate", "naco", "naca", "indio", "india", "sida", "coger", "cogida", "cogido", "follar", "polla", "tarado", "tarada", "baboso", "babosa", "verga", "vergas", "vergon", "vergota", "vergazo", "vagina", "semen", "ano", "punal", "nazi", "niga", "nigga", "niger", "nigger", "dick", "cock", "ptm", "alv", "hdp", "ctm", "vrg", "wtf"]);
