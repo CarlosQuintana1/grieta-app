@@ -271,7 +271,7 @@ const PANTALLAS = {
   perfil: { tab: "ajustes", encabezado: true },
   ajuste: { tab: "ajustes", encabezado: true },
 };
-const titulos = { envivo: "Qro en vivo", llegarHora: "Llegar a tiempo", cuenta: "Tu cuenta", reporte: "Reportar", racha: "Tu tlacuache", nombrar: "Guardar un lugar", co2: "Lo que evitamos", ahorro: "Tu ahorro", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
+const titulos = { envivo: "Qro en vivo", llegarHora: "Llegar a tiempo", cuenta: "Tu cuenta", reporte: "Reportar", racha: "Tu tlacuache", nombrar: "Guardar un lugar", co2: "Lo que evitas", ahorro: "Tu ahorro", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
 
 function actualizarVozEncabezado() {
   const boton = $("vozEncabezado"), enCamara = document.body.dataset.pantalla === "camara";
@@ -3761,7 +3761,7 @@ const contarViaje = (km) => llamar("/viajes", { method: "POST", headers: { "Cont
   .then(() => { estado.impactoLeido = 0; }).catch(() => {});
 function pintarPastillaCo2() {
   const g = estado.impacto?.g;
-  const texto = `<b>${g ? kgTexto(g) : "Tu CO₂"}</b><small>${g ? "de CO₂ evitados" : "lo que evitamos"}</small>`;
+  const texto = `<b>${g ? kgTexto(g) : "Tu CO₂"}</b><small>${g ? "de CO₂ evitados" : "lo que evitas"}</small>`;
   const caja = $("impactoTodos").querySelector(".pastilla-texto");
   if (caja.innerHTML !== texto) caja.innerHTML = texto;
 }

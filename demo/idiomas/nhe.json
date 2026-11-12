@@ -6345,9 +6345,9 @@
       "nhe": "Nopa tlanextilili kiijtoua {v1}: eli nopa tlajko tlen mokaua, kampa nopa {v2} yaui {v3}. Moketsa eltok ipan seyok ojtli."
     },
     {
-      "clave": "texto_d3f530fc69",
-      "es": "Lo que evitamos",
-      "nhe": "Tlen tijtlauelkauaj"
+      "clave": "texto_6ffaa8901e",
+      "es": "Lo que evitas",
+      "nhe": "Tlen tijtlauelkaua"
     },
     {
       "clave": "texto_4a1e0a2e39",
@@ -7385,9 +7385,9 @@
       "nhe": "xoxouik"
     },
     {
-      "clave": "texto_2fe47d1f3c",
-      "es": "lo que evitamos",
-      "nhe": "tlen tijtlauelkauaj"
+      "clave": "texto_77131c5176",
+      "es": "lo que evitas",
+      "nhe": "tlen tijtlauelkaua"
     },
     {
       "clave": "texto_6c54063bbb",
