@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { RUTAS, LUGARES_SIN_VERIFICAR } from "@/lib/rutas";
+import { RUTAS } from "@/lib/rutas";
 import { momentosEquipo } from "@/lib/equipo";
 import { EVENTO_RECHAZO, leerCodigo } from "@/lib/acceso";
 import { descargarTabla } from "@/lib/csv";
@@ -155,13 +155,6 @@ export default function Cobertura() {
           ))}
         </ul>
       </section>
-
-      {LUGARES_SIN_VERIFICAR.length > 0 && (
-        <p className="mb-5 text-xs leading-relaxed text-tenue">
-          Sin coordenada verificada: {LUGARES_SIN_VERIFICAR.map((l) => l.nombre).join(", ")}. Los km
-          de sus rutas se recalculan al corregirlas, también para los registros ya capturados.
-        </p>
-      )}
 
       <section className="flex flex-col gap-3">
         <button

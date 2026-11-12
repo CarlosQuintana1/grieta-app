@@ -746,8 +746,8 @@
         <button type="button" role="tab" aria-selected="false" data-ev="rutas" tabindex="-1">Faltan rutas</button>
       </div>
       <div id="evMapa" class="ev-vista" role="tabpanel">
-        <div id="evFiltros" class="ev-chips" role="group" aria-label="Qué ver en el mapa">
-          <button type="button" aria-pressed="true" data-f="todo">Todo</button><button type="button" aria-pressed="false" data-f="choque">Choques</button><button type="button" aria-pressed="false" data-f="trafico">Tráfico</button><button type="button" aria-pressed="false" data-f="techo">Paradas</button><button type="button" aria-pressed="false" data-f="comentario">Viajeros</button>
+        <div id="evFiltros" class="ev-filtros" role="group" aria-label="Qué ver en el mapa">
+          <button type="button" aria-pressed="true" data-f="todo" class="ev-f ambar"><svg class="picto" aria-hidden="true"><use href="#p-map-pinned"/></svg><span>Todo</span></button><button type="button" aria-pressed="false" data-f="choque" class="ev-f rojo"><svg class="picto" aria-hidden="true"><use href="#p-carro"/></svg><span>Choques</span></button><button type="button" aria-pressed="false" data-f="trafico" class="ev-f naranja"><svg class="picto" aria-hidden="true"><use href="#p-traffic-cone"/></svg><span>Tráfico</span></button><button type="button" aria-pressed="false" data-f="techo" class="ev-f azul"><svg class="picto" aria-hidden="true"><use href="#p-sintecho"/></svg><span>Paradas</span></button><button type="button" aria-pressed="false" data-f="comentario" class="ev-f ciruela"><svg class="picto" aria-hidden="true"><use href="#p-decir"/></svg><span>Viajeros</span></button>
         </div>
         <div class="ev-mapa"><svg id="evMapaSvg" viewBox="0 0 390 400" role="img" aria-label="Mapa de Querétaro con avisos de ejemplo"></svg>
           <button id="evCo2" type="button" class="ev-co2"><span><b id="evCo2Cifra" translate="no"></b><small>CO₂ de viajes en app</small></span></button></div>

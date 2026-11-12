@@ -2854,3 +2854,19 @@ html.contraste .ev-vistas button[aria-selected="true"], html.contraste .ev-chips
 .ev-avisos li > span:nth-child(2) { flex: 1 1 160px; }
 .ev-hace { margin-left: auto; white-space: normal; text-align: right; }
 .ev-avisos li b, .ev-avisos li small, .ev-post p, .ev-falta b, .ev-top span, .ev-vistas button, .ev-chips button { overflow-wrap: break-word; }
+/* Qro en vivo: pestañas a la medida de su texto y filtros como fichas con el color de su aviso */
+.ev-vistas { display: flex; gap: 4px; }
+.ev-vistas button { flex: 1 1 auto; padding: 0 8px; font-size: .8rem; }
+@media (min-width: 360px) { .ev-vistas button { white-space: nowrap; } }
+.ev-filtros { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin-bottom: 10px; }
+.ev-f { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 60px; padding: 6px 2px; border: 0; border-radius: 16px; background: var(--superficie); color: var(--tinta); font: inherit; font-size: .7rem; font-weight: 800; line-height: 1.1; text-align: center; overflow-wrap: break-word; }
+.ev-f .picto { width: 24px; height: 24px; color: var(--ev-c); }
+.ev-f.ambar { --ev-c: #e0a03c; } .ev-f.rojo { --ev-c: #e5484d; } .ev-f.naranja { --ev-c: #f08a24; } .ev-f.azul { --ev-c: #6f8cff; } .ev-f.ciruela { --ev-c: #b67ad0; }
+.ev-f[aria-pressed="true"] { background: var(--ev-c); color: #0b0a09; }
+.ev-f[aria-pressed="true"] .picto { color: #0b0a09; }
+html.contraste .ev-f { box-shadow: inset 0 0 0 2px var(--tinta); }
+@media (max-width: 359px) {
+  .ev-vistas button { padding: 0 5px; font-size: .74rem; white-space: nowrap; }
+  .ev-vistas button[data-ev="rutas"] { white-space: normal; }
+  .ev-f { font-size: .62rem; } .ev-f .picto { width: 22px; height: 22px; }
+}
