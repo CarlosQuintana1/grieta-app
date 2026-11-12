@@ -2975,3 +2975,20 @@ html .ev-vistas[role] button { white-space: normal; padding: 6px 2px; font-size:
 @media (min-width: 1000px) and (pointer: coarse) {
   html:not(.grande):not(.modo-voz) body:not(.con-mapa) .ajustes-fichas { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
+
+/* Fichas del perfil: oscuras, el icono en su color y abajo solo lo elegido */
+.perfil-fichas .pf-chica { clip-path: none; background: var(--superficie); background-image: none; box-shadow: inset 0 0 0 1px var(--linea); border-radius: 18px; justify-items: center; align-content: center; gap: 6px; min-height: 84px; text-align: center; color: var(--tinta); }
+.perfil-fichas .pf-chica > .picto { width: 28px; height: 28px; color: var(--pf-color, var(--ambar)); }
+.perfil-fichas .pf-chica small { display: none; }
+.perfil-fichas .pf-chica b { font-size: .95rem; }
+.pf-chica[data-ir-perfil="perfilVista"] { --pf-color: #8fb0ff; } .pf-chica[data-ir-perfil="perfilMovilidad"] { --pf-color: #c9a2ff; }
+.pf-chica[data-ir-perfil="perfilTarifa"] { --pf-color: #5fd0c8; } .pf-chica[data-ir-perfil="perfilLlegar"] { --pf-color: #f0b860; } .pf-chica[data-ir-perfil="perfilLectorOpciones"] { --pf-color: #9fd8a8; }
+html.claro .pf-chica[data-ir-perfil="perfilVista"] { --pf-color: #3354c8; } html.claro .pf-chica[data-ir-perfil="perfilMovilidad"] { --pf-color: #7341c9; }
+html.claro .pf-chica[data-ir-perfil="perfilTarifa"] { --pf-color: #0b7a72; } html.claro .pf-chica[data-ir-perfil="perfilLlegar"] { --pf-color: #9a6100; } html.claro .pf-chica[data-ir-perfil="perfilLectorOpciones"] { --pf-color: #2c7a3c; }
+html.contraste .perfil-fichas .pf-chica { box-shadow: inset 0 0 0 2px var(--tinta); }
+
+/* Metas de ahorro: azul marino y el color solo en el icono */
+.meta-opcion, .bloque-ambar .meta-opcion { background: #1f2a80; }
+.meta-opcion.m-verde .picto { color: #6fe0a0; } .meta-opcion.m-rojo .picto { color: #ff8a7a; } .meta-opcion.m-cafe .picto { color: #ffc65c; } .meta-opcion.m-anil .picto { color: #c9a2ff; }
+html.contraste .meta-opcion { box-shadow: inset 0 0 0 2px #fff; }
+@media (max-width: 360px) { .perfil-fichas .pf-chica { padding: 8px 3px; } .perfil-fichas .pf-chica b { font-size: .8rem; } }
