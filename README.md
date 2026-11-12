@@ -11,7 +11,7 @@
   &nbsp;&nbsp;|&nbsp;&nbsp;
   <a href="#arquitectura">Arquitectura</a>
   &nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="#cómo-la-construí">Historia</a>
+  <a href="#cómo-se-construyó">Historia</a>
 </p>
 
 En Querétaro el mismo viaje cuesta distinto en Uber, DiDi e inDrive, y casi nadie sabe si le conviene más esperar el camión. Grieta compara el Qrobus con las tres apps, te dice cuál conviene y por qué, y te guía en el camión con voz y vibración hasta que te bajas. Está pensada para que la use cualquiera: personas ciegas, personas mayores, quien usa silla de ruedas y quien habla otomí o náhuatl.
@@ -65,11 +65,11 @@ Es una app web instalable (PWA): se abre desde el navegador, se instala en el te
 
 ## Cómo decide
 
-Las apps de viaje no publican cómo calculan sus tarifas, así que armé mi propio conjunto de datos y puse a trabajar juntas tres técnicas de inteligencia artificial.
+Las apps de viaje no publican cómo calculan sus tarifas, así que se armó un conjunto de datos propio y se pusieron a trabajar juntas tres técnicas de inteligencia artificial.
 
 | | Qué hace | Cómo |
 |---|---|---|
-| **Datos propios** | Del 23 de septiembre al 9 de noviembre de 2026 se cotizó el mismo viaje en Uber, DiDi e inDrive al mismo tiempo, con un capturador que hice para eso. | 1,492 viajes y 4,347 precios. La ciudad se parte en hexágonos H3 de resolución 7; 18 zonas tienen capturas y las demás heredan de sus vecinas. |
+| **Datos propios** | Del 23 de septiembre al 9 de noviembre de 2026 se cotizó el mismo viaje en Uber, DiDi e inDrive al mismo tiempo, con un capturador hecho para eso. | 1,492 viajes y 4,347 precios. La ciudad se parte en hexágonos H3 de resolución 7; 18 zonas tienen capturas y las demás heredan de sus vecinas. |
 | **Modelo predictivo** | Estima cuánto te cobrará cada app según la distancia, los minutos sin tráfico, la hora, el día y las zonas de salida y llegada. | Regresión Ridge por app sobre el logaritmo del precio. Acierta cuál app es la más barata el 55.7% de las veces; elegir siempre DiDi acierta el 49.5%. |
 | **Lógica difusa** | Decide si te conviene pedir ya, esperar o irte en camión, y te dice por qué. | Sistema Mamdani con 10 conjuntos y 9 reglas sobre el precio, el tiempo que te sobra y los minutos de más del camión. |
 | **Algoritmo genético** | Afina los conjuntos y las reglas de la lógica difusa con viajes reales. | 80 individuos, 150 generaciones y 4 corridas, calificado con días que no vio. El costo promedio por viaje baja de $103.86 a $94.36 contra las reglas hechas a mano: $9.49 menos (95% de confianza, entre $6.72 y $12.15). |
@@ -153,12 +153,12 @@ La app se publica al mismo tiempo en tres lugares: Azure App Service, Azure Blob
 
 > **Sobre las traducciones.** Las versiones en otomí y náhuatl se hicieron con traductores automáticos: Microsoft Translator para otomí de Querétaro y Google Translate para náhuatl. No las ha revisado una persona hablante nativa ni un profesional de esas lenguas, así que pueden tener errores.
 
-## Cómo la construí
+## Cómo se construyó
 
 | Fecha | Qué pasó |
 |---|---|
 | 23 de septiembre | Empieza la captura de precios con el capturador. |
-| 6 de octubre | Junto todo el proyecto en un solo repositorio. |
+| 6 de octubre | Todo el proyecto se junta en un solo repositorio. |
 | 13 de octubre | Primera versión de la app con el modelo, las opciones de Qrobus y la decisión con lógica difusa. |
 | 17 de octubre | Camiones cerca con avisos por voz, y la API en Azure con PostgreSQL, Blob Storage y Functions. |
 | 31 de octubre | El algoritmo genético que afina la lógica difusa y la compara contra las reglas hechas a mano. |
@@ -185,7 +185,7 @@ cd api && npm test
 ## Lo que todavía no hace
 
 - Los camiones no se ven en tiempo real: los horarios son estimados con el GTFS oficial.
-- Los avisos y comentarios de Qro en vivo son de ejemplo; las zonas y el CO₂ sí salen de mis datos.
+- Los avisos y comentarios de Qro en vivo son de ejemplo; las zonas y el CO₂ sí salen de las cotizaciones reales.
 - Los Lentes Grieta, para usar la guía sin el teléfono en la mano, son un concepto para una etapa futura.
 
 ## Licencia

@@ -1,7 +1,7 @@
 # Grieta: API
 
 Backend de Grieta con Express 5 y Sequelize 6. Guarda los lugares y las rutas de Querétaro, los
-precios que capturamos para cada ruta y las consultas que la gente hace en la app.
+precios capturados para cada ruta y las consultas que la gente hace en la app.
 
 ## Correrla
 
@@ -24,7 +24,7 @@ npm test
 ```
 
 Son 50 pruebas de las rutas sobre una base en memoria, así que no tocan `database.sqlite`. En
-`postman/` está la colección con todas las rutas, en el orden en que las probamos.
+`postman/` está la colección con todas las rutas, en el orden en que se probaron.
 
 ## Estructura
 

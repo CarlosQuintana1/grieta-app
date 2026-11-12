@@ -1,11 +1,11 @@
 # Rangos habituales de precios
 
-Desde la versión 75 muestro **Rango habitual** para Uber, DiDi e inDrive: la banda
+Desde la versión 75 se muestra un **Rango habitual** para Uber, DiDi e inDrive: la banda
 central entre los percentiles 25 y 75 de sus residuos históricos en logaritmo.
 Antes se mostraban los percentiles 5 y 95. El aviso aclara que el precio puede salir
 del rango y debe confirmarse en la app del proveedor. No es una tarifa en tiempo real.
 
-Usé las 3,122 capturas válidas de 1,082 momentos y 28 días, hasta 2026-10-26,
+Se usaron las 3,122 capturas válidas de 1,082 momentos y 28 días, hasta 2026-10-26,
 filtradas por `entrenar_modelo.cargar`. La nueva exportación conserva exactamente
 todos los valores anteriores del modelo: coeficientes, precio central y banda amplia.
 Solo agrega `rango_habitual` por proveedor y `cuantiles_habitual: [0.25, 0.75]`.
