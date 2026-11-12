@@ -5,17 +5,13 @@ import Link from "next/link";
 import { RUTAS } from "@/lib/rutas";
 import { momentosEquipo } from "@/lib/equipo";
 import { EVENTO_RECHAZO, leerCodigo } from "@/lib/acceso";
-import { descargarTabla } from "@/lib/csv";
 import { esFinDeSemana, franjaDe, FRANJAS } from "@/lib/tiempo";
-import { sincronizar } from "@/lib/sync";
 import { MESES, PorDia } from "./por-dia";
 import { NOMBRE_PLATAFORMA, PLATAFORMAS, type Momento } from "@/lib/tipos";
 
 export default function Cobertura() {
   const [momentos, setMomentos] = useState<Momento[] | null>(null);
   const [soloLocal, setSoloLocal] = useState(false);
-  const [sincronizando, setSincronizando] = useState(false);
-  const [sinTabla, setSinTabla] = useState(false);
 
   const recargar = async () => {
     const r = await momentosEquipo();
@@ -156,32 +152,6 @@ export default function Cobertura() {
         </ul>
       </section>
 
-      <section className="flex flex-col gap-3">
-        <button
-          onClick={async () => setSinTabla(!(await descargarTabla()))}
-          disabled={momentos.length === 0 || soloLocal}
-          className="w-full border border-linea py-4 text-[0.85rem] text-tinta transition-opacity active:opacity-60 disabled:opacity-25"
-        >
-          Exportar CSV
-        </button>
-        {sinTabla && (
-          <p className="text-[0.78rem] text-ambar">
-            No se pudo bajar la tabla: se descarga de la base de datos y no hubo conexión.
-          </p>
-        )}
-        <button
-          onClick={async () => {
-            setSincronizando(true);
-            await sincronizar();
-            await recargar();
-            setSincronizando(false);
-          }}
-          disabled={resumen.pendientes === 0 || sincronizando}
-          className="w-full border border-linea py-4 text-[0.85rem] text-tinta transition-opacity active:opacity-60 disabled:opacity-25"
-        >
-          {sincronizando ? "Subiendo…" : `Sincronizar ${resumen.pendientes} pendientes`}
-        </button>
-      </section>
     </main>
   );
 }

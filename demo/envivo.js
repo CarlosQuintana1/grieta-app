@@ -32,10 +32,41 @@ const EnVivo = (() => {
     g += todos.map((v, i) => { const [x, y] = P(v.lat, v.lon), [p, c] = AVISO[v.tipo] ?? AVISO.comentario;
       return `<g class="ev-marca ${c} d${i % 5}" transform="translate(${x} ${y})"><circle class="ev-ping" r="15"/><rect x="-17" y="-42" width="34" height="34" rx="10"/><path d="M-6 -8 L0 0 L6 -8Z"/><use href="#p-${p}" x="-11" y="-36" width="22" height="22"/></g>`; }).join("");
     $("evMapaSvg").innerHTML = g;
+    proyeccion = P; ponerVista(vistaMapa, false);
     $("evCo2Cifra").textContent = `${(datos.totalCo2 / 1000).toFixed(1)} t`;
     $("evAvisos").innerHTML = [...propios.avisos.slice(-2).reverse(), ...datos.avisos].slice(0, 4).map((v) => { const [p, c] = AVISO[v.tipo] ?? AVISO.comentario;
       return `<li class="${c}"><span class="ev-ico">${ico(p)}</span><span><b>${esc(v.titulo)}</b><small>${esc(v.texto)}</small></span><small class="ev-hace">${esc(v.hace)}</small></li>`; }).join("");
   }
+
+  // Tocar el mapa acerca esa parte de la ciudad y dice que zona es; Regresar vuelve a verla completa.
+  let proyeccion = null, vistaMapa = [0, 0, 390, 400], animacion = 0;
+  const ponerVista = (v, animar = true) => {
+    const svg = $("evMapaSvg"), desde = vistaMapa.slice(), quieto = !animar || matchMedia("(prefers-reduced-motion: reduce)").matches;
+    cancelAnimationFrame(animacion); vistaMapa = v;
+    if (quieto) { svg.setAttribute("viewBox", v.join(" ")); return; }
+    const t0 = performance.now(), paso = (t) => { const k = Math.min(1, (t - t0) / 450), e = 1 - (1 - k) ** 3;
+      svg.setAttribute("viewBox", desde.map((x, i) => (x + (v[i] - x) * e).toFixed(1)).join(" ")); if (k < 1) animacion = requestAnimationFrame(paso); };
+    animacion = requestAnimationFrame(paso);
+  };
+  const centro = (b) => b.reduce((m, [a, o]) => [m[0] + a / b.length, m[1] + o / b.length], [0, 0]);
+  function tocarMapa(e) {
+    if (!datos || !proyeccion) return;
+    const svg = $("evMapaSvg"), m = svg.getScreenCTM(); if (!m) return;
+    const q = new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse()), d2 = ([x, y]) => (x - q.x) ** 2 + (y - q.y) ** 2;
+    const avisos = [...datos.avisos, ...propios.avisos].map((v) => ({ v, p: proyeccion(v.lat, v.lon).map(Number) }));
+    const aviso = avisos.map((a) => ({ ...a, d: Math.min(d2(a.p), d2([a.p[0], a.p[1] - 24])) })).sort((a, b) => a.d - b.d)[0];
+    const zonas = datos.zonas.map((z) => { const c = centro(z.b); return { z, c, p: proyeccion(c[0], c[1]).map(Number) }; });
+    const punto = aviso && aviso.d < 26 ** 2 ? aviso.p : [q.x, q.y];
+    const zona = zonas.sort((a, b) => ((a.p[0] - punto[0]) ** 2 + (a.p[1] - punto[1]) ** 2) - ((b.p[0] - punto[0]) ** 2 + (b.p[1] - punto[1]) ** 2))[0];
+    if (!zona) return;
+    $("evZonaNombre").textContent = zona.z.nombre;
+    $("evZonaDato").innerHTML = aviso && aviso.d < 26 ** 2 ? esc(aviso.v.titulo)
+      : `<span class="ev-dato"><b translate="no">${zona.z.viajes}</b> <span>viajes en app</span></span><span class="ev-dato"><b translate="no">${zona.z.paradas}</b> <span>paradas</span></span>`;
+    $("evZona").hidden = false;
+    const w = 210, h = w * 400 / 390;
+    ponerVista([Math.max(-40, Math.min(390 - w + 40, punto[0] - w / 2)), Math.max(-40, Math.min(400 - h + 40, punto[1] - h / 2)), w, h]);
+  }
+  function alejar() { $("evZona").hidden = true; ponerVista([0, 0, 390, 400]); }
 
   function pintarRed() {
     const r = datos.rutas[ruta];
@@ -75,9 +106,12 @@ const EnVivo = (() => {
       a += `<rect x="${x - 1}" y="${top - 6 * s}" width="${ww + 2}" height="${6 * s}" fill="#9b6145"/><rect x="${x - 1}" y="${top - 6 * s}" width="${ww + 2}" height="${1.6 * s}" fill="#d9a382"/><ellipse cx="${x + pil / 2}" cy="${base}" rx="${pil}" ry="${2.4 * s}" fill="#5f3a28" opacity=".3"/>`;
     }
     a += `<path d="M0 236 L0 214 Q140 196 358 172 L358 236Z" fill="url(#evPasto)"/>`;
-    for (let i = 0; i < 10; i++) { const px = 12 + i * 26 + (i % 3) * 4, by = 232 - i * 3.2, hh = 12 + (i % 4) * 6;
-      a += `<g class="ev-brote d${i % 5}"><path d="M${px} ${by} v-${hh}" stroke="#2d8a54" stroke-width="2.6"/><ellipse cx="${px - 5}" cy="${by - hh}" rx="7" ry="3.8" fill="#5fc98c" transform="rotate(-30 ${px - 5} ${by - hh})"/><ellipse cx="${px + 5}" cy="${by - hh + 3}" rx="7" ry="3.8" fill="#86d6a0" transform="rotate(30 ${px + 5} ${by - hh + 3})"/></g>`; }
-    for (let i = 0; i < 7; i++) a += `<ellipse class="ev-hojita d${i % 5}" cx="${30 + i * 46}" cy="216" rx="5.5" ry="3" fill="#86d6a0"/>`;
+    // Vegetacion de Queretaro: magueyes, nopales, arbustos y flores que crecen al entrar y luego se mecen con el viento.
+    const maguey = (x, y, k) => `<g class="ev-planta" transform="translate(${x} ${y}) scale(${(k * 1.45).toFixed(2)})"><g class="ev-mece">${[-58, -32, -12, 8, 30, 56].map((g, i) => `<path d="M0 0 Q${(g / 6).toFixed(1)} -${14 + (i % 3) * 5} ${(g / 2.2).toFixed(1)} -${22 + (i % 3) * 6} Q${(g / 5).toFixed(1)} -9 0 0Z" fill="${i % 2 ? "#5f9f7a" : "#4b8a67"}"/>`).join("")}</g></g>`;
+    const nopal = (x, y, k) => `<g class="ev-planta" transform="translate(${x} ${y}) scale(${(k * 1.45).toFixed(2)})"><g class="ev-mece lento"><ellipse cx="0" cy="-9" rx="6" ry="9" fill="#5aa86f"/><ellipse cx="-7" cy="-19" rx="4.6" ry="7" fill="#6cbb80" transform="rotate(-24 -7 -19)"/><ellipse cx="7" cy="-21" rx="4.6" ry="7" fill="#4f9a64" transform="rotate(22 7 -21)"/><circle cx="7" cy="-28.5" r="1.8" fill="#e5484d"/><circle cx="-8" cy="-26" r="1.6" fill="#f0b45a"/></g></g>`;
+    const arbusto = (x, y, k) => `<g class="ev-planta" transform="translate(${x} ${y}) scale(${(k * 1.45).toFixed(2)})"><g class="ev-mece"><circle cx="-6" cy="-6" r="7" fill="#3f8a5c"/><circle cx="5" cy="-8" r="8.5" fill="#4f9c6b"/><circle cx="0" cy="-13" r="7" fill="#62b07c"/><circle cx="-2" cy="-14" r="2" fill="#86d6a0" opacity=".7"/></g></g>`;
+    const flor = (x, y, k, c) => `<g class="ev-planta" transform="translate(${x} ${y}) scale(${(k * 1.45).toFixed(2)})"><g class="ev-mece rapido"><path d="M0 0 Q1 -7 0 -12" stroke="#3f8a5c" stroke-width="1.6" fill="none"/><ellipse cx="2.4" cy="-6" rx="2.4" ry="1.2" fill="#5fae78" transform="rotate(-30 2.4 -6)"/>${[0, 72, 144, 216, 288].map((g) => `<ellipse cx="0" cy="-15" rx="1.7" ry="2.8" fill="${c}" transform="rotate(${g} 0 -12.5)"/>`).join("")}<circle cx="0" cy="-12.5" r="1.4" fill="#fff3c4"/></g></g>`;
+    a += [maguey(26, 226, 1.05), flor(54, 222, 1, "#f08a24"), arbusto(84, 220, .9), nopal(122, 216, .95), flor(146, 214, .9, "#e5484d"), maguey(178, 210, .85), arbusto(214, 205, .75), flor(240, 203, .8, "#c9a2ff"), nopal(266, 199, .72), maguey(300, 194, .66), flor(326, 191, .7, "#f0b45a"), arbusto(346, 188, .6)].join("");
     $("evAcueducto").innerHTML = a;
   }
 
@@ -122,6 +156,8 @@ const EnVivo = (() => {
   });
   $("evFiltros").addEventListener("click", (e) => { const b = e.target.closest("[data-f]"); if (!b) return; filtro = b.dataset.f; for (const x of $("evFiltros").children) x.setAttribute("aria-pressed", String(x === b)); pintarMapa(); });
   $("evCo2").addEventListener("click", () => cambiarVista("respira"));
+  $("evMapaSvg").addEventListener("click", tocarMapa);
+  $("evAlejar").addEventListener("click", alejar);
   document.querySelector("#evMapa .ev-botones").addEventListener("click", (e) => {
     const b = e.target.closest("[data-avisar]"); if (!b) return;
     const tipo = b.dataset.avisar, yo = (typeof estado !== "undefined" && (estado.gps ?? estado.origen)) || { lat: 20.704, lon: -100.444 };

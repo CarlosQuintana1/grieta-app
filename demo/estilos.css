@@ -2857,7 +2857,7 @@ html.contraste .ev-vistas button[aria-selected="true"], html.contraste .ev-chips
 /* Qro en vivo: pestañas a la medida de su texto y filtros como fichas con el color de su aviso */
 .ev-vistas { display: flex; gap: 4px; }
 .ev-vistas button { flex: 1 1 auto; padding: 0 8px; font-size: .8rem; }
-@media (min-width: 360px) { .ev-vistas button { white-space: nowrap; } }
+@media (min-width: 360px) { html:not(.grande) .ev-vistas button { white-space: nowrap; } }
 .ev-filtros { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin-bottom: 10px; }
 .ev-f { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 60px; padding: 6px 2px; border: 0; border-radius: 16px; background: var(--superficie); color: var(--tinta); font: inherit; font-size: .7rem; font-weight: 800; line-height: 1.1; text-align: center; overflow-wrap: break-word; }
 .ev-f .picto { width: 24px; height: 24px; color: var(--ev-c); }
@@ -2873,3 +2873,33 @@ html.contraste .ev-f { box-shadow: inset 0 0 0 2px var(--tinta); }
 /* Icono de Cuki: la cara de frente sobre su circulo ambar, sin aros extra */
 .boton-cuki { background: none; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
 .boton-cuki .cuki-cara { width: 52px; height: 52px; }
+/* Decir a donde voy: negro en reposo; al tocarlo se pone rosa mientras escucha */
+.dictar-grande { background: #16130f; color: #fff; box-shadow: inset 0 0 0 1.5px #3a332b; transition: background-color .18s ease, box-shadow .18s ease; }
+.dictar-grande .picto, .dictar-grande .icono { color: #fff; }
+.dictar-grande:active, .dictar-grande:is(.oyendo, .pensando) { background: #d0306a; box-shadow: none; }
+.dictar-grande:active .picto, .dictar-grande:active .icono, .dictar-grande:is(.oyendo, .pensando) .picto { color: #fff; }
+html.claro .dictar-grande:not(:active):not(.oyendo):not(.pensando) { background: #16130f; color: #fff; }
+html.contraste .dictar-grande:not(.oyendo):not(.pensando) { box-shadow: inset 0 0 0 2px #fff; }
+/* Qro en vivo: al tocar el mapa se acerca la zona y una ficha dice cual es */
+#evMapaSvg { cursor: pointer; touch-action: manipulation; }
+.ev-zona-info { position: absolute; left: 10px; right: 10px; bottom: 10px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 10px; padding: 10px 10px 10px 14px; border-radius: 16px; background: rgba(11,10,9,.9); box-shadow: 0 6px 18px rgba(0,0,0,.5); animation: ev-entra .3s ease-out both; }
+.ev-zona-info[hidden] { display: none; }
+.ev-zona-info b#evZonaNombre { font-size: 1.05rem; font-weight: 900; color: #fff; }
+.ev-zona-info small { grid-column: 1; color: #d6cfc3; font-weight: 700; font-size: .82rem; overflow-wrap: break-word; }
+.ev-zona-info small .ev-dato + .ev-dato::before { content: ", "; } .ev-zona-info small b { color: #fff; }
+.ev-zona-info button { grid-column: 2; grid-row: 1 / span 2; min-height: 44px; padding: 0 14px; border: 0; border-radius: 12px; background: var(--ambar); color: var(--sobre-ambar); font: inherit; font-weight: 900; font-size: .85rem; }
+/* Respira: las plantas crecen una vez desde el suelo y luego se mecen despacio */
+.ev-planta > .ev-mece { transform-box: fill-box; transform-origin: 50% 100%; animation: ev-crece .9s cubic-bezier(.2,.9,.3,1.25) both, ev-viento 4.5s ease-in-out .9s infinite alternate; }
+.ev-planta:nth-of-type(3n+1) > .ev-mece { animation-delay: .1s, 1s; } .ev-planta:nth-of-type(3n+2) > .ev-mece { animation-delay: .25s, 1.6s; } .ev-planta:nth-of-type(3n) > .ev-mece { animation-delay: .4s, 2.2s; }
+.ev-mece.lento { animation-duration: .9s, 6s; } .ev-mece.rapido { animation-duration: .9s, 3.2s; }
+@keyframes ev-crece { from { transform: scale(0); } }
+@keyframes ev-viento { from { transform: rotate(-2.5deg); } to { transform: rotate(2.5deg); } }
+/* Asa de la hoja de opciones: se arrastra hacia abajo para ver mas mapa */
+.asa-hoja { display: none; }
+body.con-mapa:is([data-pantalla="opciones"], [data-pantalla="detalle"]) .asa-hoja { display: flex; justify-content: center; position: sticky; top: -22px; z-index: 5; height: 26px; margin: -20px -16px 0; padding-top: 8px; background: var(--fondo); cursor: grab; touch-action: none; }
+.asa-hoja i { display: block; width: 44px; height: 5px; border-radius: 3px; background: color-mix(in srgb, var(--tinta) 35%, transparent); }
+body.con-mapa .hoja { transition: max-height .28s cubic-bezier(.2,.8,.3,1); }
+body.hoja-plegada.con-mapa .hoja { max-height: 34%; }
+@media (prefers-reduced-motion: reduce) { body.con-mapa .hoja { transition: none; } }
+/* Con letra grande las pestañas de Qro en vivo bajan de renglon en vez de salirse */
+html.grande .ev-vistas button { white-space: normal; padding: 4px 4px; font-size: .78rem; min-width: 0; }

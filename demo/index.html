@@ -158,6 +158,7 @@
 
     <button id="cerrarMapa" type="button" class="cerrar-mapa" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Cerrar mapa</span></button>
   <main id="hoja" class="hoja">
+    <div id="asaHoja" class="asa-hoja" aria-hidden="true"><i></i></div>
     <p id="estado" class="estado" role="status"></p>
 
     <section id="bienvenida" class="pantalla bienvenida" aria-labelledby="tituloBienvenida" hidden>
@@ -750,6 +751,7 @@
           <button type="button" aria-pressed="true" data-f="todo" class="ev-f ambar"><svg class="picto" aria-hidden="true"><use href="#p-map-pinned"/></svg><span>Todo</span></button><button type="button" aria-pressed="false" data-f="choque" class="ev-f rojo"><svg class="picto" aria-hidden="true"><use href="#p-carro"/></svg><span>Choques</span></button><button type="button" aria-pressed="false" data-f="trafico" class="ev-f naranja"><svg class="picto" aria-hidden="true"><use href="#p-traffic-cone"/></svg><span>Tráfico</span></button><button type="button" aria-pressed="false" data-f="techo" class="ev-f azul"><svg class="picto" aria-hidden="true"><use href="#p-sintecho"/></svg><span>Paradas</span></button><button type="button" aria-pressed="false" data-f="comentario" class="ev-f ciruela"><svg class="picto" aria-hidden="true"><use href="#p-decir"/></svg><span>Viajeros</span></button>
         </div>
         <div class="ev-mapa"><svg id="evMapaSvg" viewBox="0 0 390 400" role="img" aria-label="Mapa de Querétaro con avisos de ejemplo"></svg>
+          <div id="evZona" class="ev-zona-info" role="status" hidden><b id="evZonaNombre" translate="no"></b><small id="evZonaDato"></small><button id="evAlejar" type="button">Regresar</button></div>
           <button id="evCo2" type="button" class="ev-co2"><span><b id="evCo2Cifra" translate="no"></b><small>CO₂ de viajes en app</small></span></button></div>
         <div class="ev-hoja"><h2>Ahora en la ciudad</h2><ul id="evAvisos" class="ev-avisos"></ul>
           <div class="ev-botones"><button type="button" class="ev-avisar choque" data-avisar="choque">Avisar un choque</button><button type="button" class="ev-avisar trafico" data-avisar="trafico">Avisar tráfico</button></div>

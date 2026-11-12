@@ -57,6 +57,44 @@ new ResizeObserver(() => {
   clearTimeout(reencuadre);
   reencuadre = setTimeout(() => { if (document.body.classList.contains("con-mapa")) reencuadrar(document.body.dataset.pantalla); }, 150);
 }).observe($("mapa"));
+// En las opciones de viaje la hoja se baja con el dedo para ver mejor el mapa, y se sube igual o tocando el asa.
+const PANTALLAS_PLEGABLES = ["opciones", "detalle"];
+const plegable = () => document.body.classList.contains("con-mapa") && PANTALLAS_PLEGABLES.includes(document.body.dataset.pantalla);
+function plegarHoja(si) {
+  const antes = document.body.classList.contains("hoja-plegada");
+  $("hoja").style.maxHeight = ""; document.body.classList.toggle("hoja-plegada", Boolean(si) && plegable());
+  // Al subirla otra vez se recalcula su alto para que no corte ningun bloque.
+  if (antes && !si && typeof evitarCortes === "function") requestAnimationFrame(evitarCortes);
+}
+(() => {
+  const hoja = $("hoja"); let inicio = null, arrastreReciente = 0;
+  hoja.addEventListener("touchstart", (e) => {
+    if (!plegable() || e.touches.length !== 1) return;
+    const sobreAsa = e.target.closest("#asaHoja"), plegada = document.body.classList.contains("hoja-plegada");
+    if (hoja.scrollTop > 2 && !sobreAsa && !plegada) return;
+    inicio = { y: e.touches[0].clientY, alto: hoja.getBoundingClientRect().height, plegada, movio: false };
+  }, { passive: true });
+  hoja.addEventListener("touchmove", (e) => {
+    if (!inicio) return;
+    const dy = e.touches[0].clientY - inicio.y;
+    if (!inicio.movio && Math.abs(dy) < 8) return;
+    if (!inicio.plegada && dy < 0) { inicio = null; return; }
+    inicio.movio = true; e.preventDefault(); hoja.style.transition = "none";
+    const alto = Math.max(150, Math.min(innerHeight * 0.74, inicio.alto - dy));
+    hoja.style.maxHeight = `${alto}px`;
+  }, { passive: false });
+  const soltar = (e) => {
+    if (!inicio) return;
+    const dy = (e.changedTouches?.[0]?.clientY ?? inicio.y) - inicio.y, era = inicio.plegada, movio = inicio.movio; inicio = null;
+    hoja.style.transition = "";
+    if (!movio) return;
+    arrastreReciente = performance.now();
+    plegarHoja(era ? dy > -40 : dy > 70);
+  };
+  hoja.addEventListener("touchend", soltar); hoja.addEventListener("touchcancel", soltar);
+  // Despues de arrastrar el navegador manda tambien un toque: se ignora para no deshacer lo que se acaba de hacer.
+  $("asaHoja").addEventListener("click", () => { if (performance.now() - arrastreReciente > 450) plegarHoja(!document.body.classList.contains("hoja-plegada")); });
+})();
 const icono = (clase) => L.divIcon({ className: "", html: `<span class="marca ${clase}"></span>`, iconSize: [18, 18] });
 
 const estado = { origen: null, destino: null, editando: "hacia", kmCalle: null, momento: 0, otra: null, prisa: 20, app: null, gps: null, elegida: null };
@@ -303,6 +341,7 @@ function mostrar(nombre) {
   if (nombre === "guia") requestAnimationFrame(pintarBotonSimulador);
   actualizarVozEncabezado();
   document.body.classList.toggle("con-mapa", Boolean(conf.mapa));
+  plegarHoja(false);
   document.body.classList.remove("alerta");
   $("encabezado").hidden = !conf.encabezado;
   if (conf.encabezado) $("tituloPantalla").textContent = nombre === "linea" ? estado.linea?.linea ?? "" : titulos[nombre] ?? "";
@@ -345,7 +384,7 @@ function reencuadrar(nombre) {
 const BLOQUES = "button, li, label, h2, p, .co2-comparar, .tarjeta, .parada-cerca, .a-pie, .aviso, .tl-dormido";
 function evitarCortes() {
   ajustarCifras();
-  if (document.body.classList.contains("mapa-grande")) return;
+  if (document.body.classList.contains("mapa-grande") || document.body.classList.contains("hoja-plegada")) return;
   const hoja = $("hoja"), pantalla = $(document.body.dataset.pantalla ?? "");
   if (hoja.scrollTop > 0) return;
   hoja.style.maxHeight = "";
