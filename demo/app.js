@@ -2248,9 +2248,18 @@ const MAX_ESTIMADOS = 14;
 const estimados = new Map();
 let relojEstimados = null, vistaEstimados = false;
 const minutoExacto = () => { const a = new Date(); return a.getHours() * 60 + a.getMinutes() + a.getSeconds() / 60; };
+// Avanza el camion en el mapa sin transicion CSS, para que no se resbale al mover o acercar el mapa.
+function avanzarCamion(m, destino) {
+  cancelAnimationFrame(m._deslizar);
+  const ini = m.getLatLng();
+  if (!suave() || mapa.distance(ini, destino) < 2) return m.setLatLng(destino);
+  const t0 = performance.now();
+  const paso = (t) => { const k = Math.min(1, (t - t0) / 2000); m.setLatLng([ini.lat + (destino[0] - ini.lat) * k, ini.lng + (destino[1] - ini.lng) * k]); if (k < 1) m._deslizar = requestAnimationFrame(paso); };
+  m._deslizar = requestAnimationFrame(paso);
+}
 const iconoEstimado = (linea) => L.divIcon({ className: "camion-est", iconSize: [56, 26], iconAnchor: [28, 13], html: `<span class="ce-ficha">${picto("qrobus")}<b translate="no">${escapar(linea)}</b></span>` });
 function limpiarEstimados() {
-  for (const m of estimados.values()) m.remove();
+  for (const m of estimados.values()) { cancelAnimationFrame(m._deslizar); m.remove(); }
   estimados.clear();
   $("camionesHorario").hidden = true;
   $("verEstimados").hidden = document.body.dataset.pantalla !== "camiones" || acc.modoVoz;
@@ -2269,10 +2278,10 @@ function pintarEstimados() {
     if (visibles.length === MAX_ESTIMADOS) break;
   }
   const vivos = new Set(visibles.map((x) => x.id));
-  for (const [id, m] of estimados) if (!vivos.has(id)) { m.remove(); estimados.delete(id); }
+  for (const [id, m] of estimados) if (!vivos.has(id)) { cancelAnimationFrame(m._deslizar); m.remove(); estimados.delete(id); }
   for (const x of visibles) {
     const m = estimados.get(x.id);
-    if (m) m.setLatLng([x.lat, x.lon]);
+    if (m) avanzarCamion(m, [x.lat, x.lon]);
     else estimados.set(x.id, L.marker([x.lat, x.lon], { icon: iconoEstimado(x.linea), keyboard: false, zIndexOffset: 300 }).bindTooltip(`${x.linea} hacia ${x.hacia}, estimado`, { direction: "top", className: "etiqueta-mapa" }).addTo(mapa));
   }
   // Botón o nota, nunca los dos: ocupan el mismo lugar para que la hoja no brinque.

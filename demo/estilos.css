@@ -2468,8 +2468,6 @@ html.modo-voz #verRecorrido { display: none; }
 .rc-punto .picto { width: 26px; height: 26px; }
 
 /* Camiones estimados por horario */
-.camion-est { transition: transform 2s linear; }
-.leaflet-zoom-anim .camion-est { transition: none; }
 .ce-ficha { display: inline-flex; align-items: center; gap: 3px; height: 24px; padding: 0 7px 0 4px; border-radius: 12px; border: 1.5px dashed #1c1408; background: #e0a03c; color: #1c1408; white-space: nowrap; }
 .ce-ficha .picto { width: 16px; height: 16px; }
 .ce-ficha b { font-size: .72rem; font-weight: 800; }
@@ -2941,10 +2939,10 @@ html.claro .pf-pierdo { background: var(--fondo); }
 .ev-vistas button { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 62px; padding: 6px 2px; border-radius: 15px; background: none !important; color: var(--tenue); font-size: .74rem; font-weight: 800; line-height: 1.1; white-space: normal; text-align: center; transition: color .25s ease; }
 .ev-vistas button[aria-selected="true"] { color: #fff; }
 .ev-vistas[data-activo="mapa"] button[aria-selected="true"] { color: #1c1408; }
-.ev-tab-ico { display: grid; place-items: center; width: 26px; height: 26px; }
+.ev-tab-ico { display: grid; place-items: center; width: 26px; height: 26px; transform: translateZ(0); will-change: transform; }
 .ev-tab-ico .picto { width: 24px; height: 24px; }
 .ev-vistas button[aria-selected="true"] .ev-tab-ico { animation: ev-tab-brinco .4s cubic-bezier(.3,1.6,.5,1); }
-@keyframes ev-tab-brinco { 0% { transform: scale(.7); } 100% { transform: none; } }
+@keyframes ev-tab-brinco { 0% { transform: translateZ(0) scale(.7); } 100% { transform: translateZ(0) scale(1); } }
 .ev-vivo { display: block; width: 12px; height: 12px; border-radius: 50%; background: #e5484d; box-shadow: 0 0 0 0 rgba(229,72,77,.6); animation: late 1.6s infinite; }
 .ev-vistas[data-activo="mapa"] .ev-vivo { background: #b3261e; }
 @keyframes late { 0% { box-shadow: 0 0 0 0 rgba(229,72,77,.6); } 70% { box-shadow: 0 0 0 9px rgba(229,72,77,0); } 100% { box-shadow: 0 0 0 0 rgba(229,72,77,0); } }
