@@ -6092,7 +6092,8 @@ function abrirPerfil() {
 }
 $("abrirPerfil").addEventListener("click", abrirPerfil);
 // La foto de Cuki en la credencial lleva a personalizarlo.
-$("credencialCuki").addEventListener("click", abrirRacha);
+// Toda la credencial lleva a personalizar a Cuki; el boton de la foto queda para teclado y lector de pantalla.
+$("credencial").addEventListener("click", abrirRacha);
 $("resumenPerfil").addEventListener("click", abrirPerfil);
 $("completarPerfil").addEventListener("click", abrirPerfil);
 $("cerrarInvita").addEventListener("click", () => {

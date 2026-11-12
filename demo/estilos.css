@@ -2906,3 +2906,6 @@ html.grande .ev-vistas button { white-space: normal; padding: 4px 4px; font-size
 /* Credencial: la foto de Cuki es un boton que lleva a personalizarlo */
 button.credencial-foto { padding: 0; border: 0; cursor: pointer; }
 button.credencial-foto:active { transform: scale(.97); }
+#credencial { cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform .12s ease; }
+#credencial:active { transform: scale(.985); }
+button.credencial-foto:active { transform: none; }
