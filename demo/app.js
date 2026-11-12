@@ -3848,6 +3848,20 @@ const PELAJES = {
   blanco: { nombre: "Blanco", nota: "Muy raro: en México solo se ha documentado en la Península de Yucatán.", tonos: { "#A7A4A8": "#EDE9E1", "#C9C6C8": "#FAF7F1", "#8B878D": "#D3CEC5", "#625B61": "#BDB8AF", "#494247": "#D9BFBE", "#F4F1EA": "#FDFBF6", "#DED8CF": "#EDE8DF" } },
   alebrije: { nombre: "Alebrije", nota: "Este no existe en la naturaleza: es puro arte mexicano.", tonos: { "#A7A4A8": "#E8456B", "#C9C6C8": "#F5A623", "#8B878D": "#2FA9B8", "#625B61": "#3B4FC0", "#494247": "#6A2FB5", "#F4F1EA": "#F7D23E", "#DED8CF": "#EF9F24", "#E58A9A": "#2FA36B", "#E7BDB3": "#A6E05A", "#C88791": "#1E7D52" } },
 };
+// Cara de frente de Cuki para el boton de Inicio, con los colores de su pelaje.
+function caraCuki() {
+  const t = PELAJES[pelajeActual()]?.tonos ?? {}, c = (x) => t[x] ?? x;
+  const cara = c("#F4F1EA"), mascara = c("#A7A4A8"), oreja = c("#494247"), linea = "#2b2622";
+  return `<circle cx="24" cy="24" r="24" fill="#e0a03c"/><g transform="translate(24 23) scale(.95)">
+    <circle cx="-11" cy="-11.5" r="6" fill="${oreja}"/><circle cx="-11" cy="-11" r="3.4" fill="#e9a6b8"/>
+    <circle cx="11" cy="-11.5" r="6" fill="${oreja}"/><circle cx="11" cy="-11" r="3.4" fill="#e9a6b8"/>
+    <path d="M0 19C-2.5 19-5 15-8 10C-12 4-14-2-13-6C-12-11-6-13 0-13C6-13 12-11 13-6C14-2 12 4 8 10C5 15 2.5 19 0 19Z" fill="${cara}" stroke="${linea}" stroke-width="2"/>
+    <path d="M-11-4C-9-8-4-8-2.6-3.4C-3.2.5-8 1.5-11-4ZM11-4C9-8 4-8 2.6-3.4C3.2.5 8 1.5 11-4Z" fill="${mascara}"/>
+    <circle cx="-6" cy="-3.6" r="2.2" fill="#1c1408"/><circle cx="6" cy="-3.6" r="2.2" fill="#1c1408"/>
+    <circle cx="-5.3" cy="-4.3" r=".75" fill="#fff"/><circle cx="6.7" cy="-4.3" r=".75" fill="#fff"/>
+    <ellipse cx="0" cy="15.6" rx="3.4" ry="2.6" fill="#e9748e" stroke="${linea}" stroke-width="1.2"/>
+    <path d="M-4.5 6Q-8 7-11 6.4M-4.5 8Q-8 9.4-10.6 9.6M4.5 6Q8 7 11 6.4M4.5 8Q8 9.4 10.6 9.6" fill="none" stroke="${mascara}" stroke-width=".9" stroke-linecap="round"/></g>`;
+}
 // Vista previa del alebrije antes de comprarlo; se olvida al salir de la pantalla.
 let pelajeVista = null;
 const pelajeActual = () => pelajeVista ?? (PELAJES[racha.pelaje] && (racha.pelaje !== "alebrije" || racha.alebrije) ? racha.pelaje : "gris");
@@ -3939,7 +3953,7 @@ function tlacuacheDormido(texto, detalle = "") {
 function pintarRachaInicio() {
   const caja = $("rachaInicio");
   caja.hidden = acc.modoVoz || acc.facil;
-  $("inicioCuki").innerHTML = tlacuache(3, racha.puestos, false);
+  $("inicioCuki").innerHTML = caraCuki();
   if (caja.hidden) return;
   protectorDelMes();
   const semanas = semanasSeguidas(), cuenta = viajesDeSemana(claveSemana(new Date()));
