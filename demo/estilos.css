@@ -2903,3 +2903,8 @@ body.hoja-plegada.con-mapa .hoja { max-height: 34%; }
 @media (prefers-reduced-motion: reduce) { body.con-mapa .hoja { transition: none; } }
 /* Con letra grande las pestañas de Qro en vivo bajan de renglon en vez de salirse */
 html.grande .ev-vistas button { white-space: normal; padding: 4px 4px; font-size: .78rem; min-width: 0; }
+/* Credencial: la foto de Cuki es un boton que lleva a personalizarlo */
+button.credencial-foto { padding: 0; border: 0; cursor: pointer; }
+.credencial-editar { position: absolute; right: 6px; top: 6px; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; background: var(--ambar); color: var(--sobre-ambar, #0b0a09); box-shadow: 0 2px 6px rgba(0,0,0,.3); }
+.credencial-editar .icono { width: 15px; height: 15px; stroke-width: 2.8; }
+button.credencial-foto:active { transform: scale(.97); }
