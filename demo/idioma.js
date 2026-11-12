@@ -1,4 +1,4 @@
-// © 2026 Equipo Grieta. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
+// © 2026 Carlos Arturo Quintana Román. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
 const Interfaz = (() => {
   const atributos = ["aria-label", "aria-valuetext", "aria-description", "placeholder", "title", "alt"];
   const omitir = "script, style, svg, [translate='no'], #mapa, #medidas, #chofer, #perfilLengua, #ajusteIdioma, #filaLengua .respuesta-perfil";

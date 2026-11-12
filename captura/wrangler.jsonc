@@ -8,10 +8,7 @@
     "binding": "ASSETS",
     "not_found_handling": "404-page"
   },
-  // Nombres del equipo; solo se entregan con un codigo valido.
-  "vars": {
-    "EQUIPO": "Carlos,Alexis,JP,David,Gera,Angelica"
-  },
+  // EQUIPO (lista de capturistas) va como secreto: wrangler secret put EQUIPO
   "d1_databases": [
     {
       "binding": "DB",

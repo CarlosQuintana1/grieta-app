@@ -1,4 +1,4 @@
-/* © 2026 Equipo Grieta. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA. */
+/* © 2026 Carlos Arturo Quintana Román. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA. */
 :root { color-scheme: dark; --fondo: #0b0a09; --superficie: #171512; --tinta: #f6f2ea; --tenue: #b8afa2; --linea: #2c2822; --ambar: #e0a03c; --verde: #6fc38a; --rojo: #f0887a; --azul: #9aa7ee; --relleno: #25221d; }
 @media (prefers-color-scheme: light) { :root:not(.oscuro) { color-scheme: light; --fondo: #f7f4ee; --superficie: #ffffff; --tinta: #1b1915; --tenue: #5f584e; --linea: #e3ddd2; --ambar: #8f5300; --verde: #1f6b3a; --rojo: #b0391b; --azul: #35447c; --relleno: #ece6da; } }
 :root.claro { color-scheme: light; --fondo: #f7f4ee; --superficie: #ffffff; --tinta: #1b1915; --tenue: #5f584e; --linea: #e3ddd2; --ambar: #8f5300; --verde: #1f6b3a; --rojo: #b0391b; --azul: #35447c; --relleno: #ece6da; }

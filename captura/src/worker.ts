@@ -94,7 +94,7 @@ async function sincronizar(req: Request, env: Env): Promise<Response> {
   return Response.json({ guardados, descartados: [...descartados, ...fuera], metaCumplida: fuera.length > 0 });
 }
 
-// Registros de todo el equipo, sin la ubicacion del telefono.
+// Registros de todos los capturistas, sin la ubicacion del telefono.
 async function listar(env: Env): Promise<Response> {
   await env.DB.prepare(CREAR).run();
   const { results } = await env.DB.prepare(
@@ -111,7 +111,7 @@ const worker = {
 
     if (pathname.startsWith("/api/") && !(await codigoValido(req, env))) return NO_AUTORIZADO();
 
-    // Con un codigo valido devuelve la lista de nombres del equipo.
+    // Con un codigo valido devuelve la lista de capturistas.
     if (pathname === "/api/verificar") {
       const equipo = (env.EQUIPO ?? "").split(",").map((n) => n.trim()).filter(Boolean);
       return Response.json({ equipo }, { headers: { "Cache-Control": "no-store" } });

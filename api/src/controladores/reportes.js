@@ -4,7 +4,7 @@ import { Op } from "sequelize";
 import { Reporte, VerificacionReporte } from "../modelos.js";
 import { esDelEquipo } from "../seguridad.js";
 
-// Fuera del equipo, la foto se sube una sola vez y poco despues de crear el reporte.
+// Sin la clave de administrador, la foto se sube una sola vez y poco despues de crear el reporte.
 const VENTANA_FOTO_MS = 15 * 60 * 1000;
 import { crud, noExiste } from "./base.js";
 

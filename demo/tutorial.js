@@ -1,4 +1,4 @@
-// © 2026 Equipo Grieta. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
+// © 2026 Carlos Arturo Quintana Román. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
 const TutorialGrieta = (() => {
   const $ = id => document.getElementById(id);
   const pasos = [

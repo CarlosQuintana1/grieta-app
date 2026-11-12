@@ -1,4 +1,4 @@
-// © 2026 Equipo Grieta. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
+// © 2026 Carlos Arturo Quintana Román. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
 // Qro en vivo: mapa de la ciudad con avisos, voz de los viajeros, CO2 por zona y zonas donde falta una ruta.
 // Hexagonos, paradas, CO2 y zonas salen del dataset y del GTFS; avisos y comentarios son de ejemplo para la feria.
 const EnVivo = (() => {

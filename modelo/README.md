@@ -22,7 +22,7 @@ python3 -m venv .venv
 | `verificar_rutas.py` | Señala coordenadas sospechosas en el catálogo |
 | `geocodificar.py` | Propone coordenadas para los lugares con Nominatim |
 
-Para bajar los registros hace falta el código del equipo (`CODIGO_EQUIPO=... .venv/bin/python
+Para bajar los registros hace falta el código de acceso (`CODIGO_EQUIPO=... .venv/bin/python
 construir_dataset.py`) o la cuenta de Cloudflare con wrangler. El catálogo de lugares y rutas
 vive en `../captura/data/`.
 

@@ -1,5 +1,5 @@
 // Quién puede hacer qué. La app pública solo lee, busca, reporta problemas, manda precios y cuenta viajes;
-// cambiar o borrar datos, y ver datos personales, pide la clave del equipo (CLAVE_ADMIN).
+// cambiar o borrar datos, y ver datos personales, pide la clave de administrador (CLAVE_ADMIN).
 
 // Lo que cualquiera puede mandar desde la app.
 const ESCRITURAS_PUBLICAS = [
@@ -85,7 +85,7 @@ export function permisos(req, res, next) {
   const lectura = req.method === "GET" && !LECTURAS_PRIVADAS.some((r) => r.test(req.path));
   const publica = ESCRITURAS_PUBLICAS.some(([metodo, r]) => metodo === req.method && r.test(req.path));
   if (lectura || publica) return next();
-  res.status(401).json({ error: "Esto solo lo puede hacer el equipo de Grieta" });
+  res.status(401).json({ error: "Esto solo lo puede hacer quien administra Grieta" });
 }
 
 // Tope de envíos públicos por persona, para que nadie llene la base de reportes o precios falsos.

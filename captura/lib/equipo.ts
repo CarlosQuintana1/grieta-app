@@ -15,7 +15,7 @@ type Fila = {
   segundos_captura: number | null;
 };
 
-// Registros de todo el equipo mas los de este telefono que aun no se suben.
+// Registros de todos los capturistas mas los de este telefono que aun no se suben.
 export async function momentosEquipo(): Promise<{ momentos: Momento[]; soloLocal: boolean }> {
   const locales = await todos();
   try {

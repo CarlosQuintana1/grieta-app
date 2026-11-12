@@ -15,7 +15,7 @@ export const impacto = {
     const [viajes, km, co2, demo] = await Promise.all([ViajeCamion.count(), ViajeCamion.sum("km"), ViajeCamion.sum("co2_g"), ViajeCamion.count({ where: { demo: true } })]);
     res.json({ viajes, km: Math.round((km ?? 0) * 10) / 10, co2_kg: Math.round((co2 ?? 0) / 100) / 10, demo });
   },
-  // Solo el equipo: un viaje de demostracion para que el contador no arranque vacio, y quitarlos despues.
+  // Solo con la clave de administrador: un viaje de demostracion para que el contador no arranque vacio, y quitarlos despues.
   demo: async (req, res) => {
     const km = Number(req.body?.km);
     if (!Number.isFinite(km)) return res.status(400).json({ error: "Falta la distancia del viaje" });

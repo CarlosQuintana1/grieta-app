@@ -1,6 +1,6 @@
 # Grieta: captura
 
-App web con la que el equipo registra cuánto cobran Uber, DiDi e inDrive por la misma ruta al
+App web con la que se registra cuánto cobran Uber, DiDi e inDrive por la misma ruta al
 mismo tiempo, en Querétaro. De aquí salen los datos del modelo.
 
 ## Correrla
@@ -11,7 +11,7 @@ npx wrangler dev
 ```
 
 Levanta la app y el Worker juntos en :8787. `npm run dev` sirve solo para la interfaz: sin el
-Worker no hay `/api/sync`. Para entrar hace falta el código del equipo, que en local va en
+Worker no hay `/api/sync`. Para entrar hace falta el código de acceso, que en local va en
 `.dev.vars` como `CODIGO_EQUIPO`.
 
 Se instala en el celular desde el navegador con "Agregar a pantalla de inicio" y funciona sin

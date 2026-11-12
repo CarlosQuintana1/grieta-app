@@ -1,4 +1,4 @@
-// © 2026 Equipo Grieta. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
+// © 2026 Carlos Arturo Quintana Román. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
 // La animacion de entrada sale una vez por sesion y nunca en modo Voz, donde solo estorbaria los toques.
 try {
   const voz = JSON.parse(localStorage.getItem("grieta-acc"))?.modoVoz;

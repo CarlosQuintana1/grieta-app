@@ -1,4 +1,4 @@
-// © 2026 Equipo Grieta. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
+// © 2026 Carlos Arturo Quintana Román. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
 const $ = (id) => document.getElementById(id);
 // En iPhone el pellizco agranda la pagina aunque el viewport lo pida: solo los mapas se pueden acercar.
 for (const ev of ["gesturestart", "gesturechange"]) document.addEventListener(ev, (e) => { if (!e.target.closest?.(".leaflet-container, .maplibregl-map")) e.preventDefault(); }, { passive: false });

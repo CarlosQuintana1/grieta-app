@@ -236,7 +236,7 @@ export default function Captura() {
         <section className="flex flex-col gap-3">
           <p className="text-4xl font-light tracking-tight text-tinta">Meta cumplida</p>
           <p className="text-sm leading-relaxed text-tenue">
-            El equipo llegó a los {META_REGISTROS} registros. La captura quedó cerrada.
+            Se llegó a los {META_REGISTROS} registros. La captura quedó cerrada.
           </p>
         </section>
       ) : !borrador ? (

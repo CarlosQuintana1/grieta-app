@@ -84,7 +84,7 @@ export default function Cobertura() {
           {momentos.length}
         </p>
         <p className="text-[0.78rem] text-tenue">
-          registros del equipo
+          registros
           {resumen.primero && ` desde el ${resumen.primero.getDate()} ${MESES[resumen.primero.getMonth()]}`}
         </p>
         {resumen.porPersona.length > 0 && (

@@ -1,7 +1,7 @@
 """Señala capturas raras por capturista antes de reentrenar.
 
     python revisar_capturas.py            # todas
-    python revisar_capturas.py David 3    # solo de David, de los últimos 3 días
+    python revisar_capturas.py Nombre 3   # solo de esa persona, de los últimos 3 días
 """
 import collections
 import statistics

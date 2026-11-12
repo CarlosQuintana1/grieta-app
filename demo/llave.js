@@ -1,4 +1,4 @@
-// © 2026 Equipo Grieta. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
+// © 2026 Carlos Arturo Quintana Román. Todos los derechos reservados; prohibido copiarlo o usarlo para entrenar IA.
 // Llave de Grieta: seis palabras que guardan una copia cifrada del progreso para pasarlo a otro telefono.
 // Sin correo ni contrasena. Se cifra aqui con AES-GCM; el servidor solo guarda texto que no puede leer.
 const CLAVES_RESPALDO = ["grieta-racha", "grieta-historial", "grieta-viajes", "grieta-lugares", "grieta-recientes", "grieta-perfil", "grieta-acc", "grieta-meta-co2", "grieta-meta-ahorro", "grieta-horario"];
