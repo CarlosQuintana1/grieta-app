@@ -2951,3 +2951,30 @@ html.claro .pf-pierdo { background: var(--fondo); }
 html.contraste .ev-vistas .ev-pildora { box-shadow: inset 0 0 0 2px #fff; }
 @media (prefers-reduced-motion: reduce) { .ev-vistas .ev-pildora { transition: none; } .ev-vivo, .ev-vistas button .ev-tab-ico { animation: none !important; } }
 html .ev-vistas[role] button { white-space: normal; padding: 6px 2px; font-size: .74rem; }
+
+/* Pantallas grandes (iPad, computadora): sin mapa la pantalla usa todo el ancho con el contenido centrado;
+   con mapa queda el panel a la izquierda, a la medida de la pantalla, y el mapa al lado. */
+@media (min-width: 760px) {
+  body.con-mapa { grid-template-columns: clamp(380px, 40vw, 480px) 1fr; }
+  body:not(.con-mapa) { grid-template-columns: minmax(0, 1fr); }
+  body:not(.con-mapa) #mapa { display: none; }
+  body:not(.con-mapa) .hoja { border-right: 0; padding-inline: max(24px, calc((100% - 680px) / 2)); }
+  body:not(.con-mapa) .pantalla { max-width: 680px; }
+  body:not(.con-mapa) .encabezado { padding-inline: max(16px, calc((100% - 712px) / 2)); }
+  body:not(.con-mapa) .pestanas { border-right: 0; padding-inline: max(4px, calc((100% - 680px) / 2)); }
+  .hoja::-webkit-scrollbar { width: 0; }
+}
+@media (min-width: 760px) {
+  body:not(.con-mapa) .tutorial-escena { width: 100%; max-width: 460px; max-height: 52vh; align-self: center; }
+  body:not(.con-mapa) .ev-mapa { max-width: 560px; margin-inline: auto; }
+  body:not(.con-mapa) .ev-acueducto, body:not(.con-mapa) .ev-falta-mapa { max-width: 560px; margin-inline: auto; }
+}
+@media (min-width: 760px) {
+  /* Ajustes en pantalla grande: tres columnas de fichas de alto fijo para que el icono no quede diminuto */
+  body:not(.con-mapa) .ajustes-fichas { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 128px; flex: none; }
+  body:not(.con-mapa) .ajuste-ficha .picto { width: 32px; height: 32px; }
+  html.grande body:not(.con-mapa) .ajustes-fichas, html.modo-voz body:not(.con-mapa) .ajustes-fichas { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; }
+}
+@media (min-width: 1000px) {
+  html:not(.grande):not(.modo-voz) body:not(.con-mapa) .ajustes-fichas { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
