@@ -10,7 +10,7 @@
     "nombre": "Google Traductor",
     "url": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
     "fecha": "2026-11-04",
-    "actualizado": "2026-11-11"
+    "actualizado": "2026-11-12"
   },
   "estado": "Traducción automática provisional, sin revisión lingüística.",
   "mensajes": [
@@ -10778,6 +10778,66 @@
       "clave": "texto_13ec434f5e",
       "es": "Útil",
       "nhe": "Tlauel ipati"
+    },
+    {
+      "clave": "texto_179c98e973",
+      "es": "Hazla a tu medida",
+      "nhe": "Xijchiua tlen ta moueyitilis"
+    },
+    {
+      "clave": "texto_864e05ed3b",
+      "es": "Viaja con más calma",
+      "nhe": "Xinejnemi ika tlaseuilistli"
+    },
+    {
+      "clave": "texto_08bacb728f",
+      "es": "Mira cómo va la ciudad",
+      "nhe": "Xikita kenijkatsa eltok nopa altepetl"
+    },
+    {
+      "clave": "texto_7158f8e8f2",
+      "es": "Personaliza a Cuki",
+      "nhe": "Xijyektlali Cuki"
+    },
+    {
+      "clave": "texto_8301d69322",
+      "es": "En Tu perfil de viaje dinos cómo ves, cómo te mueves y qué tarifa pagas.",
+      "nhe": "Ipan mo perfil tlen viaje tech ilui kenijkatsa tikita, kenijkatsa timonejnemiltia uan tlen tlaxtlauili tijtlaxtlauas."
+    },
+    {
+      "clave": "texto_1a3f8065f0",
+      "es": "En Tu perfil de viaje elige a alguien en Si me pierdo y activa el modo seguro.",
+      "nhe": "Ipan mo perfil tlen viaje xijtlapejpeni se akajya ipan Tlaj nimopolos uan xijtlali nopa modo seguro."
+    },
+    {
+      "clave": "texto_fded18836c",
+      "es": "En Inicio, toca la escena de Cuki para abrir Qro en vivo.",
+      "nhe": "Ipan kali, xijtlachili nopa escena tlen Cuki para tijtlapos Qro ipan nemilistli."
+    },
+    {
+      "clave": "texto_bf0df98fa1",
+      "es": "Toca el botón de tu perfil, arriba en Inicio, y luego la tarjeta de Cuki.",
+      "nhe": "Xijtsonpechili nopa botón tlen mo perfil, tlen eltok tlakpak ipan Ichaj, uan ​​teipa nopa tarjeta Cuki."
+    },
+    {
+      "clave": "texto_e56b43324b",
+      "es": "Si no ves, elige que Grieta te hable: la app se vuelve botones grandes que te dicen todo. En Ajustes, en Pantalla, cambias el idioma a otomí o náhuatl y el tamaño de la letra.",
+      "nhe": "Tlaj ax tikita, xijtlapejpeni Grieta ma mitsnojnotsa: nopa aplicación mokuepa uejueyi botones tlen mitsiljuiaj nochi.Ipan Configuración, ipan Pantalla, tijpatlas nopa tlajtoli ika Otomi o Nahuatl uan nopa tlajkuiloli."
+    },
+    {
+      "clave": "texto_3d36481eed",
+      "es": "Si te pierdes, con un toque le llamas o le mandas dónde estás. De noche, el modo seguro te muestra rutas con menos caminata hasta la parada.",
+      "nhe": "Tlaj timopolos, ika se tlajko uelis tijnotsas o tikiljuis kanke ti itstok.Ika tlayoua, nopa modo seguro mitsnextilia ojtli tlen amo moneki tinejnemis hasta kampa timoketsas."
+    },
+    {
+      "clave": "texto_ae6e111371",
+      "es": "Ve choques y tráfico que avisan otros viajeros, el CO₂ de cada zona y dónde hace falta una ruta. Toca el mapa para acercarte.",
+      "nhe": "Xikita nopa tlauilankayotl uan tlauilankayotl tlen kiijtouaj sekinok paxalohuani, nopa CO₂ tlen sejse tlali uan kanke moneki se ojtli.Xijtsonpechili nopa mapa para tijnextis."
+    },
+    {
+      "clave": "texto_08a89c66af",
+      "es": "Con cada viaje en camión ganas tunas, la fruta del nopal, para elegir su pelaje y comprarle cosas.",
+      "nhe": "Ika sejse paxalojketl ipan se camión tijtlanis espinas, nopa tlakilotl tlen nopa cactus, pampa tijtlapejpenis ipiltsontekon uan tijkouas tlamantli."
     }
   ],
   "adaptaciones": [
@@ -11145,6 +11205,21 @@
       "clave": "texto_dc8904594f",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "Venía en inglés; se toma la traducción automática de «hace 11 min» con el número como variable."
+    },
+    {
+      "clave": "texto_bf0df98fa1",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "El nombre de la pantalla venía en inglés; se usa la traducción automática de «Inicio»."
+    },
+    {
+      "clave": "texto_e56b43324b",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se conserva el nombre Grieta."
+    },
+    {
+      "clave": "texto_ae6e111371",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se conserva la fórmula CO₂ del texto fuente."
     }
   ]
 }

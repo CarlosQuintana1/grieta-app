@@ -135,9 +135,17 @@ const EnVivo = (() => {
     $("evFalta").innerHTML = top.map((z, i) => `<li class="n${i}"><span class="ev-n" translate="no">${i + 1}</span><span><b translate="no">${esc(z.nombre)}</b><small class="ev-dato"><b translate="no">${z.viajes}</b> <span>viajes en app</span></small><small class="ev-dato"><b translate="no">${z.paradas}</b> <span>paradas</span></small></span><svg class="ev-barra-z" viewBox="0 0 70 10" aria-hidden="true"><rect width="70" height="10" rx="5" class="fondo"/><rect width="${Math.round(70 * razon(z) / mr)}" height="10" rx="5" class="lleno"/></svg></li>`).join("");
   }
 
+  // La pildora de color se desliza a la pestana elegida.
+  function moverPildora() {
+    const barra = $("evVistas"), b = barra.querySelector(`[data-ev="${vista}"]`), pil = barra.querySelector(".ev-pildora");
+    if (!b || !pil || !b.offsetWidth) return;
+    pil.style.width = `${b.offsetWidth}px`; pil.style.transform = `translateX(${b.offsetLeft}px)`;
+  }
+  addEventListener("resize", () => moverPildora());
   function cambiarVista(v) {
     vista = v;
     for (const b of document.querySelectorAll("#evVistas [role=tab]")) { const si = b.dataset.ev === v; b.setAttribute("aria-selected", String(si)); b.tabIndex = si ? 0 : -1; }
+    $("evVistas").dataset.activo = v; moverPildora(); requestAnimationFrame(moverPildora);
     $("evMapa").hidden = v !== "mapa"; $("evRed").hidden = v !== "red"; $("evRespira").hidden = v !== "respira"; $("evRutasVista").hidden = v !== "rutas";
     ({ mapa: pintarMapa, red: pintarRed, respira: pintarRespira, rutas: pintarRutas })[v]();
   }

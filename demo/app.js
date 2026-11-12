@@ -4449,6 +4449,7 @@ TutorialGrieta.iniciar({
   reiniciar: () => ToquesGrieta.reiniciar(),
   seguirBienvenida: () => { ir("bienvenida", true); irPaso("ubicacion"); },
   tlacuache: (x, y, k) => `<g transform="translate(${x} ${y}) scale(${(k / ESCALA_TL).toFixed(3)})">${tlacuache(4, racha.puestos, false)}</g>`,
+  tlacuachePelaje: (x, y, k, pelaje) => `<g transform="translate(${x} ${y}) scale(${(k / ESCALA_TL).toFixed(3)})">${tlacuache(4, [], false, pelaje)}</g>`,
 });
 
 // Botones del modo para personas ciegas.

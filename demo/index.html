@@ -740,11 +740,12 @@
     </section>
 
     <section id="envivo" class="pantalla envivo" aria-labelledby="tituloPantalla" hidden>
-      <div id="evVistas" class="ev-vistas" role="tablist" aria-label="Qro en vivo">
-        <button type="button" role="tab" aria-selected="true" data-ev="mapa">En vivo</button>
-        <button type="button" role="tab" aria-selected="false" data-ev="red" tabindex="-1">Viajeros</button>
-        <button type="button" role="tab" aria-selected="false" data-ev="respira" tabindex="-1">Respira</button>
-        <button type="button" role="tab" aria-selected="false" data-ev="rutas" tabindex="-1">Faltan rutas</button>
+      <div id="evVistas" class="ev-vistas" role="tablist" aria-label="Qro en vivo" data-activo="mapa">
+        <i class="ev-pildora" aria-hidden="true"></i>
+        <button type="button" role="tab" aria-selected="true" data-ev="mapa"><span class="ev-tab-ico" aria-hidden="true"><i class="ev-vivo"></i></span><span>En vivo</span></button>
+        <button type="button" role="tab" aria-selected="false" data-ev="red" tabindex="-1"><span class="ev-tab-ico" aria-hidden="true"><svg class="picto"><use href="#p-familia"/></svg></span><span>Viajeros</span></button>
+        <button type="button" role="tab" aria-selected="false" data-ev="respira" tabindex="-1"><span class="ev-tab-ico" aria-hidden="true"><svg class="picto"><use href="#p-hoja"/></svg></span><span>Respira</span></button>
+        <button type="button" role="tab" aria-selected="false" data-ev="rutas" tabindex="-1"><span class="ev-tab-ico" aria-hidden="true"><svg class="picto"><use href="#p-qrobus"/></svg></span><span>Faltan rutas</span></button>
       </div>
       <div id="evMapa" class="ev-vista" role="tabpanel">
         <div id="evFiltros" class="ev-filtros" role="group" aria-label="Qué ver en el mapa">
@@ -1031,7 +1032,7 @@
 
     <section id="tutorial" class="pantalla tutorial" aria-labelledby="tutorialTitulo" hidden>
       <div class="tutorial-cabecera"><p id="tutorialProgreso" class="tutorial-progreso">Paso 1 de 3</p><button id="tutorialOmitir" type="button" class="enlace">Saltar tutorial</button></div>
-      <div id="tutorialPuntos" class="tutorial-puntos" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div id="tutorialPuntos" class="tutorial-puntos" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
       <div id="tutorialEscena" class="tutorial-escena" aria-hidden="true"></div>
       <div id="tutorialCuerpo" class="tutorial-cuerpo">
         <h1 id="tutorialTitulo" tabindex="-1">Busca a dónde vas</h1>

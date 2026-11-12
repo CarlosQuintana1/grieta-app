@@ -8,9 +8,21 @@ const TutorialGrieta = (() => {
     { titulo: 'Encuentra camiones cerca', escena: 'camiones', aviso: 'Los horarios son estimados: no vemos los camiones en tiempo real.',
       texto: 'El botón del centro, Camiones cerca, busca paradas desde tu ubicación.', botones: ['Camiones cerca'],
       detalle: 'Elige una parada para consultar rutas y horarios o Reportar algo en esta parada. Los horarios son estimados; no vemos los camiones en tiempo real.' },
+    { titulo: 'Hazla a tu medida', escena: 'medida',
+      texto: 'En Tu perfil de viaje dinos cómo ves, cómo te mueves y qué tarifa pagas.', botones: ['Tu perfil de viaje'],
+      detalle: 'Si no ves, elige que Grieta te hable: la app se vuelve botones grandes que te dicen todo. En Ajustes, en Pantalla, cambias el idioma a otomí o náhuatl y el tamaño de la letra.' },
     { titulo: 'Usa la cámara y la voz', escena: 'camara', aviso: 'Puede omitir obstáculos: usa tu bastón o acompañamiento.',
       texto: 'En Inicio o Ajustes, abre Describir con la cámara. En Ajustes, en Pantalla, puedes elegir el modo Voz.', botones: ['Describir con la cámara', 'modo Voz'],
       detalle: 'La cámara puede describir algunos objetos y leer letreros. Analiza las imágenes en tu teléfono y puede omitir obstáculos; usa tu bastón o acompañamiento.' },
+    { titulo: 'Viaja con más calma', escena: 'seguro',
+      texto: 'En Tu perfil de viaje elige a alguien en Si me pierdo y activa el modo seguro.', botones: ['Si me pierdo', 'modo seguro'],
+      detalle: 'Si te pierdes, con un toque le llamas o le mandas dónde estás. De noche, el modo seguro te muestra rutas con menos caminata hasta la parada.' },
+    { titulo: 'Mira cómo va la ciudad', escena: 'envivo',
+      texto: 'En Inicio, toca la escena de Cuki para abrir Qro en vivo.', botones: ['Qro en vivo'],
+      detalle: 'Ve choques y tráfico que avisan otros viajeros, el CO₂ de cada zona y dónde hace falta una ruta. Toca el mapa para acercarte.' },
+    { titulo: 'Personaliza a Cuki', escena: 'cuki',
+      texto: 'Toca el botón de tu perfil, arriba en Inicio, y luego la tarjeta de Cuki.', botones: ['tarjeta de Cuki'],
+      detalle: 'Con cada viaje en camión ganas tunas, la fruta del nopal, para elegir su pelaje y comprarle cosas.' },
   ];
   const enIdioma = t => Interfaz.traducirTexto(t);
   // El texto traducido puede ser mas largo: la letra baja para que quepa en su caja.
@@ -56,6 +68,31 @@ const TutorialGrieta = (() => {
         <g fill="#5b2f5a"><rect class="t-onda o1" x="136" y="246" width="5" height="16" rx="2.5"/><rect class="t-onda o2" x="146" y="240" width="5" height="28" rx="2.5"/><rect class="t-onda o3" x="156" y="244" width="5" height="20" rx="2.5"/><rect class="t-onda o4" x="166" y="238" width="5" height="32" rx="2.5"/><rect class="t-onda o5" x="176" y="246" width="5" height="16" rx="2.5"/></g>
         <text x="194" y="261" font-size="${letraQueCabe(enIdioma('Aquí pasa la C60'), 16, 16)}" fill="#1c1408">${enIdioma('Aquí pasa la C60')}</text></g>
     </g>`,
+    medida: tl => `<g class="t-todo"><g transform="translate(0 40)">${PREGUNTAS.vista(tl)}</g>
+      <g class="t-fase f3 ultima"><rect x="214" y="214" width="124" height="34" rx="17" fill="#e0a03c"/><text x="276" y="237" text-anchor="middle" font-size="16" fill="#1c1408">Hñöñho</text></g></g>`,
+    seguro: tl => `<g class="t-todo"><rect x="16" y="10" width="328" height="196" rx="22" fill="#17142a"/>
+      <circle cx="292" cy="54" r="22" fill="#f3e7b5"/><circle cx="302" cy="46" r="20" fill="#17142a"/>${[[60, 40], [120, 70], [210, 30], [250, 92], [90, 120]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2.4" fill="#fff" opacity=".8"/>`).join('')}
+      <path d="M16 176H344" stroke="#2b2647" stroke-width="22"/><path d="M40 176H320" stroke="#f0b45a" stroke-width="3" stroke-dasharray="16 14"/>
+      ${tl(70, 196, .3)}
+      <g class="t-fase g1"><g class="t-escudo"><path d="M196 84l32-12 32 12v24c0 22-14 36-32 44-18-8-32-22-32-44z" fill="#6b3fd0" stroke="#fff" stroke-width="4"/><path d="M214 110l10 10 20-22" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></g></g>
+      <g class="t-fase g2 ultima">${celular(196, 44, 116, 150, `<rect x="208" y="66" width="92" height="50" rx="14" fill="#1f6b46"/>${glifo('p-familia', 238, 72, 34, '#fff')}<rect x="208" y="126" width="42" height="52" rx="12" fill="#1f5f86"/>${glifo('p-casa', 216, 138, 26, '#fff')}<rect x="258" y="126" width="42" height="52" rx="12" fill="#2aa7a0"/>${glifo('p-megafono', 266, 138, 26, '#fff')}`)}
+        <circle class="t-toque" cx="254" cy="92" r="16" fill="#fff"/></g></g>`,
+    envivo: () => { const hex = (x, y, f) => `<path d="M${x} ${y - 16}l14 8v16l-14 8-14-8v-16z" fill="${f}" stroke="#3b301f" stroke-width="2"/>`;
+      let g = ''; for (let r = 0; r < 6; r++) for (let c = 0; c < 10; c++) { const x = 36 + c * 29 + (r % 2) * 14.5, y = 40 + r * 25; g += hex(x, y, [2, 7, 13, 24, 31, 38, 44].includes(r * 10 + c) ? '#7a5a18' : '#1c1408'); }
+      const marca = (x, y, c, id, k) => `<g class="t-ficha f${k}"><circle class="t-sonar s${k % 2 + 1}" cx="${x}" cy="${y}" r="10" fill="${c}"/><rect x="${x - 15}" y="${y - 34}" width="30" height="30" rx="9" fill="${c}"/>${glifo(id, x - 10, y - 29, 20, '#fff')}</g>`;
+      return `<g class="t-todo"><rect x="16" y="10" width="328" height="196" rx="22" fill="#0b0a09"/>${g}
+        ${marca(120, 110, '#c62828', 'p-carro', 1)}${marca(210, 80, '#b86a00', 'p-traffic-cone', 2)}${marca(270, 140, '#1f6b46', 'p-qrobus', 3)}
+        <path class="t-flujo" d="M60 170C110 150 150 130 200 128S280 110 320 96" fill="none" stroke="#e5484d" stroke-width="6" stroke-linecap="round" stroke-dasharray="10 12"/>
+        <circle cx="300" cy="46" r="26" fill="#0f1d15" stroke="#5fc98c" stroke-width="6"/>${glifo('p-hoja', 288, 34, 24, '#7fe0a8')}
+        <circle class="t-toque" cx="120" cy="96" r="18" fill="#fff"/>
+        <g class="t-tarjeta"><rect x="32" y="218" width="296" height="62" rx="18" fill="#fff"/><rect x="44" y="230" width="38" height="38" rx="11" fill="#c62828"/>${glifo('p-carro', 49, 235, 28, '#fff')}<rect x="94" y="236" width="150" height="10" rx="5" fill="#1c1408"/><rect x="94" y="254" width="96" height="8" rx="4" fill="#9b9387"/><rect x="258" y="236" width="58" height="28" rx="10" fill="#e0a03c"/></g></g>`; },
+    cuki: (tl, conPelaje) => { const cuerpo = (p, f) => `<g class="t-fase ${f}">${conPelaje(150, 196, .56, p)}</g>`;
+      const colores = ['#a7a4a8', '#4a454c', '#b9804e', '#ede9e1', '#e8456b'];
+      return `<g class="t-todo"><rect x="16" y="10" width="328" height="210" rx="22" fill="#f2c9a8"/><rect x="16" y="150" width="328" height="70" fill="#e9cfb2"/>
+        ${cuerpo('gris', 'f1')}${cuerpo('canela', 'f2')}${cuerpo('alebrije', 'f3 ultima')}
+        <g class="t-pin"><circle cx="290" cy="64" r="20" fill="#d9483b"/><path d="M282 46q8-10 16 0" fill="none" stroke="#2f8f57" stroke-width="5" stroke-linecap="round"/></g>
+        <rect x="40" y="236" width="280" height="56" rx="18" fill="#1c1408"/>${colores.map((c, i) => `<circle cx="${76 + i * 52}" cy="264" r="15" fill="${c}" stroke="#fff" stroke-width="2"/>`).join('')}
+        <circle class="t-elige" cx="76" cy="264" r="21" fill="none" stroke="#e0a03c" stroke-width="4"/></g>`; },
   };
   const glifo = (id, x, y, t, color) => `<svg x="${x}" y="${y}" width="${t}" height="${t}" color="${color}"><use href="#${id}"/></svg>`;
   const celular = (x, y, w, h, dentro) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="16" fill="#1c1408" stroke="#fff" stroke-width="3"/>${dentro}`;
@@ -107,7 +144,7 @@ const TutorialGrieta = (() => {
     $('tutorialAviso').textContent = actual.aviso ?? '';
     $('tutorialAviso').hidden = !actual.aviso;
     $('tutorialEscena').className = `tutorial-escena esc-${actual.escena}`;
-    $('tutorialEscena').innerHTML = `<svg viewBox="0 -20 360 340">${ESCENAS[actual.escena](opciones.tlacuache)}</svg>`;
+    $('tutorialEscena').innerHTML = `<svg viewBox="0 -20 360 340">${ESCENAS[actual.escena](opciones.tlacuache, opciones.tlacuachePelaje ?? opciones.tlacuache)}</svg>`;
     for (const bloque of [$('tutorialEscena'), $('tutorialCuerpo')]) { bloque.classList.remove('entra'); void bloque.offsetWidth; bloque.classList.add('entra'); }
     [...$('tutorialPuntos').children].forEach((punto, i) => punto.classList.toggle('hecho', i <= paso));
     $('tutorialContinuar').textContent = paso === pasos.length - 1 ? 'Empezar a usar Grieta' : 'Continuar';

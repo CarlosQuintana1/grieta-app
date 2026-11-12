@@ -10,7 +10,7 @@
     "url": "https://www.bing.com/translator?from=es&to=otq",
     "fecha": "2026-11-03",
     "nota": "Traducción automática con adaptaciones breves; pendiente de revisión por hablantes.",
-    "actualizado": "2026-11-11"
+    "actualizado": "2026-11-12"
   },
   "mensajes": [
     {
@@ -10777,6 +10777,66 @@
       "clave": "texto_13ec434f5e",
       "es": "Útil",
       "otq": "Útil"
+    },
+    {
+      "clave": "texto_179c98e973",
+      "es": "Hazla a tu medida",
+      "otq": "'Yo̲t'e nu'u̲ nu'u̲"
+    },
+    {
+      "clave": "texto_864e05ed3b",
+      "es": "Viaja con más calma",
+      "otq": "Viajar mäs za̲"
+    },
+    {
+      "clave": "texto_08bacb728f",
+      "es": "Mira cómo va la ciudad",
+      "otq": "Gi hyandi honja thogi ar Dähnini"
+    },
+    {
+      "clave": "texto_7158f8e8f2",
+      "es": "Personaliza a Cuki",
+      "otq": "Personalizar Cuki"
+    },
+    {
+      "clave": "texto_8301d69322",
+      "es": "En Tu perfil de viaje dinos cómo ves, cómo te mueves y qué tarifa pagas.",
+      "otq": "Ja ár perfil viajes, gi mä ga Honja ves, Temu̲ bí consigue ne Temu̲ ar billete pagas."
+    },
+    {
+      "clave": "texto_1a3f8065f0",
+      "es": "En Tu perfil de viaje elige a alguien en Si me pierdo y activa el modo seguro.",
+      "otq": "Ja ár perfil viajes, da 'ñets'i 'na jar Nu'bu̲ ga pierdo ne activar modo pädi xi hño."
+    },
+    {
+      "clave": "texto_fded18836c",
+      "es": "En Inicio, toca la escena de Cuki para abrir Qro en vivo.",
+      "otq": "Jar Inicio, pulse ar escena Cuki pa abrir Qro jar vivo."
+    },
+    {
+      "clave": "texto_bf0df98fa1",
+      "es": "Toca el botón de tu perfil, arriba en Inicio, y luego la tarjeta de Cuki.",
+      "otq": "Pulse botón ár perfil jar ar xeni mäs xi ngu jar Mudi, ne gem'bu̲ ar tarheta Cuki."
+    },
+    {
+      "clave": "texto_e56b43324b",
+      "es": "Si no ves, elige que Grieta te hable: la app se vuelve botones grandes que te dicen todo. En Ajustes, en Pantalla, cambias el idioma a otomí o náhuatl y el tamaño de la letra.",
+      "otq": "Nu'bu̲ hingi ar tsa̲ da ga, da 'ñets'i da Grieta ñä ko gí: ár nt'ot'e bi pa̲ti jar dätä botones nä'ä gi xifi ga̲tho. Jar configuración, jar Display, pe mpa̲ti ar hñä da Otomi wa Nahuatl ne ar tamaño fuente."
+    },
+    {
+      "clave": "texto_3d36481eed",
+      "es": "Si te pierdes, con un toque le llamas o le mandas dónde estás. De noche, el modo seguro te muestra rutas con menos caminata hasta la parada.",
+      "otq": "Nu'bu̲ bí pierdes, ko 'nar Honto toque to xekwi ya wa pe̲hni ho gi 'bu̲i. 'Bu̲ ar xui, modo pädi xi hño gi 'ñudi rutas ko menos 'ñu asta ar parada."
+    },
+    {
+      "clave": "texto_ae6e111371",
+      "es": "Ve choques y tráfico que avisan otros viajeros, el CO₂ de cada zona y dónde hace falta una ruta. Toca el mapa para acercarte.",
+      "otq": "Ga accidentes ne tráfico reportados ja ma 'ra ya viajeros, ar CO₂ ya xe̲ni ne ho da t'ot'e 'nar ruta. Toque ar 'me̲ni pa ntu̲ngi nä'ä."
+    },
+    {
+      "clave": "texto_08a89c66af",
+      "es": "Con cada viaje en camión ganas tunas, la fruta del nopal, para elegir su pelaje y comprarle cosas.",
+      "otq": "Kadu̲ 'nar viaje 'nar dätä bo̲jä ga tähä ya tömes, ma ixi ar cactus, pa da 'ñets'i ár pelaje ne ta̲i ya 'bede."
     }
   ],
   "adaptaciones": [
@@ -11269,6 +11329,11 @@
       "clave": "texto_7095fc962e",
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "El nombre de la pantalla venía en inglés; se usa su traducción automática de «Inicio»."
+    },
+    {
+      "clave": "texto_bf0df98fa1",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "El nombre de la pantalla venía en inglés; se usa la traducción automática de «Inicio»."
     }
   ],
   "parcial": false

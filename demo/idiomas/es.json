@@ -18148,6 +18148,90 @@
       "contextos": [
         "demo/envivo.js"
       ]
+    },
+    {
+      "clave": "texto_179c98e973",
+      "es": "Hazla a tu medida",
+      "contextos": [
+        "demo/tutorial.js"
+      ]
+    },
+    {
+      "clave": "texto_864e05ed3b",
+      "es": "Viaja con más calma",
+      "contextos": [
+        "demo/tutorial.js"
+      ]
+    },
+    {
+      "clave": "texto_08bacb728f",
+      "es": "Mira cómo va la ciudad",
+      "contextos": [
+        "demo/tutorial.js"
+      ]
+    },
+    {
+      "clave": "texto_7158f8e8f2",
+      "es": "Personaliza a Cuki",
+      "contextos": [
+        "demo/tutorial.js"
+      ]
+    },
+    {
+      "clave": "texto_8301d69322",
+      "es": "En Tu perfil de viaje dinos cómo ves, cómo te mueves y qué tarifa pagas.",
+      "contextos": [
+        "demo/tutorial.js"
+      ]
+    },
+    {
+      "clave": "texto_1a3f8065f0",
+      "es": "En Tu perfil de viaje elige a alguien en Si me pierdo y activa el modo seguro.",
+      "contextos": [
+        "demo/tutorial.js"
+      ]
+    },
+    {
+      "clave": "texto_fded18836c",
+      "es": "En Inicio, toca la escena de Cuki para abrir Qro en vivo.",
+      "contextos": [
+        "demo/tutorial.js"
+      ]
+    },
+    {
+      "clave": "texto_bf0df98fa1",
+      "es": "Toca el botón de tu perfil, arriba en Inicio, y luego la tarjeta de Cuki.",
+      "contextos": [
+        "demo/tutorial.js"
+      ]
+    },
+    {
+      "clave": "texto_e56b43324b",
+      "es": "Si no ves, elige que Grieta te hable: la app se vuelve botones grandes que te dicen todo. En Ajustes, en Pantalla, cambias el idioma a otomí o náhuatl y el tamaño de la letra.",
+      "contextos": [
+        "demo/tutorial.js"
+      ]
+    },
+    {
+      "clave": "texto_3d36481eed",
+      "es": "Si te pierdes, con un toque le llamas o le mandas dónde estás. De noche, el modo seguro te muestra rutas con menos caminata hasta la parada.",
+      "contextos": [
+        "demo/tutorial.js"
+      ]
+    },
+    {
+      "clave": "texto_ae6e111371",
+      "es": "Ve choques y tráfico que avisan otros viajeros, el CO₂ de cada zona y dónde hace falta una ruta. Toca el mapa para acercarte.",
+      "contextos": [
+        "demo/tutorial.js"
+      ]
+    },
+    {
+      "clave": "texto_08a89c66af",
+      "es": "Con cada viaje en camión ganas tunas, la fruta del nopal, para elegir su pelaje y comprarle cosas.",
+      "contextos": [
+        "demo/tutorial.js"
+      ]
     }
   ]
 }

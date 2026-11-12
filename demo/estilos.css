@@ -2917,3 +2917,37 @@ html.claro .pf-pierdo { background: var(--fondo); }
 /* Ficha del carro con el color de tu gasolina: verde o roja, como en tu perfil */
 .carro-placa.gas-magna .hv-verde { fill: #1f6b46; } .carro-placa.gas-magna .hv-azul { fill: #144a30; } .carro-placa.gas-magna .hv-precio.pq { color: #1f6b46; } .carro-placa.gas-magna .carro-banda { background: #0f3a25; }
 .carro-placa.gas-premium .hv-verde { fill: #a8362c; } .carro-placa.gas-premium .hv-azul { fill: #6e221c; } .carro-placa.gas-premium .hv-precio.pq { color: #a8362c; } .carro-placa.gas-premium .carro-banda { background: #561a15; }
+/* Tutorial: pasos de Qro en vivo, Cuki, tu medida y viaje seguro */
+.t-toque { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .t-toque { transform-box: fill-box; transform-origin: center; animation: t-toque 7s ease-out infinite; }
+  @keyframes t-toque { 0%, 40% { opacity: 0; transform: scale(.4); } 44% { opacity: .55; transform: scale(1); } 52%, 100% { opacity: 0; transform: scale(1.9); } }
+  .esc-seguro .t-toque { animation-duration: 6s; animation-name: t-toque2; }
+  @keyframes t-toque2 { 0%, 62% { opacity: 0; transform: scale(.4); } 68% { opacity: .55; transform: scale(1); } 78%, 100% { opacity: 0; transform: scale(1.9); } }
+  .t-escudo { transform-box: fill-box; transform-origin: center; animation: t-escudo 3s ease-in-out infinite alternate; }
+  @keyframes t-escudo { from { transform: scale(.94); } to { transform: scale(1.06); } }
+  .t-flujo { animation: t-flujo 1.6s linear infinite; }
+  @keyframes t-flujo { to { stroke-dashoffset: -44; } }
+  .t-elige { animation: t-elige 9s linear infinite; }
+  @keyframes t-elige { 0%, 30% { transform: none; } 34%, 63% { transform: translateX(104px); } 67%, 100% { transform: translateX(208px); } }
+  .esc-envivo .t-tarjeta { animation-name: t-tarjeta-vivo; }
+  @keyframes t-tarjeta-vivo { 0%, 48% { opacity: 0; transform: translateY(34px); } 56%, 100% { opacity: 1; transform: none; } }
+}
+#tutorialPuntos { grid-template-columns: repeat(7, 1fr); gap: 5px; }
+/* Qro en vivo: pestanas con icono y una pildora del color de cada seccion que se desliza */
+.ev-vistas { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; padding: 5px; border-radius: 20px; background: var(--superficie); box-shadow: inset 0 0 0 1px var(--linea); }
+.ev-vistas .ev-pildora { position: absolute; left: 0; top: 5px; bottom: 5px; width: 25%; border-radius: 15px; background: var(--ev-tab); box-shadow: 0 6px 16px color-mix(in srgb, var(--ev-tab) 40%, transparent); transition: transform .38s cubic-bezier(.3,1.25,.5,1), width .38s ease, background-color .3s ease; z-index: 0; }
+.ev-vistas[data-activo="mapa"] { --ev-tab: #e0a03c; } .ev-vistas[data-activo="red"] { --ev-tab: #8a5cf0; } .ev-vistas[data-activo="respira"] { --ev-tab: #2f9e63; } .ev-vistas[data-activo="rutas"] { --ev-tab: #e5484d; }
+.ev-vistas button { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 62px; padding: 6px 2px; border-radius: 15px; background: none !important; color: var(--tenue); font-size: .74rem; font-weight: 800; line-height: 1.1; white-space: normal; text-align: center; transition: color .25s ease; }
+.ev-vistas button[aria-selected="true"] { color: #fff; }
+.ev-vistas[data-activo="mapa"] button[aria-selected="true"] { color: #1c1408; }
+.ev-tab-ico { display: grid; place-items: center; width: 26px; height: 26px; }
+.ev-tab-ico .picto { width: 24px; height: 24px; }
+.ev-vistas button[aria-selected="true"] .ev-tab-ico { animation: ev-tab-brinco .4s cubic-bezier(.3,1.6,.5,1); }
+@keyframes ev-tab-brinco { 0% { transform: scale(.7); } 100% { transform: none; } }
+.ev-vivo { display: block; width: 12px; height: 12px; border-radius: 50%; background: #e5484d; box-shadow: 0 0 0 0 rgba(229,72,77,.6); animation: late 1.6s infinite; }
+.ev-vistas[data-activo="mapa"] .ev-vivo { background: #b3261e; }
+@keyframes late { 0% { box-shadow: 0 0 0 0 rgba(229,72,77,.6); } 70% { box-shadow: 0 0 0 9px rgba(229,72,77,0); } 100% { box-shadow: 0 0 0 0 rgba(229,72,77,0); } }
+html.contraste .ev-vistas .ev-pildora { box-shadow: inset 0 0 0 2px #fff; }
+@media (prefers-reduced-motion: reduce) { .ev-vistas .ev-pildora { transition: none; } .ev-vivo, .ev-vistas button .ev-tab-ico { animation: none !important; } }
+html .ev-vistas[role] button { white-space: normal; padding: 6px 2px; font-size: .74rem; }
