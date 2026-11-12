@@ -2909,3 +2909,8 @@ button.credencial-foto:active { transform: scale(.97); }
 #credencial { cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform .12s ease; }
 #credencial:active { transform: scale(.985); }
 button.credencial-foto:active { transform: none; }
+/* Si me pierdo en modo claro: el fondo que asoma en las orillas es el de la pantalla, no negro */
+.pf-pierdo .hv-placas { position: absolute; inset: -1px; width: calc(100% + 2px); height: calc(100% + 2px); }
+html.claro .pf-pierdo { background: var(--fondo); }
+/* Las plantas giran y crecen desde su base (el 0,0 de su dibujo): Safari no las mueve de lugar al cambiar de animacion */
+.ev-planta > .ev-mece { transform-box: view-box; transform-origin: 0 0; }
