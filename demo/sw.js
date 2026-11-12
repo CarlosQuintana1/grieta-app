@@ -1,5 +1,5 @@
 // Guarda la app y los horarios para que funcione sin internet. Cambiar la version renueva todo.
-const VERSION = "grieta-296";
+const VERSION = "grieta-297";
 const MAPA = "grieta-mapa-1";
 // Hasta 800 cuadros de mapa (unos 15 MB); se van los mas viejos.
 let recortando = false;

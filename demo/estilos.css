@@ -2914,3 +2914,6 @@ button.credencial-foto:active { transform: none; }
 html.claro .pf-pierdo { background: var(--fondo); }
 /* Las plantas giran y crecen desde su base (el 0,0 de su dibujo): Safari no las mueve de lugar al cambiar de animacion */
 .ev-planta > .ev-mece { transform-box: view-box; transform-origin: 0 0; }
+/* Ficha del carro con el color de tu gasolina: verde o roja, como en tu perfil */
+.carro-placa.gas-magna .hv-verde { fill: #1f6b46; } .carro-placa.gas-magna .hv-azul { fill: #144a30; } .carro-placa.gas-magna .hv-precio.pq { color: #1f6b46; } .carro-placa.gas-magna .carro-banda { background: #0f3a25; }
+.carro-placa.gas-premium .hv-verde { fill: #a8362c; } .carro-placa.gas-premium .hv-azul { fill: #6e221c; } .carro-placa.gas-premium .hv-precio.pq { color: #a8362c; } .carro-placa.gas-premium .carro-banda { background: #561a15; }

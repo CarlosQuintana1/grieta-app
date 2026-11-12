@@ -1387,6 +1387,9 @@ function pintarCarro(r) {
   const km = r.directo.km;
   const centro = Grieta.metros(estado.destino.lat, estado.destino.lon, ...CENTRO_HISTORICO) < 1200;
   $("enCarro").hidden = !(km > 0) || acc.gasolina === "no";
+  // La ficha toma el color de la gasolina que elegiste en tu perfil.
+  $("enCarro").classList.toggle("gas-premium", acc.gasolina === "premium");
+  $("enCarro").classList.toggle("gas-magna", acc.gasolina !== "premium");
   $("enCarro").innerHTML = `<div class="hv-caja"><div class="hv-partido">${PLACAS_VIAJE}
     <div class="hv-lado"><span class="hv-top">${picto("app")}</span><span class="hv-nombre">En tu carro, al menos</span><span class="hv-precio pq carro-tag">${pesos((km / AUTO_KM_LITRO) * precioGasolina())}</span><span class="hv-dato"><span>de gasolina${centro ? " más estacionamiento" : ""}</span></span></div>
     <div class="hv-lado der"><span class="hv-top carro-reloj">${ico("reloj")}</span><span class="hv-nombre">Tarda</span><span id="carroMinutos" class="hv-precio">${numeroUnidad(Math.round(r.directo.minutos), "min")}</span><span class="hv-dato"><span id="carroDetalle">Estimado</span></span></div>
