@@ -75,7 +75,8 @@ Las apps de viaje no publican cómo calculan sus tarifas, así que armé mi prop
 | **Algoritmo genético** | Afina los conjuntos y las reglas de la lógica difusa con viajes reales. | 80 individuos, 150 generaciones y 4 corridas, calificado con días que no vio. El costo promedio por viaje baja de $103.86 a $94.36 contra las reglas hechas a mano: $9.49 menos (95% de confianza, entre $6.72 y $12.15). |
 
 <p align="center"><img src="docs/readme/lamina-hexagonos.jpg" alt="Querétaro en hexágonos" width="100%"></p>
-<p align="center"><img src="docs/readme/lamina-datos.jpg" alt="Cómo reuní los precios" width="49%"> <img src="docs/readme/lamina-qro-en-vivo.jpg" alt="Qro en vivo" width="49%"></p>
+<p align="center"><img src="docs/readme/lamina-datos.jpg" alt="Cómo reuní los precios" width="100%"></p>
+<p align="center"><img src="docs/readme/lamina-qro-en-vivo.jpg" alt="Qro en vivo" width="100%"></p>
 
 ### El algoritmo genético a detalle
 
