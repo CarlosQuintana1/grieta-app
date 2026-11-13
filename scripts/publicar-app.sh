@@ -45,7 +45,7 @@ echo "2/4 Demo en Azure App Service..."
 az webapp deploy -g "$GRUPO" -n grieta-web-qro --src-path "$TMP/demo.zip" --type zip -o none
 
 echo "3/4 Demo en Azure Storage..."
-az storage blob upload-batch --account-name grietawebqro --auth-mode login \
+az storage blob upload-batch --account-name grietawebqro --auth-mode key \
   -d '$web' -s "$ROOT/demo" --overwrite
 
 echo "4/4 Demo en Cloudflare Pages..."
