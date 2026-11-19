@@ -28,6 +28,10 @@ const Grieta = (() => {
   // Un camion extra tiene que ahorrar al menos estos minutos de viaje, o estos otros a pie.
   const CAMION_EXTRA_MIN = 8;
   const CAMION_EXTRA_PIE = 12;
+  // Con app de por medio: un camion recorre al menos esto, ahorra al menos estos pesos y no tarda mas de estos minutos que la app sola.
+  const CAMION_MIN_M = 800;
+  const AHORRO_APP_MIN = 15;
+  const MEZCLA_EXTRA_MIN = 30;
   const INF = 1e9;
 
   let modelo, qrobus, porParada;
@@ -349,7 +353,20 @@ const Grieta = (() => {
       if (peor && andar(r) > andar(x) - CAMINA_MENOS_MIN) return true;
       return x.tipo === r.tipo && (r.transbordos ?? 0) > (x.transbordos ?? 0) && x.minutos - r.minutos < CAMION_EXTRA_MIN && andar(x) - andar(r) < CAMION_EXTRA_PIE;
     };
-    const vivas = unicas.filter((r) => !unicas.some((x) => pierde(r, x)));
+    // Mezclar camion y app solo vale si ahorra de verdad y el camion hace la mayor parte del camino; nada de camiones de unos metros.
+    const total = metros(o[0], o[1], d[0], d[1]);
+    const sensata = (f) => {
+      if (f.tipo === "app") return true;
+      const conApp = f.tipo !== "caminando+caminando", camiones = f.pasos.filter((x) => x.tipo === "camion");
+      const corto = (c) => c.paradas < 2 || metros(c.recorrido[0].lat, c.recorrido[0].lon, c.recorrido.at(-1).lat, c.recorrido.at(-1).lon) < CAMION_MIN_M;
+      if ((conApp || camiones.length > 1) && camiones.some(corto)) return false;
+      if (!conApp) return true;
+      const p = directo.mejor.precio;
+      if (p - f.costo < Math.max(AHORRO_APP_MIN, AHORRO_MINIMO * p) || f.minutos > directo.minutos + MEZCLA_EXTRA_MIN) return false;
+      const sb = qrobus.paradas[f.paradas.sube], sa = qrobus.paradas[f.paradas.baja];
+      return metros(sb[0], sb[1], d[0], d[1]) - metros(sa[0], sa[1], d[0], d[1]) >= 0.5 * total;
+    };
+    const vivas = unicas.filter(sensata).filter((r, _, todas) => !todas.some((x) => pierde(r, x)));
     return { directo, opciones: vivas.sort((a, b) => a.minutos - b.minutos || a.costo - b.costo), pasaCerca };
   }
 
