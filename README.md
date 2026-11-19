@@ -34,7 +34,7 @@ Es una app web instalable (PWA): se abre desde el navegador, se instala en el te
   <tr>
     <td width="33%" align="center"><img src="docs/readme/voz.webp" width="240" alt="Dictar el destino"><br><b>Dile a dónde vas</b><br><sub>El botón de voz te escucha, muestra lo que entiende y busca el lugar.</sub></td>
     <td width="33%" align="center"><img src="docs/readme/recorrido.webp" width="240" alt="Recorrido animado"><br><b>Ve todo tu camino</b><br><sub>Antes de salir, el recorrido se dibuja en el mapa: caminas, subes y llegas.</sub></td>
-    <td width="33%" align="center"><img src="docs/readme/guia.webp" width="240" alt="Guía en el viaje"><br><b>Te guía en el camión</b><br><sub>Cuánto caminar, cuándo pasa tu camión, cuántas paradas faltan y cuándo tocar el timbre.</sub></td>
+    <td width="33%" align="center"><img src="docs/readme/guia.webp" width="240" alt="Guía en el viaje"><br><b>Te guía en el camión</b><br><sub>El mapa con tu camión y tu parada, cuántas paradas faltan y un aviso rojo para tocar el timbre.</sub></td>
   </tr>
   <tr>
     <td width="33%" align="center"><img src="docs/readme/qro-en-vivo.webp" width="240" alt="Qro en vivo"><br><b>Qro en vivo</b><br><sub>La ciudad en hexágonos: avisos de los viajeros, el CO₂ de cada zona y dónde hace falta una ruta.</sub></td>
@@ -51,6 +51,7 @@ Es una app web instalable (PWA): se abre desde el navegador, se instala en el te
       <ul>
         <li><b>¿Conviene esperar?</b> El precio estimado de cada app ahora y en los próximos minutos.</li>
         <li><b>Camiones cerca.</b> Las paradas a tu alrededor con los próximos camiones según el horario.</li>
+        <li><b>Avisos de viajeros.</b> En la parada ves si alguien avisó que tu camión ya pasó o viene lleno, y cómo está la parada.</li>
         <li><b>Modo seguro.</b> De noche te muestra rutas con menos caminata hasta la parada.</li>
         <li><b>Si me pierdo.</b> Con un toque llamas a tu contacto, le mandas dónde estás o te lleva a casa.</li>
         <li><b>Reportar.</b> Banquetas rotas, paradas sin techo o un camión que no paró; el acoso lleva un botón directo al 911.</li>
@@ -168,8 +169,9 @@ La app se publica al mismo tiempo en tres lugares: Azure App Service, Azure Blob
 | 8 y 9 de noviembre | Qro al día, el modo seguro y el perfil de viaje con Si me pierdo. |
 | 9 de noviembre | Cierra la captura con 4,347 precios. |
 | 11 y 12 de noviembre | Qro en vivo, el tutorial de siete pasos y el diseño para pantallas grandes. |
+| 13 al 18 de noviembre | La guía con mapa y avisos que suben de nivel, los avisos de viajeros en la parada y rutas sin combinaciones de camión y app que no ahorran. |
 
-En total, más de 360 versiones subidas entre octubre y noviembre de 2026.
+En total, más de 380 versiones subidas entre octubre y noviembre de 2026.
 
 ## Pruebas
 
