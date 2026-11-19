@@ -12,7 +12,7 @@ npm start
 
 Al arrancar, Sequelize sincroniza el esquema (crea las tablas que falten) y, si la base está
 vacía, carga el catálogo de 16 lugares y 32 rutas de `datos/`. La API queda en
-`http://localhost:3000/api`, con 43 rutas: el CRUD completo de las 8 tablas más algunas de consulta.
+`http://localhost:3000/api`, con 75 rutas: el CRUD de las 15 tablas más algunas de consulta.
 
 En local usa SQLite (`database.sqlite`). Para la nube basta con definir `DATABASE_URL` con la
 cadena de conexión de la base.
@@ -23,7 +23,7 @@ cadena de conexión de la base.
 npm test
 ```
 
-Son 50 pruebas de las rutas sobre una base en memoria, así que no tocan `database.sqlite`. En
+Son 77 pruebas de las rutas sobre una base en memoria, así que no tocan `database.sqlite`. En
 `postman/` está la colección con todas las rutas, en el orden en que se probaron.
 
 ## Estructura
