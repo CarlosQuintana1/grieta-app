@@ -3093,3 +3093,15 @@ html.contraste body[data-pantalla="guia"] #guia .guia-hero { box-shadow: inset 0
   .guia-riel li { font-size: .62rem; }
   #guia .como-fue .rutas-queja button { font-size: .8rem; overflow-wrap: anywhere; }
 }
+/* Avisos de otros viajeros en la parada */
+.avisos-parada { margin: 18px 0 4px; }
+.avisos-parada[hidden] { display: none; }
+.ap-titulo { margin: 0 0 8px; font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--tenue); }
+.avisos-parada ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.avisos-parada li { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 14px; background: color-mix(in srgb, var(--g-t) 7%, var(--g-c)); --k: #8fb0ff; }
+.avisos-parada li.ap-paso { --k: #3ecf7e; } .avisos-parada li.ap-lleno { --k: #e0a03c; } .avisos-parada li.ap-referencia { --k: var(--g-a); }
+.ap-ico { flex: none; width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--k) 20%, var(--g-c)); color: var(--k); }
+.ap-ico .picto { width: 22px; height: 22px; }
+.avisos-parada b { display: block; font-size: .95rem; line-height: 1.25; }
+.avisos-parada small { display: block; margin-top: 2px; font-size: .8rem; font-weight: 600; color: var(--tenue); }
+html.claro .avisos-parada li.ap-paso { --k: #1d7a45; } html.claro .avisos-parada li.ap-lleno { --k: #9a6100; } html.claro .avisos-parada li { --k: #3354c8; }

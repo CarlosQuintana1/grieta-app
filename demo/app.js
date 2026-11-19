@@ -3554,10 +3554,27 @@ async function avisosDeLaGente(lat, lon) {
   try { return await llamar(`/camiones/avisos?lat=${lat}&lon=${lon}&radio=150`); } catch { return []; }
 }
 // Mientras esperas, si alguien ya avisó de tu camion en esa parada, se te dice una vez
+// Lo que dejaron otros viajeros en tu parada: si ya paso o viene lleno tu camion, y como esta la parada.
+const PICTO_REPORTE = { sin_techo: "sintecho", sin_senalizacion: "senal", referencia: "pin", paso: "yapaso", lleno: "lleno" };
+async function pintarAvisosParada(de) {
+  const c = guia.camion, caja = $("avisosParada");
+  if (!c) return void (caja.hidden = true);
+  const p = c.recorrido[0], reportes = await reportesCerca(p.lat, p.lon, 60);
+  if (guia.camion !== c) return;
+  const hace = (m) => `Hace ${m || 1} minuto${m === 1 || !m ? "" : "s"}.`;
+  const filas = [
+    ...de.filter((a) => a.minutos <= 30).sort((a, b) => a.minutos - b.minutos).slice(0, 2).map((a) => ({ tipo: a.tipo, texto: a.tipo === "paso" ? `Alguien avisó que la ${c.linea} ya pasó` : `Alguien avisó que la ${c.linea} viene llena`, sub: hace(a.minutos) })),
+    ...reportes.slice(0, 3).map((x) => ({ tipo: x.tipo, texto: x.tipo === "referencia" && x.descripcion ? x.descripcion : NOMBRES_REPORTE[x.tipo] ?? "Aviso", sub: x.tipo === "referencia" ? "Referencia" : "" })),
+  ];
+  caja.hidden = !filas.length;
+  caja.querySelector("ul").innerHTML = filas.map((x) => `<li class="ap-${escapar(x.tipo)}"><span class="ap-ico">${picto(PICTO_REPORTE[x.tipo] ?? "senal")}</span><span><b>${escapar(x.texto)}</b>${x.sub ? `<small>${escapar(x.sub)}</small>` : ""}</span></li>`).join("");
+  requestAnimationFrame(cortesGuia);
+}
 async function revisarAvisosParada() {
   const c = guia.camion;
   if (!c || !["parada", "esperando"].includes(guia.fase)) return;
   const de = (await avisosDeLaGente(c.recorrido[0].lat, c.recorrido[0].lon)).filter((a) => a.linea === c.linea);
+  pintarAvisosParada(de);
   const paso = de.find((a) => a.tipo === "paso" && a.minutos <= 10);
   const lleno = de.find((a) => a.tipo === "lleno" && a.minutos <= 10);
   if (paso) unaVez(`gente-paso-${guia.k}`, () => {
