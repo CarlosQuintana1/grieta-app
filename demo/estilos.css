@@ -3002,7 +3002,7 @@ html.claro body[data-pantalla="guia"] { --g-a: #3354c8; --g-s: #fff; }
 html.claro body[data-pantalla="guia"][data-etapa="parada"] { --g-a: #9a6100; }
 html.claro body[data-pantalla="guia"]:is([data-etapa="camion"], [data-etapa="llegaste"]) { --g-a: #1d7a45; }
 html.claro body[data-pantalla="guia"][data-etapa="bajate"] { --g-a: #c62828; }
-body[data-pantalla="guia"][data-nivel="bajate"] { --g-c: #ef4b4f; --g-t: #1a0606; --g-a: #1a0606; --g-s: #ef4b4f; }
+body[data-pantalla="guia"][data-nivel="bajate"] { --g-c: #e0a03c; --g-t: #1c1408; --g-a: #1c1408; --g-s: #e0a03c; }
 #guia { --tenue: color-mix(in srgb, var(--g-t) 62%, var(--g-c)); --linea: color-mix(in srgb, var(--g-t) 18%, var(--g-c)); }
 #guia .guia-paso { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 #guia .guia-arriba { gap: 8px; }
@@ -3074,10 +3074,10 @@ body[data-pantalla="guia"][data-nivel="timbre"] #guia .guia-ficha .picto { width
 body[data-pantalla="guia"][data-nivel="timbre"] #guia .guia-ficha { overflow: visible; clip-path: none; animation: guia-onda 1.4s ease-out infinite; }
 @keyframes guia-onda { 0% { box-shadow: 0 0 0 0 rgb(239 75 79 / 55%), 0 0 0 0 rgb(239 75 79 / 30%); } 100% { box-shadow: 0 0 0 26px rgb(239 75 79 / 0%), 0 0 0 52px rgb(239 75 79 / 0%); } }
 body[data-pantalla="guia"][data-nivel="timbre"] #guia .guia-titulo { font-size: 2.5rem; }
-body[data-pantalla="guia"][data-nivel="bajate"] #guia .guia-ficha { background: #1a0606; color: #ef4b4f; }
+body[data-pantalla="guia"][data-nivel="bajate"] #guia .guia-ficha { background: #1c1408; color: #e0a03c; }
 body[data-pantalla="guia"][data-nivel="bajate"] #guia .guia-titulo { font-size: 3.6rem; line-height: .95; }
 body[data-pantalla="guia"][data-nivel="bajate"] #guia .guia-renglones li { background: rgb(0 0 0 / 12%); }
-body[data-pantalla="guia"][data-nivel="bajate"] #guia .guia-renglones .icono { color: #1a0606; }
+body[data-pantalla="guia"][data-nivel="bajate"] #guia .guia-renglones .icono { color: #1c1408; }
 @media (prefers-reduced-motion: reduce) { body[data-pantalla="guia"] #guia .guia-ficha { animation: none; box-shadow: 0 0 0 14px rgb(239 75 79 / 25%); } }
 .guia-paradas li { padding: 5px 0; }
 .gp-nombre { font-size: .92rem; }
@@ -3145,3 +3145,76 @@ body.guia-ruta[data-nivel="prepara"] #guia .guia-titulo { font-size: 1.5rem; }
 /* Palabras clave del aviso, en el color de la fase */
 #guia .guia-titulo .clave { color: var(--g-a); }
 body[data-pantalla="guia"]:is([data-nivel="prepara"], [data-nivel="timbre"], [data-nivel="bajate"]) #guia .guia-titulo .clave { color: inherit; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 4px; }
+
+/* La llegada con la grieta: al tocar el timbre y al bajarse la hoja se parte en zigzag y toma un solo color */
+body.guia-ruta[data-nivel="timbre"] :is(.hoja, .guia-fija) { --g-c: #ef4b4f; --g-t: #1a0606; --g-a: #1a0606; --g-s: #ef4b4f; background: #ef4b4f; }
+body.guia-ruta[data-nivel="bajate"] :is(.hoja, .guia-fija) { --g-c: #e0a03c; --g-t: #1c1408; --g-a: #1c1408; --g-s: #e0a03c; background: #e0a03c; }
+@media (max-width: 759px) {
+  body.guia-ruta:is([data-nivel="timbre"], [data-nivel="bajate"]) .hoja { margin-top: -26px; padding-top: 40px; border: 0; border-radius: 0;
+    clip-path: polygon(0 18px, 11% 9px, 22% 22px, 33.5% 6px, 45% 20px, 56% 3px, 67% 19px, 78.5% 8px, 90% 24px, 100% 12px, 100% 100%, 0 100%); }
+  body.guia-ruta[data-nivel="bajate"] #mapa { min-height: 22%; }
+  body.guia-ruta[data-nivel="bajate"].con-mapa .hoja { max-height: 78%; animation: grieta-sube .5s cubic-bezier(.2, .8, .3, 1); }
+}
+@keyframes grieta-sube { from { transform: translateY(30%); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { body.guia-ruta[data-nivel="bajate"].con-mapa .hoja { animation: none; } }
+/* Timbre: toda la hoja es el aviso, ya no una tarjeta dentro */
+body.guia-ruta[data-nivel="timbre"] #guia :is(#guiaRiel, .guia-paradas) { display: none; }
+body.guia-ruta[data-nivel="timbre"] #guia .guia-hero { margin-top: 14px; padding: 0; background: none; color: var(--g-t); }
+body.guia-ruta[data-nivel="timbre"] #guia .guia-ficha { background: #1a0606; color: #ef4b4f; }
+body.guia-ruta[data-nivel="timbre"] #guia .guia-titulo { font-size: 2.1rem; color: #1a0606; }
+body.guia-ruta[data-nivel="timbre"] #guia .guia-renglones li, body[data-nivel="bajate"] #guia .guia-renglones li { background: none; padding-left: 0; padding-right: 0; }
+body.guia-ruta[data-nivel="timbre"] #guia .guia-acciones #avisarChofer { background: #1a0606; color: #ef4b4f; border-color: #1a0606; }
+/* Bajate: la frase, tu parada, la caminata y un boton */
+body[data-pantalla="guia"][data-nivel="bajate"] #guia :is(.guia-arriba, #guiaRiel, .guia-paradas, #guiaRacha, #comoTeFue, .guia-acciones) { display: none !important; }
+body[data-pantalla="guia"][data-nivel="bajate"] #guia .guia-ficha { width: 74px; height: 74px; margin: 6px 0 16px; }
+body[data-pantalla="guia"][data-nivel="bajate"] #guia .guia-ficha .picto { width: 42px; height: 42px; }
+body[data-pantalla="guia"][data-nivel="bajate"] #guia .guia-titulo { font-size: clamp(2.6rem, 13vw, 4.2rem); line-height: .9; letter-spacing: -.02em; margin: 0 0 14px; }
+body[data-nivel="bajate"] #guia .guia-renglones li:first-child { font-size: 1.35rem; font-weight: 800; }
+body[data-nivel="bajate"] #guia .guia-renglones li:first-child .icono { display: none; }
+#yaMeBaje { width: 100%; min-height: 62px; margin-top: 18px; border: 0; border-radius: 18px; background: #1c1408; color: #e0a03c; font-size: 1.1rem; font-weight: 800;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 18px 100%, 0 calc(100% - 18px)); }
+#yaMeBaje[hidden] { display: none; }
+/* Llegada: las dos placas del perfil partidas por la grieta, la pregunta y nada mas */
+body[data-pantalla="guia"]:is([data-nivel="llegada"], [data-etapa="llegaste"]) #guia :is(#guiaRiel, .guia-ficha, .guia-renglones, #guiaRacha, .guia-acciones, #guiaLinea) { display: none !important; }
+body[data-pantalla="guia"]:is([data-nivel="llegada"], [data-etapa="llegaste"]) #guia .guia-titulo { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.guia-llegada { position: relative; height: 210px; margin: 34px 0 6px; }
+.guia-llegada[hidden] { display: none; }
+.gl-placas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.gl-verde { fill: #3ecf7e; } .gl-rosa { fill: #d0427f; }
+.guia-llegada.solo .gl-rosa { display: none; }
+.gl-lado { position: absolute; top: 0; bottom: 0; width: 47%; padding: 18px 16px; display: flex; flex-direction: column; justify-content: space-between; }
+.gl-izq { left: 0; color: #06210f; } .gl-izq .picto { width: 30px; height: 30px; }
+.gl-izq b { display: block; font-size: 1.9rem; font-weight: 800; line-height: 1; } .gl-izq small { display: block; margin-top: 4px; font-size: .9rem; font-weight: 700; opacity: .8; }
+.gl-der { right: 0; align-items: flex-end; text-align: right; color: #fff; }
+.gl-der:empty { display: none; }
+.gl-der svg { width: 118px; height: auto; margin: -8px -6px 0 0; }
+.gl-der strong { display: block; font-size: 1.9rem; font-weight: 800; line-height: 1; }
+.gl-der span { font-size: .9rem; font-weight: 700; color: #ffe1ee; }
+body[data-pantalla="guia"]:is([data-nivel="llegada"], [data-etapa="llegaste"]) #guia .como-fue { margin-top: 24px; padding: 0; background: none; }
+#guia .como-fue-pregunta { font-size: 1.25rem; font-weight: 800; }
+#guia .como-fue .rutas-queja button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 92px; border: 0; border-radius: 18px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 16px 100%, 0 calc(100% - 16px)); background: color-mix(in srgb, var(--k) 16%, var(--g-c)); color: var(--k); font-weight: 800; }
+#guia .como-fue .rutas-queja button .picto { width: 28px; height: 28px; }
+#guia .como-fue [data-sentir="tranquilo"] { --k: #3ecf7e; } #guia .como-fue [data-sentir="normal"] { --k: #e0a03c; } #guia .como-fue [data-sentir="estresado"] { --k: #ff8a8c; }
+html.claro #guia .como-fue [data-sentir="tranquilo"] { --k: #1d7a45; } html.claro #guia .como-fue [data-sentir="normal"] { --k: #9a6100; } html.claro #guia .como-fue [data-sentir="estresado"] { --k: #c62828; }
+#guia .como-fue .rutas-queja button[aria-pressed="true"] { background: var(--k); color: var(--g-c); }
+body[data-pantalla="guia"]:is([data-nivel="bajate"], [data-nivel="timbre"]) #guia .guia-renglones li { background: none; padding-left: 0; padding-right: 0; }
+/* Pantallas chicas: que la llegada quepa sin que el texto se salga ni el boton quede partido */
+.gl-lado { min-width: 0; }
+.gl-izq b, .gl-der strong { font-size: clamp(1.2rem, 6.2vw, 1.85rem); white-space: nowrap; }
+.gl-izq small, .gl-der span { overflow-wrap: break-word; }
+@media (max-width: 360px) {
+  .gl-der svg { width: 92px; }
+  .gl-lado { padding: 14px 12px; }
+}
+@media (max-height: 700px) {
+  body[data-pantalla="guia"][data-nivel="bajate"] #guia .guia-ficha { display: none; }
+  body[data-pantalla="guia"][data-nivel="bajate"] #guia .guia-titulo { font-size: clamp(2.4rem, 12vw, 2.8rem); margin: 4px 0 8px; }
+  body.guia-ruta[data-nivel="bajate"].con-mapa .hoja { max-height: 80%; }
+  body[data-nivel="bajate"] #guia .guia-renglones li:first-child { font-size: 1.15rem; }
+  body.guia-ruta[data-nivel="bajate"] #mapa { min-height: 22%; }
+  #yaMeBaje { min-height: 54px; margin-top: 10px; }
+  .guia-llegada { height: 170px; margin-top: 12px; }
+  body[data-pantalla="guia"]:is([data-nivel="llegada"], [data-etapa="llegaste"]) #guia .como-fue { margin-top: 14px; }
+  #guia .como-fue .rutas-queja button { min-height: 76px; }
+}

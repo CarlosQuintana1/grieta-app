@@ -18232,6 +18232,13 @@
       "contextos": [
         "demo/tutorial.js"
       ]
+    },
+    {
+      "clave": "texto_897b7f3d09",
+      "es": "Ya me bajé",
+      "contextos": [
+        "demo/index.html · guía, al bajarse del camión"
+      ]
     }
   ]
 }

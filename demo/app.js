@@ -3020,6 +3020,7 @@ function decir(titulo, detalle, etapa, alerta = false, nivel = "") {
 function pintarGuia() {
   const c = guia.camion;
   pintarEsperaGuia();
+  pintarLlegada();
   mapaGuia();
   requestAnimationFrame(cortesGuia);
   clearTimeout(guia.cortes); guia.cortes = setTimeout(cortesGuia, 400);
@@ -3063,6 +3064,29 @@ function pintarParadasGuia(r, actual, arriba) {
   if (actual < n) filas.push(fila(n, "meta"));
   lista.innerHTML = filas.join("");
 }
+// Al bajarse solo queda lo urgente; la tuna y la pregunta llegan con "Ya me bajé" o al llegar al destino.
+function pintarLlegada() {
+  const b = document.body, llego = b.dataset.nivel === "llegada" || (b.dataset.etapa === "llegaste" && guia.activa);
+  $("yaMeBaje").hidden = b.dataset.nivel !== "bajate";
+  $("guiaLlegada").hidden = !llego;
+  if (!llego) return;
+  const tuna = !$("guiaRacha").hidden && $("guiaRacha").innerHTML;
+  $("glHora").textContent = hora(ahoraMin());
+  $("glTuna").innerHTML = tuna || "";
+  $("guiaLlegada").classList.toggle("solo", !tuna);
+  // Sin tuna, la placa verde ocupa todo el ancho.
+  $("guiaLlegada").querySelector(".gl-verde").setAttribute("d", tuna ? "M0 0L175.5 0L167.5 30L183.5 58L170.5 88L187.5 121L172.5 157L181.5 196L0 196Z" : "M0 0L358 0L358 196L0 196Z");
+}
+$("yaMeBaje").addEventListener("click", () => {
+  document.body.dataset.nivel = "llegada";
+  quitarMapaGuia();
+  pintarLlegada();
+  vibrar([60]);
+  $("hoja").scrollTop = 0;
+  requestAnimationFrame(cortesGuia);
+});
+// La hoja de la grieta entra con animacion: los cortes se miden cuando ya termino.
+$("hoja").addEventListener("animationend", () => cortesGuia());
 // En la parada, un anillo con los minutos que faltan para que pase el camion segun el horario.
 function pintarEsperaGuia() {
   const c = guia.camion, caja = $("guiaEspera");
@@ -3118,7 +3142,7 @@ function quitarMapaGuia() {
 async function mapaGuia() {
   const c = guia.camion, b = document.body, etapa = b.dataset.etapa, nivel = b.dataset.nivel;
   const ver = guia.activa && c && b.dataset.pantalla === "guia" && !acc.modoVoz && !b.classList.contains("guia-mapa") && !guia.enApp
-    && ((etapa === "parada" && guia.fase === "esperando") || ((etapa === "camion" || etapa === "bajate") && guia.fase === "camion")) && nivel !== "bajate";
+    && ((etapa === "parada" && guia.fase === "esperando") || ((etapa === "camion" || etapa === "bajate") && guia.fase === "camion") || (nivel === "bajate" && guia.fase === "fin"));
   if (!ver) return quitarMapaGuia();
   const nueva = !b.classList.contains("guia-ruta");
   b.classList.add("con-mapa", "guia-ruta");
