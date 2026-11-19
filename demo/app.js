@@ -2249,7 +2249,7 @@ const estimados = new Map();
 let relojEstimados = null, vistaEstimados = false;
 const minutoExacto = () => { const a = new Date(); return a.getHours() * 60 + a.getMinutes() + a.getSeconds() / 60; };
 // Avanza el camion en el mapa sin transicion CSS, para que no se resbale al mover o acercar el mapa.
-function avanzarCamion(m, destino) {
+function moverCamionMapa(m, destino) {
   cancelAnimationFrame(m._deslizar);
   const ini = m.getLatLng();
   if (!suave() || mapa.distance(ini, destino) < 2) return m.setLatLng(destino);
@@ -2281,7 +2281,7 @@ function pintarEstimados() {
   for (const [id, m] of estimados) if (!vivos.has(id)) { cancelAnimationFrame(m._deslizar); m.remove(); estimados.delete(id); }
   for (const x of visibles) {
     const m = estimados.get(x.id);
-    if (m) avanzarCamion(m, [x.lat, x.lon]);
+    if (m) moverCamionMapa(m, [x.lat, x.lon]);
     else estimados.set(x.id, L.marker([x.lat, x.lon], { icon: iconoEstimado(x.linea), keyboard: false, zIndexOffset: 300 }).bindTooltip(`${x.linea} hacia ${x.hacia}, estimado`, { direction: "top", className: "etiqueta-mapa" }).addTo(mapa));
   }
   // Botón o nota, nunca los dos: ocupan el mismo lugar para que la hoja no brinque.
@@ -2977,7 +2977,7 @@ function ponerTitulo(titulo) {
 // Cada etapa pinta toda la pantalla de su color (estilos.css, body[data-etapa]) y dice en que paso del viaje vas.
 const ETAPAS_GUIA = {
   "Hacia tu destino": ["camina", 1, "caminar"], "Hacia la parada": ["camina", 1, "caminar"], "Transbordo": ["camina", 3, "caminar"], "En la parada": ["parada", 2, "parada"],
-  "En el camión": ["camion", 3, "qrobus"], "Próxima parada": ["bajate", 3, "parada"], "Tu parada": ["bajate", 3, "parada"], "Llegaste": ["llegaste", 4, "lugar"],
+  "En el camión": ["camion", 3, "qrobus"], "Próxima parada": ["bajate", 4, "timbre"], "Tu parada": ["bajate", 4, "flag"], "Llegaste": ["llegaste", 4, "lugar"],
 };
 // Video en Lengua de Señas Mexicana de la frase del aviso, si ya se grabo (datos/lsm.json, ver docs/lengua-de-senas.md).
 let videosSenas = {};
@@ -2990,10 +2990,14 @@ function mostrarSenas(titulo) {
   if (!video.src.endsWith(archivo)) video.src = archivo;
   video.play().catch(() => {});
 }
-function decir(titulo, detalle, etapa, alerta = false) {
+function decir(titulo, detalle, etapa, alerta = false, nivel = "") {
   mostrarSenas(titulo);
   const [clave, paso, picto] = ETAPAS_GUIA[etapa] ?? ETAPAS_GUIA[guia.fase === "camion" ? "En el camión" : "Llegaste"];
   document.body.dataset.etapa = clave;
+  // El aviso sube de nivel: prepara en ambar, timbre en rojo y bajate a pantalla completa.
+  document.body.dataset.nivel = nivel;
+  for (const li of $("guiaRiel").children) { const n = Number(li.dataset.paso); li.className = n < paso || clave === "llegaste" ? "hecho" : n === paso ? "ya" : ""; }
+  $("guiaRiel").hidden = !!guia.soloCaminar;
   $("guiaPicto").setAttribute("href", `#p-${guia.enApp && etapa === "Hacia la parada" ? "app" : picto}`);
   if (etapa) $("guiaEtapa").textContent = guia.soloCaminar ? etapa : `Paso ${paso} de 4: ${etapa}`;
   $("guiaLinea").hidden = !guia.camion || clave === "llegaste";
@@ -3011,6 +3015,9 @@ function decir(titulo, detalle, etapa, alerta = false) {
 // Barra con un segmento por parada del recorrido; con mas de 12 se agrupan.
 function pintarGuia() {
   const c = guia.camion;
+  pintarEsperaGuia();
+  requestAnimationFrame(cortesGuia);
+  clearTimeout(guia.cortes); guia.cortes = setTimeout(cortesGuia, 400);
   $("enParada").hidden = !c || guia.enApp || !["parada", "esperando"].includes(guia.fase);
   $("yaMeSubi").textContent = textoFrase(c ? frase("subi_linea", { linea: c.linea }) : frase("ya_me_subi"));
   // "Bajas en" y la barra de paradas solo cuando ya vas arriba del camion.
@@ -3035,7 +3042,50 @@ function pintarGuia() {
   $("barraParadas").setAttribute("aria-valuenow", String(actual));
   $("barraParadas").setAttribute("aria-valuetext", `${actual} de ${n} paradas recorridas en la línea ${c.linea}`);
   $("barraParadas").setAttribute("aria-label", "Paradas del recorrido");
+  pintarParadasGuia(r, actual, arriba);
+  requestAnimationFrame(cortesGuia);
 }
+// Linea de paradas: donde vas, la siguiente, las de en medio juntas y la tuya con bandera.
+function pintarParadasGuia(r, actual, arriba) {
+  const lista = $("guiaParadas"), n = r.length - 1;
+  lista.hidden = !arriba || document.body.dataset.nivel === "timbre" || document.body.dataset.nivel === "bajate";
+  if (lista.hidden) return;
+  const fila = (i, clase) => `<li class="${clase}"><span class="gp-punto">${clase === "aqui" ? picto("qrobus") : i === n ? picto("flag") : ""}</span><span class="gp-nombre">${escapar(cruce(r[i].nombre))}</span>${i > actual && Number.isFinite(r[i].llega) ? `<span class="gp-hora">${hora(r[i].llega)}</span>` : ""}</li>`;
+  const filas = [fila(actual, "aqui")];
+  if (actual + 1 < n) filas.push(fila(actual + 1, "prox"));
+  if (actual + 3 < n) filas.push(`<li class="mas"><span class="gp-punto"></span><span class="gp-nombre"></span></li>`);
+  if (actual + 2 < n) filas.push(fila(n - 1, ""));
+  if (actual < n) filas.push(fila(n, "meta"));
+  lista.innerHTML = filas.join("");
+}
+// En la parada, un anillo con los minutos que faltan para que pase el camion segun el horario.
+function pintarEsperaGuia() {
+  const c = guia.camion, caja = $("guiaEspera");
+  const ver = !!c && guia.activa && document.body.dataset.etapa === "parada" && !guia.enApp && ["parada", "esperando"].includes(guia.fase);
+  caja.hidden = !ver;
+  if (!ver) return;
+  const falta = Math.max(0, Math.round(c.sale - minutoExacto()));
+  caja.querySelector("b").textContent = `${falta} min`;
+  // El arco se llena conforme se acerca: lleno a los 0 minutos, vacio a los 15 o mas.
+  const largo = 2 * Math.PI * 52, k = Math.min(1, falta / 15);
+  $("guiaEsperaArco").style.strokeDasharray = `${largo}`;
+  $("guiaEsperaArco").style.strokeDashoffset = `${largo * k}`;
+}
+setInterval(() => { if (guia.activa) pintarEsperaGuia(); }, 15000);
+// Ningun boton de la guia queda partido por la barra de abajo: si lo estaria, baja completo.
+function cortesGuia() {
+  const guiaEl = $("guia");
+  for (const e of guiaEl.querySelectorAll("[data-bajado]")) { e.style.marginTop = ""; delete e.dataset.bajado; }
+  if (document.body.dataset.pantalla !== "guia" || guiaEl.hidden) return;
+  const lim = document.querySelector(".guia-fija")?.getBoundingClientRect().top ?? innerHeight;
+  const hoja = $("hoja"); if (hoja.scrollTop > 0) return;
+  for (const b of guiaEl.querySelectorAll("button:not([hidden]), .boton")) {
+    if (!b.offsetParent) continue;
+    const caja = b.closest(".dos-botones, .rutas-queja") ?? b, r = caja.getBoundingClientRect();
+    if (r.top < lim - 1 && r.bottom > lim + 1) { caja.style.marginTop = `${parseFloat(getComputedStyle(caja).marginTop) + lim - r.top + 14}px`; caja.dataset.bajado = "1"; break; }
+  }
+}
+addEventListener("resize", () => requestAnimationFrame(cortesGuia));
 async function mantenerPantalla() {
   try { guia.wake = await navigator.wakeLock?.request("screen"); } catch {}
 }
@@ -3601,12 +3651,12 @@ function avanzarCamion(lat, lon, velocidad = 0) {
       mostrarComoFue();
       $("yaMeSubi").hidden = true;
       const fin = guia.o.pasos.at(-1);
-      decir(frase("bajate"), `${final.nombre}. ${fin.tipo === "caminar" ? `Después camina unos ${Math.max(1, Math.round(fin.min))} minutos a tu destino.` : `Después pide ${Grieta.nombreApp(fin.app)} a tu destino.`}`, "Tu parada", true);
+      decir(frase("bajate"), `${final.nombre}. ${fin.tipo === "caminar" ? `Después camina unos ${Math.max(1, Math.round(fin.min))} minutos a tu destino.` : `Después pide ${Grieta.nombreApp(fin.app)} a tu destino.`}`, "Tu parada", true, "bajate");
     });
   } else if (faltan === 1) {
-    unaVez(clave("una"), () => { vibrar([700, 150, 700]); decir(frase("siguiente_parada"), `Toca el timbre ahora. Bajas en ${final.nombre}.`, "Próxima parada", true); });
+    unaVez(clave("una"), () => { vibrar([700, 150, 700]); decir(frase("siguiente_parada"), `Toca el timbre ahora. Bajas en ${final.nombre}.`, "Próxima parada", true, "timbre"); });
   } else if (faltan === 2) {
-    unaVez(clave("dos"), () => { vibrar([400, 150, 400]); decir(frase("dos_paradas"), `Prepárate. Tu parada es ${final.nombre}.`, "En el camión"); });
+    unaVez(clave("dos"), () => { vibrar([400, 150, 400]); decir(frase("dos_paradas"), `Prepárate. Tu parada es ${final.nombre}.`, "En el camión", false, "prepara"); });
   } else {
     // En pantalla siempre; en voz cada 5 paradas y en cada una de las ultimas 5.
     ponerTitulo(frase("faltan_paradas", { n: faltan }));

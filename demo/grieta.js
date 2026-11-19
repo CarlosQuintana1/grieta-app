@@ -184,7 +184,7 @@ const Grieta = (() => {
     const ultima = Math.max(...(p.salidas[servicio] ?? [sale - p.minutos[pb]])) + p.minutos[pb];
     return {
       tipo: "camion", linea: p.linea, hacia: p.hacia, sale, llega, ultima, paradas: pa - pb, baja: nombreParada(p.paradas[pa]), estimado: !!p.estimado,
-      recorrido: p.paradas.slice(pb, pa + 1).map((k) => ({ nombre: nombreParada(k), lat: qrobus.paradas[k][0], lon: qrobus.paradas[k][1] })),
+      recorrido: p.paradas.slice(pb, pa + 1).map((k, j) => ({ nombre: nombreParada(k), lat: qrobus.paradas[k][0], lon: qrobus.paradas[k][1], llega: sale + p.minutos[pb + j] - p.minutos[pb] })),
     };
   }
 
