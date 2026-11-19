@@ -3105,3 +3105,43 @@ html.contraste body[data-pantalla="guia"] #guia .guia-hero { box-shadow: inset 0
 .avisos-parada b { display: block; font-size: .95rem; line-height: 1.25; }
 .avisos-parada small { display: block; margin-top: 2px; font-size: .8rem; font-weight: 600; color: var(--tenue); }
 html.claro .avisos-parada li.ap-paso { --k: #1d7a45; } html.claro .avisos-parada li.ap-lleno { --k: #9a6100; } html.claro .avisos-parada li { --k: #3354c8; }
+
+/* Guia con mapa (en la parada y en el camion): mapa arriba con la ruta y una hoja compacta abajo */
+body.guia-ruta #mapa { min-height: 40%; }
+body.guia-ruta.con-mapa .hoja { max-height: 60%; }
+body.guia-ruta #guia .guia-arriba { margin-top: 2px; }
+body.guia-ruta #guia .guia-riel { margin: 10px 0 0; }
+body.guia-ruta #guia .guia-riel li { font-size: 0; gap: 0; }
+body.guia-ruta #guia .guia-riel li > span { width: 30px; height: 30px; }
+body.guia-ruta #guia .guia-riel li::before { top: 14px; }
+body.guia-ruta #guia .guia-riel .picto { width: 16px; height: 16px; }
+body.guia-ruta[data-nivel=""] #guia .guia-ficha, body.guia-ruta:not([data-nivel]) #guia .guia-ficha { display: none; }
+body.guia-ruta #guia .guia-titulo { font-size: 2rem; margin: 12px 0 6px; }
+body.guia-ruta #guia .guia-titulo.largo, body.guia-ruta #guia .guia-titulo.muy-largo { font-size: 1.6rem; }
+body.guia-ruta #guia .guia-espera { width: 78px; height: 78px; margin: 10px 0 4px; }
+body.guia-ruta #guia .guia-espera b { font-size: 1.1rem; }
+body.guia-ruta #guia .guia-hero:has(.guia-espera:not([hidden])) .guia-titulo { font-size: 1.45rem; margin: 6px 0 0; }
+/* Del recorrido solo quedan la siguiente parada y la tuya: lo demas ya se ve en el mapa */
+body.guia-ruta .guia-paradas { margin: 4px 0 10px; }
+body.guia-ruta .guia-paradas::before { display: none; }
+body.guia-ruta .guia-paradas li:not(.prox):not(.meta) { display: none; }
+body.guia-ruta .guia-paradas li { border-top: 1px solid var(--linea); padding: 8px 0; }
+body.guia-ruta[data-etapa="camion"]:not([data-nivel="timbre"]) #guia .guia-renglones { display: none; }
+/* Toca el timbre: el aviso es una tarjeta roja con el timbre pulsando */
+body.guia-ruta[data-nivel="timbre"] #guia .guia-hero { flex-direction: row; align-items: center; gap: 14px; margin-top: 12px; padding: 14px 16px; border-radius: 22px; background: #ef4b4f; color: #160606; text-align: left; }
+body.guia-ruta[data-nivel="timbre"] #guia .guia-ficha { width: 56px; height: 56px; margin: 0; flex: none; background: #160606; color: #ef4b4f; }
+body.guia-ruta[data-nivel="timbre"] #guia .guia-ficha .picto { width: 30px; height: 30px; }
+body.guia-ruta[data-nivel="timbre"] #guia .guia-titulo { margin: 0; font-size: 1.5rem; color: #160606; }
+body.guia-ruta[data-nivel="prepara"] #guia .guia-hero { flex-direction: row; align-items: center; gap: 14px; margin-top: 12px; padding: 14px 16px; }
+body.guia-ruta[data-nivel="prepara"] #guia .guia-ficha { width: 52px; height: 52px; margin: 0; flex: none; }
+body.guia-ruta[data-nivel="prepara"] #guia .guia-ficha .picto { width: 28px; height: 28px; }
+body.guia-ruta[data-nivel="prepara"] #guia .guia-titulo { font-size: 1.5rem; }
+/* Marcadores del mapa de la guia */
+.gm-bus { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: var(--g-a, #3ecf7e); color: var(--g-s, #141008); border: 3px solid #0e0c0a; box-shadow: 0 0 0 6px color-mix(in srgb, var(--g-a, #3ecf7e) 30%, transparent), 0 4px 10px rgb(0 0 0 / 50%); }
+.gm-bus .picto { width: 22px; height: 22px; }
+.gm-meta { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: #f6f2ea; color: #0e0c0a; border: 3px solid #0e0c0a; box-shadow: 0 3px 10px rgb(0 0 0 / 50%); }
+.gm-meta .picto { width: 17px; height: 17px; }
+@media (prefers-reduced-motion: reduce) { body.guia-ruta[data-nivel="timbre"] #guia .guia-ficha { animation: none; } }
+/* Palabras clave del aviso, en el color de la fase */
+#guia .guia-titulo .clave { color: var(--g-a); }
+body[data-pantalla="guia"]:is([data-nivel="prepara"], [data-nivel="timbre"], [data-nivel="bajate"]) #guia .guia-titulo .clave { color: inherit; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 4px; }

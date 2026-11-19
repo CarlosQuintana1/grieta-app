@@ -350,8 +350,8 @@ function mostrar(nombre) {
     if (b.dataset.tab === conf.tab) b.setAttribute("aria-current", "page");
     else b.removeAttribute("aria-current");
   }
-  if (nombre !== "guia") document.body.classList.remove("guia-mapa");
-  else entrarMapaPie();
+  if (nombre !== "guia") { document.body.classList.remove("guia-mapa"); quitarMapaGuia(); }
+  else { entrarMapaPie(); if (guia.activa) { guia.encuadre = null; mapaGuia(); } }
   if (nombre === "camara") CamaraGrieta.abrir();
   if (nombre === "camara" || antes === "camara") guia.previo && guia.pasosPie ? avanzarPie(guia.previo.lat, guia.previo.lon) : pintarVueltaPie();
   if (nombre === "practica") PracticaGrieta.entrar();
@@ -2972,8 +2972,12 @@ function ponerTitulo(titulo) {
   const largo = cruce(titulo).length;
   $("guiaTitulo").classList.toggle("largo", largo > 26 && largo <= 44);
   $("guiaTitulo").classList.toggle("muy-largo", largo > 44);
-  $("guiaTitulo").innerHTML = escapar(cruce(titulo)).replace(/^Faltan (\d+)/, 'Faltan <span class="num">$1</span>');
+  let html = escapar(cruce(titulo)).replace(/^Faltan (\d+)/, 'Faltan <span class="num">$1</span>');
+  // En espanol las palabras clave del aviso van en el color de la fase; en otras lenguas el titulo queda entero para traducirlo.
+  if (/^es/.test(document.documentElement.lang || "es")) html = html.replace(CLAVES_TITULO, '<span class="clave">$&</span>');
+  $("guiaTitulo").innerHTML = html;
 }
+const CLAVES_TITULO = /viene llen[ao]|ya pasó|por pasar|en unos \d+ minutos|en dos paradas|siguiente parada|de enfrente/;
 // Cada etapa pinta toda la pantalla de su color (estilos.css, body[data-etapa]) y dice en que paso del viaje vas.
 const ETAPAS_GUIA = {
   "Hacia tu destino": ["camina", 1, "caminar"], "Hacia la parada": ["camina", 1, "caminar"], "Transbordo": ["camina", 3, "caminar"], "En la parada": ["parada", 2, "parada"],
@@ -3016,6 +3020,7 @@ function decir(titulo, detalle, etapa, alerta = false, nivel = "") {
 function pintarGuia() {
   const c = guia.camion;
   pintarEsperaGuia();
+  mapaGuia();
   requestAnimationFrame(cortesGuia);
   clearTimeout(guia.cortes); guia.cortes = setTimeout(cortesGuia, 400);
   $("enParada").hidden = !c || guia.enApp || !["parada", "esperando"].includes(guia.fase);
@@ -3071,7 +3076,82 @@ function pintarEsperaGuia() {
   $("guiaEsperaArco").style.strokeDasharray = `${largo}`;
   $("guiaEsperaArco").style.strokeDashoffset = `${largo * k}`;
 }
-setInterval(() => { if (guia.activa) pintarEsperaGuia(); }, 15000);
+setInterval(() => { if (guia.activa) { pintarEsperaGuia(); if (guia.fase === "esperando") mapaGuia(); } }, 15000);
+// Mapa de la guia en el camion: la ruta oficial, el camion y tu parada arriba; la hoja con la fase abajo.
+function patronDeCamion(c) {
+  const q = Grieta.qrobus, [a, b] = c.recorrido, igual = (s, r) => r && Math.abs(s[0] - r.lat) < 1e-6 && Math.abs(s[1] - r.lon) < 1e-6;
+  for (const p of q.patrones) {
+    if (p.linea !== c.linea || p.hacia !== c.hacia) continue;
+    for (let i = 0; i < p.paradas.length - 1; i++) if (igual(q.paradas[p.paradas[i]], a) && igual(q.paradas[p.paradas[i + 1]], b)) return { p, pos: i };
+  }
+  return null;
+}
+async function rutaMapaGuia(c) {
+  if (guia.ruta?.c === c) return guia.ruta;
+  const q = Grieta.qrobus, pat = patronDeCamion(c);
+  const antes = pat ? pat.p.paradas.slice(Math.max(0, pat.pos - 8), pat.pos + 1).map((s) => [q.paradas[s][0], q.paradas[s][1]]) : [];
+  const viaje = c.recorrido.map((r) => [r.lat, r.lon]);
+  const [ta, tv] = await Promise.all([antes.length > 1 ? tramosOficiales(antes) : [], tramosOficiales(viaje)]);
+  const unir = (pts, tr) => { const out = [pts[0]], cortes = [0]; tr.forEach((x, n) => { out.push(...(x ?? [pts[n], pts[n + 1]]).slice(1)); cortes.push(out.length - 1); }); return { pts: out, cortes }; };
+  guia.ruta = { c, pat, antes: antes.length > 1 ? unir(antes, ta) : null, viaje: unir(viaje, tv) };
+  return guia.ruta;
+}
+// Donde va el camion que esperas segun el horario: se cuenta hacia atras desde que pasa por tu parada.
+function camionQueViene(ruta, falta) {
+  const { pat } = ruta;
+  if (!pat || !ruta.antes) return null;
+  const q = Grieta.qrobus, ini = Math.max(0, pat.pos - 8), t = pat.p.minutos[pat.pos] - Math.max(0, falta);
+  let i = pat.pos;
+  while (i > ini && pat.p.minutos[i - 1] > t) i--;
+  if (i === ini) return [q.paradas[pat.p.paradas[ini]][0], q.paradas[pat.p.paradas[ini]][1]];
+  const [a, b] = [q.paradas[pat.p.paradas[i - 1]], q.paradas[pat.p.paradas[i]]], m0 = pat.p.minutos[i - 1], m1 = pat.p.minutos[i];
+  const f = m1 > m0 ? (t - m0) / (m1 - m0) : 1;
+  return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f];
+}
+function quitarMapaGuia() {
+  capas.guiaRuta?.remove(); capas.guiaRuta = null;
+  if (!document.body.classList.contains("guia-ruta")) return;
+  document.body.classList.remove("guia-ruta");
+  if (document.body.dataset.pantalla === "guia" && !document.body.classList.contains("guia-mapa")) document.body.classList.remove("con-mapa");
+  setTimeout(() => mapa.invalidateSize(), 60);
+}
+async function mapaGuia() {
+  const c = guia.camion, b = document.body, etapa = b.dataset.etapa, nivel = b.dataset.nivel;
+  const ver = guia.activa && c && b.dataset.pantalla === "guia" && !acc.modoVoz && !b.classList.contains("guia-mapa") && !guia.enApp
+    && ((etapa === "parada" && guia.fase === "esperando") || ((etapa === "camion" || etapa === "bajate") && guia.fase === "camion")) && nivel !== "bajate";
+  if (!ver) return quitarMapaGuia();
+  const nueva = !b.classList.contains("guia-ruta");
+  b.classList.add("con-mapa", "guia-ruta");
+  if (nueva) mapa.invalidateSize();
+  const ruta = await rutaMapaGuia(c);
+  if (guia.camion !== c || !b.classList.contains("guia-ruta")) return;
+  const color = getComputedStyle(b).getPropertyValue("--g-a").trim() || "#3ecf7e";
+  const arriba = etapa !== "parada", actual = arriba ? guia.actual : 0, V = ruta.viaje, r = c.recorrido;
+  const yo = guia.previo && arriba ? [guia.previo.lat, guia.previo.lon] : null;
+  const busEn = arriba ? yo ?? [r[actual].lat, r[actual].lon] : camionQueViene(ruta, c.sale - minutoExacto());
+  const corte = V.cortes[actual] ?? 0;
+  const capasRuta = [];
+  if (!arriba && ruta.antes) capasRuta.push(L.polyline(ruta.antes.pts, { color: "#8a8174", weight: 5, opacity: .7, dashArray: "2 9", interactive: false }));
+  if (arriba && corte > 0) capasRuta.push(L.polyline(V.pts.slice(0, corte + 1), { color: "#8a8174", weight: 6, opacity: .85, interactive: false }));
+  const resto = V.pts.slice(corte);
+  capasRuta.push(L.polyline(resto, { color: "#0e0c0a", weight: 11, opacity: .75, interactive: false }), L.polyline(resto, { color, weight: 6, interactive: false }));
+  r.forEach((p, i) => { if (i > actual && i < r.length - 1) capasRuta.push(L.circleMarker([p.lat, p.lon], { radius: 5, color: "#0e0c0a", weight: 2, fillColor: "#f6f2ea", fillOpacity: 1, interactive: false })); });
+  const fin = r.at(-1);
+  capasRuta.push(L.marker([fin.lat, fin.lon], { interactive: false, keyboard: false, zIndexOffset: 400, icon: L.divIcon({ className: "", iconSize: [34, 34], iconAnchor: [17, 17], html: `<span class="gm-meta">${picto("flag")}</span>` }) })
+    .bindTooltip("Bajas aquí", { permanent: true, direction: "right", offset: [18, 0], className: "etiqueta-mapa baja" }));
+  if (!arriba) capasRuta.push(L.marker([r[0].lat, r[0].lon], { interactive: false, keyboard: false, zIndexOffset: 450, icon: L.divIcon({ className: "", iconSize: [26, 26], iconAnchor: [13, 13], html: `<span class="parada-ruta sube chica">${picto("parada")}</span>` }) })
+    .bindTooltip(`Subes a la ${c.linea}`, { permanent: true, direction: "top", offset: [0, -16], className: "etiqueta-mapa sube" }));
+  if (busEn) capasRuta.push(L.marker(busEn, { interactive: false, keyboard: false, zIndexOffset: 600, icon: L.divIcon({ className: "", iconSize: [38, 38], iconAnchor: [19, 19], html: `<span class="gm-bus">${picto("qrobus")}</span>` }) }));
+  capas.guiaRuta?.remove();
+  capas.guiaRuta = L.layerGroup(capasRuta).addTo(mapa);
+  // Se reencuadra solo al cambiar de fase o de parada, para no pelear con quien mueve el mapa.
+  const clave = `${guia.k}:${etapa}:${actual}:${nivel}`;
+  if (guia.encuadre === clave) return;
+  guia.encuadre = clave;
+  const puntos = arriba ? [busEn, r[Math.min(actual + 1, r.length - 1)], fin].filter(Boolean).map((x) => (Array.isArray(x) ? x : [x.lat, x.lon]))
+    : [busEn, [r[0].lat, r[0].lon], [r[1].lat, r[1].lon]].filter(Boolean);
+  mapa.fitBounds(L.latLngBounds(puntos), { padding: [44, 44], maxZoom: 16.5, animate: suave() });
+}
 // Ningun boton de la guia queda partido por la barra de abajo: si lo estaria, baja completo.
 function cortesGuia() {
   const guiaEl = $("guia");
@@ -3751,6 +3831,7 @@ function terminarGuia() {
   clearTimeout(guia.confirmar);
   guia.pasosPie = null;
   salirMapaPie();
+  quitarMapaGuia(); guia.ruta = null; guia.encuadre = null;
   capas.flecha?.remove(); capas.flecha = null;
   guia.ultimo = null; guia.rumbo = null; guia.trazoPie = null; guia.avisoPie = 0;
   $("pasosPie").hidden = true;
