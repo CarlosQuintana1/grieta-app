@@ -18239,6 +18239,27 @@
       "contextos": [
         "demo/index.html · guía, al bajarse del camión"
       ]
+    },
+    {
+      "clave": "texto_66cb8ae732",
+      "es": "Toca el timbre",
+      "contextos": [
+        "demo/index.html · guía, aviso de bajada"
+      ]
+    },
+    {
+      "clave": "texto_b8cfb6d2c6",
+      "es": "Luego caminas a",
+      "contextos": [
+        "demo/index.html · guía, aviso de bajada"
+      ]
+    },
+    {
+      "clave": "texto_5161fc48cf",
+      "es": "Luego pides",
+      "contextos": [
+        "demo/index.html · guía, aviso de bajada"
+      ]
     }
   ]
 }

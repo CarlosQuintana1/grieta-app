@@ -2981,7 +2981,7 @@ const CLAVES_TITULO = /viene llen[ao]|ya pasó|por pasar|en unos \d+ minutos|en 
 // Cada etapa pinta toda la pantalla de su color (estilos.css, body[data-etapa]) y dice en que paso del viaje vas.
 const ETAPAS_GUIA = {
   "Hacia tu destino": ["camina", 1, "caminar"], "Hacia la parada": ["camina", 1, "caminar"], "Transbordo": ["camina", 3, "caminar"], "En la parada": ["parada", 2, "parada"],
-  "En el camión": ["camion", 3, "qrobus"], "Próxima parada": ["bajate", 4, "timbre"], "Tu parada": ["bajate", 4, "flag"], "Llegaste": ["llegaste", 4, "lugar"],
+  "En el camión": ["camion", 3, "qrobus"], "Próxima parada": ["bajate", 4, "timbre"], "Tu parada": ["bajate", 4, "salir"], "Llegaste": ["llegaste", 4, "lugar"],
 };
 // Video en Lengua de Señas Mexicana de la frase del aviso, si ya se grabo (datos/lsm.json, ver docs/lengua-de-senas.md).
 let videosSenas = {};
@@ -3066,17 +3066,39 @@ function pintarParadasGuia(r, actual, arriba) {
 }
 // Al bajarse solo queda lo urgente; la tuna y la pregunta llegan con "Ya me bajé" o al llegar al destino.
 function pintarLlegada() {
-  const b = document.body, llego = b.dataset.nivel === "llegada" || (b.dataset.etapa === "llegaste" && guia.activa);
-  $("yaMeBaje").hidden = b.dataset.nivel !== "bajate";
+  const b = document.body, nivel = b.dataset.nivel, c = guia.camion;
+  const llego = nivel === "llegada" || (b.dataset.etapa === "llegaste" && guia.activa);
+  const aviso = (nivel === "timbre" || nivel === "bajate") && c && !acc.modoVoz;
+  $("yaMeBaje").hidden = nivel !== "bajate";
+  $("guiaOrden").hidden = nivel !== "timbre" || acc.modoVoz;
+  $("guiaFichas").hidden = !aviso;
+  if (aviso) {
+    const final = c.recorrido.at(-1), fin = guia.o?.pasos?.at(-1);
+    $("gfEtiqueta").textContent = nivel === "timbre" ? "Bajas en" : "Estás en";
+    $("gfParada").textContent = cruce(final.nombre);
+    $("gfHora").textContent = nivel === "timbre" && Number.isFinite(final.llega) ? hora(final.llega) : "";
+    const despues = nivel === "bajate" && fin && (fin.tipo === "caminar" || fin.tipo === "app") && guia.destino?.nombre;
+    $("gfDespues").hidden = !despues;
+    if (despues) {
+      const aPie = fin.tipo === "caminar";
+      $("gfDespuesIco").setAttribute("href", aPie ? "#p-caminar" : "#p-app");
+      $("gfDespuesEtiqueta").textContent = aPie ? "Luego caminas a" : "Luego pides";
+      $("gfDestino").textContent = aPie ? guia.destino.nombre : Grieta.nombreApp(fin.app);
+      $("gfMin").textContent = aPie ? `${Math.max(1, Math.round(fin.min))} min` : "";
+    }
+  }
   $("guiaLlegada").hidden = !llego;
+  $("glListo").hidden = !llego;
   if (!llego) return;
-  const tuna = !$("guiaRacha").hidden && $("guiaRacha").innerHTML;
+  $("glEscena").innerHTML = escenaRacha(5, 330, 1, false);
+  $("glLinea").textContent = c?.linea ?? "";
+  $("glDestino").textContent = guia.destino?.nombre ?? "";
   $("glHora").textContent = hora(ahoraMin());
-  $("glTuna").innerHTML = tuna || "";
-  $("guiaLlegada").classList.toggle("solo", !tuna);
-  // Sin tuna, la placa verde ocupa todo el ancho.
-  $("guiaLlegada").querySelector(".gl-verde").setAttribute("d", tuna ? "M0 0L175.5 0L167.5 30L183.5 58L170.5 88L187.5 121L172.5 157L181.5 196L0 196Z" : "M0 0L358 0L358 196L0 196Z");
+  const r = guia.rachaViaje;
+  $("glTuna").hidden = !r;
+  $("glTuna").innerHTML = r ? `<b>+${plural(r.tunas, "tuna", "tunas")}</b><small>${r.cumplida ? "Semana cumplida." : `Esta semana: ${r.cuenta} de ${racha.meta} viajes en camión.`}</small>` : "";
 }
+$("glListo").addEventListener("click", () => { guia.fase = "fin"; $("terminar").click(); });
 $("yaMeBaje").addEventListener("click", () => {
   document.body.dataset.nivel = "llegada";
   quitarMapaGuia();
@@ -3851,6 +3873,7 @@ $("comoTeFue").addEventListener("click", (e) => {
   hablar("Gracias por contarnos.", false, false);
 });
 function terminarGuia() {
+  guia.rachaViaje = null;
   detenerSimulador();
   clearTimeout(guia.confirmar);
   guia.pasosPie = null;
@@ -4148,6 +4171,7 @@ function destinoFrecuente() {
 }
 // Al terminar: solo en pantalla, nunca en voz, para no confundir en modo Voz.
 function mostrarRachaViaje(r) {
+  guia.rachaViaje = r;
   const caja = $("guiaRacha");
   caja.hidden = !r || acc.modoVoz;
   if (caja.hidden) return;
